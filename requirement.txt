@@ -1,0 +1,5 @@
+transformers
+tensorboardX
+opentsne
+
+#fix config --> self dir
