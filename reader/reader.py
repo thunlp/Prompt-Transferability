@@ -13,6 +13,7 @@ formatter = {}
 
 
 def init_formatter(config, task_list, *args, **params):
+
     for task in task_list:
         formatter[task] = form.init_formatter(config, task, *args, **params)
 
@@ -44,6 +45,19 @@ def init_one_dataset(config, mode, *args, **params):
             temp_mode = "train"
     which = config.get("data", "%s_dataset_type" % temp_mode)
 
+    #print("======")
+    #print(config.get("data","train_dataset_type"))
+    #print(config.get("data"))
+    #exit()
+
+    '''
+    print("=========")
+    print(temp_mode)
+    print(which)
+    print(dataset_list)
+    exit()
+    '''
+
     if which in dataset_list:
         dataset = dataset_list[which](config, mode, *args, **params)
         batch_size = config.getint("train", "batch_size")
@@ -68,7 +82,7 @@ def init_one_dataset(config, mode, *args, **params):
                 reader_num = config.getint("eval", "reader_num")
             except Exception as e:
                 logger.warning("[eval] reader num has not been defined in config file, use [train] reader num instead.")
-        
+
         if config.getboolean('distributed', 'use'):
             sampler = DistributedSampler(dataset)
         else:
@@ -96,12 +110,13 @@ def init_test_dataset(config, *args, **params):
 
 
 def init_dataset(config, *args, **params):
+
+
     init_formatter(config, ["train", "valid"], *args, **params)
     train_dataset = init_one_dataset(config, "train", *args, **params)
     valid_dataset = init_one_dataset(config, "valid", *args, **params)
 
     return train_dataset, valid_dataset
-
 
 if __name__ == "__main__":
     pass

@@ -10,6 +10,7 @@ from .WikiREFormatter import WikiREFormatter
 from .WikiREPromptFormatter import WikiREPromptFormatter
 logger = logging.getLogger(__name__)
 
+
 formatter_list = {
     "Basic": BasicFormatter,
     "RTE": RTEFormatter,
@@ -19,6 +20,7 @@ formatter_list = {
     "SST2_PromptRoberta": SST2PromptRobertaFormatter,
     "RE": WikiREFormatter,
     "REPrompt": WikiREPromptFormatter,
+    "WikiREPromptRoberta": WikiREPromptFormatter,
 }
 
 
@@ -32,6 +34,7 @@ def init_formatter(config, mode, *args, **params):
                 "[reader] %s_formatter_type has not been defined in config file, use [dataset] train_formatter_type instead." % temp_mode)
             temp_mode = "train"
     which = config.get("data", "%s_formatter_type" % temp_mode)
+
 
     if which in formatter_list:
         formatter = formatter_list[which](config, mode, *args, **params)

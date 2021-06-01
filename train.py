@@ -41,6 +41,10 @@ if __name__ == "__main__":
 
     config = create_config(configFilePath)
 
+    #print(configFilePath)
+    #print(config.get("data","train_formatter_type"))
+    #exit()
+
     use_gpu = True
     gpu_list = []
     if args.gpu is None:
@@ -66,6 +70,7 @@ if __name__ == "__main__":
         logger.error("CUDA is not available but specific gpu id")
         raise NotImplementedError
     set_random_seed(args.seed)
+
 
     parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
     do_test = False

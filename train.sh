@@ -12,6 +12,14 @@ python3 train.py --config config/SST2PromptRoberta.config \
     #--seed
 '''
 
+
 #RET
+'''
 python3 train.py --config config/RTEPromptRoberta.config \
-    --gpu 4 \
+    --gpu 5 \
+'''
+
+
+#RE
+python3 train.py --config config/REPrompt.config \
+    --gpu 5 \

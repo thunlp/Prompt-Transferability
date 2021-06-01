@@ -18,27 +18,25 @@ class PromptRoberta(nn.Module):
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
         self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
-        #self.encoder = RobertaForMaskedLM.from_pretrained('roberta-base', self.plmconfig)
-        #self.encoder = RobertaForMaskedLM.from_pretrained(self.plmconfig)
+
+
+        self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
-        if os.path.exists(self.init_model_path):
-            pass
+        if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
+            self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:
             from distutils.dir_util import copy_tree
             copy_tree("RobertaForMaskedLM/SST2PromptRoberta", self.init_model_path)
             os.remove(self.init_model_path+"/pytorch_model.bin")
-        '''
-        self.encoder = RobertaForMaskedLM.from_pretrained('roberta-base')
-        torch.save(self.encoder.state_dict(), '../RobertaForMaskedLM/pytorch_model.bin')
-        print("===Done===")
-        exit()
-        '''
-        ##############
-        #self.encoder = RobertaForMaskedLM.from_pretrained('RobertaForMaskedLM/'+self.init_model, config=self.plmconfig)
-        self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 
+            self.encoder = RobertaForMaskedLM.from_pretrained("roberta-base", config=self.plmconfig)
+            torch.save(self.encoder.state_dict(), "RobertaForMaskedLM/pytorch_model.bin")
+            print("Save Done")
+
+        ##############
+        #self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 
 
         # self.encoder = AutoModelForMaskedLM.from_pretrained("roberta-base")

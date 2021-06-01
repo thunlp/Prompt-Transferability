@@ -1,5 +1,6 @@
 transformers
 tensorboardX
 opentsne
+torch
 
 #fix config --> self dir
