@@ -1,7 +1,9 @@
 /data
+/tsne-cuda
 
 model/RTE_BERT
 model/SST2PromptRoberta
+model/REPrompt
 
 /RobertaForMaskedLM
 /task_prompt_emb

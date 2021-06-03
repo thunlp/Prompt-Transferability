@@ -32,7 +32,7 @@ class PromptRoberta(nn.Module):
             os.remove(self.init_model_path+"/pytorch_model.bin")
 
             self.encoder = RobertaForMaskedLM.from_pretrained("roberta-base", config=self.plmconfig)
-            torch.save(self.encoder.state_dict(), "RobertaForMaskedLM/pytorch_model.bin")
+            torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
 
         ##############

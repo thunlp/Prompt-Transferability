@@ -13,6 +13,7 @@ class REPromptRoberta(nn.Module):
         super(REPromptRoberta, self).__init__()
         self.plmconfig = AutoConfig.from_pretrained("roberta-base")
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
+        self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
 
 
         #self.encoder = RobertaForMaskedLM.from_pretrained('../RobertaForMaskedLM/', config=self.plmconfig)
@@ -28,7 +29,7 @@ class REPromptRoberta(nn.Module):
             os.remove(self.init_model_path+"/pytorch_model.bin")
 
             self.encoder = RobertaForMaskedLM.from_pretrained("roberta-base", config=self.plmconfig)
-            torch.save(self.encoder.state_dict(), "RobertaForMaskedLM/pytorch_model.bin")
+            torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
 
         ##############
@@ -47,8 +48,11 @@ class REPromptRoberta(nn.Module):
     def init_prompt_emb(self, init_ids):
         self.encoder.roberta.embeddings.init_prompt_emb(torch.tensor(init_ids, dtype=torch.long).to(torch.cuda.current_device()))
 
-    def forward(self, data, config, gpu_list, acc_result, mode):
-        output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
+    def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output=False, **kwargs):
+        if prompt_emb_output == True:
+            output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_emb_len=self.plmconfig.prompt_len)
+        else:
+            output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 
         logits = output["logits"] # batch, seq_len, vocab_size
         mask_logits = logits[:, 0] # batch, vocab_size
@@ -57,8 +61,10 @@ class REPromptRoberta(nn.Module):
 
         loss = self.criterion(score, data["label"])
         acc_result = acc(score, data['label'], acc_result)
-
-        return {'loss': loss, 'acc_result': acc_result}
+        if prompt_emb_output==True:
+            return {'loss': loss, 'acc_result': acc_result}, prompt_emb, data['label']
+        else:
+            return {'loss': loss, 'acc_result': acc_result}
 
 def acc(score, label, acc_result):
     if acc_result is None:
