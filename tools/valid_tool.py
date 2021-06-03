@@ -135,7 +135,7 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
 
     if kwargs["prompt_emb_output"]==True:
         #tmp = list()
-        fp = str("/mnt/datadisk0/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config",""))
+        fp = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config",""))
         os.mkdir(fp)
         print("Create:",fp)
         for id in range(len(recoder_prompt_emb)):
@@ -144,7 +144,7 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
             tmp = torch.stack(recoder_prompt_emb[id])
             print(tmp.shape)
 
-            fp_dir = str("/mnt/datadisk0/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/label_id_"+str(id))
+            fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/label_id_"+str(id))
 
             print("save to:", fp_dir)
             torch.save(tmp, fp_dir)

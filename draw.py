@@ -79,7 +79,7 @@ print(rte_ten.shape)
 ###########################
 ###########################
 
-task_map={"sst2":0,"rte":1}
+task_map={0:"sst2",1:"rte"}
 
 sst2_label_ten = torch.zeros(int(sst2_ten.shape[0]),dtype=torch.int32)
 rte_label_ten = torch.ones(int(rte_ten.shape[0]),dtype=torch.int32)

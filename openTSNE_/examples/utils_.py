@@ -41,10 +41,10 @@ ZEISEL_COLORS = {
 MOUSE_10X_COLORS = {
     0: "#FF34FF",
     1: "#1CE6FF",
-    2: "#FFFF00",
-    3: "#FF4A46",
+    2: "#006FA6",
+    3: "#FFFF00",
     4: "#008941",
-    5: "#006FA6",
+    5: "#FF4A46",
     6: "#A30059",
     7: "#FFDBE5",
     8: "#7A4900",
@@ -301,12 +301,17 @@ def plot(
         default_colors = matplotlib.rcParams["axes.prop_cycle"]
         colors = {k: v["color"] for k, v in zip(classes, default_colors())}
 
+    #print(classes)
+    #print("=======")
+    #print(kwargs["label_map"])
     #print("=======")
     #print(colors.get)
     #print(y)
     #exit()
 
     point_colors = list(map(colors.get, y))
+    #print(point_colors)
+    #exit()
 
     ax.scatter(x[:, 0], x[:, 1], c=point_colors, rasterized=True, **plot_params)
 
@@ -338,6 +343,7 @@ def plot(
     ax.set_xticks([]), ax.set_yticks([]), ax.axis("off")
 
     if draw_legend:
+        task_names = kwargs["label_map"]
         legend_handles = [
             matplotlib.lines.Line2D(
                 [],
@@ -348,7 +354,7 @@ def plot(
                 ms=10,
                 alpha=1,
                 linewidth=0,
-                label=yi,
+                label=task_names[yi],
                 markeredgecolor="k",
             )
             for yi in classes
