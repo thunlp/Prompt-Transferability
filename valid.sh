@@ -22,4 +22,4 @@ python3 valid.py --config config/RTEPromptRoberta.config \
 #RE
 python3 valid.py --config config/REPrompt.config \
     --gpu 0 \
-    --checkpoint /data3/private/suyusheng/prompt/prompt/model/REPrompt/15.pkl \
+    --checkpoint /data3/private/suyusheng/prompt/prompt/model/REPrompt/1.pkl \

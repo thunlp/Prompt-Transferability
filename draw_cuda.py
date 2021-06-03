@@ -10,15 +10,16 @@ import numpy
 import torch
 
 
-from openTSNE import TSNE, TSNEEmbedding, affinity, initialization
-from openTSNE import initialization
-from openTSNE.callbacks import ErrorLogger
+#from openTSNE import TSNE, TSNEEmbedding, affinity, initialization
+#from openTSNE import initialization
+#from openTSNE.callbacks import ErrorLogger
 #from examples import utils
 from openTSNE_.examples import utils_
 #import utils
 import numpy as np
 import matplotlib.pyplot as plt
 
+from tsnecuda import TSNE
 #from os import listdir
 #from os.path import isfile, join
 import glob
@@ -37,22 +38,16 @@ def plot(x, y, **kwargs):
     )
 
 
-def rotate(degrees):
-    phi = degrees * np.pi / 180
-    return np.array([
-        [np.cos(phi), -np.sin(phi)],
-        [np.sin(phi), np.cos(phi)],
-    ])
 
 
 
 #SST2
 sst2_ten = list()
-path="/mnt/datadisk0/suyusheng/prompt/prompt/task_prompt_emb/SST2PromptRoberta/"
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/SST2PromptRoberta/"
 sst2_file = os.listdir(path)
 print(sst2_file)
 for file in sst2_file:
-    print(torch.load(path+file).shape)
+    #print(torch.load(path+file).shape)
     sst2_ten.append(torch.load(path+file))
 sst2_ten = torch.cat(sst2_ten)
 print(sst2_ten.shape)
@@ -62,16 +57,31 @@ print(sst2_ten.shape)
 
 #RTE
 rte_ten = list()
-path="/mnt/datadisk0/suyusheng/prompt/prompt/task_prompt_emb/RTEPromptRoberta/"
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/RTEPromptRoberta/"
 rte_file = os.listdir(path)
 print(rte_file)
 for file in rte_file:
-    print(torch.load(path+file).shape)
+    #print(torch.load(path+file).shape)
     rte_ten.append(torch.load(path+file))
 rte_ten = torch.cat(rte_ten)
 print(rte_ten.shape)
 rte_ten = rte_ten.reshape(int(rte_ten.shape[0]),int(rte_ten.shape[1]*rte_ten.shape[2]))
 print(rte_ten.shape)
+#exit()
+
+
+#RE
+re_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/REPrompt/"
+re_file = os.listdir(path)
+print(rte_file)
+for file in re_file:
+    #print(torch.load(path+file).shape)
+    re_ten.append(torch.load(path+file))
+re_ten = torch.cat(re_ten)
+print(re_ten.shape)
+re_ten = re_ten.reshape(int(re_ten.shape[0]),int(re_ten.shape[1]*re_ten.shape[2]))
+print(re_ten.shape)
 #exit()
 
 
@@ -82,15 +92,33 @@ print(rte_ten.shape)
 task_map={"sst2":0,"rte":1}
 
 sst2_label_ten = torch.zeros(int(sst2_ten.shape[0]),dtype=torch.int32)
+
 rte_label_ten = torch.ones(int(rte_ten.shape[0]),dtype=torch.int32)
+
+re_label_ten = torch.ones(int(rte_ten.shape[0]),dtype=torch.int32)
+re_label_ten[re_label_ten==1]=0
+
 print(sst2_label_ten.shape)
 print(rte_label_ten.shape)
+print(re_label_ten.shape)
 
-all_prompt_emb = torch.cat([sst2_ten,rte_ten]).to("cpu").numpy()
-all_label = torch.cat([sst2_label_ten,rte_label_ten]).to("cpu").numpy()
+all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten]).to("cpu").numpy()
+all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten]).to("cpu").numpy()
 
 
 #1200 --> 2400 --> 50
+
+tsne = TSNE(
+    perplexity=32,
+    n_iter=1000,
+    metric="euclidean",
+    init='random',
+    n_components=2,
+    random_seed=42,
+    device=0,
+)
+
+'''
 tsne = TSNE(
     perplexity=64,
     n_iter=1200,
@@ -102,6 +130,7 @@ tsne = TSNE(
     initialization='pca',
     n_components=2,
 )
+'''
 
 #sst2_ten = sst2_ten.to("cpu").numpy()
 
