@@ -54,9 +54,9 @@ for file in sst2_file:
 sst2_ten = torch.cat(sst2_ten)
 print(sst2_ten.shape)
 sst2_ten = sst2_ten.reshape(int(sst2_ten.shape[0]),int(sst2_ten.shape[1]*sst2_ten.shape[2]))
-#print(sst2_ten.shape)
-#print(sst2_ten)
-#exit()
+print(sst2_ten.shape)
+print(sst2_ten)
+exit()
 #exit()
 
 #RTE
