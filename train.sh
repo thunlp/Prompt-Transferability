@@ -14,6 +14,7 @@ python3 train.py --config config/SST2PromptRoberta.config \
 
 
 #RET
+#Remove prompts between two sentences
 '''
 python3 train.py --config config/RTEPromptRoberta.config \
     --gpu 5 \

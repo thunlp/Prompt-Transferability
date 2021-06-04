@@ -115,7 +115,7 @@ class RobertaEmbeddings(nn.Module):
         prompt_weights = self.word_embeddings(init_ids).detach()
         self.prompt_embeddings.weight.data = prompt_weights
 
-    def forward(self, input_ids=None, token_type_ids=None, position_ids=None, inputs_embeds=None):
+    def forward(self, input_ids=None, token_type_ids=None, position_ids=None, inputs_embeds=None, **kwargs):
         if position_ids is None:
             if input_ids is not None:
                 # Create the position ids from the input token ids. Any padded tokens remain padded.
@@ -147,14 +147,41 @@ class RobertaEmbeddings(nn.Module):
             # print("input_ids")
             # print(input_ids.tolist()[0])
             # print("=" * 20)
-            inputs_embeds = word_embeds + self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
+
+            #[8,383]
+            ########show prompt ids
+            '''
+            print(prompt_ids[0])
+            print(prompt_ids.shape)
+            print("-------")
+            print((prompt_ids * (prompt_ids >= 0).int())[0])
+            exit()
+            '''
+            ########
+            prompt_emb = self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
+            #print(prompt_emb.shape)
+            #print("=======")
+            #exit()
+
+            #print(word_embeds.shape) #([8, 383, 768])
+            #inputs_embeds = word_embeds + self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
+            inputs_embeds = word_embeds + prompt_emb
+            #print(inputs_embeds.shape) #([8, 383, 768])
+
         position_embeddings = self.position_embeddings(position_ids)
         token_type_embeddings = self.token_type_embeddings(token_type_ids)
 
         embeddings = inputs_embeds + position_embeddings + token_type_embeddings
         embeddings = self.LayerNorm(embeddings)
         embeddings = self.dropout(embeddings)
-        return embeddings
+        if "prompt_emb_output" in kwargs:
+            if kwargs["prompt_emb_output"] == True:
+                return embeddings, prompt_emb
+            else:
+                return embeddings
+        else:
+            return embeddings
+
 
     def create_position_ids_from_inputs_embeds(self, inputs_embeds):
         """We are provided embeddings directly. We cannot infer which are padded so just generate
@@ -705,9 +732,10 @@ class RobertaModel(RobertaPreTrainedModel):
         # and head_mask is converted to shape [num_hidden_layers x batch x num_heads x seq_length x seq_length]
         head_mask = self.get_head_mask(head_mask, self.config.num_hidden_layers)
 
-        embedding_output = self.embeddings(
-            input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds
-        )
+        if kwargs["prompt_emb_output"] == True:
+            embedding_output, prompt_emb = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds, prompt_emb_output=True)
+        else:
+            embedding_output = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds)
         encoder_outputs = self.encoder(
             embedding_output,
             attention_mask=extended_attention_mask,
@@ -935,20 +963,36 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         #print(kwargs["prompt_emb_output"])
         #exit()
 
-        outputs = self.roberta(
-            input_ids,
-            attention_mask=attention_mask,
-            token_type_ids=token_type_ids,
-            position_ids=position_ids,
-            head_mask=head_mask,
-            inputs_embeds=inputs_embeds,
-            encoder_hidden_states=encoder_hidden_states,
-            encoder_attention_mask=encoder_attention_mask,
-            output_attentions=output_attentions,
-            output_hidden_states=output_hidden_states,
-            return_dict=return_dict,
-            #prompt_emb_output=kwargs["prompt_emb_output"]
-        )
+        if prompt_emb_output == True:
+            outputs, prompt_emb = self.roberta(
+                input_ids,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids,
+                position_ids=position_ids,
+                head_mask=head_mask,
+                inputs_embeds=inputs_embeds,
+                encoder_hidden_states=encoder_hidden_states,
+                encoder_attention_mask=encoder_attention_mask,
+                output_attentions=output_attentions,
+                output_hidden_states=output_hidden_states,
+                return_dict=return_dict,
+                prompt_emb_output=prompt_emb_output
+            )
+        else:
+            outputs = self.roberta(
+                input_ids,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids,
+                position_ids=position_ids,
+                head_mask=head_mask,
+                inputs_embeds=inputs_embeds,
+                encoder_hidden_states=encoder_hidden_states,
+                encoder_attention_mask=encoder_attention_mask,
+                output_attentions=output_attentions,
+                output_hidden_states=output_hidden_states,
+                return_dict=return_dict,
+                prompt_emb_output=prompt_emb_output
+            )
 
 
         #last_layer
@@ -957,7 +1001,8 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
 
         #####
         if prompt_emb_output == True:
-            prompt_emb = sequence_output[:,:kwargs["prompt_token_len"],:]
+            #prompt_emb = sequence_output[:,:kwargs["prompt_token_len"],:]
+            prompt_emb = prompt_emb[:,:kwargs["prompt_token_len"],:]
         #####
 
 
