@@ -749,15 +749,27 @@ class RobertaModel(RobertaPreTrainedModel):
         sequence_output = encoder_outputs[0]
         pooled_output = self.pooler(sequence_output) if self.pooler is not None else None
 
-        if not return_dict:
-            return (sequence_output, pooled_output) + encoder_outputs[1:]
+        if kwargs["prompt_emb_output"] == True:
+            if not return_dict:
+                return (sequence_output, pooled_output) + encoder_outputs[1:], prompt_emb
 
-        return BaseModelOutputWithPooling(
-            last_hidden_state=sequence_output,
-            pooler_output=pooled_output,
-            hidden_states=encoder_outputs.hidden_states,
-            attentions=encoder_outputs.attentions,
-        )
+            return BaseModelOutputWithPooling(
+                last_hidden_state=sequence_output,
+                pooler_output=pooled_output,
+                hidden_states=encoder_outputs.hidden_states,
+                attentions=encoder_outputs.attentions,
+            ), prompt_emb
+
+        else:
+            if not return_dict:
+                return (sequence_output, pooled_output) + encoder_outputs[1:]
+
+            return BaseModelOutputWithPooling(
+                last_hidden_state=sequence_output,
+                pooler_output=pooled_output,
+                hidden_states=encoder_outputs.hidden_states,
+                attentions=encoder_outputs.attentions,
+            )
 
 
 @add_start_docstrings(
