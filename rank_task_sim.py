@@ -31,29 +31,36 @@ import glob
 #SST2
 sst2_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/SST2PromptRoberta/"
-sst2_file = os.listdir(path)
+sst2_file = os.listdir(path)[0]
 #print(sst2_file)
-for file in sst2_file:
+#exit()
+#for file in sst2_file:
     #print(torch.load(path+file).shape)
-    sst2_ten.append(torch.load(path+file))
-sst2_ten = torch.cat(sst2_ten)
-sst2_ten = sst2_ten.reshape(int(sst2_ten.shape[0]),int(sst2_ten.shape[1]*sst2_ten.shape[2]))
-sst2_ten = sst2_ten[0]
+    #sst2_ten.append(torch.load(path+file))
+#sst2_ten = torch.cat(sst2_ten)
+sst2_ten=torch.load(path+sst2_file)
+#print(sst2_ten.shape)
+#exit()
+#sst2_ten = sst2_ten.reshape(int(sst2_ten.shape[0]),int(sst2_ten.shape[1]*sst2_ten.shape[2]))
+sst2_ten = sst2_ten.reshape(int(sst2_ten.shape[0]*sst2_ten.shape[1]))
+#sst2_ten = sst2_ten[0]
 print(sst2_ten.shape)
 
 
 #RTE
 rte_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/RTEPromptRoberta/"
-rte_file = os.listdir(path)
+rte_file = os.listdir(path)[0]
 #print(rte_file)
-for file in rte_file:
+#for file in rte_file:
     #print(torch.load(path+file).shape)
-    rte_ten.append(torch.load(path+file))
-rte_ten = torch.cat(rte_ten)
+#    rte_ten.append(torch.load(path+file))
+#rte_ten = torch.cat(rte_ten)
 #print(rte_ten.shape)
-rte_ten = rte_ten.reshape(int(rte_ten.shape[0]),int(rte_ten.shape[1]*rte_ten.shape[2]))
-rte_ten = rte_ten[0]
+#rte_ten = rte_ten.reshape(int(rte_ten.shape[0]),int(rte_ten.shape[1]*rte_ten.shape[2]))
+rte_ten=torch.load(path+rte_file)
+rte_ten = rte_ten.reshape(int(rte_ten.shape[0]*rte_ten.shape[1]))
+#rte_ten = rte_ten[0]
 print(rte_ten.shape)
 #exit()
 
@@ -61,15 +68,17 @@ print(rte_ten.shape)
 #RE
 re_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/REPrompt/"
-re_file = os.listdir(path)
+re_file = os.listdir(path)[0]
 #print(re_file)
-for file in re_file:
+#for file in re_file:
     #print(torch.load(path+file).shape)
-    re_ten.append(torch.load(path+file))
-re_ten = torch.cat(re_ten)
+#    re_ten.append(torch.load(path+file))
+#re_ten = torch.cat(re_ten)
 #print(re_ten.shape)
-re_ten = re_ten.reshape(int(re_ten.shape[0]),int(re_ten.shape[1]*re_ten.shape[2]))
-re_ten = re_ten[0]
+#re_ten = re_ten.reshape(int(re_ten.shape[0]),int(re_ten.shape[1]*re_ten.shape[2]))
+#re_ten = re_ten[0]
+re_ten=torch.load(path+re_file)
+re_ten = re_ten.reshape(int(re_ten.shape[0]*re_ten.shape[1]))
 print(re_ten.shape)
 #exit()
 
@@ -119,7 +128,7 @@ for id_1, task_1 in task_map.items():
     print("-------")
     print("EuclideanDistances:")
     print("-------")
-    for task_2 in sorted(euc_dict, key=euc_dict.get, reverse=True):
+    for task_2 in sorted(euc_dict, key=euc_dict.get, reverse=False):
         print(task_2, euc_dict[task_2])
 
     print("=======================")

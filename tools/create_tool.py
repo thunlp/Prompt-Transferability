@@ -65,7 +65,9 @@ def create(model, dataset, epoch, no_use_2, config, gpu_list, output_function, m
         more = "\t"
 
 
-    recoder_prompt_emb = dict()
+    #recoder_prompt_emb = dict()
+    recoder_prompt_emb = 0
+    #prompt_emb_save = 0
 
     with torch.no_grad():
         for step, data in enumerate(dataset):
@@ -81,7 +83,14 @@ def create(model, dataset, epoch, no_use_2, config, gpu_list, output_function, m
                 results, prompt_emb, label = model(data, config, gpu_list, acc_result, "valid", prompt_emb_output=kwargs["prompt_emb_output"])
 
                 prompt_emb = prompt_emb.to("cpu")
+                #print("=====")
+                #print(prompt_emb)
+                #print(prompt_emb.shape)
+                #exit()
+                recoder_prompt_emb = prompt_emb[0]
                 label = label.to("cpu")
+                break
+                '''
                 for index, emb in enumerate(prompt_emb):
                     try:
                         recoder_prompt_emb[int(label[index])].append(emb)
@@ -90,9 +99,11 @@ def create(model, dataset, epoch, no_use_2, config, gpu_list, output_function, m
 
                     if len(recoder_prompt_emb) != 0:
                         break
+                '''
             else:
                 results = model(data, config, gpu_list, acc_result, "valid")
 
+            '''
             loss, acc_result = results["loss"], results["acc_result"]
             total_loss += float(loss)
             cnt += 1
@@ -103,11 +114,14 @@ def create(model, dataset, epoch, no_use_2, config, gpu_list, output_function, m
                 output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
                     gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                              "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
+            '''
 
             ############
-            if len(recoder_prompt_emb) != 0:
+            #if len(recoder_prompt_emb) != 0:
+            if recoder_prompt_emb != 0:
                 break
 
+    '''
     if step == -1:
         logger.error("There is no data given to the model in this epoch, check your data.")
         raise NotImplementedError
@@ -136,6 +150,7 @@ def create(model, dataset, epoch, no_use_2, config, gpu_list, output_function, m
                     "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
 
         #writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)
+    '''
 
     #model.train()
 
@@ -145,15 +160,21 @@ def create(model, dataset, epoch, no_use_2, config, gpu_list, output_function, m
         fp = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config",""))
         os.mkdir(fp)
         print("Create:",fp)
-        for id in range(len(recoder_prompt_emb)):
+        #for id in range(len(recoder_prompt_emb)):
 
-            #print(torch.stack(recoder_prompt_emb[id]).shape)
-            tmp = torch.stack(recoder_prompt_emb[id])
-            print(tmp.shape)
+        #print(torch.stack(recoder_prompt_emb[id]).shape)
+        #print(recoder_prompt_emb.shape)
+        tmp=recoder_prompt_emb
+        #tmp = torch.tensor(recoder_prompt_emb)
+        print("!!!!!!!")
+        print(tmp.shape)
+        print("!!!!!!!")
 
-            fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/label_id_"+str(id))
+        #fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/label_id_"+str(id))
+        fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/task_prompt")
 
-            print("save to:", fp_dir)
-            torch.save(tmp, fp_dir)
+
+        print("save to:", fp_dir)
+        torch.save(tmp, fp_dir)
 
         print("Save prompt_emb_output")

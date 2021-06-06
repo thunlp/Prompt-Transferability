@@ -1,3 +1,5 @@
+#rm -rf task_prompt_emb/*
+
 gpus=5
 #CUDA_VISIBLE_DEVICES=$gpus
 
