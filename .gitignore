@@ -6,4 +6,3 @@ model/SST2PromptRoberta
 model/REPrompt
 
 /RobertaForMaskedLM
-/task_prompt_emb
