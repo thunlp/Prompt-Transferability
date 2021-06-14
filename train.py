@@ -26,8 +26,8 @@ def set_random_seed(seed):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', '-c', help="specific config file", required=True)
-    parser.add_argument('--gpu', '-g', help="gpu id list")
+    parser.add_argument('--config', '-c', help="specific config file", default='config/STSBPromptRoberta.config')
+    parser.add_argument('--gpu', '-g', help="gpu id list", default='0')
     parser.add_argument('--checkpoint', help="checkpoint file path")
     parser.add_argument('--local_rank', type=int, help='local rank', default=-1)
     parser.add_argument('--do_test', help="do test while training or not", action="store_true")

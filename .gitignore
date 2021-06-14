@@ -1,8 +1,11 @@
 /data
 /tsne-cuda
 
+/model
 model/RTE_BERT
 model/SST2PromptRoberta
 model/REPrompt
 
 /RobertaForMaskedLM
+/tensorboard
+
