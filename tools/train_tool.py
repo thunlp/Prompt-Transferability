@@ -79,7 +79,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
     for epoch_num in range(trained_epoch, epoch):
         start_time = timer()
         current_epoch = epoch_num
-
+        model.train()
         exp_lr_scheduler.step(current_epoch)
 
         acc_result = None

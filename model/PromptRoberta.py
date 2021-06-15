@@ -5,6 +5,7 @@ import json
 
 
 import os
+import datasets
 
 from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 from .modelling_roberta import RobertaForMaskedLM
@@ -18,8 +19,6 @@ class PromptRoberta(nn.Module):
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
         self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
-
-
         self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         ##############
         ###Save a PLM + add prompt -->save --> load again
@@ -42,8 +41,10 @@ class PromptRoberta(nn.Module):
         # self.encoder = AutoModelForMaskedLM.from_pretrained("roberta-base")
         self.hidden_size = 768
         # self.fc = nn.Linear(self.hidden_size, 2)
-
-        self.criterion = nn.CrossEntropyLoss()
+        if config.get("data", "train_dataset_type") == "STSB":
+            self.criterion = nn.MSELoss()
+        else:
+            self.criterion = nn.CrossEntropyLoss()
         # self.prompt_num = config.getint("prompt", "prompt_len") # + 1
         # self.init_prompt_emb()
 
@@ -72,15 +73,24 @@ class PromptRoberta(nn.Module):
         # output = self.encoder(attention_mask=data['mask'], inputs_embeds=embs)
         logits = output["logits"] # batch, seq_len, vocab_size
         mask_logits = logits[:, 0] # batch, vocab_size
-        score = torch.cat([mask_logits[:, 10932].unsqueeze(1), mask_logits[:, 2362].unsqueeze(1)], dim = 1)
+        if config.get("data", "train_dataset_type") == "MNLI":
+            score = torch.cat([mask_logits[:, 10932].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 2362].unsqueeze(1)], dim=1)
+        elif config.get("data", "train_dataset_type") == "STSB":
+            score = mask_logits[:, 10932]
+        else:
+            score = torch.cat([mask_logits[:, 10932].unsqueeze(1), mask_logits[:, 2362].unsqueeze(1)], dim=1)
 
         loss = self.criterion(score, data["label"])
-        acc_result = acc(score, data['label'], acc_result)
+        if config.get("data", "train_dataset_type") == "STSB":
+            acc_result = pearson(score, data['label'], acc_result)
+        else:
+            acc_result = acc(score, data['label'], acc_result)
 
         if prompt_emb_output == True:
             return {'loss': loss, 'acc_result': acc_result}, prompt_emb, data['label']
         else:
             return {'loss': loss, 'acc_result': acc_result}
+
 
 def acc(score, label, acc_result):
     if acc_result is None:
@@ -89,3 +99,23 @@ def acc(score, label, acc_result):
     acc_result['total'] += int(label.shape[0])
     acc_result['right'] += int((predict == label).int().sum())
     return acc_result
+
+
+def pearson(score, label, acc_result):
+    stsb_result = cal_pearson(score, label)
+    if acc_result is None:
+        acc_result = {'total_pearson': 0, 'batch_num': 0}
+    acc_result['total_pearson'] += stsb_result['pearson']
+    acc_result['batch_num'] += 1
+    return acc_result
+
+
+def cal_pearson(score, label):
+    tmp_result = {}
+    score_bar = torch.mean(score, dim=-1)
+    label_bar = torch.mean(label, dim=-1)
+    numerator = torch.sum(torch.mul(score-score_bar, label - label_bar), dim=-1)
+    denominator = torch.sqrt(torch.sum((score-score_bar) ** 2, dim=-1)) * torch.sqrt(torch.sum((label-label_bar) ** 2, dim=-1))
+    pearson_result = numerator / denominator
+    tmp_result['pearson'] = pearson_result.item()
+    return tmp_result

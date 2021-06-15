@@ -114,6 +114,7 @@ class RobertaEmbeddings(nn.Module):
     def init_prompt_emb(self, init_ids):
         prompt_weights = self.word_embeddings(init_ids).detach()
         self.prompt_embeddings.weight.data = prompt_weights
+        print("init_prompt_done, check_if_requires_grad")
 
     def forward(self, input_ids=None, token_type_ids=None, position_ids=None, inputs_embeds=None, **kwargs):
         if position_ids is None:
@@ -173,7 +174,7 @@ class RobertaEmbeddings(nn.Module):
 
         embeddings = inputs_embeds + position_embeddings + token_type_embeddings
         embeddings = self.LayerNorm(embeddings)
-        embeddings = self.dropout(embeddings)
+        # embeddings = self.dropout(embeddings)
         if "prompt_emb_output" in kwargs:
             if kwargs["prompt_emb_output"] == True:
                 return embeddings, prompt_emb
@@ -910,7 +911,6 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
 
         self.roberta = RobertaModel(config, add_pooling_layer=False)
         self.lm_head = RobertaLMHead(config)
-
         #print(config)
         #exit()
 
@@ -939,7 +939,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         encoder_attention_mask=None,
         labels=None,
         output_attentions=None,
-        output_hidden_states=None,
+        output_hidden_states=True,
         return_dict=None,
         prompt_emb_output=False,
         **kwargs
@@ -1392,6 +1392,7 @@ class RobertaForQuestionAnswering(RobertaPreTrainedModel):
         output_attentions=None,
         output_hidden_states=None,
         return_dict=None,
+        prompt_emb_output=False
     ):
         r"""
         start_positions (:obj:`torch.LongTensor` of shape :obj:`(batch_size,)`, `optional`):
@@ -1415,6 +1416,7 @@ class RobertaForQuestionAnswering(RobertaPreTrainedModel):
             output_attentions=output_attentions,
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
+            prompt_emb_output=prompt_emb_output
         )
 
         sequence_output = outputs[0]

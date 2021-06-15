@@ -59,7 +59,17 @@ def init_one_dataset(config, mode, *args, **params):
     '''
 
     if which in dataset_list:
+        if mode in ["valid", "test"] and "MNLI" in which:
+            if config.get("data", "matched"):
+                mode = mode + "_matched"
+            else:
+                mode = mode + "_mismatched"
         dataset = dataset_list[which](config, mode, *args, **params)
+        if "matched" in mode:
+            if "valid" in mode:
+                mode = "valid"
+            else:
+                mode = "test"
         batch_size = config.getint("train", "batch_size")
         shuffle = config.getboolean("train", "shuffle")
         reader_num = config.getint("train", "reader_num")
