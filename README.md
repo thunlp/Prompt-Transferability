@@ -34,11 +34,11 @@ To-Do
 
 
 
-3. Downstream Dataset
+2. Downstream Dataset
 
-GLUE:  MNLI, QNLI, MRPC, QQP, RTE, SST2, WNLI, STSB, ~~CoLA~~
-QA: ~~SQUAD~~
-RE: Fewrel
+    GLUE:  MNLI, QNLI, MRPC, QQP, RTE, SST2, WNLI, STSB, ~~CoLA~~
+    QA: ~~SQUAD~~
+    RE: Fewrel
 
 - Task
 	Sentiment Classification: SST2
