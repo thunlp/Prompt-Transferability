@@ -24,7 +24,7 @@ Note
 
 To-Do
 =============
-1. Model Size and Type
+Model Size and Type
 
 |   |  BASE | LARGE  |
 | ------------ | ------------ | ------------ |
@@ -33,29 +33,30 @@ To-Do
 | GPT  |  - | -  |   |
 
 
+---
 
+Downstream Dataset
 
-3. Downstream Dataset
+- GLUE:  MNLI, QNLI, MRPC, QQP, RTE, SST2, WNLI, STSB, ~~CoLA~~
+- QA: ~~SQUAD~~
+- RE: Fewrel
 
-GLUE:  MNLI, QNLI, MRPC, QQP, RTE, SST2, WNLI, STSB, ~~CoLA~~
-QA: ~~SQUAD~~
-RE: Fewrel
+Task:
+- Sentiment Classification: SST2
+- Paraphrase: MRPC,  QQP
+- Sentence Similiarity: STSB
+- NLI: MNLI, QNLI(QA), RTE, WNLI(Coreference)
+- RE: Fewrel
 
-- Task
-	Sentiment Classification: SST2
-	Paraphrase: MRPC,  QQP
-	Sentence Similiarity: STSB
-	NLI: MNLI, QNLI(QA), RTE, WNLI(Coreference)
-	RE: Fewrel
+Domain:
+- misc.: STSB, MNLI
+- movie: SST2
+- news: MRPC, RTE
+- social question: QQP
+- Wiki: QNLI, Fewrel, RTE
+- Fiction: WNLI
 
-- Domain
-	misc.: STSB, MNLI
-	movie: SST2
-	news: MRPC, RTE
-	social question: QQP
-	Wiki: QNLI, Fewrel, RTE
-	Fiction: WNLI
-
+---
 - Similiarty:
 
 Table:
