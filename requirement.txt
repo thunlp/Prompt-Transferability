@@ -3,5 +3,6 @@ tensorboardX
 opentsne
 torch
 tsne
+datasets
 
 #fix config --> self dir

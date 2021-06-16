@@ -8,6 +8,14 @@ from .SST2PromptFormatter import SST2PromptFormatter
 from .SST2PromptRobertaFormatter import SST2PromptRobertaFormatter
 from .WikiREFormatter import WikiREFormatter
 from .WikiREPromptFormatter import WikiREPromptFormatter
+from .SQuADPromptRobertaFormatter import SQuADPromptRobertaFormatter
+from .CoLAPromptRobertaFormatter import CoLAPromptRobertaFormatter
+from .MRPCPromptRobertaFormatter import MRPCPromptRobertaFormatter
+from .QQPPromptRobertaFormatter import QQPPromptRobertaFormatter
+from .MNLIPromptRobertaFormatter import MNLIPromptRobertaFormatter
+from .QNLIPromptRobertaFormatter import QNLIPromptRobertaFormatter
+from .WNLIPromptRobertaFormatter import WNLIPromptRobertaFormatter
+from .STSBPromptRobertaFormatter import STSBPromptRobertaFormatter
 logger = logging.getLogger(__name__)
 
 
@@ -18,9 +26,17 @@ formatter_list = {
     "RTEPromptRoberta": RTEPromptRobertaFormatter,
     "SST2Prompt": SST2PromptFormatter,
     "SST2_PromptRoberta": SST2PromptRobertaFormatter,
+    "SQuADPromptRoberta": SQuADPromptRobertaFormatter,
     "RE": WikiREFormatter,
     "REPrompt": WikiREPromptFormatter,
     "WikiREPromptRoberta": WikiREPromptFormatter,
+    "CoLAPromptRoberta": CoLAPromptRobertaFormatter,
+    "MRPCPromptRoberta": MRPCPromptRobertaFormatter,
+    "QQPPromptRoberta": QQPPromptRobertaFormatter,
+    "MNLIPromptRoberta": MNLIPromptRobertaFormatter,
+    "QNLIPromptRoberta": QNLIPromptRobertaFormatter,
+    "WNLIPromptRoberta": WNLIPromptRobertaFormatter,
+    "STSBPromptRoberta": STSBPromptRobertaFormatter
 }
 
 

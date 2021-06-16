@@ -82,6 +82,61 @@ re_ten = re_ten.reshape(int(re_ten.shape[0]*re_ten.shape[1]))
 print(re_ten.shape)
 #exit()
 
+###
+
+#MNLI
+MNLI_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/MNLIPromptRoberta/"
+MNLI_file = os.listdir(path)[0]
+MNLI_ten=torch.load(path+MNLI_file)
+MNLI_ten = MNLI_ten.reshape(int(MNLI_ten.shape[0]*MNLI_ten.shape[1]))
+print(MNLI_ten.shape)
+
+
+#MRPC
+MRPC_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/MRPCPromptRoberta/"
+MRPC_file = os.listdir(path)[0]
+MRPC_ten=torch.load(path+MRPC_file)
+MRPC_ten = MRPC_ten.reshape(int(MRPC_ten.shape[0]*MRPC_ten.shape[1]))
+print(MRPC_ten.shape)
+
+
+
+#QNLI
+QNLI_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/QNLIPromptRoberta/"
+QNLI_file = os.listdir(path)[0]
+QNLI_ten=torch.load(path+QNLI_file)
+QNLI_ten = QNLI_ten.reshape(int(QNLI_ten.shape[0]*QNLI_ten.shape[1]))
+print(QNLI_ten.shape)
+
+
+#QQP
+QQP_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/QQPPromptRoberta/"
+QQP_file = os.listdir(path)[0]
+QQP_ten=torch.load(path+QQP_file)
+QQP_ten = QQP_ten.reshape(int(QQP_ten.shape[0]*QQP_ten.shape[1]))
+print(QQP_ten.shape)
+
+
+#WNLI
+WNLI_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/WNLIPromptRoberta/"
+WNLI_file = os.listdir(path)[0]
+WNLI_ten=torch.load(path+WNLI_file)
+WNLI_ten = WNLI_ten.reshape(int(WNLI_ten.shape[0]*WNLI_ten.shape[1]))
+print(WNLI_ten.shape)
+
+
+#STSB
+STSB_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/STSBPromptRoberta/"
+STSB_file = os.listdir(path)[0]
+STSB_ten=torch.load(path+STSB_file)
+STSB_ten = STSB_ten.reshape(int(STSB_ten.shape[0]*STSB_ten.shape[1]))
+print(STSB_ten.shape)
 
 ###########################
 ###########################
@@ -98,8 +153,8 @@ def EuclideanDistances(task1_emb,task2_emb):
 def Euclidean(task1_emb, task2_emb):
     return torch.cdist(task1_emb,task2_emb,p=1)
 
-task_ten={0:sst2_ten,1:rte_ten,2:re_ten}
-task_map={0:"sst2",1:"rte",2:"re"}
+task_ten={0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_ten,7:WNLI_ten,8:STSB_ten}
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB"}
 
 
 for id_1, task_1 in task_map.items():
