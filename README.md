@@ -15,15 +15,21 @@ bash requirement.sh
 
 
 ####Training
-'''
+```
 bash train.sh
-'''
+```
 
 
 ####Extract Prompt Embedding
 ```
 bash create_prompt_emb.sh
 ```
+
+###Rank Similiarty
+```
+rank_task_sim.py
+```
+
 
 
 To-Do
