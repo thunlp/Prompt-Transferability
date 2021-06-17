@@ -9,9 +9,9 @@
 Note
 =============
 ####Environment Setup
-'''
+```
 bash requirement.sh
-'''
+```
 
 
 ####Training
@@ -21,9 +21,9 @@ bash train.sh
 
 
 ####Extract Prompt Embedding
-'''
+```
 bash create_prompt_emb.sh
-'''
+```
 
 
 To-Do
@@ -40,11 +40,11 @@ Model Size and Type
 ---
 
 Downstream Dataset
-'''
+```
 - GLUE:  MNLI, QNLI, MRPC, QQP, RTE, SST2, WNLI, STSB, ~~CoLA~~
 - QA: ~~SQUAD~~
 - RE: Fewrel
-'''
+```
 
 Task:
 - Sentiment Classification: SST2
