@@ -14,18 +14,18 @@ bash requirement.sh
 ```
 
 
-####Training
+#### Training
 ```
 bash train.sh
 ```
 
 
-####Extract Prompt Embedding
+#### Extract Prompt Embedding
 ```
 bash create_prompt_emb.sh
 ```
 
-###Rank Similiarty
+### Rank Similiarty
 ```
 rank_task_sim.py
 ```
