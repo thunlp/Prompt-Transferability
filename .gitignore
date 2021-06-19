@@ -8,12 +8,16 @@ model/MNLIPromptRoberta*
 model/MRPCPromptRoberta*
 model/QNLIPromptRoberta*
 model/QQPPromptRoberta*
-model/RTE_BERT*
-model/REPrompt*
+model/RTEPromptRoberta*
 model/STSBPromptRoberta*
 model/WNLIPromptRoberta*
+model/laptopPromptRoberta*
+
 
 /RobertaForMaskedLM
 /task_prompt_emb
 /tensorboard
+
+../CSS-LM
+../GCAE
 

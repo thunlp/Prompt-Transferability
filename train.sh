@@ -1,7 +1,19 @@
 mkdir RobertaForMaskedLM
-gpus=7
+gpus=5
 
 
+#laptop
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
+    --gpu $gpus \
+    #--checkpoint roberta-base \
+    #--local_rank \
+    #--do_test \
+    #--comment \
+    #--seed
+
+
+
+'''
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
@@ -10,7 +22,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
     #--do_test \
     #--comment \
     #--seed
-exit
 
 
 #RTE
@@ -51,5 +62,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.con
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
+'''
 
 

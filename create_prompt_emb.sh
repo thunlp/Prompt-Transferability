@@ -32,7 +32,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptRoberta.c
 #RTE
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/RTE_BERT/3.pkl \
+    --checkpoint model/RTE_BERT/15.pkl \
     --return_or_save save
 
 
@@ -46,7 +46,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/REPrompt.config \
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptRoberta/15.pkl \
+    --checkpoint model/MNLIPromptRoberta/13.pkl \
     --return_or_save save
 
 

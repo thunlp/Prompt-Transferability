@@ -32,6 +32,7 @@ import glob
 #task_map={0:"sst2_15",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB"}
 
 
+'''
 prefiex=8
 sst_extra_ten=dict()
 sst_task_map=dict()
@@ -42,6 +43,7 @@ for i in range(1,15):
     #print(sst2_ten.shape)
     sst_extra_ten[prefiex+i] = sst2_ten
     sst_task_map[prefiex+i] = "sst2_"+str(i)
+'''
 
 
 
@@ -151,12 +153,12 @@ def Euclidean(task1_emb, task2_emb):
     return torch.cdist(task1_emb,task2_emb,p=1)
 
 task_ten= {0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_ten,7:WNLI_ten,8:STSB_ten}
-task_ten.update(sst_extra_ten)
+#task_ten.update(sst_extra_ten)
 
 #task_ten={0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_ten,7:WNLI_ten,8:STSB_ten,9:sst2_ten_5,10:sst2_ten_10,11:sst2_ten_11,12:sst2_ten_12,13:sst2_ten_13,14:sst2_ten_14}
 
-task_map={0:"sst2_15",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB"}
-task_map.update(sst_task_map)
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB"}
+#task_map.update(sst_task_map)
 #task_map={0:"sst2_15",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"sst2_5",10:"sst2_10",11:"sst2_11",12:"sst2_12",13:"sst2_13",14:"sst2_14"}
 
 
