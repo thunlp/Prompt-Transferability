@@ -33,6 +33,7 @@ if __name__ == "__main__":
     parser.add_argument('--do_test', help="do test while training or not", action="store_true")
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument("--return_or_save", type=str, default="save")
     args = parser.parse_args()
 
     configFilePath = args.config
@@ -76,4 +77,8 @@ if __name__ == "__main__":
 
     model = parameters["model"]
 
-    create(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=True, save_name=args.config)
+    if args.return_or_save == "save":
+        create(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=True, save_name=args.config, return_or_save="save")
+    else:
+        prompt_emb = create(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=True, save_name=args.config, return_or_save="return")
+

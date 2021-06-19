@@ -156,25 +156,22 @@ def create(model, dataset, epoch, no_use_2, config, gpu_list, output_function, m
 
 
     if kwargs["prompt_emb_output"]==True:
-        #tmp = list()
-        fp = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config",""))
-        os.mkdir(fp)
-        print("Create:",fp)
-        #for id in range(len(recoder_prompt_emb)):
 
-        #print(torch.stack(recoder_prompt_emb[id]).shape)
-        #print(recoder_prompt_emb.shape)
-        tmp=recoder_prompt_emb
-        #tmp = torch.tensor(recoder_prompt_emb)
-        print("!!!!!!!")
-        print(tmp.shape)
-        print("!!!!!!!")
+        if kwargs["return_or_save"]=="save":
 
-        #fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/label_id_"+str(id))
-        fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/task_prompt")
+            fp = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config",""))
+            os.mkdir(fp)
+            print("Create:",fp)
+            tmp=recoder_prompt_emb
+            print("!!!!!!!")
+            print(tmp.shape)
+            print("!!!!!!!")
 
+            #fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/label_id_"+str(id))
+            fp_dir = str("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/"+kwargs["save_name"].replace("config/","").replace(".config","")+"/task_prompt")
+            print("save to:", fp_dir)
+            torch.save(tmp, fp_dir)
+            print("Save prompt_emb_output")
 
-        print("save to:", fp_dir)
-        torch.save(tmp, fp_dir)
-
-        print("Save prompt_emb_output")
+        else:
+            return recoder_prompt_emb

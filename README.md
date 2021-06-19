@@ -68,6 +68,14 @@ Domain:
 - Fiction: WNLI
 
 ---
+Convergence at epoch:
+- sst2: 11
+
+---
+Finding:
+- 1. [exp_optimize_prompt_to_task_direction.txt]: Prompt emb can be seperated by prompt tuning. (Observe epochs from 1 to 15)
+
+---
 - Similiarty:
 
 Table:
