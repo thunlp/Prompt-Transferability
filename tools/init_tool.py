@@ -39,6 +39,15 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             model = model.cuda()
         else:
             model = model.to(gpu_list[params['local_rank']])
+
+        '''
+        print("=======================")
+        print(params['local_rank'])
+        print(gpu_list)
+        print(gpu_list[params['local_rank']])
+        exit()
+        '''
+
         try:
             model = nn.parallel.DistributedDataParallel(model, device_ids = [params['local_rank']], find_unused_parameters = True)
         except Exception as e:
