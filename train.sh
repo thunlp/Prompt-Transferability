@@ -11,23 +11,28 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
     #--do_test \
     #--comment \
     #--seed
+'''
 
-
-#RET
+'''
+#RTE
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
+'''
 
 
+'''
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/REPrompt.config \
     --gpu $gpus \
+'''
 
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
 
+'''
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
@@ -47,10 +52,10 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.co
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
-'''
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
+'''
 
 

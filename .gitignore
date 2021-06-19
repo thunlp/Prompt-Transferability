@@ -1,17 +1,17 @@
 /data
 /tsne-cuda
 
-model/RTE_BERT
-model/SST2PromptRoberta
-model/REPrompt
-model/MNLIPromptRoberta
-model/MRPCPromptRoberta
-model/QNLIPromptRoberta
-model/QQPPromptRoberta
-model/RTE_BERT
-model/REPrompt
-model/STSBPromptRoberta
-model/WNLIPromptRoberta
+model/RTE_BERT*
+model/SST2PromptRoberta*
+model/REPrompt*
+model/MNLIPromptRoberta*
+model/MRPCPromptRoberta*
+model/QNLIPromptRoberta*
+model/QQPPromptRoberta*
+model/RTE_BERT*
+model/REPrompt*
+model/STSBPromptRoberta*
+model/WNLIPromptRoberta*
 
 /RobertaForMaskedLM
 /task_prompt_emb

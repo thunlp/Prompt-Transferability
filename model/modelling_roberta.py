@@ -108,7 +108,10 @@ class RobertaEmbeddings(nn.Module):
             config.max_position_embeddings, config.hidden_size, padding_idx=self.padding_idx
         )
         # Prompt embedding
-        #self.prompt_embeddings = nn.Embedding(config.prompt_num, config.hidden_size)
+        self.prompt_embeddings = nn.Embedding(config.prompt_num, config.hidden_size)
+        #print(config.prompt_num)
+        #print(config.hidden_size)
+        #exit()
         self.prompt_embeddings = nn.Embedding(100, 768)
 
     def init_prompt_emb(self, init_ids):
@@ -440,6 +443,7 @@ class RobertaEncoder(nn.Module):
         self.config = config
         self.layer = nn.ModuleList([RobertaLayer(config) for _ in range(config.num_hidden_layers)])
 
+
     def forward(
         self,
         hidden_states,
@@ -451,6 +455,9 @@ class RobertaEncoder(nn.Module):
         output_hidden_states=False,
         return_dict=False,
     ):
+
+
+
         all_hidden_states = () if output_hidden_states else None
         all_attentions = () if output_attentions else None
         for i, layer_module in enumerate(self.layer):
@@ -460,7 +467,6 @@ class RobertaEncoder(nn.Module):
             layer_head_mask = head_mask[i] if head_mask is not None else None
 
             if getattr(self.config, "gradient_checkpointing", False):
-
                 def create_custom_forward(module):
                     def custom_forward(*inputs):
                         return module(*inputs, output_attentions)
@@ -476,6 +482,16 @@ class RobertaEncoder(nn.Module):
                     encoder_attention_mask,
                 )
             else:
+                #print(self.layer[0])
+                #print("===========")
+                #print(hidden_states.shape)
+                #print(attention_mask.shape)
+                #print(layer_head_mask.shape)
+                #print(encoder_hidden_states.shape)
+                #print(encoder_hidden_states.shape)
+                #print(encoder_attention_mask.shape)
+                #print(output_attentions.shape)
+                #exit()
                 layer_outputs = layer_module(
                     hidden_states,
                     attention_mask,
@@ -487,6 +503,7 @@ class RobertaEncoder(nn.Module):
             hidden_states = layer_outputs[0]
             if output_attentions:
                 all_attentions = all_attentions + (layer_outputs[1],)
+
 
         if output_hidden_states:
             all_hidden_states = all_hidden_states + (hidden_states,)
@@ -679,6 +696,8 @@ class RobertaModel(RobertaPreTrainedModel):
         return_dict=None,
         **kwargs
     ):
+
+
         r"""
         encoder_hidden_states  (:obj:`torch.FloatTensor` of shape :obj:`(batch_size, sequence_length, hidden_size)`, `optional`):
             Sequence of hidden-states at the output of the last layer of the encoder. Used in the cross-attention
@@ -694,6 +713,7 @@ class RobertaModel(RobertaPreTrainedModel):
             output_hidden_states if output_hidden_states is not None else self.config.output_hidden_states
         )
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
+
 
         if input_ids is not None and inputs_embeds is not None:
             raise ValueError("You cannot specify both input_ids and inputs_embeds at the same time")
@@ -733,10 +753,14 @@ class RobertaModel(RobertaPreTrainedModel):
         # and head_mask is converted to shape [num_hidden_layers x batch x num_heads x seq_length x seq_length]
         head_mask = self.get_head_mask(head_mask, self.config.num_hidden_layers)
 
+
         if kwargs["prompt_emb_output"] == True:
+
             embedding_output, prompt_emb = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds, prompt_emb_output=True)
+
         else:
             embedding_output = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds)
+
         encoder_outputs = self.encoder(
             embedding_output,
             attention_mask=extended_attention_mask,
@@ -747,6 +771,8 @@ class RobertaModel(RobertaPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
+
+
         sequence_output = encoder_outputs[0]
         pooled_output = self.pooler(sequence_output) if self.pooler is not None else None
 
@@ -975,6 +1001,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         #print(kwargs["prompt_emb_output"])
         #exit()
 
+
         if prompt_emb_output == True:
             outputs, prompt_emb = self.roberta(
                 input_ids,
@@ -1011,6 +1038,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         sequence_output = outputs[0]
         prediction_scores = self.lm_head(sequence_output)
 
+
         #####
         if prompt_emb_output == True:
             #prompt_emb = sequence_output[:,:kwargs["prompt_token_len"],:]
@@ -1022,6 +1050,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         if labels is not None:
             #print(111111111111111)
             loss_fct = CrossEntropyLoss()
+
             masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.view(-1))
             #print(2222222222222222)
             #exit()

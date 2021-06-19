@@ -39,9 +39,15 @@ class RTEPromptRobertaFormatter(BasicFormatter):
             sent2 = self.tokenizer.encode(ins["sent2"], add_special_tokens = False)
 
             sent1, sent2 = self.truncate(sent1, sent2)
+            ###
+            '''
             tokens = [self.tokenizer.cls_token_id] + self.prompt_prefix + \
                 [self.tokenizer.sep_token_id] + sent1 + self.prompt_middle + \
                 sent2 + [self.tokenizer.sep_token_id]
+            '''
+            tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] +  \
+                    sent1 + [self.tokenizer.sep_token_id] + sent2 + [self.tokenizer.sep_token_id]
+            ###
 
             mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
             tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))

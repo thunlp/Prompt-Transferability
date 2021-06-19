@@ -2,6 +2,7 @@ import json
 import os
 from torch.utils.data import Dataset
 import csv
+from datasets import load_dataset
 
 class RTEDataset(Dataset):
     def __init__(self, config, mode, encoding="utf8", *args, **params):
@@ -10,6 +11,13 @@ class RTEDataset(Dataset):
         self.data_path = config.get("data", "%s_data_path" % mode)
         self.encoding = encoding
         fin = csv.reader(open(self.data_path, "r"), delimiter="\t", quotechar='"')
+        '''
+        self.data = load_dataset('glue', 'rte')
+        self.train_data = self.data['train']
+        self.validation_data = self.data['validation']
+        self.test_data = self.data['test']
+        '''
+
 
         data = [row for row in fin]
         if mode == "test":

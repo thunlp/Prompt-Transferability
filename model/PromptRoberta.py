@@ -18,7 +18,7 @@ class PromptRoberta(nn.Module):
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
-        self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
+        #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         ##############
         ###Save a PLM + add prompt -->save --> load again
