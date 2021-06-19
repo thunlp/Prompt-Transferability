@@ -6,11 +6,12 @@ gpus=0
 #SST-2
 #CUDA_VISIBLE_DEVICES=$gpus python3 -m torch.distributed.launch --nproc_per_node=$nproc_per_node_num train_randomseed.py --config config/SST2PromptRoberta.config \
 
-for i in {1..10}
+for i in {1..8}
 do
 
-    #WNLI
-    CUDA_VISIBLE_DEVICES=$gpus python3 train_randomseed.py --config config/WNLIPromptRoberta.config \
+
+    #MRPC
+    CUDA_VISIBLE_DEVICES=$gpus python3 train_randomseed.py --config config/MRPCPromptRoberta.config \
         --gpu $gpus \
         --seed $i
 
@@ -35,12 +36,10 @@ do
         --seed $i
 
 
-
     #RE
     CUDA_VISIBLE_DEVICES=$gpus python3 train_randomseed.py --config config/REPrompt.config \
         --gpu $gpus \
         --seed $i
-
 
 
     #MNLI
@@ -49,19 +48,16 @@ do
         --seed $i
 
 
-
-    #MRPC
-    CUDA_VISIBLE_DEVICES=$gpus python3 train_randomseed.py --config config/MRPCPromptRoberta.config \
+    #WNLI
+    CUDA_VISIBLE_DEVICES=$gpus python3 train_randomseed.py --config config/WNLIPromptRoberta.config \
         --gpu $gpus \
         --seed $i
-
 
 
     #QNLI
     CUDA_VISIBLE_DEVICES=$gpus python3 train_randomseed.py --config config/QNLIPromptRoberta.config \
         --gpu $gpus \
         --seed $i
-
 
 
     #QQP

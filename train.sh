@@ -1,5 +1,5 @@
 mkdir RobertaForMaskedLM
-gpus=1
+gpus=7
 
 
 #SST-2
@@ -10,6 +10,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
     #--do_test \
     #--comment \
     #--seed
+exit
 
 
 #RTE
