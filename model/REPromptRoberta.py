@@ -43,7 +43,16 @@ class REPromptRoberta(nn.Module):
         label2id = json.load(open(config.get("data", "label_info"), "r"))["label2id"]
         id2label = {label2id[l]: l for l in label2id}
 
+        #print("======")
+        #print(id2label)
+        #print("------")
+        #print(labelind)
+        #print("======")
+
         self.labelindex = torch.tensor([labelind[id2label[i]][1] for i in range(len(id2label))], dtype=torch.long)
+
+        #print(self.labelindex)
+        #exit()
 
     def init_prompt_emb(self, init_ids):
         self.encoder.roberta.embeddings.init_prompt_emb(torch.tensor(init_ids, dtype=torch.long).to(torch.cuda.current_device()))

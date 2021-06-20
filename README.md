@@ -50,14 +50,17 @@ Downstream Dataset
 - GLUE:  MNLI, QNLI, MRPC, QQP, RTE, SST2, WNLI, STSB, ~~CoLA~~
 - QA: ~~SQUAD~~
 - RE: Fewrel
+- GCAE: laptop
 ```
 
 Task:
-- Sentiment Classification: SST2
+- Sentiment Classification: SST2, laptop
 - Paraphrase: MRPC,  QQP
-- Sentence Similiarity: STSB
-- NLI: MNLI, QNLI(QA), RTE, WNLI(Coreference)
+- NLI: MNLI, RTE, WNLI(Coreference)
 - RE: Fewrel
+---
+- Sentence Similiarity: STSB
+- Other: QNLI(QA)
 
 Domain:
 - misc.: STSB, MNLI

@@ -12,6 +12,7 @@ model/RTEPromptRoberta*
 model/STSBPromptRoberta*
 model/WNLIPromptRoberta*
 model/laptopPromptRoberta*
+model/restaurantPromptRoberta*
 
 
 /RobertaForMaskedLM

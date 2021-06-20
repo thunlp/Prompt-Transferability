@@ -1,7 +1,20 @@
 mkdir RobertaForMaskedLM
-gpus=5
+gpus=3
 
+############
+#Sentiment
+############
 
+#restaurant
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
+    --gpu $gpus \
+    #--checkpoint roberta-base \
+    #--local_rank \
+    #--do_test \
+    #--comment \
+    #--seed
+
+'''
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
@@ -12,8 +25,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
     #--seed
 
 
-
-'''
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
@@ -24,16 +35,28 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
     #--seed
 
 
+
+############
+#Paraphrase
+############
+
+#MRPC
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRoberta.config \
+    --gpu $gpus \
+
+#QQP
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
+    --gpu $gpus \
+
+
+############
+#NLI
+############
+
 #RTE
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
-
-
-#RE
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/REPrompt.config \
-    --gpu $gpus \
-
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRoberta.config \
@@ -44,24 +67,27 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptRoberta.co
     --gpu $gpus \
 
 
-#MRPC
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRoberta.config \
+
+
+############
+#RE
+############
+
+#RE
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/REPrompt.config \
     --gpu $gpus \
 
+
+############
+#Other
+############
 
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
 
-
-
-#QQP
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
-    --gpu $gpus \
-
-
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
-'''
 
+'''
 

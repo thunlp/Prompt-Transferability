@@ -17,6 +17,7 @@ from .QNLIPromptRobertaFormatter import QNLIPromptRobertaFormatter
 from .WNLIPromptRobertaFormatter import WNLIPromptRobertaFormatter
 from .STSBPromptRobertaFormatter import STSBPromptRobertaFormatter
 from .laptopPromptRobertaFormatter import laptopPromptRobertaFormatter
+from .restaurantPromptRobertaFormatter import restaurantPromptRobertaFormatter
 logger = logging.getLogger(__name__)
 
 
@@ -38,7 +39,8 @@ formatter_list = {
     "QNLIPromptRoberta": QNLIPromptRobertaFormatter,
     "WNLIPromptRoberta": WNLIPromptRobertaFormatter,
     "STSBPromptRoberta": STSBPromptRobertaFormatter,
-    "laptopPromptRoberta": laptopPromptRobertaFormatter
+    "laptopPromptRoberta": laptopPromptRobertaFormatter,
+    "restaurantPromptRoberta": restaurantPromptRobertaFormatter
 }
 
 

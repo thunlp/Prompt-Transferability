@@ -19,7 +19,7 @@ gpus=2
 #SST
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptRoberta/10.pkl \
+    --checkpoint model/SST2PromptRoberta/15.pkl \
     --return_or_save save
     #--result /data3/private/suyusheng/prompt/prompt/model/SST2PromptRoberta_result \
     #--data_type eval \

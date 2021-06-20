@@ -33,6 +33,7 @@ class laptopPromptRobertaFormatter(BasicFormatter):
                 label.append(ins["label"])
             inputx.append(tokens)
 
+
         ret = {
             "inputx": torch.tensor(inputx, dtype=torch.long),
             "mask": torch.tensor(mask, dtype=torch.float),

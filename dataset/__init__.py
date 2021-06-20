@@ -11,6 +11,7 @@ from .QNLIDataset import QNLIDataset
 from .WNLIDataset import WNLIDataset
 from .STSBDataset import STSBDataset
 from .laptopDataset import laptopDataset
+from .restaurantDataset import restaurantDataset
 dataset_list = {
     "JsonFromFiles": JsonFromFilesDataset,
     "RTE": RTEDataset,
@@ -24,6 +25,6 @@ dataset_list = {
     "QNLI": QNLIDataset,
     "WNLI": WNLIDataset,
     "STSB": STSBDataset,
-    "laptop": laptopDataset
-
+    "laptop": laptopDataset,
+    "restaurant": restaurantDataset
 }

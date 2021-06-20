@@ -48,6 +48,12 @@ class PromptRoberta(nn.Module):
         # self.prompt_num = config.getint("prompt", "prompt_len") # + 1
         # self.init_prompt_emb()
 
+        #Refer to https://github.com/xcjthu/prompt/blob/master/model/PromptRoberta.py : line31 revised
+        #self.labeltoken = torch.tensor([10932, 2362], dtype=torch.long)
+        #self.softlabel = config.getboolean("prompt", "softlabel")
+        #if self.softlabel:
+        #    self.init_softlabel(self.plmconfig.vocab_size, len(self.labeltoken))
+
     def init_prompt_emb(self, init_ids):
         self.encoder.roberta.embeddings.init_prompt_emb(torch.tensor(init_ids, dtype=torch.long).to(torch.cuda.current_device()))
 
@@ -71,14 +77,82 @@ class PromptRoberta(nn.Module):
         # embs = torch.cat([prompt.unsqueeze(0).repeat(batch, 1, 1), input], dim = 1)
 
         # output = self.encoder(attention_mask=data['mask'], inputs_embeds=embs)
-        logits = output["logits"] # batch, seq_len, vocab_size
-        mask_logits = logits[:, 0] # batch, vocab_size
-        if config.get("data", "train_dataset_type") == "MNLI":
+
+
+        logits = output["logits"] # batch, seq_len, vocab_size #torch.Size([16, 231, 50265])
+
+        mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
+
+
+
+        '''
+        print("==============")
+        print("==============")
+
+        #sentiment
+        #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
+        print(tokenizer.encode("positive",add_special_tokens=False)) #22173
+        print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
+        print(tokenizer.encode("negative",add_special_tokens=False)) #33407
+        print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
+
+        #NLI
+        print(tokenizer.convert_ids_to_tokens([10932])) #['yes']
+        print(tokenizer.convert_ids_to_tokens([12516])) #['neutral']
+        print(tokenizer.convert_ids_to_tokens([2362])) #['no']
+
+        #paraphrase
+        print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
+        print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
+
+
+        print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
+        print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
+
+        print("==============")
+        print("==============")
+        exit()
+        '''
+
+
+        if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
+            #sentiment
+            #mo_dict={"positive":22173,"neutral":12516,"negative":33407,"conflict":17075}
+            score = torch.cat([mask_logits[:, 22173].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 33407].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
+        elif config.get("data", "train_dataset_type") == "SST2":
+            #sentiment
+            #mo_dict={"positive":22173,"negative":33407}
+            score = torch.cat([mask_logits[:, 22173].unsqueeze(1), mask_logits[:,33407].unsqueeze(1)], dim=1)
+        elif config.get("data", "train_dataset_type") == "MNLI":
+            #NLI
+            #mo_dict={"yes":10932,"neutral":12516,"no":2362}
             score = torch.cat([mask_logits[:, 10932].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 2362].unsqueeze(1)], dim=1)
+        elif config.get("data", "train_dataset_type") == "RTE":
+            #NLI
+            #mo_dict={"yes":10932,"no":2362}
+            score = torch.cat([mask_logits[:, 10932].unsqueeze(1), mask_logits[:, 2362].unsqueeze(1)], dim=1)
+        elif config.get("data", "train_dataset_type") == "WNLI":
+            #NLI
+            #mo_dict={"yes":10932,"no":2362}
+            score = torch.cat([mask_logits[:, 10932].unsqueeze(1), mask_logits[:, 2362].unsqueeze(1)], dim=1)
+        elif config.get("data", "train_dataset_type") == "MRPC":
+            #paraphrase
+            #mo_dict={"true":29225,"false":22303}
+            score = torch.cat([mask_logits[:, 29225].unsqueeze(1), mask_logits[:,22303].unsqueeze(1)], dim=1)
+        elif config.get("data", "train_dataset_type") == "QQP":
+            #paraphrase
+            #mo_dict={"true":29225,"false":22303}
+            score = torch.cat([mask_logits[:, 29225].unsqueeze(1), mask_logits[:,22303].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "STSB":
             score = mask_logits[:, 10932]
         else:
+            #Other
+            #mask_logits:torch.Size([16, 50265])
+            #mo_dict={"yes":10932,"no":2362}
             score = torch.cat([mask_logits[:, 10932].unsqueeze(1), mask_logits[:, 2362].unsqueeze(1)], dim=1)
+
+
+
 
         loss = self.criterion(score, data["label"])
         if config.get("data", "train_dataset_type") == "STSB":
@@ -93,11 +167,22 @@ class PromptRoberta(nn.Module):
 
 
 def acc(score, label, acc_result):
+    '''
+    print("========")
+    print("========")
+    print(label)
+    print(score)
+    #print(predict)
+    print("========")
+    print("========")
+    exit()
+    '''
     if acc_result is None:
         acc_result = {'total': 0, 'right': 0}
     predict = torch.max(score, dim = 1)[1]
     acc_result['total'] += int(label.shape[0])
     acc_result['right'] += int((predict == label).int().sum())
+
     return acc_result
 
 
