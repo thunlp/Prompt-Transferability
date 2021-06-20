@@ -93,4 +93,4 @@ Performance:
 Table:
 
 Imagine:
-![](output.pdf)
+![TSNE](https://github.com/yushengsu-thu/prompt/output.pdf)
