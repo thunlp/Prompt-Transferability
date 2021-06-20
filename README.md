@@ -85,7 +85,7 @@ Finding:
 Performance:
 - laptop: 78.6%
 - restaurant: 76% 
-- SST2: 91.2%
+- SST2: 93.0%
 
 ---
 - Similiarty:
@@ -93,4 +93,4 @@ Performance:
 Table:
 
 Imagine:
-![TSNE](https://github.com/yushengsu-thu/prompt/output.pdf?raw=true)
+![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.pdf?raw=true)
