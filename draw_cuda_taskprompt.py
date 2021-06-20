@@ -8,6 +8,8 @@ import math
 import numpy
 
 import torch
+import torch.nn as nn
+import torch.optim as optim
 
 
 #from openTSNE import TSNE, TSNEEmbedding, affinity, initialization
@@ -25,6 +27,60 @@ from tsnecuda import TSNE
 import glob
 
 #####
+
+class AE(nn.Module):
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["input_shape"], out_features=2
+        )
+        '''
+        self.encoder_hidden_layer = nn.Linear(
+            in_features=kwargs["input_shape"], out_features=76800
+        )
+        self.encoder_output_layer = nn.Linear(
+            in_features=76800, out_features=2
+        )
+        '''
+        self.decoder = nn.Linear(
+            in_features=2, out_features=kwargs["input_shape"]
+        )
+        '''
+        self.decoder_hidden_layer = nn.Linear(
+            in_features=2, out_features=76800
+        )
+        self.decoder_output_layer = nn.Linear(
+            in_features=76800, out_features=kwargs["input_shape"]
+        )
+        '''
+
+    def encoding(self, features):
+        return self.encoder(features)
+    def decoding(self, features):
+        return self.decoder(features)
+
+    def forward(self, features):
+        '''
+        activation = self.encoder_hidden_layer(features)
+        activation = torch.relu(activation)
+        code = self.encoder_output_layer(activation)
+        code = torch.relu(code)
+        activation = self.decoder_hidden_layer(code)
+        activation = torch.relu(activation)
+        activation = self.decoder_output_layer(activation)
+        reconstructed = torch.relu(activation)
+        return reconstructed
+        '''
+
+        encoded_emb = self.encoding(features)
+        decoded_emb = self.decoding(encoded_emb)
+        return decoded_emb
+
+
+
+
+
+
 
 
 def plot(x, y, **kwargs):
@@ -215,14 +271,17 @@ restaurant_label_ten[restaurant_label_ten==1]=10
 #print(rte_label_ten.shape)
 #print(re_label_ten.shape)
 
-all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten]).to("cpu").numpy()
-all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten]).to("cpu").numpy()
+#all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten]).to("cpu").numpy()
+all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten])
+
+#all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten]).to("cpu").numpy()
+all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten])
 
 #print(all_prompt_emb.shape)
 #print(all_label.shape)
 #exit()
 
-
+'''
 #1200 --> 2400 --> 50
 
 tsne = TSNE(
@@ -235,27 +294,83 @@ tsne = TSNE(
     device=0,
 )
 
-'''
-tsne = TSNE(
-    perplexity=64,
-    n_iter=1200,
-    metric="euclidean",
-    callbacks=ErrorLogger(),
-    n_jobs=64,
-    random_state=42,
-    learning_rate='auto',
-    initialization='pca',
-    n_components=2,
-)
-'''
-
-#sst2_ten = sst2_ten.to("cpu").numpy()
-
 print(all_prompt_emb.shape)
 
 embedding_train = tsne.fit_transform(all_prompt_emb)
 #utils_.plot(x=embedding_train, y=all_label, colors=utils_.MOUSE_10X_COLORS, label_map=task_map)
 utils_.plot(x=embedding_train, y=all_label, colors=utils_.MOUSE_10X_COLORS, label_map=task_map)
+'''
+
+print("===================")
+print("===================")
+
+##################
+#######AE
+##################
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# create a model from `AE` autoencoder class
+# load it to the specified device, either gpu or cpu
+model = AE(input_shape=76800).to(device)
+
+# create an optimizer object
+# Adam optimizer with learning rate 1e-3
+optimizer = optim.Adam(model.parameters(), lr=1e-3)
+
+# mean-squared error loss
+criterion = nn.MSELoss()
+
+epochs=30
+iterations=10
+model.train()
+for epoch in range(epochs):
+    loss = 0
+    #for batch_features, _ in train_loader:
+    for iter in range(iterations):
+        # reshape mini-batch data to [N, 784] matrix
+        # load it to the active device
+        batch_features = all_prompt_emb.view(-1, 76800).to(device)
+
+        # reset the gradients back to zero
+        # PyTorch accumulates gradients on subsequent backward passes
+        optimizer.zero_grad()
+
+        # compute reconstructions
+        outputs = model(batch_features)
+
+        # compute training reconstruction loss
+        train_loss = criterion(outputs, batch_features)
+
+        # compute accumulated gradients
+        train_loss.backward()
+
+        # perform parameter update based on current gradients
+        optimizer.step()
+
+        # add the mini-batch training loss to epoch loss
+        loss += train_loss.item()
+
+    # compute the epoch training loss
+    #loss = loss / len(train_loader)
+    loss = loss / iterations
+
+    # display the epoch training loss
+    print("epoch : {}/{}, loss = {:.6f}".format(epoch + 1, epochs, loss))
+
+##################
+##################
+
+model.eval().to('cpu')
+compressed_prompt_emb = model.encoder(all_prompt_emb)
+print(compressed_prompt_emb.shape)
+
+############
+compressed_prompt_emb = compressed_prompt_emb.to("cpu").detach().numpy()
+all_label = all_label.to("cpu").numpy()
+
+plt.scatter(compressed_prompt_emb[:, 0], compressed_prompt_emb[:, 1], c=all_label)
+plt.colorbar()
+
 
 
 

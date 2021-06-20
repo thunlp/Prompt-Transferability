@@ -292,8 +292,8 @@ def plot(
         ax.set_title(title)
 
     #s: point size list s
-    #plot_params = {"alpha": kwargs.get("alpha", 0.8), "s": kwargs.get("s", 1)}
-    plot_params = {"alpha": kwargs.get("alpha", 0.8), "s": kwargs.get("s", 50)}
+    plot_params = {"alpha": kwargs.get("alpha", 0.8), "s": kwargs.get("s", 1)}
+    #plot_params = {"alpha": kwargs.get("alpha", 0.8), "s": kwargs.get("s", 50)}
 
     # Create main plot
     if label_order is not None:
