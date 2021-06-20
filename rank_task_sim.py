@@ -45,6 +45,34 @@ for i in range(1,15):
     sst_task_map[prefiex+i] = "sst2_"+str(i)
 '''
 
+#restaurant
+restaurant_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/restaurantPromptRoberta/"
+restaurant_file = os.listdir(path)[0]
+restaurant_ten=torch.load(path+restaurant_file)
+#sst2_ten = sst2_ten.reshape(int(sst2_ten.shape[0]*sst2_ten.shape[1]))
+#sst2_ten = sst2_ten[0]
+print(restaurant_ten.shape)
+
+
+#laptop
+laptop_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/laptopPromptRoberta/"
+laptop_file = os.listdir(path)[0]
+laptop_ten=torch.load(path+laptop_file)
+#sst2_ten = sst2_ten.reshape(int(sst2_ten.shape[0]*sst2_ten.shape[1]))
+#sst2_ten = sst2_ten[0]
+print(laptop_ten.shape)
+
+
+#SST2
+sst2_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/SST2PromptRoberta/"
+sst2_file = os.listdir(path)[0]
+sst2_ten=torch.load(path+sst2_file)
+#sst2_ten = sst2_ten.reshape(int(sst2_ten.shape[0]*sst2_ten.shape[1]))
+#sst2_ten = sst2_ten[0]
+print(sst2_ten.shape)
 
 
 #SST2
@@ -152,20 +180,25 @@ def EuclideanDistances(task1_emb,task2_emb):
 def Euclidean(task1_emb, task2_emb):
     return torch.cdist(task1_emb,task2_emb,p=1)
 
-task_ten= {0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_ten,7:WNLI_ten,8:STSB_ten}
+task_ten= {0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_ten,7:WNLI_ten,8:STSB_ten,9:laptop_ten,10:restaurant_ten}
 #task_ten.update(sst_extra_ten)
 
 #task_ten={0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_ten,7:WNLI_ten,8:STSB_ten,9:sst2_ten_5,10:sst2_ten_10,11:sst2_ten_11,12:sst2_ten_12,13:sst2_ten_13,14:sst2_ten_14}
 
-task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB"}
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant"}
 #task_map.update(sst_task_map)
 #task_map={0:"sst2_15",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"sst2_5",10:"sst2_10",11:"sst2_11",12:"sst2_12",13:"sst2_13",14:"sst2_14"}
 
+show_in_list = [0,1,2,3,7,9,10]
 
 for id_1, task_1 in task_map.items():
+    if id_1 not in show_in_list:
+        continue
     cos_dict=dict()
     euc_dict=dict()
     for id_2, task_2 in task_map.items():
+        if id_2 not in show_in_list:
+            continue
         if id_1 == id_2:
             continue
         else:

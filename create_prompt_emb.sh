@@ -15,11 +15,26 @@ fi
 gpus=2
 #CUDA_VISIBLE_DEVICES=$gpus
 
+############
+#Sentiment Classification
+############
+
+#restaurant
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/restaurantPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/restaurantPromptRoberta/15.pkl \
+    --return_or_save save
+
+#laptop
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/laptopPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/laptopPromptRoberta/15.pkl \
+    --return_or_save save
 
 #SST
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptRoberta/15.pkl \
+    --checkpoint model/SST2PromptRoberta/4.pkl \
     --return_or_save save
     #--result /data3/private/suyusheng/prompt/prompt/model/SST2PromptRoberta_result \
     #--data_type eval \
@@ -29,26 +44,21 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptRoberta.c
     #--seed
 
 
+############
+#NLI
+############
+
 #RTE
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/RTE_BERT/15.pkl \
     --return_or_save save
 
-
-#RE
-CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/REPrompt.config \
-    --gpu $gpus \
-    --checkpoint model/REPrompt/15.pkl \
-
-###
-
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/MNLIPromptRoberta/13.pkl \
     --return_or_save save
-
 
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/WNLIPromptRoberta.config \
@@ -57,6 +67,10 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/WNLIPromptRoberta.c
     --return_or_save save
 
 
+############
+#Paraphrase
+############
+
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
@@ -64,18 +78,37 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MRPCPromptRoberta.c
     --return_or_save save
 
 
-#QNLI
-CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QNLIPromptRoberta.config \
-    --gpu $gpus \
-    --checkpoint model/QNLIPromptRoberta/15.pkl \
-    --return_or_save save
-
-
-
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/QQPPromptRoberta/15.pkl \
+    --return_or_save save
+
+
+
+
+############
+#RE
+############
+
+#RE
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/REPrompt.config \
+    --gpu $gpus \
+    --checkpoint model/REPrompt/15.pkl \
+
+
+
+
+
+
+############
+#Other
+############
+
+#QNLI
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QNLIPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/QNLIPromptRoberta/15.pkl \
     --return_or_save save
 
 

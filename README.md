@@ -50,17 +50,18 @@ Downstream Dataset
 - GLUE:  MNLI, QNLI, MRPC, QQP, RTE, SST2, WNLI, STSB, ~~CoLA~~
 - QA: ~~SQUAD~~
 - RE: Fewrel
-- GCAE: laptop
+- GCAE: laptop, restaurant
 ```
 
 Task:
-- Sentiment Classification: SST2, laptop
+- Sentiment Classification: SST2, laptop, restaurant
 - Paraphrase: MRPC,  QQP
 - NLI: MNLI, RTE, WNLI(Coreference)
 - RE: Fewrel
----
+
 - Sentence Similiarity: STSB
 - Other: QNLI(QA)
+
 
 Domain:
 - misc.: STSB, MNLI
@@ -69,10 +70,9 @@ Domain:
 - social question: QQP
 - Wiki: QNLI, Fewrel, RTE
 - Fiction: WNLI
+- reataurant: restaurant
+- computer: laptop
 
----
-Convergence at epoch:
-- sst2: 11
 
 ---
 Finding:
@@ -81,6 +81,11 @@ Finding:
 
 - Conclusion: Apply EuclideanDistances to measures similiarty is more obvious. 
 
+---
+Performance:
+- laptop: 78.6%
+- restaurant: 76% 
+- SST2: 91.2%
 
 ---
 - Similiarty:
