@@ -279,8 +279,10 @@ def plot(
     colors=None,
     legend_kwargs=None,
     label_order=None,
+    #dot_size=None,
     **kwargs
 ):
+
     import matplotlib
 
     if ax is None:
@@ -289,7 +291,9 @@ def plot(
     if title is not None:
         ax.set_title(title)
 
-    plot_params = {"alpha": kwargs.get("alpha", 0.8), "s": kwargs.get("s", 1)}
+    #s: point size list s
+    #plot_params = {"alpha": kwargs.get("alpha", 0.8), "s": kwargs.get("s", 1)}
+    plot_params = {"alpha": kwargs.get("alpha", 0.8), "s": kwargs.get("s", 50)}
 
     # Create main plot
     if label_order is not None:
@@ -313,6 +317,10 @@ def plot(
     #print(point_colors)
     #exit()
 
+    #s: point size list
+    ###
+    #point_size_list = [50 for i in range(len(y))]
+    ###
     ax.scatter(x[:, 0], x[:, 1], c=point_colors, rasterized=True, **plot_params)
 
     # Plot mediods

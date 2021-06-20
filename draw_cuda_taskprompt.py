@@ -35,7 +35,8 @@ def plot(x, y, **kwargs):
         alpha=kwargs.pop("alpha", 0.1),
         draw_legend=True,
         draw_centers=True,
-        label_map=kwargs["label_map"]
+        #dot_size=20,
+        label_map=kwargs["label_map"],
         **kwargs,
     )
 
