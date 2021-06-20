@@ -260,6 +260,6 @@ utils_.plot(x=embedding_train, y=all_label, colors=utils_.MOUSE_10X_COLORS, labe
 
 plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
-plt.savefig('output.png')
+plt.savefig('output.jpg')
 
 
