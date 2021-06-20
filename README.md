@@ -93,4 +93,4 @@ Performance:
 Table:
 
 Imagine:
-![alt TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.pdf)
+![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.pdf)
