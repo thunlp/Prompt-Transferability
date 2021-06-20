@@ -84,7 +84,6 @@ class PromptRoberta(nn.Module):
         mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
 
 
-
         '''
         print("==============")
         print("==============")
@@ -92,7 +91,8 @@ class PromptRoberta(nn.Module):
         #sentiment
         #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
         print(tokenizer.encode("positive",add_special_tokens=False)) #22173
-        print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
+        #print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
+        print(tokenizer.encode("moderate",add_special_tokens=False)) #19397
         print(tokenizer.encode("negative",add_special_tokens=False)) #33407
         print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
 
@@ -117,8 +117,8 @@ class PromptRoberta(nn.Module):
 
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
             #sentiment
-            #mo_dict={"positive":22173,"neutral":12516,"negative":33407,"conflict":17075}
-            score = torch.cat([mask_logits[:, 22173].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 33407].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
+            #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
+            score = torch.cat([mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 33407].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "SST2":
             #sentiment
             #mo_dict={"positive":22173,"negative":33407}
