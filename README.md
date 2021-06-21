@@ -81,6 +81,7 @@ Task base:
 
 
 Domain base:
+
 ![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
 
 
