@@ -348,7 +348,7 @@ print("===================")
 print("===================")
 
 ##3D or 2D
-dim=3
+dim=2
 compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
 print(compressed_prompt_emb.shape)
 
@@ -383,7 +383,6 @@ for task_id, task_name in task_map.items():
         continue
 
     print(compressed_prompt_emb[task_id])
-    print(compressed_prompt_emb[task_id][0])
 
     if dim == 2:
         plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
