@@ -411,8 +411,9 @@ blocked_list = []
 if dim ==3 :
     axes = plt.subplot(111, projection='3d')
     #axes = plt.subplot(222, projection='3d')
-#elif dim == 2:
+elif dim == 2:
     #axes = plt.subplot(111, projection='2d')
+    fig, axes = plt.subplots()
 
 else:
     pass
@@ -427,19 +428,20 @@ for task_id, task_name in task_map.items():
     if dim == 2:
         ###
         #label_map
+        '''
         plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
-
-
+        '''
         #text on dot
-        '''
-        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], "o", color=color_map[task_id])
-        axes.annotate(task_map[task_id],(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2]))
-        '''
+        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1],"o", color=color_map[task_id])
+        #axes.annotate(task_map[task_id],(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2]))
+        axes.text(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], task_map[task_id])
         ###
     elif dim == 3:
         ###
         #label_map
-        #axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id], label=task_map[task_id])
+        '''
+        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id], label=task_map[task_id])
+        '''
 
         #text on dot
         axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id])
@@ -449,11 +451,12 @@ for task_id, task_name in task_map.items():
         print("Wonrg!!!")
         exit()
 
-
+'''
 if dim == 2:
     plt.legend()
 elif dim == 3:
     pass
+'''
 
 
 #plt.legend()
