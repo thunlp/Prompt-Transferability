@@ -96,7 +96,7 @@ def train_AE(input=None, out_features=None):
     criterion = nn.MSELoss()
 
     epochs=10
-    iterations=50
+    iterations=100
     model.train()
     for epoch in range(epochs):
         loss = 0
@@ -371,7 +371,6 @@ blocked_list = [5,8]
 #plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
 
 
-axes=0
 if dim ==3:
     axes = plt.subplot(111, projection='3d')
     #axes = plt.subplot(222, projection='3d')
@@ -393,8 +392,8 @@ for task_id, task_name in task_map.items():
         exit()
 
 
-#plt.legend()
-plt.legend(loc="upper left")
+plt.legend()
+#plt.legend(loc="upper left")
 plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
 plt.savefig('output.jpg')
