@@ -58,9 +58,8 @@ Task:
 - Paraphrase: MRPC,  QQP
 - NLI: MNLI, RTE, WNLI(Coreference)
 - RE: Fewrel
-
 - Sentence Similiarity: STSB
-- Other: QNLI(QA)
+- QA: QNLI(QA), SQUAD
 
 
 Domain:

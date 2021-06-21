@@ -39,7 +39,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/laptopPromptRoberta
 rm -rf task_prompt_emb/SST2PromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptRoberta/7.pkl \
+    --checkpoint model/SST2PromptRoberta/15.pkl \
     --return_or_save save
     #--result /data3/private/suyusheng/prompt/prompt/model/SST2PromptRoberta_result \
     #--data_type eval \
@@ -91,7 +91,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MRPCPromptRoberta.c
 rm -rf task_prompt_emb/QQPPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptRoberta/9.pkl \
+    --checkpoint model/QQPPromptRoberta/11.pkl \
     --return_or_save save
 
 
