@@ -366,8 +366,8 @@ print("===================")
 
 ##3D or 2D
 dim=2
-#compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
-compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
+compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
+#compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
 #exit()
 
@@ -385,7 +385,8 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",6:"#CB6D51",7:"#556B2F",8:"STSB",9:"#4863A0",10:"#151B8D"}
 
-blocked_list = [5,8]
+#blocked_list = [5,8]
+blocked_list = [5,8,0,9,10,3]
 
 #re generate id
 #plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
