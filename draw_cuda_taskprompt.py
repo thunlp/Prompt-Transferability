@@ -32,7 +32,7 @@ class AE(nn.Module):
     def __init__(self, **kwargs):
         super().__init__()
         self.encoder = nn.Linear(
-            in_features=kwargs["input_shape"], out_features=2
+            in_features=kwargs["input_shape"], out_features=kwargs["out_features"]
         )
         '''
         self.encoder_hidden_layer = nn.Linear(
@@ -43,7 +43,7 @@ class AE(nn.Module):
         )
         '''
         self.decoder = nn.Linear(
-            in_features=2, out_features=kwargs["input_shape"]
+            in_features=kwargs["out_features"], out_features=kwargs["input_shape"]
         )
         '''
         self.decoder_hidden_layer = nn.Linear(
@@ -71,13 +71,74 @@ class AE(nn.Module):
         reconstructed = torch.relu(activation)
         return reconstructed
         '''
-
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
 
 
 
+def train_AE(input=None, out_features=None):
+
+    ##################
+    #######AE training
+    ##################
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    # create a model from `AE` autoencoder class
+    # load it to the specified device, either gpu or cpu
+    model = AE(input_shape=int(input.shape[-1]),out_features=out_features).to(device)
+
+    # create an optimizer object
+    # Adam optimizer with learning rate 1e-3
+    optimizer = optim.Adam(model.parameters(), lr=1e-3)
+
+    # mean-squared error loss
+    criterion = nn.MSELoss()
+
+    epochs=10
+    iterations=50
+    model.train()
+    for epoch in range(epochs):
+        loss = 0
+        #for batch_features, _ in train_loader:
+        for iter in range(iterations):
+            # reshape mini-batch data to [N, 784] matrix
+            # load it to the active device
+            batch_features = all_prompt_emb.view(-1, int(input.shape[-1])).to(device)
+
+            # reset the gradients back to zero
+            # PyTorch accumulates gradients on subsequent backward passes
+            optimizer.zero_grad()
+
+            # compute reconstructions
+            outputs = model(batch_features)
+
+            # compute training reconstruction loss
+            train_loss = criterion(outputs, batch_features)
+
+            # compute accumulated gradients
+            train_loss.backward()
+
+            # perform parameter update based on current gradients
+            optimizer.step()
+
+            # add the mini-batch training loss to epoch loss
+            loss += train_loss.item()
+
+        # compute the epoch training loss
+        #loss = loss / len(train_loader)
+        loss = loss / iterations
+
+        # display the epoch training loss
+        print("epoch : {}/{}, loss = {:.6f}".format(epoch + 1, epochs, loss))
+
+    ##################
+    #######AE Inference
+    ##################
+    model.eval().to('cpu')
+    compressed_prompt_emb = model.encoder(all_prompt_emb)
+    print(compressed_prompt_emb.shape)
+    return compressed_prompt_emb
 
 
 
@@ -283,89 +344,14 @@ all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_te
 #print(all_label.shape)
 #exit()
 
-'''
-#1200 --> 2400 --> 50
-
-tsne = TSNE(
-    perplexity=32,
-    n_iter=1000,
-    metric="euclidean",
-    init='random',
-    n_components=2,
-    random_seed=42,
-    device=0,
-)
-
-print(all_prompt_emb.shape)
-
-embedding_train = tsne.fit_transform(all_prompt_emb)
-#utils_.plot(x=embedding_train, y=all_label, colors=utils_.MOUSE_10X_COLORS, label_map=task_map)
-utils_.plot(x=embedding_train, y=all_label, colors=utils_.MOUSE_10X_COLORS, label_map=task_map)
-'''
-
 print("===================")
 print("===================")
 
-##################
-#######AE training
-##################
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# create a model from `AE` autoencoder class
-# load it to the specified device, either gpu or cpu
-model = AE(input_shape=76800).to(device)
-
-# create an optimizer object
-# Adam optimizer with learning rate 1e-3
-optimizer = optim.Adam(model.parameters(), lr=1e-3)
-
-# mean-squared error loss
-criterion = nn.MSELoss()
-
-epochs=10
-iterations=50
-model.train()
-for epoch in range(epochs):
-    loss = 0
-    #for batch_features, _ in train_loader:
-    for iter in range(iterations):
-        # reshape mini-batch data to [N, 784] matrix
-        # load it to the active device
-        batch_features = all_prompt_emb.view(-1, 76800).to(device)
-
-        # reset the gradients back to zero
-        # PyTorch accumulates gradients on subsequent backward passes
-        optimizer.zero_grad()
-
-        # compute reconstructions
-        outputs = model(batch_features)
-
-        # compute training reconstruction loss
-        train_loss = criterion(outputs, batch_features)
-
-        # compute accumulated gradients
-        train_loss.backward()
-
-        # perform parameter update based on current gradients
-        optimizer.step()
-
-        # add the mini-batch training loss to epoch loss
-        loss += train_loss.item()
-
-    # compute the epoch training loss
-    #loss = loss / len(train_loader)
-    loss = loss / iterations
-
-    # display the epoch training loss
-    print("epoch : {}/{}, loss = {:.6f}".format(epoch + 1, epochs, loss))
-
-##################
-#######AE Inference
-##################
-
-model.eval().to('cpu')
-compressed_prompt_emb = model.encoder(all_prompt_emb)
+##3D or 2D
+dim=3
+compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
 print(compressed_prompt_emb.shape)
+
 
 ##################
 #######Draw
@@ -381,17 +367,6 @@ color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",
 
 blocked_list = [5,8]
 
-#plt.scatter(compressed_prompt_emb[:, 0], compressed_prompt_emb[:, 1], c=all_label)
-#plt.scatter(compressed_prompt_emb[:, 0], compressed_prompt_emb[:, 1], c=all_label)
-#plt.colorbar()
-
-#label_color_dict=dict()
-label_color_list=list()
-task_prompt_emb_x_list=list()
-task_prompt_emb_y_list=list()
-task_prompt_label_list=list()
-#counter=0
-
 #re generate id
 #plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
 
@@ -399,28 +374,20 @@ for task_id, task_name in task_map.items():
     print(task_id)
     if task_id in blocked_list:
         continue
-    #label_color_list.append(color_map[task_id])
-    #task_prompt_label_list.append(all_label[task_id])
-    #task_prompt_emb_x_list.append(compressed_prompt_emb[task_id][0])
-    #task_prompt_emb_y_list.append(compressed_prompt_emb[task_id][1])
-    #label_color_dict[counter]=colors_map[task_id]
-    #counter+=1
-    #label_color_list.append(colors_map[task_id])
 
     print(compressed_prompt_emb[task_id])
 
-    plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
+    if dim == 2:
+        plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
+    elif dim == 3:
+        axes = plt.subplot(111, projection='3d')
+        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], color=color_map[task_id], label=task_map[task_id])
+    else:
+        print("Wonrg!!!")
+        exit()
 
-#plt.scatter(task_prompt_emb_x_list, task_prompt_emb_y_list, color=color_map[task_id], label=task_prompt_label_list)
-
-#task_prompt_emb_ten = torch.tensor(task_prompt_emb_list)
-#task_prompt_label_ten = torch.tensor(task_prompt_label_list)
-
-#plt.scatter(task_prompt_emb_ten[:, 0], task_prompt_emb_ten[:, 1], c=all_label)
-#plt.scatter(task_prompt_emb_ten[:, 0], task_prompt_emb_ten[:, 1], c=label_color_list)
 
 plt.legend()
-
 plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
 plt.savefig('output.jpg')
