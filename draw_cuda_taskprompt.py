@@ -394,6 +394,7 @@ task_prompt_label_list=list()
 #plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
 
 for task_id, task_name in task_map.items():
+    print(task_id)
     if task_id in blocked_list:
         continue
     label_color_list.append(color_map[task_id])
