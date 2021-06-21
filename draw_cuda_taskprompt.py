@@ -397,7 +397,7 @@ blocked_list = []
 #Domain
 
 #Wiki, reataurant, computer, movie
-blocked_list = [3,4,6,7]
+#blocked_list = [3,4,6,7]
 
 
 #========================
@@ -408,6 +408,10 @@ blocked_list = [3,4,6,7]
 
 #NLI, RE
 #blocked_list = [0,4,5,6,8,9,10]
+
+
+#NLI, RE, Paraphrase
+blocked_list = [0,5,9,10]
 
 #NLI, RE, Paraphrase
 #blocked_list = [0,5,8,9,10]

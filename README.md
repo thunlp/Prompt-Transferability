@@ -55,7 +55,7 @@ Downstream Dataset
 
 Task:
 - Sentiment Classification: SST2, laptop, restaurant
-- Paraphrase: MRPC,  QQP
+- Paraphrase: MRPC, QQP, STSB(?)
 - NLI: MNLI, RTE, WNLI(Coreference)
 - RE: Fewrel
 - Sentence Similiarity: STSB
