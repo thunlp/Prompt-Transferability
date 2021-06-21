@@ -370,6 +370,10 @@ blocked_list = [5,8]
 #re generate id
 #plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
 
+if dim ==3:
+    axes = plt.subplot(111, projection='3d')
+else:
+    pass
 for task_id, task_name in task_map.items():
     print(task_id)
     if task_id in blocked_list:
@@ -380,7 +384,6 @@ for task_id, task_name in task_map.items():
     if dim == 2:
         plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
     elif dim == 3:
-        axes = plt.subplot(111, projection='3d')
         axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], color=color_map[task_id], label=task_map[task_id])
     else:
         print("Wonrg!!!")
