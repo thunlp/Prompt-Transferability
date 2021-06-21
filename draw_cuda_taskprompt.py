@@ -422,17 +422,27 @@ for task_id, task_name in task_map.items():
     print(compressed_prompt_emb[task_id])
 
     if dim == 2:
+        ###
         plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
+        #plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], s=100)
+        #label=task_map[task_id],
+        ###
     elif dim == 3:
-        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id], label=task_map[task_id])
-        continue
+        ###
+        #axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id], label=task_map[task_id])
+        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id])
+
+        #axes.annotate(task_map[task_id],(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2]))
+        axes.text(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], task_map[task_id])
+        ###
     else:
         print("Wonrg!!!")
         exit()
 
 
 
-plt.legend()
+
+#plt.legend()
 #plt.legend(loc="upper left")
 plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
