@@ -399,17 +399,17 @@ for task_id, task_name in task_map.items():
     print(task_id)
     if task_id in blocked_list:
         continue
-    label_color_list.append(color_map[task_id])
-    task_prompt_label_list.append(all_label[task_id])
-    task_prompt_emb_x_list.append(compressed_prompt_emb[task_id][0])
-    task_prompt_emb_y_list.append(compressed_prompt_emb[task_id][1])
+    #label_color_list.append(color_map[task_id])
+    #task_prompt_label_list.append(all_label[task_id])
+    #task_prompt_emb_x_list.append(compressed_prompt_emb[task_id][0])
+    #task_prompt_emb_y_list.append(compressed_prompt_emb[task_id][1])
     #label_color_dict[counter]=colors_map[task_id]
     #counter+=1
     #label_color_list.append(colors_map[task_id])
 
     print(compressed_prompt_emb[task_id])
 
-    plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=all_label[task_id])
+    plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id])
 
 #plt.scatter(task_prompt_emb_x_list, task_prompt_emb_y_list, color=color_map[task_id], label=task_prompt_label_list)
 
