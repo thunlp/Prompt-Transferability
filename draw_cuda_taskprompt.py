@@ -95,7 +95,7 @@ def train_AE(input=None, out_features=None):
     # mean-squared error loss
     criterion = nn.MSELoss()
 
-    epochs=10
+    epochs=30
     iterations=100
     model.train()
     for epoch in range(epochs):
