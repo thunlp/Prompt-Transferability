@@ -305,7 +305,7 @@ print("===================")
 print("===================")
 
 ##################
-#######AE
+#######AE training
 ##################
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -358,18 +358,57 @@ for epoch in range(epochs):
     print("epoch : {}/{}, loss = {:.6f}".format(epoch + 1, epochs, loss))
 
 ##################
+#######AE Inference
 ##################
 
 model.eval().to('cpu')
 compressed_prompt_emb = model.encoder(all_prompt_emb)
 print(compressed_prompt_emb.shape)
 
-############
+##################
+#######Draw
+##################
 compressed_prompt_emb = compressed_prompt_emb.to("cpu").detach().numpy()
 all_label = all_label.to("cpu").numpy()
 
-plt.scatter(compressed_prompt_emb[:, 0], compressed_prompt_emb[:, 1], c=all_label)
-plt.colorbar()
+#color table: https://www.computerhope.com/htmcolor.htm#color-codes
+
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant"}
+
+color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",6:"#CB6D51",7:"#556B2F",8:"STSB",9:"#4863A0",10:"#151B8D"}
+
+blocked_list = [5,8]
+
+#plt.scatter(compressed_prompt_emb[:, 0], compressed_prompt_emb[:, 1], c=all_label)
+#plt.scatter(compressed_prompt_emb[:, 0], compressed_prompt_emb[:, 1], c=all_label)
+#plt.colorbar()
+
+#label_color_dict=dict()
+#label_color_list=list()
+#task_prompt_emb_list=list()
+#task_prompt_label_list=list()
+#counter=0
+
+#re generate id
+#plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
+
+for task_id, task_name in task_map.items():
+    if task_id in blocked_list:
+        continue
+    #label_color_list.append(color_map[task_id])
+    #task_prompt_emb_list.append(compressed_prompt_emb[task_id])
+    #task_prompt_label_list.append(all_label[task_id])
+    #label_color_dict[counter]=colors_map[task_id]
+    #counter+=1
+    #label_color_list.append(colors_map[task_id])
+
+    plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=all_label[task_id])
+
+#task_prompt_emb_ten = torch.tensor(task_prompt_emb_list)
+#task_prompt_label_ten = torch.tensor(task_prompt_label_list)
+
+#plt.scatter(task_prompt_emb_ten[:, 0], task_prompt_emb_ten[:, 1], c=all_label)
+#plt.scatter(task_prompt_emb_ten[:, 0], task_prompt_emb_ten[:, 1], c=label_color_list)
 
 
 

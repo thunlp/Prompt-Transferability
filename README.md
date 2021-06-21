@@ -83,9 +83,10 @@ Finding:
 
 ---
 Performance:
-- laptop: 78.6%
-- restaurant: 76% 
+- laptop: 64.5%
+- restaurant: 69.7% 
 - SST2: 93.0%
+- QQP: 74%
 
 ---
 - Similiarty:
