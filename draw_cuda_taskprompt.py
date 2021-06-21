@@ -384,9 +384,10 @@ blocked_list = [5,8]
 #plt.colorbar()
 
 #label_color_dict=dict()
-#label_color_list=list()
-#task_prompt_emb_list=list()
-#task_prompt_label_list=list()
+label_color_list=list()
+task_prompt_emb_x_list=list()
+task_prompt_emb_y_list=list()
+task_prompt_label_list=list()
 #counter=0
 
 #re generate id
@@ -395,14 +396,17 @@ blocked_list = [5,8]
 for task_id, task_name in task_map.items():
     if task_id in blocked_list:
         continue
-    #label_color_list.append(color_map[task_id])
-    #task_prompt_emb_list.append(compressed_prompt_emb[task_id])
-    #task_prompt_label_list.append(all_label[task_id])
+    label_color_list.append(color_map[task_id])
+    task_prompt_label_list.append(all_label[task_id])
+    task_prompt_emb_x_list.append(compressed_prompt_emb[task_id][0])
+    task_prompt_emb_y_list.append(compressed_prompt_emb[task_id][1])
     #label_color_dict[counter]=colors_map[task_id]
     #counter+=1
     #label_color_list.append(colors_map[task_id])
 
-    plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=all_label[task_id])
+    #plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=all_label[task_id])
+
+plt.scatter(task_prompt_emb_x_list, task_prompt_emb_y_list, color=color_map[task_id], label=task_prompt_label_list)
 
 #task_prompt_emb_ten = torch.tensor(task_prompt_emb_list)
 #task_prompt_label_ten = torch.tensor(task_prompt_label_list)
@@ -410,8 +414,7 @@ for task_id, task_name in task_map.items():
 #plt.scatter(task_prompt_emb_ten[:, 0], task_prompt_emb_ten[:, 1], c=all_label)
 #plt.scatter(task_prompt_emb_ten[:, 0], task_prompt_emb_ten[:, 1], c=label_color_list)
 
-
-
+plt.legend()
 
 plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
