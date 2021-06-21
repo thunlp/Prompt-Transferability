@@ -387,7 +387,8 @@ for task_id, task_name in task_map.items():
         exit()
 
 
-plt.legend()
+#plt.legend()
+plt.legend(loc="upper left")
 plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
 plt.savefig('output.jpg')
