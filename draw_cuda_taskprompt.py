@@ -142,6 +142,23 @@ def train_AE(input=None, out_features=None):
 
 
 
+def PCA_svd(X=None, k=None, center=True):
+  n = X.size()[0]
+  ones = torch.ones(n).view([n,1])
+  h = ((1/n) * torch.mm(ones, ones.t())) if center  else torch.zeros(n*n).view([n,n])
+  H = torch.eye(n) - h
+  #H = H.cuda()
+  X_center =  torch.mm(H.double(), X.double())
+  u, s, v = torch.svd(X_center)
+  components  = v[:k].t()
+  return components
+
+
+
+#def PCA(input=None, out_features=None):
+#    return torch.pca_lowrank(x[i],q=3)[1]
+
+
 
 
 def plot(x, y, **kwargs):
@@ -349,8 +366,11 @@ print("===================")
 
 ##3D or 2D
 dim=2
-compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
+#compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
+compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
+#exit()
+
 
 
 ##################
