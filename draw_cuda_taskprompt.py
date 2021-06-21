@@ -392,11 +392,14 @@ blocked_list = []
 #sentiment, NLI, RE, Paraphrase
 #blocked_list = [5,8]
 
-#NLI, RE, Paraphrase
-blocked_list = [0,5,8,9,10]
+#NLI, RE, sentiment
+blocked_list = [4,5,6,8]
 
 #NLI, RE
 #blocked_list = [0,4,5,6,8,9,10]
+
+#NLI, RE, Paraphrase
+#blocked_list = [0,5,8,9,10]
 
 #sentiment, RE
 #blocked_list = [5,8,3,4,5,6,7,8,2]

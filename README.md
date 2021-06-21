@@ -67,7 +67,7 @@ Domain:
 - movie: SST2
 - news: MRPC, RTE
 - social question: QQP
-- Wiki: QNLI, Fewrel, RTE
+- Wiki: QNLI, RE, RTE
 - Fiction: WNLI
 - reataurant: restaurant
 - computer: laptop
