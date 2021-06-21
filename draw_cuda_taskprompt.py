@@ -392,8 +392,19 @@ blocked_list = []
 #sentiment, NLI, RE, Paraphrase
 #blocked_list = [5,8]
 
+
+#========================
+#Domain
+
+#Wiki, reataurant, computer, movie
+blocked_list = [3,4,6,7]
+
+
+#========================
+#Task
+
 #NLI, RE, sentiment
-blocked_list = [4,5,6,8]
+#blocked_list = [4,5,6,8]
 
 #NLI, RE
 #blocked_list = [0,4,5,6,8,9,10]
