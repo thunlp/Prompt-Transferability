@@ -105,8 +105,8 @@ sst2_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/SST2PromptRoberta/task_prompt"
 sst2_ten = torch.load(path).view(76800)
 print(sst2_ten.shape)
-sst2_ten = torch.stack([sst2_ten for i in range(200)])
-print(sst2_ten.shape)
+#sst2_ten = torch.stack([sst2_ten for i in range(200)])
+#print(sst2_ten.shape)
 
 
 #laptop
@@ -115,8 +115,8 @@ laptop_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/laptopPromptRoberta/task_prompt"
 laptop_ten = torch.load(path).view(76800)
 print(laptop_ten.shape)
-laptop_ten = torch.stack([laptop_ten for i in range(200)])
-print(laptop_ten.shape)
+#laptop_ten = torch.stack([laptop_ten for i in range(200)])
+#print(laptop_ten.shape)
 
 
 #restaurant
@@ -125,8 +125,8 @@ restaurant_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/restaurantPromptRoberta/task_prompt"
 restaurant_ten = torch.load(path).view(76800)
 print(restaurant_ten.shape)
-restaurant_ten = torch.stack([restaurant_ten for i in range(200)])
-print(restaurant_ten.shape)
+#restaurant_ten = torch.stack([restaurant_ten for i in range(200)])
+#print(restaurant_ten.shape)
 
 #############
 #############
@@ -138,8 +138,8 @@ rte_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/RTEPromptRoberta/task_prompt"
 rte_ten = torch.load(path).view(76800)
 print(rte_ten.shape)
-rte_ten = torch.stack([rte_ten for i in range(200)])
-print(rte_ten.shape)
+#rte_ten = torch.stack([rte_ten for i in range(200)])
+#print(rte_ten.shape)
 
 
 #MNLI
@@ -148,8 +148,8 @@ MNLI_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/MNLIPromptRoberta/task_prompt"
 MNLI_ten = torch.load(path).view(76800)
 print(MNLI_ten.shape)
-MNLI_ten = torch.stack([MNLI_ten for i in range(200)])
-print(MNLI_ten.shape)
+#MNLI_ten = torch.stack([MNLI_ten for i in range(200)])
+#print(MNLI_ten.shape)
 
 
 
@@ -159,8 +159,8 @@ WNLI_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/WNLIPromptRoberta/task_prompt"
 WNLI_ten = torch.load(path).view(76800)
 print(WNLI_ten.shape)
-WNLI_ten = torch.stack([WNLI_ten for i in range(200)])
-print(WNLI_ten.shape)
+#WNLI_ten = torch.stack([WNLI_ten for i in range(200)])
+#print(WNLI_ten.shape)
 
 
 ################
@@ -173,8 +173,8 @@ MRPC_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/MRPCPromptRoberta/task_prompt"
 MRPC_ten = torch.load(path).view(76800)
 print(MRPC_ten.shape)
-MRPC_ten = torch.stack([MRPC_ten for i in range(200)])
-print(MRPC_ten.shape)
+#MRPC_ten = torch.stack([MRPC_ten for i in range(200)])
+#print(MRPC_ten.shape)
 
 
 #QQP
@@ -183,8 +183,8 @@ QQP_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/QQPPromptRoberta/task_prompt"
 QQP_ten = torch.load(path).view(76800)
 print(QQP_ten.shape)
-QQP_ten = torch.stack([QQP_ten for i in range(200)])
-print(QQP_ten.shape)
+#QQP_ten = torch.stack([QQP_ten for i in range(200)])
+#print(QQP_ten.shape)
 
 
 ################
@@ -196,8 +196,8 @@ re_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/REPrompt/task_prompt"
 re_ten = torch.load(path).view(76800)
 print(re_ten.shape)
-re_ten = torch.stack([re_ten for i in range(200)])
-print(re_ten.shape)
+#re_ten = torch.stack([re_ten for i in range(200)])
+#print(re_ten.shape)
 
 
 ################
@@ -211,8 +211,8 @@ QNLI_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/QNLIPromptRoberta/task_prompt"
 QNLI_ten = torch.load(path).view(76800)
 print(QNLI_ten.shape)
-QNLI_ten = torch.stack([QNLI_ten for i in range(200)])
-print(QNLI_ten.shape)
+#QNLI_ten = torch.stack([QNLI_ten for i in range(200)])
+#print(QNLI_ten.shape)
 
 
 
@@ -222,8 +222,8 @@ STSB_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/STSBPromptRoberta/task_prompt"
 STSB_ten = torch.load(path).view(76800)
 print(STSB_ten.shape)
-STSB_ten = torch.stack([STSB_ten for i in range(200)])
-print(STSB_ten.shape)
+#STSB_ten = torch.stack([STSB_ten for i in range(200)])
+#print(STSB_ten.shape)
 
 
 
@@ -272,10 +272,12 @@ restaurant_label_ten[restaurant_label_ten==1]=10
 #print(re_label_ten.shape)
 
 #all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten]).to("cpu").numpy()
-all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten])
+#all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten])
+all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten])
 
 #all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten]).to("cpu").numpy()
-all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten])
+#all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten])
+all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten])
 
 #print(all_prompt_emb.shape)
 #print(all_label.shape)
@@ -405,7 +407,7 @@ for task_id, task_name in task_map.items():
     #counter+=1
     #label_color_list.append(colors_map[task_id])
 
-    compressed_prompt_emb[task_id]
+    print(compressed_prompt_emb[task_id])
 
     plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=all_label[task_id])
 
