@@ -417,16 +417,18 @@ for task_id, task_name in task_map.items():
     if dim == 2:
         plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
     elif dim == 3:
-        #axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], color=color_map[task_id], label=task_map[task_id])
+        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id], label=task_map[task_id])
         continue
     else:
         print("Wonrg!!!")
         exit()
 
+'''
 if dim == 2:
     pass
 elif dim == 3:
     axes.plot(x_list, y_list, z_list, color=color_map[task_id], label=task_map[task_id])
+'''
 
 
 plt.legend()
