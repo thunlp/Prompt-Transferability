@@ -385,8 +385,13 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",6:"#CB6D51",7:"#556B2F",8:"STSB",9:"#4863A0",10:"#151B8D"}
 
+#sentiment, NLI, RE, Para
 #blocked_list = [5,8]
-blocked_list = [5,8,3,4,5,6,7,8]
+
+#sentiment, RE
+blocked_list = [5,8,3,4,5,6,7,8,2]
+
+#sentiment, NLI
 
 #re generate id
 #plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
@@ -397,22 +402,13 @@ if dim ==3:
     #axes = plt.subplot(222, projection='3d')
 else:
     pass
-x_list = list()
-y_list = list()
-z_list = list()
-color_list = list()
-label_list = list()
+
 for task_id, task_name in task_map.items():
     print(task_id)
     if task_id in blocked_list:
         continue
 
     print(compressed_prompt_emb[task_id])
-    x_list.append(compressed_prompt_emb[task_id][0])
-    y_list.append(compressed_prompt_emb[task_id][1])
-    z_list.append(compressed_prompt_emb[task_id][2])
-    color_list.append(color_map[task_id])
-    label_list.append(task_map[task_id])
 
     if dim == 2:
         plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
@@ -423,12 +419,6 @@ for task_id, task_name in task_map.items():
         print("Wonrg!!!")
         exit()
 
-'''
-if dim == 2:
-    pass
-elif dim == 3:
-    axes.plot(x_list, y_list, z_list, color=color_map[task_id], label=task_map[task_id])
-'''
 
 
 plt.legend()
