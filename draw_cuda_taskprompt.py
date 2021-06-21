@@ -365,7 +365,7 @@ print("===================")
 print("===================")
 
 ##3D or 2D
-dim=2
+dim=3
 compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
 #compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
