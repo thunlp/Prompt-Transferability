@@ -365,7 +365,7 @@ print("===================")
 print("===================")
 
 ##3D or 2D
-dim=3
+dim=2
 compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
 #compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
@@ -408,9 +408,12 @@ blocked_list = []
 #plot on 3D: https://www.delftstack.com/zh-tw/howto/matplotlib/scatter-plot-legend-in-matplotlib/#%25E5%259C%25A8-matplotlib-3d-%25E6%2595%25A3%25E9%25BB%259E%25E5%259C%2596%25E4%25B8%258A%25E6%2596%25B0%25E5%25A2%259E%25E5%259C%2596%25E4%25BE%258B
 
 
-if dim ==3:
+if dim ==3 :
     axes = plt.subplot(111, projection='3d')
     #axes = plt.subplot(222, projection='3d')
+#elif dim == 2:
+    #axes = plt.subplot(111, projection='2d')
+
 else:
     pass
 
@@ -423,16 +426,23 @@ for task_id, task_name in task_map.items():
 
     if dim == 2:
         ###
+        #label_map
         plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], label=task_map[task_id], s=100)
-        #plt.scatter(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], s=100)
-        #label=task_map[task_id],
+
+
+        #text on dot
+        '''
+        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], color=color_map[task_id], "o", color=color_map[task_id])
+        axes.annotate(task_map[task_id],(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2]))
+        '''
         ###
     elif dim == 3:
         ###
+        #label_map
         #axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id], label=task_map[task_id])
-        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id])
 
-        #axes.annotate(task_map[task_id],(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2]))
+        #text on dot
+        axes.plot(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], "o", color=color_map[task_id])
         axes.text(compressed_prompt_emb[task_id][0], compressed_prompt_emb[task_id][1], compressed_prompt_emb[task_id][2], task_map[task_id])
         ###
     else:
@@ -440,6 +450,10 @@ for task_id, task_name in task_map.items():
         exit()
 
 
+if dim == 2:
+    plt.legend()
+elif dim == 3:
+    pass
 
 
 #plt.legend()
