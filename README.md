@@ -73,6 +73,12 @@ Domain:
 - reataurant: restaurant
 - computer: laptop
 
+---
+- Similiarty:
+
+Imagine:
+![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
+
 
 ---
 Finding:
@@ -93,6 +99,3 @@ Performance:
 
 Table:
 
-Imagine:
-
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)

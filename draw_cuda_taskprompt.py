@@ -322,8 +322,8 @@ optimizer = optim.Adam(model.parameters(), lr=1e-3)
 # mean-squared error loss
 criterion = nn.MSELoss()
 
-epochs=30
-iterations=10
+epochs=10
+iterations=50
 model.train()
 for epoch in range(epochs):
     loss = 0
