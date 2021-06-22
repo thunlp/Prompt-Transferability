@@ -432,7 +432,7 @@ blocked_list = []
 #blocked_list = [5,8,3,4,5,6,7,8,2]
 
 #sentiment
-blocked_list = [5,8,3,4,5,6,7,8,2,1]
+#blocked_list = [5,8,3,4,5,6,7,8,2,1]
 
 #sentiment, NLI
 #blocked_list = [2,4,5,6,8]
