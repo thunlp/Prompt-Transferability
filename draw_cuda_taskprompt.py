@@ -10,6 +10,7 @@ import numpy
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import copy
 
 
 #from openTSNE import TSNE, TSNEEmbedding, affinity, initialization
@@ -143,15 +144,55 @@ def train_AE(input=None, out_features=None):
 
 
 def PCA_svd(X=None, k=None, center=True):
-  n = X.size()[0]
-  ones = torch.ones(n).view([n,1])
-  h = ((1/n) * torch.mm(ones, ones.t())) if center  else torch.zeros(n*n).view([n,n])
-  H = torch.eye(n) - h
-  #H = H.cuda()
-  X_center =  torch.mm(H.double(), X.double())
-  u, s, v = torch.svd(X_center)
-  components  = v[:k].t()
-  return components
+    #############original##############
+    n = X.size()[0]
+    ones = torch.ones(n).view([n,1])
+    h = ((1/n) * torch.mm(ones, ones.t())) if center else torch.zeros(n*n).view([n,n])
+    H = torch.eye(n) - h
+    #H = H.cuda()
+    X_center =  torch.mm(H.double(), X.double())
+    u, s, v = torch.svd(X_center)
+    components  = v[:k].t()
+    s_2 = s*s
+    print("Compression rate: {}% ".format( int(torch.sqrt(s_2[:k].sum()/s_2.sum())*100) ) )
+    return components
+    ###################################
+
+
+    #############Analysis##############
+    #task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
+
+    '''
+    #sentiment
+    indices = torch.tensor([0,9,10,11])
+    X = torch.index_select(X, 0, indices)
+    #X = sentiment
+
+    #NLI : [1,3,7]
+    indices = torch.tensor([1,3,7])
+    X = torch.index_select(X, 0, indices)
+    #X = NLI
+
+
+    #mix
+    indices = torch.tensor([0,9,10,11,1,3,7])
+    X = torch.index_select(X, 0, indices)
+
+    n = X.size()[0]
+    ones = torch.ones(n).view([n,1])
+    h = ((1/n) * torch.mm(ones, ones.t())) if center else torch.zeros(n*n).view([n,n])
+    H = torch.eye(n) - h
+    #H = H.cuda()
+    X_center =  torch.mm(H.double(), X.double())
+    u, s, v = torch.svd(X_center)
+    components  = v[:k].t()
+    s_2 = s*s
+    print("Compression rate: {}% ".format( int(torch.sqrt(s_2[:k].sum()/s_2.sum())*100) ) )
+    ####################################
+    '''
+
+
+    return components
 
 
 
