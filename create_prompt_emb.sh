@@ -22,6 +22,13 @@ gpus=2
 ############
 
 #restaurant
+rm -rf task_prompt_emb/IMDBPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/IMDBPromptRoberta/15.pkl \
+    --return_or_save save
+
+#restaurant
 rm -rf task_prompt_emb/restaurantPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
@@ -91,7 +98,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MRPCPromptRoberta.c
 rm -rf task_prompt_emb/QQPPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptRoberta/11.pkl \
+    --checkpoint model/QQPPromptRoberta/15.pkl \
     --return_or_save save
 
 

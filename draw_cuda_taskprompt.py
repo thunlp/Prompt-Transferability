@@ -178,6 +178,15 @@ def plot(x, y, **kwargs):
 
 
 
+#IMDB
+IMDB_ten = list()
+path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/IMDBPromptRoberta/task_prompt"
+IMDB_ten = torch.load(path).view(76800)
+print(IMDB_ten.shape)
+#IMDB_ten = torch.stack([IMDB_ten for i in range(200)])
+#print(IMDB_ten.shape)
+
+
 #SST2
 sst2_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/SST2PromptRoberta/task_prompt"
@@ -381,7 +390,7 @@ all_label = all_label.to("cpu").numpy()
 
 #color table: https://www.computerhope.com/htmcolor.htm#color-codes
 
-task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant"}
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
 
 #color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",6:"#CB6D51",7:"#556B2F",8:"STSB",9:"#4863A0",10:"#151B8D"}
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#32CD32",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D"}
@@ -411,13 +420,13 @@ blocked_list = []
 
 
 #NLI, RE, Paraphrase
-blocked_list = [0,5,9,10]
+#blocked_list = [0,5,9,10]
 
 #NLI, RE, Paraphrase
 #blocked_list = [0,5,8,9,10]
 
 #sentiment, RE
-#blocked_list = [5,8,3,4,5,6,7,8,2]
+blocked_list = [5,8,3,4,5,6,7,8,2,11]
 
 #sentiment, NLI
 #blocked_list = [2,4,5,6,8]

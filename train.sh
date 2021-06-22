@@ -1,9 +1,11 @@
 mkdir RobertaForMaskedLM
-gpus=5
+gpus=2
 
 ############
 #Sentiment
 ############
+
+
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
@@ -21,6 +23,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
     #--do_test \
     #--comment \
     #--seed
+
+
+#IMDB
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.config \
+    --gpu $gpus \
+
 
 '''
 #SST-2

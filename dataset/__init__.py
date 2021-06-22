@@ -12,6 +12,7 @@ from .WNLIDataset import WNLIDataset
 from .STSBDataset import STSBDataset
 from .laptopDataset import laptopDataset
 from .restaurantDataset import restaurantDataset
+from .IMDBDataset import IMDBDataset
 dataset_list = {
     "JsonFromFiles": JsonFromFilesDataset,
     "RTE": RTEDataset,
@@ -26,5 +27,6 @@ dataset_list = {
     "WNLI": WNLIDataset,
     "STSB": STSBDataset,
     "laptop": laptopDataset,
-    "restaurant": restaurantDataset
+    "restaurant": restaurantDataset,
+    "IMDB": IMDBDataset
 }
