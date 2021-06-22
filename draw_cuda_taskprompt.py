@@ -353,6 +353,9 @@ laptop_label_ten[laptop_label_ten==1]=9
 #10
 restaurant_label_ten = torch.ones(int(restaurant_ten.shape[0]),dtype=torch.int32)
 restaurant_label_ten[restaurant_label_ten==1]=10
+#11
+IMDB_label_ten = torch.ones(int(IMDB_ten.shape[0]),dtype=torch.int32)
+IMDB_label_ten[IMDB_label_ten==1]=11
 
 #print(sst2_label_ten.shape)
 #print(rte_label_ten.shape)
@@ -360,11 +363,11 @@ restaurant_label_ten[restaurant_label_ten==1]=10
 
 #all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten]).to("cpu").numpy()
 #all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten])
-all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten])
+all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
 
 #all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten]).to("cpu").numpy()
 #all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten])
-all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten])
+all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
 
 #print(all_prompt_emb.shape)
 #print(all_label.shape)
@@ -426,7 +429,7 @@ blocked_list = []
 #blocked_list = [0,5,8,9,10]
 
 #sentiment, RE
-blocked_list = [5,8,3,4,5,6,7,8,2,11]
+blocked_list = [5,8,3,4,5,6,7,8,2]
 
 #sentiment, NLI
 #blocked_list = [2,4,5,6,8]
