@@ -51,10 +51,11 @@ Downstream Dataset
 - QA: ~~SQUAD~~
 - RE: Fewrel
 - GCAE: laptop, restaurant
+- IMDB
 ```
 
 Task:
-- Sentiment Classification: SST2, laptop, restaurant
+- Sentiment Classification: SST2, laptop, restaurant, IMDB
 - Paraphrase: MRPC, QQP, STSB(?)
 - NLI: MNLI, RTE, WNLI(Coreference)
 - RE: Fewrel
@@ -64,7 +65,7 @@ Task:
 
 Domain:
 - misc.: STSB, MNLI
-- movie: SST2
+- movie: SST2, IMDB
 - news: MRPC, RTE
 - social question: QQP
 - Wiki: QNLI, RE, RTE
