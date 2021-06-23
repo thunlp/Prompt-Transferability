@@ -7,7 +7,8 @@ import numpy as np
 
 from tools.init_tool import init_all
 from config_parser import create_config
-from tools.train_tool import train
+from tools.multiGPU_train_tool import train
+#from accelerate import Accelerator
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S',
@@ -34,6 +35,7 @@ if __name__ == "__main__":
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
     #parser.add_argument("--load_initial_model", type=str, default=None)
+    #parser.add_argument('--fp16_opt_level', type=str, default='O1',help="For fp16: Apex AMP optimization level selected in ['O0', 'O1', 'O2', and 'O3'].""See details at https://nvidia.github.io/apex/amp.html")
 
     args = parser.parse_args()
 
@@ -63,13 +65,18 @@ if __name__ == "__main__":
     #############################
     ###muti machine and muti pgus
     if config.getboolean("distributed", "use"):
-        torch.cuda.set_device(gpu_list[args.local_rank])
+        ###########
         torch.distributed.init_process_group(backend=config.get("distributed", "backend"))
+        local_rank = torch.distributed.get_rank()
+        torch.cuda.set_device(local_rank)
+        ###########
+        #torch.cuda.set_device(gpu_list[args.local_rank])
+        #torch.distributed.init_process_group(backend=config.get("distributed", "backend"))
         config.set('distributed', 'gpu_num', len(gpu_list))
 
     ### one machine muti gpus
-    if len(gpu_list) > 1:
-        torch.distributed.init_process_group(backend="nccl")
+    #if len(gpu_list) > 1:
+    #    torch.distributed.init_process_group(backend="nccl")
     #############################
 
 
@@ -82,10 +89,10 @@ if __name__ == "__main__":
     set_random_seed(args.seed)
 
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
+    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = local_rank)
     do_test = False
     if args.do_test:
         do_test = True
 
     print(args.comment)
-    train(parameters, config, gpu_list, do_test, args.local_rank)
+    train(parameters, config, gpu_list, do_test, local_rank)

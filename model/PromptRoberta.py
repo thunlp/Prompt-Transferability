@@ -14,12 +14,30 @@ tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 class PromptRoberta(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
         super(PromptRoberta, self).__init__()
-        self.plmconfig = AutoConfig.from_pretrained("roberta-base")
+
+
+        try:
+            if config.get("model","model_size")=="large":
+                model = "roberta-large"
+                ckp = "RobertaLargeForMaskedLM"
+                self.hidden_size = 1024
+            else:
+                model = "roberta-base"
+                ckp = "RobertaForMaskedLM"
+                self.hidden_size = 768
+        except:
+            model = "roberta-base"
+            ckp = "RobertaForMaskedLM"
+            self.hidden_size = 768
+
+
+        self.plmconfig = AutoConfig.from_pretrained(model)
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
-        self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
+        #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
+        self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
@@ -27,10 +45,11 @@ class PromptRoberta(nn.Module):
             self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:
             from distutils.dir_util import copy_tree
-            copy_tree("RobertaForMaskedLM/SST2PromptRoberta", self.init_model_path)
+            #copy_tree("RobertaForMaskedLM/SST2PromptRoberta", self.init_model_path)
+            copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
             os.remove(self.init_model_path+"/pytorch_model.bin")
 
-            self.encoder = RobertaForMaskedLM.from_pretrained("roberta-base", config=self.plmconfig)
+            self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
 
@@ -39,7 +58,7 @@ class PromptRoberta(nn.Module):
 
 
         # self.encoder = AutoModelForMaskedLM.from_pretrained("roberta-base")
-        self.hidden_size = 768
+        #self.hidden_size = 768
         # self.fc = nn.Linear(self.hidden_size, 2)
         if config.get("data", "train_dataset_type") == "STSB":
             self.criterion = nn.MSELoss()

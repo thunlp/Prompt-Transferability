@@ -11,6 +11,9 @@ import numpy as np
 from tools.eval_tool import valid, gen_time_str, output_value
 from tools.init_tool import init_test_dataset, init_formatter
 
+#from torch.utils.data import Dataset, DataLoader
+#from torch.utils.data.distributed import DistributedSampler
+
 logger = logging.getLogger(__name__)
 
 
@@ -58,11 +61,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
         shutil.rmtree(
             os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")), True)
 
-    os.makedirs(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")),
-                exist_ok=True)
+    os.makedirs(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")),exist_ok=True)
 
-    writer = SummaryWriter(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")),
-                           config.get("output", "model_name"))
+    writer = SummaryWriter(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")),config.get("output", "model_name"))
 
     step_size = config.getint("train", "step_size")
     gamma = config.getfloat("train", "lr_multiplier")
@@ -72,6 +73,40 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
     logger.info("Training start....")
 
     print("Epoch  Stage  Iterations  Time Usage    Loss    Output Information")
+
+    '''
+    ##############
+    ####Data######
+    train_sampler = torch.utils.data.distributed.DistributedSampler(
+        dataset,
+        # num_replicas=args.world_size,
+        # rank=rank,
+        shuffle=True
+    )
+
+    train_loader = torch.utils.data.DataLoader(
+        dataset=dataset,
+        # batch size per GPU
+        batch_size=batch_size,
+        # shuffle should set in sampler
+        shuffle=False,
+        sampler=train_sampler
+    )
+    ##############
+    ##############
+
+    print("==============")
+    print("==============")
+    for line in train_loader:
+        print(line)
+    print("==============")
+    print("==============")
+    exit()
+
+    '''
+
+
+
 
     total_len = len(dataset)
     more = ""
@@ -88,7 +123,16 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
         output_info = ""
         step = -1
+
+        ###
+        #dataset = torch.utils.data.DataLoader(dataset, shuffle=True)
+        ###
+
         for step, data in enumerate(dataset):
+
+            #print(data)
+            #exit()
+
             for key in data.keys():
                 if isinstance(data[key], torch.Tensor):
                     if len(gpu_list) > 0:
@@ -98,8 +142,15 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
             model.zero_grad()
 
+            #print("=======")
+            #print(data)
+            #print("=======")
+            #exit()
+
 
             results = model(data, config, gpu_list, acc_result, "train")
+            #print("-----")
+            #print("-----")
 
             loss, acc_result = results["loss"], results["acc_result"]
 

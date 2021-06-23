@@ -53,7 +53,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
         init_formatter(config, ["test"])
         test_dataset = init_test_dataset(config)
 
-
     if trained_epoch == 0:
         shutil.rmtree(
             os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")), True)
@@ -98,11 +97,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
             model.zero_grad()
 
-
             results = model(data, config, gpu_list, acc_result, "train")
 
             loss, acc_result = results["loss"], results["acc_result"]
-
             total_loss += float(loss)
 
             loss.backward()

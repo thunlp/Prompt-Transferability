@@ -13,6 +13,8 @@ from .STSBDataset import STSBDataset
 from .laptopDataset import laptopDataset
 from .restaurantDataset import restaurantDataset
 from .IMDBDataset import IMDBDataset
+from .projectorDataset import projectorDataset
+from .mutiGPU_STSBDataset import mutiGPU_STSBDataset
 dataset_list = {
     "JsonFromFiles": JsonFromFilesDataset,
     "RTE": RTEDataset,
@@ -28,5 +30,7 @@ dataset_list = {
     "STSB": STSBDataset,
     "laptop": laptopDataset,
     "restaurant": restaurantDataset,
-    "IMDB": IMDBDataset
+    "IMDB": IMDBDataset,
+    "projector": projectorDataset,
+    "mutiGPU_STSBDataset": mutiGPU_STSBDataset,
 }

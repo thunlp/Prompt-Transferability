@@ -970,6 +970,12 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         prompt_emb_output=False,
         **kwargs
     ):
+
+        #print("===========")
+        #print("===========")
+        #print("===========")
+        #exit()
+
         #print("=========")
         #print(kwargs)
         #print("=========")
@@ -1034,6 +1040,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
             )
 
 
+
         #last_layer
         sequence_output = outputs[0]
         prediction_scores = self.lm_head(sequence_output)
@@ -1044,6 +1051,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
             #prompt_emb = sequence_output[:,:kwargs["prompt_token_len"],:]
             prompt_emb = prompt_emb[:,:kwargs["prompt_token_len"],:]
         #####
+
 
 
         masked_lm_loss = None

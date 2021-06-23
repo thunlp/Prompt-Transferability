@@ -7,7 +7,7 @@ import numpy as np
 
 from tools.init_tool import init_all
 from config_parser import create_config
-from tools.train_tool import train
+from tools.train_tool_projector import train
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S',
@@ -57,22 +57,12 @@ if __name__ == "__main__":
         for a in range(0, len(device_list)):
             gpu_list.append(int(a))
 
-
     os.system("clear")
     config.set('distributed', 'local_rank', args.local_rank)
-    #############################
-    ###muti machine and muti pgus
     if config.getboolean("distributed", "use"):
         torch.cuda.set_device(gpu_list[args.local_rank])
         torch.distributed.init_process_group(backend=config.get("distributed", "backend"))
         config.set('distributed', 'gpu_num', len(gpu_list))
-
-    ### one machine muti gpus
-    if len(gpu_list) > 1:
-        torch.distributed.init_process_group(backend="nccl")
-    #############################
-
-
 
     cuda = torch.cuda.is_available()
     logger.info("CUDA available: %s" % str(cuda))

@@ -34,24 +34,32 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     trained_epoch = 0
     global_step = 0
 
+
     if len(gpu_list) > 0:
         if params['local_rank'] < 0:
             model = model.cuda()
         else:
-            model = model.to(gpu_list[params['local_rank']])
+            ###
+            #muti machines
+            #model = model.to(gpu_list[params['local_rank']])
 
-        '''
-        print("=======================")
-        print(params['local_rank'])
-        print(gpu_list)
-        print(gpu_list[params['local_rank']])
-        exit()
-        '''
+            #single machine
+            model = model.to(params['local_rank'])
+            ###
+
 
         try:
-            model = nn.parallel.DistributedDataParallel(model, device_ids = [params['local_rank']], find_unused_parameters = True)
+            ###
+            #muti machines
+            model = nn.parallel.DistributedDataParallel(model, device_ids=[params['local_rank']], output_device=params['local_rank'], find_unused_parameters = True)
+
+            #single machine
+            #model = nn.parallel.DistributedDataParallel(model, device_ids=gpu_list)
+            #model = nn.parallel.DistributedDataParallel(model)
+            ###
         except Exception as e:
             logger.warning("No init_multi_gpu implemented in the model, use single gpu instead.")
+
 
     if config.getboolean("prompt", "prompt_tune") and config.get("model", "model_name") == "SQuADPromptRoberta":
         tokenizer = AutoTokenizer.from_pretrained("roberta-base")

@@ -4,5 +4,6 @@ opentsne
 torch
 tsne
 datasets
+accelerate
 
 #fix config --> self dir
