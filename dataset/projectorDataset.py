@@ -9,27 +9,31 @@ class projectorDataset(Dataset):
         self.config = config
         self.mode = mode
 
-        self.wnli = pre_data_wnli(mode)
-        self.re = pre_data_re(mode)
-        self.stsb = pre_data_stsb(mode)
-        self.sst2 = pre_data_sst2(mode)
-        self.rte = pre_data_rte(mode)
+        #self.wnli = pre_data_wnli(mode)
+        #self.re = pre_data_re(mode)
+        #self.stsb = pre_data_stsb(mode)
+        #self.sst2 = pre_data_sst2(mode)
+        #self.rte = pre_data_rte(mode)
         self.restaurant = pre_data_restaurant(mode)
-        self.qqp = pre_data_qqp(mode)
-        self.qnli = pre_data_qnli(mode)
-        self.mrpc = pre_data_mrpc(mode)
-        self.mnli = pre_data_mnli(mode)
+        #self.qqp = pre_data_qqp(mode)
+        #self.qnli = pre_data_qnli(mode)
+        #self.mrpc = pre_data_mrpc(mode)
+        #self.mnli = pre_data_mnli(mode)
         self.laptop = pre_data_laptop(mode)
-        self.imdb = pre_data_imdb(mode)
-        #print(self.imdb)
-        #exit()
+        #self.imdb = pre_data_imdb(mode)
+
+
+        #self.all = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
+        self.all = [self.restaurant, self.laptop]
 
 
     def __getitem__(self, item):
-        return self.data[item]
+        #return self.data[item]
+        return self.all
 
     def __len__(self):
-        return len(self.data)
+        #return len(self.data)
+        return len(self.all)
 
 
 
@@ -219,7 +223,7 @@ def pre_data_laptop(mode):
         data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
     else:
         data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
-    print(self.mode, "the number of data", len(self.data))
+    print(mode, "the number of data", len(data))
     return data
 
 

@@ -41,6 +41,8 @@ class PromptRoberta(nn.Module):
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
+        #print(self.init_model_path)
+        #exit()
         if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
             self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:

@@ -36,6 +36,7 @@ def init_formatter(config, task_list, *args, **params):
 
 def init_one_dataset(config, mode, *args, **params):
     temp_mode = mode
+
     if mode != "train":
         try:
             config.get("data", "%s_dataset_type" % temp_mode)
@@ -45,18 +46,6 @@ def init_one_dataset(config, mode, *args, **params):
             temp_mode = "train"
     which = config.get("data", "%s_dataset_type" % temp_mode)
 
-    #print("======")
-    #print(config.get("data","train_dataset_type"))
-    #print(config.get("data"))
-    #exit()
-
-    '''
-    print("=========")
-    print(temp_mode)
-    print(which)
-    print(dataset_list)
-    exit()
-    '''
 
     if which in dataset_list:
         if mode in ["valid", "test"] and "MNLI" in which:
@@ -120,7 +109,6 @@ def init_test_dataset(config, *args, **params):
 
 
 def init_dataset(config, *args, **params):
-
 
     init_formatter(config, ["train", "valid"], *args, **params)
     train_dataset = init_one_dataset(config, "train", *args, **params)

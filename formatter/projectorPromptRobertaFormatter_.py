@@ -23,8 +23,12 @@ class projectorPromptRobertaFormatter(BasicFormatter):
         max_len = self.max_len + 3 + self.prompt_num#+ self.prompt_len * 1 + 4
         for ins in data:
             sent1 = self.tokenizer.encode(ins["sent1"], add_special_tokens = False)
-            sent2 = self.tokenizer.encode(ins["sent2"], add_special_tokens=False)
-            tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent1 + [self.tokenizer.sep_token_id] + sent2 + [self.tokenizer.sep_token_id]
+            try:
+                sent2 = self.tokenizer.encode(ins["sent2"], add_special_tokens=False)
+                tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent1 + [self.tokenizer.sep_token_id] + sent2 + [self.tokenizer.sep_token_id]
+            except:
+                tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent1 + [self.tokenizer.sep_token_id]
+
             if len(tokens) > max_len:
                 tokens = tokens[:max_len - 1]
                 tokens = tokens + [self.tokenizer.sep_token_id]

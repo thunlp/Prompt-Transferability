@@ -25,8 +25,9 @@ class IMDBPromptRobertaFormatter(BasicFormatter):
         for ins in data:
             sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
             if len(sent) > self.max_len:
-                #sent = sent[:max_len]
                 sent = sent[:self.max_len]
+            #if len(sent) > max_len:
+            #    sent = sent[:max_len]
             tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent + [self.tokenizer.sep_token_id]
             #print("-----")
             #print(len(tokens))

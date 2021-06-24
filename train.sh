@@ -5,7 +5,6 @@ gpus=2
 #Sentiment
 ############
 
-'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
@@ -41,6 +40,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
 
 
 
+'''
 ############
 #Paraphrase
 ############
@@ -91,9 +91,9 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/REPrompt.config \
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
 
-'''
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
+'''
 
 
