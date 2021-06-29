@@ -14,6 +14,7 @@ formatter = {}
 
 def init_formatter(config, task_list, *args, **params):
 
+
     for task in task_list:
         formatter[task] = form.init_formatter(config, task, *args, **params)
 
@@ -37,6 +38,7 @@ def init_formatter(config, task_list, *args, **params):
 def init_one_dataset(config, mode, *args, **params):
     temp_mode = mode
 
+
     if mode != "train":
         try:
             config.get("data", "%s_dataset_type" % temp_mode)
@@ -44,8 +46,15 @@ def init_one_dataset(config, mode, *args, **params):
             logger.warning(
                 "[reader] %s_dataset_type has not been defined in config file, use [dataset] train_dataset_type instead." % temp_mode)
             temp_mode = "train"
-    which = config.get("data", "%s_dataset_type" % temp_mode)
 
+    ##########
+    if config.get("data", "train_formatter_type") == "projectorPromptRoberta":
+        which = "projector"
+    ##########
+    else:
+        which = config.get("data", "%s_dataset_type" % temp_mode)
+
+    #print(dataset_list)
 
     if which in dataset_list:
         if mode in ["valid", "test"] and "MNLI" in which:
@@ -54,6 +63,13 @@ def init_one_dataset(config, mode, *args, **params):
             else:
                 mode = mode + "_mismatched"
         dataset = dataset_list[which](config, mode, *args, **params)
+        #print(dataset)
+        #######
+        if config.get("data", "train_formatter_type") == "projectorPromptRoberta":
+            dataset.sample_choose()
+        else:
+            pass
+        #######
         if "matched" in mode:
             if "valid" in mode:
                 mode = "valid"

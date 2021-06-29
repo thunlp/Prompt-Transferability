@@ -10,22 +10,24 @@ class RTEDataset(Dataset):
         self.mode = mode
         self.data_path = config.get("data", "%s_data_path" % mode)
         self.encoding = encoding
+        '''
         fin = csv.reader(open(self.data_path, "r"), delimiter="\t", quotechar='"')
         '''
-        self.data = load_dataset('glue', 'rte')
+        data = load_dataset('glue', 'rte')
+        data = data[mode]
+        '''
         self.train_data = self.data['train']
         self.validation_data = self.data['validation']
         self.test_data = self.data['test']
         '''
-
-
-        data = [row for row in fin]
+        dict_ = {0:1,1:0}
+        #data = [row for row in fin]
         if mode == "test":
-            self.data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip()} for ins in data[1:]]
+            #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip()} for ins in data[1:]]
+            data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip()} for ins in data]
         else:
-            self.data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": ins[3].strip()} for ins in data[1:] if len(ins) == 4]
-        print(self.mode, "the number of data", len(self.data))
-        # from IPython import embed; embed()
+            #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": ins[3].strip()} for ins in data[1:] if len(ins) == 4]
+            data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':dict_[int(ins['label'])]} for ins in data]
 
     def __getitem__(self, item):
         return self.data[item]

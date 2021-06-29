@@ -14,7 +14,7 @@ class IMDBDataset(Dataset):
 
 
         data = [row for row in fin]
-        label_map = {"positive":0, "negative":1}
+        label_map = {"positive":1, "negative":0}
         if mode == "test":
             self.data = [{"sent": ins[0].strip()} for ins in data]
         else:

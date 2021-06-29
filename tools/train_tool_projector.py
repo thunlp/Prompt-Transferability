@@ -45,25 +45,14 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
     trained_epoch = parameters["trained_epoch"] + 1
     model = parameters["model"]
     optimizer = parameters["optimizer"]
+    dataset = parameters["train_dataset"]
     global_step = parameters["global_step"]
     output_function = parameters["output_function"]
-    #dataset = parameters["train_dataset"]
-    ###
-    #print(config.sections())
-    #print(config.get("data","train_dataset_type"))
-    #dataset_all = [{"train_dataset_"+str(dataset):parameters["train_dataset_"+str(dataset)]} for dataset in config.get("data","train_dataset_type").strip().split(",")]
 
-    dataset_all={}
-    for dataset in config.get("data","train_dataset_type").strip().split(","):
-        dataset_all["train_dataset_"+str(dataset)] = parameters["train_dataset_"+str(dataset)]
-    print(dataset_all)
-    ###
-
-    '''
     if do_test:
         init_formatter(config, ["test"])
         test_dataset = init_test_dataset(config)
-    '''
+
 
     if trained_epoch == 0:
         shutil.rmtree(
@@ -82,71 +71,12 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
     logger.info("Training start....")
 
-
     print("Epoch  Stage  Iterations  Time Usage    Loss    Output Information")
 
-
-    #total_len = len(dataset)
-    total_len = min([len(v) for key,v in dataset_all.items()])
-    total_len_max = min([len(v) for key,v in dataset_all.items()])
-
-    print("Min Iteration {}".format(total_len))
-    print("Max Iteration {}".format(total_len_max))
-    print("Default Batch Size {}".format(config.get("train","batch_size")))
-    print("Actual training Batch Size {}".format(max(int(int(config.get("train","batch_size"))/len(dataset_all.keys())),1)*len(dataset_all.keys())))
-
-
-    ##################Make all input same dim##############
-    ##Find max length
-    print(all_dataset)
-    max_length=0
-    for idx, dataset in enumerate(all_dataset):
-        #print("====")
-        if mode == "train":
-            for line in result["train_dataset_"+str(dataset)]:
-                max_length = max(int(line['inputx'].shape[-1]), max_length)
-                break
-        else:
-            for line in result["test_dataset_"+str(dataset)]:
-                max_length = max(int(line['inputx'].shape[-1]), max_length)
-                break
-    print("max_length: {}".format(max_length))
-
-    max_length = max_length+100
-    ##Alter to same length
-    for idx, dataset in enumerate(all_dataset):
-        #print(result["train_dataset_"+str(dataset)])
-        #exit()
-        if mode == "train":
-            for line in result["train_dataset_"+str(dataset)]:
-                #print(line)
-                #print("===========")
-                #print(line['inputx'].shape)
-                pad_id_input = torch.ones( int(line['inputx'].shape[0]), max_length-int(line['inputx'].shape[-1]), dtype=int)
-                pad_id_mask = torch.zeros(int(line['mask'].shape[0]),max_length-int(line['mask'].shape[-1]))
-
-                result["train_dataset_"+str(dataset)]["inputx"] = torch.stack([result["train_dataset_"+str(dataset)]["inputx"],pad_id_input],dim=1)
-                result["train_dataset_"+str(dataset)]["mask"] = torch.stack([result["train_dataset_"+str(dataset)]["mask"],pad_id_mask],dim=1)
-                #print("-----------")
-                #print(line['inputx'].shape)
-                break
-    '''
-    #print(result["train_dataset_"+str("IMDB")])
-    for line in result["train_dataset_"+str("IMDB")]:
-        print(line)
-        break
-    for line in result["train_dataset_"+str("laptop")]:
-        print(line)
-        break
-    exit()
-    '''
-    #######################################################
-
-
+    total_len = len(dataset)
     more = ""
     if total_len < 10000:
         more = "\t"
-
     for epoch_num in range(trained_epoch, epoch):
         start_time = timer()
         current_epoch = epoch_num
@@ -158,19 +88,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
         output_info = ""
         step = -1
-
-        ###
-        #dataset = dataset_all['train_dataset_IMDB']
-        #print("-----")
-        #print(dataset)
-        #print("-----")
-        ###
-
         for step, data in enumerate(dataset):
-            #print("========")
-            #print(data.keys())
-            #print("========")
-            #exit()
             for key in data.keys():
                 if isinstance(data[key], torch.Tensor):
                     if len(gpu_list) > 0:
@@ -180,9 +98,11 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
             model.zero_grad()
 
+
             results = model(data, config, gpu_list, acc_result, "train")
 
             loss, acc_result = results["loss"], results["acc_result"]
+
             total_loss += float(loss)
 
             loss.backward()
@@ -217,15 +137,15 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
             raise NotImplementedError
 
         if local_rank <= 0:
-            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
-            writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1), current_epoch)
+            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config,
+                    global_step)
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1),
+                            current_epoch)
 
-        '''
         if current_epoch % test_time == 0:
             with torch.no_grad():
                 valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function)
                 if do_test:
                     valid(model, test_dataset, current_epoch, writer, config, gpu_list, output_function, mode="test")
-        '''
         if local_rank >= 0:
             torch.distributed.barrier()

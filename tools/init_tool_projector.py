@@ -7,7 +7,6 @@ from model.optimizer import init_optimizer
 from .output_init import init_output_function
 from torch import nn
 from transformers import AutoTokenizer
-from config_parser import create_config
 
 logger = logging.getLogger(__name__)
 
@@ -15,41 +14,17 @@ logger = logging.getLogger(__name__)
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     result = {}
 
-    print(config.sections())
-    print(config.get("data","train_dataset_type"))
-
-    all_dataset = config.get("data","train_dataset_type").strip().split(",")
-    all_config = [str("config/"+config+"PromptRoberta.config") for config in all_dataset]
-    #print(all_config)
-
     logger.info("Begin to initialize dataset and formatter...")
-
-    for idx, dataset in enumerate(all_dataset):
-        print(dataset)
-        config_for_each_dataset = all_config[idx]
-        config_for_each_dataset = create_config(config_for_each_dataset)
-
-        #batch_size
-        b_z = max(int(int(config.get("train","batch_size"))/len(all_dataset)),1)
-
-        config_for_each_dataset.set("train","batch_size",b_z)
-        config_for_each_dataset.set("eval","batch_size",b_z)
-
-
-        if mode == "train":
-            result["train_dataset_"+str(dataset)], result["valid_dataset_"+str(dataset)] = init_dataset(config_for_each_dataset, *args, **params)
-
-        else:
-            result["test_dataset_"+str(dataset)] = init_test_dataset(config_for_each_dataset, *args, **params)
-
-
-
+    if mode == "train":
+        # init_formatter(config, ["train", "valid"], *args, **params)
+        result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
+    else:
+        # init_formatter(config, ["test"], *args, **params)
+        result["test_dataset"] = init_test_dataset(config, *args, **params)
 
     logger.info("Begin to initialize models...")
 
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
-
-
     optimizer = init_optimizer(model, config, *args, **params)
     trained_epoch = 0
     global_step = 0

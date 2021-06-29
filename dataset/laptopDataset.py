@@ -25,7 +25,7 @@ class laptopDataset(Dataset):
                 self.data.append(ins)
         '''
 
-        emo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
+        emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
 
         if mode == "test":
             self.data = [{"sent": ins['sentence'].strip()} for ins in data]

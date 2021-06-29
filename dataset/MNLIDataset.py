@@ -15,19 +15,22 @@ class MNLIDataset(Dataset):
         self.test_matched_data = self.data['test_matched']
         self.test_mismatched_data = self.data['test_mismatched']
 
+
+        #org_dict = {"contradiction":2,"neutral":1,"entailment":0}
+        #after_dict = {"contradiction":0,"neutral":1,"entailment":2}
+        _dict = {2:0,1:1,0:2}
+
         if mode == "test_matched":
             self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in self.test_matched_data]
         elif mode == "test_mismatched":
             self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in
                          self.test_mismatched_data]
         elif mode == "valid_matched":
-            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": ins['label']} for ins in self.validation_matched_data]
+            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']]} for ins in self.validation_matched_data]
         elif mode == "valid_mismatched":
-            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": ins['label']}
-                         for ins in self.validation_mismatched_data]
+            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']]} for ins in self.validation_mismatched_data]
         else:
-            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": ins['label']} for ins in
-                         self.train_data]
+            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']]} for ins in self.train_data]
         print(self.mode, "the number of data", len(self.data))
         # from IPython import embed; embed()
 

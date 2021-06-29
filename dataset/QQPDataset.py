@@ -14,6 +14,8 @@ class QQPDataset(Dataset):
         self.validation_data = self.data['validation']
         self.test_data = self.data['test']
 
+        #0: false, 1:true
+
         if mode == "test":
             self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1']} for ins in self.test_data]
         elif mode == 'valid':
