@@ -13,10 +13,12 @@ class RTEPromptRobertaFormatter(BasicFormatter):
         self.prompt_num = config.getint("prompt", "prompt_num")
         self.mode = mode
         self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        '''
         self.label2id = {
             "not_entailment": 0,
             "entailment": 1,
         }
+        '''
         self.prompt_prefix = [- (i + 1) for i in range(self.prompt_len)]
         self.prompt_middle = [- (i + 1 + self.prompt_len) for i in range(self.prompt_len)]
 
@@ -52,7 +54,8 @@ class RTEPromptRobertaFormatter(BasicFormatter):
             mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
             tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))
             if mode != "test":
-                label.append(self.label2id[ins["label"]])
+                #label.append(self.label2id[ins["label"]])
+                label.append(ins["label"])
             inputx.append(tokens)
 
         ret = {

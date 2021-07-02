@@ -260,7 +260,6 @@ print(restaurant_ten.shape)
 #############
 
 
-
 #RTE
 rte_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/RTEPromptRoberta/task_prompt"
@@ -318,7 +317,6 @@ print(QQP_ten.shape)
 ################
 #RE
 ################
-
 #RE
 re_ten = list()
 path="/data3/private/suyusheng/prompt/prompt/task_prompt_emb/REPrompt/task_prompt"

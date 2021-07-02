@@ -16,7 +16,6 @@ fi
 
 gpus=2
 #CUDA_VISIBLE_DEVICES=$gpus
-
 ############
 #Sentiment Classification
 ############
@@ -66,7 +65,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/RTEPromptRoberta.co
     --checkpoint model/RTEPromptRoberta/15.pkl \
     --return_or_save save
 
-'''
 #MNLI
 rm -rf task_prompt_emb/MNLIPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MNLIPromptRoberta.config \
@@ -80,7 +78,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/WNLIPromptRoberta.c
     --gpu $gpus \
     --checkpoint model/WNLIPromptRoberta/15.pkl \
     --return_or_save save
-'''
 
 ############
 #Paraphrase
@@ -107,14 +104,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QQPPromptRoberta.co
 ############
 #RE
 ############
-'''
 #RE
 rm -rf task_prompt_emb/REPrompt
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/REPrompt.config \
     --gpu $gpus \
     --checkpoint model/REPrompt/15.pkl \
 
-'''
 
 
 
@@ -122,7 +117,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/REPrompt.config \
 ############
 #Other
 ############
-'''
 #QNLI
 rm -rf task_prompt_emb/QNLIPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QNLIPromptRoberta.config \
@@ -137,4 +131,3 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptRoberta.c
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
     --return_or_save save
-'''
