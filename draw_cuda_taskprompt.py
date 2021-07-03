@@ -402,10 +402,10 @@ IMDB_label_ten[IMDB_label_ten==1]=11
 #print(re_label_ten.shape)
 
 #92%
-#all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
+all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
 #100%
 ###
-all_prompt_emb = torch.stack([sst2_ten,re_ten,laptop_ten,restaurant_ten,IMDB_ten])
+#all_prompt_emb = torch.stack([sst2_ten,re_ten,laptop_ten,restaurant_ten,IMDB_ten])
 
 
 all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
@@ -434,9 +434,9 @@ all_label = all_label.to("cpu").numpy()
 
 #color table: https://www.computerhope.com/htmcolor.htm#color-codes
 
-#task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
 ###
-task_map={0:"sst2",1:"re",2:"laptop",3:"restaurant",4:"IMDB"}
+#task_map={0:"sst2",1:"re",2:"laptop",3:"restaurant",4:"IMDB"}
 
 #color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",6:"#CB6D51",7:"#556B2F",8:"STSB",9:"#4863A0",10:"#151B8D"}
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#32CD32",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}

@@ -23,7 +23,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
     #--do_test \
     #--comment \
     #--seed
-'''
 
 
 #IMDB
@@ -31,7 +30,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.co
     --gpu $gpus \
 
 
-'''
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
@@ -88,11 +86,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/REPrompt.config \
 #Other
 ############
 
+'''
+
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
 
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
 '''

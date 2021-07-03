@@ -13,14 +13,17 @@ class QNLIDataset(Dataset):
         self.validation_data = self.data['validation']
         self.test_data = self.data['test']
 
-        #0: False, 1:True
+        #ORG: 1: False, 0:True
+
+        _map={0:1,1:0}
+        #Now: 0: False, 1:True
 
         if mode == "test":
             self.data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence']} for ins in self.test_data]
         elif mode == 'valid':
-            self.data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": ins['label']} for ins in self.validation_data]
+            self.data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": _map[ins['label']]} for ins in self.validation_data]
         else:
-            self.data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": ins['label']} for ins in
+            self.data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": _map[ins['label']]} for ins in
                          self.train_data]
         print(self.mode, "the number of data", len(self.data))
         # from IPython import embed; embed()

@@ -20,8 +20,10 @@ class IMDBPromptRobertaFormatter(BasicFormatter):
         inputx = []
         mask = []
         label = []
-        #128+3+100
+        #128+3+100=231
         max_len = self.max_len + 3 + self.prompt_num#+ self.prompt_len * 1 + 4
+        #print(max_len)
+        #exit()
         for ins in data:
             sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
             if len(sent) > self.max_len:
@@ -32,16 +34,26 @@ class IMDBPromptRobertaFormatter(BasicFormatter):
             #print("-----")
             #print(len(tokens))
             #print("-----")
+            #exit()
 
             mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
             tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))
-
+            #print(len(mask[0]))
             #print("===")
             #print(len(tokens))
             #print("===")
+            if len(tokens) != 231:
+                print(tokens)
+                print(len(tokens))
+                exit()
+            #exit()
 
             if mode != "test":
                 label.append(ins["label"])
+                #print("====")
+                #print(label)
+                #print("====")
+                #exit()
             inputx.append(tokens)
 
         ret = {

@@ -11,7 +11,7 @@ class projectorDataset(Dataset):
         self.mode = mode
 
         ###
-        self.re, self.re_length = pre_data_re(mode)
+        ##self.re, self.re_length = pre_data_re(mode)
         #self.stsb, self.stsb_length = pre_data_stsb(mode)
         #self.sst2, self.sst2_length = pre_data_sst2(mode)
         #self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
@@ -58,6 +58,8 @@ class projectorDataset(Dataset):
         #return len(self.data)
         return len(self.all)
 
+
+#label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:negative, conflict}
 
 
 def pre_data_wnli(mode):
@@ -139,12 +141,13 @@ def pre_data_qnli(mode):
 ######################
 ######################
 
-
+'''
 def pre_data_re(mode):
     if mode == "train":
         data = json.load(open("./data/RE/train_wiki.json", "r"))
     else:
         data = json.load(open("./data/RE/val_wiki.json", "r"))
+    labelinfo = json.load(open("./data/RE/linfo.json", "r"))
     #data = json.load(open(data_path, "r"))
     data_ = []
     for rel in data:
@@ -160,6 +163,7 @@ def pre_data_re(mode):
     #exit()
 
     return data_, len(data_)
+'''
 
 
 def pre_data_stsb(mode):
@@ -180,7 +184,11 @@ def pre_data_stsb(mode):
     return data, len(data)
 
 
+
 def pre_data_sst2(mode):
+
+    _map={0:5, 1:7}
+
     if mode == "train":
         d = csv.reader(open("./data/SST-2/train.tsv", "r"), delimiter='\t')
     else:
@@ -189,7 +197,7 @@ def pre_data_sst2(mode):
     if mode == "test":
         data = [{"sent1": ins[0].strip()} for ins in data[1:]]
     else:
-        data = [{"sent1": ins[0].strip(), "label": int(ins[1].strip())} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[int(ins[1].strip())]} for ins in data[1:]]
     #print(mode, "the number of data", len(data))
     return data, len(data)
 
@@ -200,7 +208,8 @@ def pre_data_restaurant(mode):
         data = json.load(open("./data/restaurant/train.json", "r"))
     else:
         data = json.load(open("./data/restaurant/test.json", "r"))
-    emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
+    #emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
+    emo_dict={"positive":7,"neutral":6,"negative":5,"conflict":8}
     #emo_dict={"positive":0,"neutral":1,"negative":2}
 
     if mode == "test":
@@ -213,6 +222,7 @@ def pre_data_restaurant(mode):
     return data, len(data)
 
 
+
 def pre_data_qqp(mode):
     data = load_dataset('glue', 'qqp')
     #data = load_dataset('../data/')
@@ -220,12 +230,14 @@ def pre_data_qqp(mode):
     validation_data = data['validation']
     test_data = data['test']
 
+    _map={0:2,1:4}
+
     if mode == "test":
         data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1']} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": ins['label']} for ins in validation_data]
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[ins['label']]} for ins in validation_data]
     else:
-        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": ins['label']} for ins in
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[ins['label']]} for ins in
                      train_data]
     #print(mode, "the number of data", len(data))
 
@@ -244,6 +256,8 @@ def pre_data_mrpc(mode):
     validation_data = data['validation']
     test_data = data['test']
 
+    _map={0:2,1:4}
+
     if mode == "test":
         data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2']} for ins in test_data]
     elif mode == 'valid':
@@ -258,6 +272,7 @@ def pre_data_mrpc(mode):
     return data, len(data)
 
 
+
 def pre_data_mnli(mode):
     data = load_dataset('glue', 'mnli')
     train_data = data['train']
@@ -266,7 +281,9 @@ def pre_data_mnli(mode):
     test_matched_data = data['test_matched']
     test_mismatched_data = data['test_mismatched']
 
-    _dict={2:0,1:1,0:2}
+    #no, neutral, yes
+    #_dict={2:0,1:1,0:2}
+    _dict={2:0,1:3,0:1}
 
     if mode == "test_matched":
         data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in test_matched_data]
@@ -293,7 +310,8 @@ def pre_data_laptop(mode):
         data = json.load(open("./data/laptop/train.json", "r"))
     else:
         data = json.load(open("./data/laptop/test.json", "r"))
-    emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
+    #emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
+    emo_dict={"positive":7,"neutral":6,"negative":5,"conflict":8}
 
     if mode == "test":
         data = [{"sent1": ins['sentence'].strip()} for ins in data]
@@ -307,6 +325,7 @@ def pre_data_laptop(mode):
     return data, len(data)
 
 
+#label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
 
 def pre_data_imdb(mode):
     if mode == "train":
@@ -316,7 +335,8 @@ def pre_data_imdb(mode):
         data_imdb = csv.reader(open("./data/IMDB/test.csv", "r"), delimiter='\t')
 
     data = [row for row in data_imdb]
-    label_map = {"positive":0, "negative":1}
+    #label_map = {"positive":1, "negative":0}
+    label_map = {"positive":7, "negative":5}
     if mode == "test":
         data = [{"sent1": ins[0].strip()} for ins in data]
     else:

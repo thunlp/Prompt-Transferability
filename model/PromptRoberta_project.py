@@ -141,6 +141,10 @@ class PromptRoberta_project(nn.Module):
             #mo_dict={"positive":22173,"negative":33407}
             score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1)], dim=1)
         '''
+
+        #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
+
+
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
