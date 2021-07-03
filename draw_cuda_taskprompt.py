@@ -505,8 +505,10 @@ for task_id, task_name in task_map.items():
     print(task_id)
     if task_id in blocked_list:
         continue
-
-    print(compressed_prompt_emb[task_id])
+    try:
+        print(compressed_prompt_emb[task_id])
+    except:
+        continue
 
     if dim == 2:
         ###
