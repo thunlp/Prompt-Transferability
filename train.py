@@ -4,7 +4,6 @@ import torch
 import logging
 import random
 import numpy as np
-
 from tools.init_tool import init_all
 from config_parser import create_config
 from tools.train_tool import train
@@ -41,8 +40,10 @@ if __name__ == "__main__":
 
     config = create_config(configFilePath)
 
+    #print("=====")
     #print(configFilePath)
     #print(config.get("data","train_formatter_type"))
+    #print("=====")
     #exit()
 
     use_gpu = True

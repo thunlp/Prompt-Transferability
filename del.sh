@@ -1,16 +1,15 @@
 mkdir RobertaForMaskedLM
-gpus=4
+gpus=1
 
 ############
 #Sentiment
 ############
 
-############
-#Other
-############
-
-
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
+#restaurant
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-
-
+    #--checkpoint roberta-base \
+    #--local_rank \
+    #--do_test \
+    #--comment \
+    #--seed

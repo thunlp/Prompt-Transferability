@@ -1,5 +1,5 @@
 mkdir RobertaForMaskedLM
-gpus=1
+gpus=6
 
 ############
 #Sentiment
@@ -7,6 +7,7 @@ gpus=1
 
 
 #restaurant
+#CUDA_VISIBLE_DEVICES=$gpus python3 train_projector.py --config config/projectorPromptRoberta.config \
 CUDA_VISIBLE_DEVICES=$gpus python3 train_projector.py --config config/projectorPromptRoberta.config \
     --gpu $gpus \
     #--checkpoint roberta-base \

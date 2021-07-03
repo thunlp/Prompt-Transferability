@@ -6,6 +6,7 @@ from dataset import dataset_list
 from torch.utils.data import RandomSampler
 from torch.utils.data.distributed import DistributedSampler
 
+
 logger = logging.getLogger(__name__)
 
 collate_fn = {}
@@ -36,8 +37,8 @@ def init_formatter(config, task_list, *args, **params):
 
 
 def init_one_dataset(config, mode, *args, **params):
-    temp_mode = mode
 
+    temp_mode = mode
 
     if mode != "train":
         try:
@@ -56,19 +57,44 @@ def init_one_dataset(config, mode, *args, **params):
 
     #print(dataset_list)
 
+    #print(dataset_list)
+    #exit()
     if which in dataset_list:
         if mode in ["valid", "test"] and "MNLI" in which:
             if config.get("data", "matched"):
                 mode = mode + "_matched"
             else:
                 mode = mode + "_mismatched"
+
+        #print("=====")
+        #print(config.get("data", "train_formatter_type"))
+        #print("-----")
+        #print(config.get("data", "train_formatter_type"))
         dataset = dataset_list[which](config, mode, *args, **params)
+        #print("=====")
+        #exit()
+        #for l in dataset:
+        #    print(l)
+        #    exit()
+        #print("====")
         #print(dataset)
+        #print(len(dataset))
+        #print("====")
+        #exit()
+
         #######
+        '''
         if config.get("data", "train_formatter_type") == "projectorPromptRoberta":
+            print(dataset)
+            print(len(dataset))
+            print("====")
             dataset.sample_choose()
+            print(len(dataset))
+            print("====")
+            exit()
         else:
             pass
+        '''
         #######
         if "matched" in mode:
             if "valid" in mode:

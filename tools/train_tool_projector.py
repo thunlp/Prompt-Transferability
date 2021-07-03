@@ -73,6 +73,10 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
     print("Epoch  Stage  Iterations  Time Usage    Loss    Output Information")
 
+    #print(dataset)
+    #print(len(dataset))
+    #exit()
+
     total_len = len(dataset)
     more = ""
     if total_len < 10000:

@@ -31,15 +31,22 @@ class projectorDataset(Dataset):
         self.min_length = min([self.laptop_length, self.imdb_length])
 
         #self.all_list = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-        self.all_list = [self.laptop, self.imdb]
 
+        #self.all_dataset = [self.laptop, self.imdb]
+        self.all = self.laptop + self.imdb
+        #self.all = self.sample_choose()
+
+        #self.sample_part = []
 
 
     def sample_choose(self):
-        self.all = []
-        for dataset in self.all_list:
+        #self.sample_part = []
+        sample_part = []
+        for dataset in self.all:
             random.shuffle(dataset)
-            self.all += dataset[:self.min_length]
+            #self.sample_part += dataset[:self.min_length]
+            sample_part += dataset[:self.min_length]
+        return sample_part
         #print("-----")
         #print(self.min_length)
         #print(len(self.all))
@@ -53,6 +60,11 @@ class projectorDataset(Dataset):
     def __getitem__(self, item):
         #return self.data[item]
         return self.all[item]
+        #print(1111111111111)
+        #print(1111111111111)
+        #print(1111111111111)
+        #print(1111111111111)
+        #return self.sample_part[item]
 
     def __len__(self):
         #return len(self.data)

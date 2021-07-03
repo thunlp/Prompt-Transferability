@@ -1,6 +1,5 @@
 import logging
 import torch
-
 from reader.reader import init_dataset, init_formatter, init_test_dataset
 from model import get_model
 from model.optimizer import init_optimizer
@@ -14,6 +13,7 @@ logger = logging.getLogger(__name__)
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     result = {}
 
+
     logger.info("Begin to initialize dataset and formatter...")
     if mode == "train":
         # init_formatter(config, ["train", "valid"], *args, **params)
@@ -23,6 +23,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         result["test_dataset"] = init_test_dataset(config, *args, **params)
 
     logger.info("Begin to initialize models...")
+
 
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
     #print("=========")

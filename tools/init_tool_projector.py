@@ -7,12 +7,37 @@ from model.optimizer import init_optimizer
 from .output_init import init_output_function
 from torch import nn
 from transformers import AutoTokenizer
+#from tools.return_fun import return_conf
 
 logger = logging.getLogger(__name__)
 
+#def return_conf(config):
+#    return config
 
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
+
+    #config_backup = params["config_backup"]
+    #config =  params["config_backup"]
+
+
     result = {}
+
+    print("-----")
+    print(config)
+    print("-----")
+    config = return_conf(config)
+    print("-----")
+    print("=======")
+    print(gpu_list)
+    print(mode)
+    print(args)
+    print(params)
+    config.get("train", "epoch")
+    config.get("data", "train_dataset_type")
+    config.get("model", "model_name")
+    print("=======")
+    exit()
+
 
     logger.info("Begin to initialize dataset and formatter...")
     if mode == "train":
@@ -23,6 +48,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         result["test_dataset"] = init_test_dataset(config, *args, **params)
 
     logger.info("Begin to initialize models...")
+
+
 
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
     optimizer = init_optimizer(model, config, *args, **params)
