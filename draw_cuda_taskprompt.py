@@ -404,9 +404,8 @@ IMDB_label_ten[IMDB_label_ten==1]=11
 #92%
 all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
 #100%
-#all_prompt_emb = torch.stack([sst2_ten,rte_ten,laptop_ten,restaurant_ten,IMDB_ten])
-#100%
-#all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,STSB_ten])
+all_prompt_emb = torch.stack([sst2_ten,re_ten,laptop_ten,restaurant_ten,IMDB_ten])
+
 
 all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
 
@@ -440,9 +439,8 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#32CD32",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}
 
 
-#blocked_list = [1,2,3,4,5,6,7,8]
-#blocked_list = [0,1,2,3,4,5,6,7,8,11]
-blocked_list = []
+blocked_list = [0,2,9,10,11]
+#blocked_list = []
 
 #sentiment, NLI, RE, Paraphrase
 #blocked_list = [5,8]
