@@ -155,6 +155,7 @@ def PCA_svd(X=None, k=None, center=True):
     components  = v[:k].t()
     s_2 = s*s
     print("Compression rate: {}% ".format( int(torch.sqrt(s_2[:k].sum()/s_2.sum())*100) ) )
+    #exit()
     return components
     ###################################
 
@@ -357,7 +358,7 @@ print(STSB_ten.shape)
 ###########################
 ###########################
 
-task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant"}
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
 
 #task_map={0:"sst2",1:"rte",2:"re"}
 
@@ -400,17 +401,15 @@ IMDB_label_ten[IMDB_label_ten==1]=11
 #print(rte_label_ten.shape)
 #print(re_label_ten.shape)
 
-#all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten]).to("cpu").numpy()
-#all_prompt_emb = torch.cat([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten])
+#92%
 all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
+#100%
+#all_prompt_emb = torch.stack([sst2_ten,rte_ten,laptop_ten,restaurant_ten,IMDB_ten])
+#100%
+#all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,STSB_ten])
 
-#all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten]).to("cpu").numpy()
-#all_label = torch.cat([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten])
 all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
 
-#print(all_prompt_emb.shape)
-#print(all_label.shape)
-#exit()
 
 print("===================")
 print("===================")
@@ -420,6 +419,9 @@ dim=3
 #compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
 compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
+#all: 92%
+#sentiment: 100%
+
 #exit()
 
 
@@ -439,6 +441,7 @@ color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#32CD3
 
 
 #blocked_list = [1,2,3,4,5,6,7,8]
+#blocked_list = [0,1,2,3,4,5,6,7,8,11]
 blocked_list = []
 
 #sentiment, NLI, RE, Paraphrase
@@ -460,6 +463,7 @@ blocked_list = []
 
 #NLI, RE
 #blocked_list = [0,4,5,6,8,9,10]
+
 
 
 #NLI, RE, Paraphrase
