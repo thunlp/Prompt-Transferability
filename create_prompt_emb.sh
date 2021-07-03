@@ -69,7 +69,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/RTEPromptRoberta.co
 rm -rf task_prompt_emb/MNLIPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptRoberta/13.pkl \
+    --checkpoint model/MNLIPromptRoberta/15.pkl \
     --return_or_save save
 
 #WNLI
