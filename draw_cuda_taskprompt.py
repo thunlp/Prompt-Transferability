@@ -438,7 +438,7 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#32CD32",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}
 
 
-blocked_list = [1,3,4,5,6,7,8]
+blocked_list = [1,2,3,4,5,6,7,8]
 #blocked_list = []
 
 #sentiment, NLI, RE, Paraphrase
