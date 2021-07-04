@@ -91,6 +91,8 @@ def pre_data_rte(mode):
         d = csv.reader(open("./data/RTE/test.tsv", "r"), delimiter='\t')
     '''
     data = load_dataset('glue','rte')
+    if mode=='valid':
+        mode = "validation"
     data = data[mode]
 
     #data = [row for row in d]
@@ -188,7 +190,7 @@ def pre_data_sst2(mode):
 
     if mode == "train":
         d = csv.reader(open("./data/SST-2/train.tsv", "r"), delimiter='\t', quotechar='"')
-    elif mode == "valid":
+    elif mode == "valid" or mode == "validation":
         d = csv.reader(open("./data/SST-2/dev.tsv", "r"), delimiter='\t', quotechar='"')
     else:
         d = csv.reader(open("./data/SST-2/test.tsv", "r"), delimiter='\t', quotechar='"')
