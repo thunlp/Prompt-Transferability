@@ -59,7 +59,7 @@ if __name__ == "__main__":
         for a in range(0, len(device_list)):
             gpu_list.append(int(a))
 
-    os.system("clear")
+    #os.system("clear")
     config.set('distributed', 'local_rank', args.local_rank)
     if config.getboolean("distributed", "use"):
         torch.cuda.set_device(gpu_list[args.local_rank])
@@ -75,6 +75,8 @@ if __name__ == "__main__":
 
 
     parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
+
+
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, config_backup=config)
     do_test = False
     if args.do_test:

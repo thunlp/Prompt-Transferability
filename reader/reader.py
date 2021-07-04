@@ -66,35 +66,8 @@ def init_one_dataset(config, mode, *args, **params):
             else:
                 mode = mode + "_mismatched"
 
-        #print("=====")
-        #print(config.get("data", "train_formatter_type"))
-        #print("-----")
-        #print(config.get("data", "train_formatter_type"))
         dataset = dataset_list[which](config, mode, *args, **params)
-        #print("=====")
-        #exit()
-        #for l in dataset:
-        #    print(l)
-        #    exit()
-        #print("====")
-        #print(dataset)
-        #print(len(dataset))
-        #print("====")
-        #exit()
 
-        #######
-        '''
-        if config.get("data", "train_formatter_type") == "projectorPromptRoberta":
-            print(dataset)
-            print(len(dataset))
-            print("====")
-            dataset.sample_choose()
-            print(len(dataset))
-            print("====")
-            exit()
-        else:
-            pass
-        '''
         #######
         if "matched" in mode:
             if "valid" in mode:

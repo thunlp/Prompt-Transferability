@@ -10,8 +10,24 @@ import random
 import numpy as np
 from tools.eval_tool import valid, gen_time_str, output_value
 from tools.init_tool import init_test_dataset, init_formatter
+from reader.reader import init_dataset, init_formatter, init_test_dataset
 
 logger = logging.getLogger(__name__)
+
+'''
+def load_task_prompt():
+    task_prompt_dict=dict()
+    path="./task_prompt_emb"
+    files = os.listdir(path)
+    for file in files:
+        task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+        name = str(file.strip().split("P")[0]).lower()
+        print(task_prompt_emb.shape)
+        print(name)
+        task_prompt_dict[name] = task_prompt_emb
+    #exit()
+    return task_prompt_dict
+'''
 
 
 def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
@@ -45,13 +61,13 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
     trained_epoch = parameters["trained_epoch"] + 1
     model = parameters["model"]
     optimizer = parameters["optimizer"]
-    dataset = parameters["train_dataset"]
+    #dataset = parameters["train_dataset"]
     global_step = parameters["global_step"]
     output_function = parameters["output_function"]
 
     if do_test:
         init_formatter(config, ["test"])
-        test_dataset = init_test_dataset(config)
+        #test_dataset = init_test_dataset(config)
 
 
     if trained_epoch == 0:
@@ -73,18 +89,35 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
     print("Epoch  Stage  Iterations  Time Usage    Loss    Output Information")
 
-    #print(dataset)
-    #print(len(dataset))
-    #exit()
 
+    '''
     total_len = len(dataset)
     more = ""
     if total_len < 10000:
         more = "\t"
+    '''
+    more = ""
     for epoch_num in range(trained_epoch, epoch):
+        ###
+
+        logger.info("Begin to initialize dataset and formatter...")
+        #if mode == "train":
+            #parameters["train_dataset"], parameters["valid_dataset"] = init_dataset(config, *args, **params)
+        dataset, parameters["valid_dataset"] = init_dataset(config)
+        #else:
+        #parameters["test_dataset"] = init_test_dataset(config, *args, **params)
+        ###
+
+        total_len = len(dataset)
+
+        if total_len < 10000 and epoch_num==trained_epoch:
+            more = "\t"
+
+
         start_time = timer()
         current_epoch = epoch_num
-        model.train()
+        #model.train()
+        model.eval()
         exp_lr_scheduler.step(current_epoch)
 
         acc_result = None
@@ -92,6 +125,8 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
         output_info = ""
         step = -1
+
+        #task_prompt = load_task_prompt()
         for step, data in enumerate(dataset):
             for key in data.keys():
                 if isinstance(data[key], torch.Tensor):
@@ -109,8 +144,8 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
             total_loss += float(loss)
 
-            loss.backward()
-            optimizer.step()
+            #loss.backward()
+            #optimizer.step()
 
             if step % output_time == 0 and local_rank <= 0:
                 output_info = output_function(acc_result, config)

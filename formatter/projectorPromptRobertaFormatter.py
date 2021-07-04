@@ -21,7 +21,29 @@ class projectorPromptRobertaFormatter(BasicFormatter):
         mask = []
         label = []
         max_len = self.max_len + 3 + self.prompt_num#+ self.prompt_len * 1 + 4
+
+        print("DATSET MAP:")
+        #print(set([l["dataset"] for l in data]))
+        #print("---")
+        #print(list(set([l["dataset"] for l in data])))
+        #print("---")
+        #print(list(set([l["dataset"] for l in data])).sort())
+        l = list(set([l["dataset"] for l in data]))
+        #print(l)
+        l.sort()
+        #print(l)
+        #print("---")
+        #exit()
+        DATSSET_MAP = {name:id for id, name in enumerate(l)}
+        print(DATSSET_MAP)
+        #print({k for k in list(set([l["dataset"] for l in data])).sort()})
+        #print("---")
+        #= for data in list({l["dataset"] for l in data}).sort()
+        #exit()
+
+        task_name_list=[]
         for ins in data:
+            task_name_list.append(DATSSET_MAP[ins["dataset"]])
             sent1 = self.tokenizer.encode(ins["sent1"], add_special_tokens = False)
             try:
                 sent2 = self.tokenizer.encode(ins["sent2"], add_special_tokens=False)
@@ -42,5 +64,6 @@ class projectorPromptRobertaFormatter(BasicFormatter):
             "inputx": torch.tensor(inputx, dtype=torch.long),
             "mask": torch.tensor(mask, dtype=torch.float),
             "label": torch.tensor(label, dtype=torch.long),
+            "task_name": torch.tensor(task_name_list, dtype=torch.long),
         }
         return ret

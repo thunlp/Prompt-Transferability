@@ -16,36 +16,24 @@ logger = logging.getLogger(__name__)
 
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
-    #config_backup = params["config_backup"]
-    #config =  params["config_backup"]
-
-
     result = {}
 
-    print("-----")
-    print(config)
-    print("-----")
-    config = return_conf(config)
-    print("-----")
-    print("=======")
-    print(gpu_list)
-    print(mode)
-    print(args)
-    print(params)
-    config.get("train", "epoch")
-    config.get("data", "train_dataset_type")
-    config.get("model", "model_name")
-    print("=======")
-    exit()
+    '''
+    for key in config.sections():
+        for val in config.items(key):
+            print(key, val)
+    '''
 
-
+    '''
     logger.info("Begin to initialize dataset and formatter...")
     if mode == "train":
         # init_formatter(config, ["train", "valid"], *args, **params)
         result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
+
     else:
         # init_formatter(config, ["test"], *args, **params)
         result["test_dataset"] = init_test_dataset(config, *args, **params)
+    '''
 
     logger.info("Begin to initialize models...")
 

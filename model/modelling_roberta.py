@@ -108,11 +108,10 @@ class RobertaEmbeddings(nn.Module):
             config.max_position_embeddings, config.hidden_size, padding_idx=self.padding_idx
         )
         # Prompt embedding
-        self.prompt_embeddings = nn.Embedding(config.prompt_num, config.hidden_size)
-        #print(config.prompt_num)
-        #print(config.hidden_size)
-        #exit()
+        ###
+        #self.prompt_embeddings = nn.Embedding(config.prompt_num, config.hidden_size)
         self.prompt_embeddings = nn.Embedding(100, 768)
+        ###
 
     def init_prompt_emb(self, init_ids):
         prompt_weights = self.word_embeddings(init_ids).detach()
@@ -162,12 +161,21 @@ class RobertaEmbeddings(nn.Module):
             exit()
             '''
             ########
-            prompt_emb = self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
+            if kwargs['prompt_emb_output']=="replace_task_specific_prompt_emb":
+                prompt_emb = kwargs['task_specific_prompt_emb']
+                zeros_p = torch.zeros(int(word_embeds.shape[0]),int(word_embeds.shape[1])-int(prompt_emb.shape[1]),int(word_embeds.shape[2])).cuda()
+                prompt_emb = torch.cat((prompt_emb,zeros_p), 1)
+                #print(prompt_emb.shape)
+                #exit()
+            else:
+                prompt_emb = self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
+
             #print(prompt_emb.shape)
-            #print("=======")
             #exit()
 
+
             #print(word_embeds.shape) #([8, 383, 768])
+            #exit()
             #inputs_embeds = word_embeds + self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
             inputs_embeds = word_embeds + prompt_emb
             #print(inputs_embeds.shape) #([8, 383, 768])
@@ -758,8 +766,12 @@ class RobertaModel(RobertaPreTrainedModel):
 
             embedding_output, prompt_emb = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds, prompt_emb_output=True)
 
+        elif kwargs["prompt_emb_output"] == "replace_task_specific_prompt_emb":
+            embedding_output = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds, prompt_emb_output="replace_task_specific_prompt_emb", task_specific_prompt_emb=kwargs["task_specific_prompt_emb"])
+
         else:
             embedding_output = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds)
+
 
         encoder_outputs = self.encoder(
             embedding_output,
@@ -1022,6 +1034,22 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
                 output_hidden_states=output_hidden_states,
                 return_dict=return_dict,
                 prompt_emb_output=prompt_emb_output
+            )
+        elif prompt_emb_output == "replace_task_specific_prompt_emb":
+            outputs = self.roberta(
+                input_ids,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids,
+                position_ids=position_ids,
+                head_mask=head_mask,
+                inputs_embeds=inputs_embeds,
+                encoder_hidden_states=encoder_hidden_states,
+                encoder_attention_mask=encoder_attention_mask,
+                output_attentions=output_attentions,
+                output_hidden_states=output_hidden_states,
+                return_dict=return_dict,
+                prompt_emb_output=prompt_emb_output,
+                task_specific_prompt_emb=kwargs["task_specific_prompt_emb"]
             )
         else:
             outputs = self.roberta(

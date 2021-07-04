@@ -11,6 +11,37 @@ from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 from .modelling_roberta import RobertaForMaskedLM
 tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
+def load_task_prompt():
+    choosed_tasks=['imdb', 'laptop']
+    name_list = list()
+    task_prompt_dict=dict()
+    task_prompt_ten=list()
+    path="./task_prompt_emb"
+    files = os.listdir(path)
+    for file in files:
+        task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+        name = str(file.strip().split("P")[0]).lower()
+        if name=="mr" or name=="qq":
+            name+="p"
+        if name not in choosed_tasks:
+            continue
+        #print(task_prompt_emb.shape)
+        #print(name)
+        name_list.append(name)
+        task_prompt_dict[name] = task_prompt_emb
+    #print(name_list)
+    name_list.sort()
+    #print(name_list)
+    name_dict = {id:n for id,n in enumerate(name_list)}
+    print(name_dict)
+
+    for id, name in name_dict.items():
+        task_prompt_ten.append(task_prompt_dict[name])
+    task_prompt_ten = torch.stack(task_prompt_ten)
+
+    return task_prompt_ten
+
+
 class projectPromptRoberta(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
         #super(PromptRoberta, self).__init__()
@@ -31,6 +62,7 @@ class projectPromptRoberta(nn.Module):
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
 
+        self.task_specific_prompt_emb = load_task_prompt().to('cuda')
 
         self.plmconfig = AutoConfig.from_pretrained(model)
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]
@@ -79,16 +111,18 @@ class projectPromptRoberta(nn.Module):
     def init_prompt_emb(self, init_ids):
         self.encoder.roberta.embeddings.init_prompt_emb(torch.tensor(init_ids, dtype=torch.long).to(torch.cuda.current_device()))
 
-        # init_ids = [] #tokenizer.encode("the relation between the first sentence and the second sentence is")
-        # pad_num = self.prompt_num - len(init_ids)
-        # init_ids.extend([tokenizer.mask_token_id] * pad_num)
-        # self.prompt_emb = nn.Embedding(self.prompt_num, self.hidden_size).from_pretrained(self.encoder.get_input_embeddings()(torch.tensor(init_ids, dtype=torch.long)), freeze=False)
-        # self.class_token_id = torch.tensor([10932, 2362])
 
-    def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output=False, **kwargs):
+    def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output="replace_task_specific_prompt_emb", **kwargs):
         # print(self.encoder.roberta.embeddings.prompt_embeddings.weight)
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
+        elif prompt_emb_output == "replace_task_specific_prompt_emb":
+
+            task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
+            #print(data["task_name"])
+            #exit()
+
+            output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
         else:
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 
@@ -178,10 +212,6 @@ class projectPromptRoberta(nn.Module):
         '''
 
 
-        #print(score.shape)
-        #print(data["label"].shape)
-        #exit()
-
 
         loss = self.criterion(score, data["label"])
         #if config.get("data", "train_dataset_type") == "STSB":
@@ -196,16 +226,6 @@ class projectPromptRoberta(nn.Module):
 
 
 def acc(score, label, acc_result):
-    '''
-    print("========")
-    print("========")
-    print(label)
-    print(score)
-    #print(predict)
-    print("========")
-    print("========")
-    exit()
-    '''
     if acc_result is None:
         acc_result = {'total': 0, 'right': 0}
     predict = torch.max(score, dim = 1)[1]

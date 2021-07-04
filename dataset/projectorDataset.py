@@ -32,9 +32,9 @@ class projectorDataset(Dataset):
 
         #self.all_list = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
 
-        #self.all_dataset = [self.laptop, self.imdb]
-        self.all = self.laptop + self.imdb
-        #self.all = self.sample_choose()
+        self.all_dataset = [self.laptop, self.imdb]
+        #self.all_dataset = self.laptop + self.imdb
+        self.all = self.sample_choose()
 
         #self.sample_part = []
 
@@ -42,7 +42,7 @@ class projectorDataset(Dataset):
     def sample_choose(self):
         #self.sample_part = []
         sample_part = []
-        for dataset in self.all:
+        for dataset in self.all_dataset:
             random.shuffle(dataset)
             #self.sample_part += dataset[:self.min_length]
             sample_part += dataset[:self.min_length]
@@ -60,10 +60,7 @@ class projectorDataset(Dataset):
     def __getitem__(self, item):
         #return self.data[item]
         return self.all[item]
-        #print(1111111111111)
-        #print(1111111111111)
-        #print(1111111111111)
-        #print(1111111111111)
+        #sample_part = self.sample_choose()
         #return self.sample_part[item]
 
     def __len__(self):
@@ -83,11 +80,11 @@ def pre_data_wnli(mode):
     dict_={0:1,1:0}
 
     if mode == "test":
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2']} for ins in test_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"wnli"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": dict_[ins['label']]} for ins in validation_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": dict_[ins['label']], "dataset":"wnli"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": dict_[ins['label']]} for ins in train_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": dict_[ins['label']] , "dataset":"wnli"} for ins in train_data]
 
     #print([l['label'] for l in data][:10])
     #exit()
@@ -116,10 +113,10 @@ def pre_data_rte(mode):
 
     if mode == "test":
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip()} for ins in data[1:]]
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip()} for ins in data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "dataset":"rte"} for ins in data]
     else:
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": ins[3].strip()} for ins in data[1:] if len(ins) == 4]
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':dict_[int(ins['label'])]} for ins in data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':dict_[int(ins['label'])], "dataset":"rte"} for ins in data]
     #print(mode, "the number of data", len(data))
 
     #print(data)
@@ -137,11 +134,11 @@ def pre_data_qnli(mode):
 
     dict_={0:1,1:0}
     if mode == "test":
-        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence']} for ins in test_data]
+        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'], "dataset":"qnli"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label']]} for ins in validation_data]
+        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label']] , "dataset":"qnli"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label']]} for ins in train_data]
+        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label']] , "dataset":"qnli"} for ins in train_data]
     #print(mode, "the number of data", len(data))
 
     #print([l['label'] for l in data][:10])
@@ -184,11 +181,11 @@ def pre_data_stsb(mode):
     validation_data = data['validation']
     test_data = data['test']
     if mode == "test":
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2']} for ins in test_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"stsb"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label']} for ins in validation_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'], "dataset":"stsb"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label']} for ins in train_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'], "dataset":"stsb"} for ins in train_data]
     #print(mode, "the number of data", len(data))
 
     #print([l['label'] for l in data])
@@ -207,9 +204,9 @@ def pre_data_sst2(mode):
         d = csv.reader(open("./data/SST-2/test.tsv", "r"), delimiter='\t')
     data = [row for row in d]
     if mode == "test":
-        data = [{"sent1": ins[0].strip()} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "dataset":"sst2"} for ins in data[1:]]
     else:
-        data = [{"sent1": ins[0].strip(), "label": _map[int(ins[1].strip())]} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[int(ins[1].strip())], "dataset":"sst2"} for ins in data[1:]]
     #print(mode, "the number of data", len(data))
     return data, len(data)
 
@@ -225,11 +222,11 @@ def pre_data_restaurant(mode):
     #emo_dict={"positive":0,"neutral":1,"negative":2}
 
     if mode == "test":
-        data = [{"sent1": ins['sentence'].strip()} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "dataset":"restaurant"} for ins in data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"restaurant"} for ins in data]
     else:
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"restaurant"} for ins in data]
     #print(mode, "the number of data", len(data))
     return data, len(data)
 
@@ -245,11 +242,11 @@ def pre_data_qqp(mode):
     _map={0:2,1:4}
 
     if mode == "test":
-        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1']} for ins in test_data]
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'], "dataset":"qqp"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[ins['label']]} for ins in validation_data]
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[ins['label']], "dataset":"qqp"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[ins['label']]} for ins in
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[ins['label']], "dataset":"qqp"} for ins in
                      train_data]
     #print(mode, "the number of data", len(data))
 
@@ -271,11 +268,11 @@ def pre_data_mrpc(mode):
     _map={0:2,1:4}
 
     if mode == "test":
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2']} for ins in test_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"mrpc"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label']} for ins in validation_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'], "dataset":"mrpc"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label']} for ins in train_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'], "dataset":"mrpc"} for ins in train_data]
     #print(mode, "the number of data", len(data))
 
     #print([l['label'] for l in data][:10])
@@ -298,15 +295,15 @@ def pre_data_mnli(mode):
     _dict={2:0,1:3,0:1}
 
     if mode == "test_matched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in test_matched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_matched_data]
     elif mode == "test_mismatched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in test_mismatched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_mismatched_data]
     elif mode == "valid_matched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']]} for ins in validation_matched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_matched_data]
     elif mode == "valid_mismatched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']]} for ins in validation_mismatched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_mismatched_data]
     else:
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']]} for ins in train_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in train_data]
 
     #org: [1, 0, 0, 0, 1, 0, 1, 0, 2, 2]
     #print([l['label'] for l in data][:10])
@@ -326,11 +323,11 @@ def pre_data_laptop(mode):
     emo_dict={"positive":7,"neutral":6,"negative":5,"conflict":8}
 
     if mode == "test":
-        data = [{"sent1": ins['sentence'].strip()} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "dataset":"laptop"} for ins in data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"laptop"} for ins in data]
     else:
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"laptop"} for ins in data]
     #print(mode, "the number of data", len(data))
 
 
@@ -350,9 +347,9 @@ def pre_data_imdb(mode):
     #label_map = {"positive":1, "negative":0}
     label_map = {"positive":7, "negative":5}
     if mode == "test":
-        data = [{"sent1": ins[0].strip()} for ins in data]
+        data = [{"sent1": ins[0].strip(), "dataset":"imdb"} for ins in data]
     else:
-        data = [{"sent1": ins[0].strip(), "label":label_map[ins[1].strip()]} for ins in data]
+        data = [{"sent1": ins[0].strip(), "label":label_map[ins[1].strip()], "dataset":"imdb"} for ins in data]
 
     #print([l['label'] for l in data])
 
