@@ -13,55 +13,45 @@ class projectorDataset(Dataset):
         ###
         ##self.re, self.re_length = pre_data_re(mode)
         #self.stsb, self.stsb_length = pre_data_stsb(mode)
-        #self.sst2, self.sst2_length = pre_data_sst2(mode)
-        #self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
-
-        #self.qnli, self.qnli_length = pre_data_qnli(mode)
-        #self.qqp, self.qqp_length = pre_data_qqp(mode)
-        #self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
-        #self.wnli, self.wnli_length = pre_data_wnli(mode)
-        #self.rte, self.rte_length = pre_data_rte(mode)
-        #self.mnli, self.mnli_length = pre_data_mnli(mode)
+        self.sst2, self.sst2_length = pre_data_sst2(mode)
+        self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
+        self.qnli, self.qnli_length = pre_data_qnli(mode)
+        self.qqp, self.qqp_length = pre_data_qqp(mode)
+        self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
+        self.wnli, self.wnli_length = pre_data_wnli(mode)
+        self.rte, self.rte_length = pre_data_rte(mode)
+        self.mnli, self.mnli_length = pre_data_mnli(mode)
         self.laptop, self.laptop_length = pre_data_laptop(mode)
         self.imdb, self.imdb_length = pre_data_imdb(mode)
+        #print("Done")
         ###
 
 
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
-        self.min_length = min([self.laptop_length, self.imdb_length])
+        self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
+        #self.min_length = min([self.laptop_length, self.imdb_length])
 
-        #self.all_list = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
+        #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
+        self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
 
-        self.all_dataset = [self.laptop, self.imdb]
-        #self.all_dataset = self.laptop + self.imdb
+        #self.all_dataset = [self.laptop, self.imdb]
         self.all = self.sample_choose()
 
-        #self.sample_part = []
 
 
     def sample_choose(self):
-        #self.sample_part = []
         sample_part = []
         for dataset in self.all_dataset:
             random.shuffle(dataset)
             #self.sample_part += dataset[:self.min_length]
             sample_part += dataset[:self.min_length]
         return sample_part
-        #print("-----")
-        #print(self.min_length)
-        #print(len(self.all))
-        #print("-----")
-        #exit()
-        #self.all = [self.laptop, self.imdb]
 
 
 
 
     def __getitem__(self, item):
-        #return self.data[item]
         return self.all[item]
-        #sample_part = self.sample_choose()
-        #return self.sample_part[item]
 
     def __len__(self):
         #return len(self.data)
@@ -150,7 +140,6 @@ def pre_data_qnli(mode):
 ######################
 ######################
 
-'''
 def pre_data_re(mode):
     if mode == "train":
         data = json.load(open("./data/RE/train_wiki.json", "r"))
@@ -172,7 +161,6 @@ def pre_data_re(mode):
     #exit()
 
     return data_, len(data_)
-'''
 
 
 def pre_data_stsb(mode):
@@ -199,9 +187,12 @@ def pre_data_sst2(mode):
     _map={0:5, 1:7}
 
     if mode == "train":
-        d = csv.reader(open("./data/SST-2/train.tsv", "r"), delimiter='\t')
+        d = csv.reader(open("./data/SST-2/train.tsv", "r"), delimiter='\t', quotechar='"')
+    elif mode == "valid":
+        d = csv.reader(open("./data/SST-2/dev.tsv", "r"), delimiter='\t', quotechar='"')
     else:
-        d = csv.reader(open("./data/SST-2/test.tsv", "r"), delimiter='\t')
+        d = csv.reader(open("./data/SST-2/test.tsv", "r"), delimiter='\t', quotechar='"')
+
     data = [row for row in d]
     if mode == "test":
         data = [{"sent1": ins[0].strip(), "dataset":"sst2"} for ins in data[1:]]
@@ -215,6 +206,8 @@ def pre_data_sst2(mode):
 def pre_data_restaurant(mode):
     if mode == "train":
         data = json.load(open("./data/restaurant/train.json", "r"))
+    elif mode == "valid":
+        data = json.load(open("./data/restaurant/test.json", "r"))
     else:
         data = json.load(open("./data/restaurant/test.json", "r"))
     #emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
@@ -317,6 +310,8 @@ def pre_data_mnli(mode):
 def pre_data_laptop(mode):
     if mode == "train":
         data = json.load(open("./data/laptop/train.json", "r"))
+    elif mode == "valid":
+        data = json.load(open("./data/laptop/test.json", "r"))
     else:
         data = json.load(open("./data/laptop/test.json", "r"))
     #emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
@@ -339,7 +334,8 @@ def pre_data_laptop(mode):
 def pre_data_imdb(mode):
     if mode == "train":
         data_imdb = csv.reader(open("./data/IMDB/train.csv", "r"), delimiter='\t')
-
+    elif mode == "valid":
+        data_imdb = csv.reader(open("./data/IMDB/dev.csv", "r"), delimiter='\t')
     else:
         data_imdb = csv.reader(open("./data/IMDB/test.csv", "r"), delimiter='\t')
 

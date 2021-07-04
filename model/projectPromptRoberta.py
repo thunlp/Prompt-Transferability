@@ -12,7 +12,8 @@ from .modelling_roberta import RobertaForMaskedLM
 tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 def load_task_prompt():
-    choosed_tasks=['imdb', 'laptop']
+    #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
+    choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
     name_list = list()
     task_prompt_dict=dict()
     task_prompt_ten=list()
@@ -23,8 +24,9 @@ def load_task_prompt():
         name = str(file.strip().split("P")[0]).lower()
         if name=="mr" or name=="qq":
             name+="p"
-        if name not in choosed_tasks:
-            continue
+        #if name not in choosed_tasks:
+        #    continue
+
         #print(task_prompt_emb.shape)
         #print(name)
         name_list.append(name)
@@ -34,6 +36,7 @@ def load_task_prompt():
     #print(name_list)
     name_dict = {id:n for id,n in enumerate(name_list)}
     print(name_dict)
+    #exit()
 
     for id, name in name_dict.items():
         task_prompt_ten.append(task_prompt_dict[name])
@@ -86,6 +89,7 @@ class projectPromptRoberta(nn.Module):
 
             self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
+            #torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
 
         ##############
@@ -118,9 +122,14 @@ class projectPromptRoberta(nn.Module):
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
 
+
             task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
             #print(data["task_name"])
             #exit()
+
+            model_AE = kwargs["AE"]
+            task_specific_prompt_emb = model_AE(task_specific_prompt_emb)
+
 
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
         else:

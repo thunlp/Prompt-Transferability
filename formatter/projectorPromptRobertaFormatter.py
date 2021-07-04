@@ -22,7 +22,7 @@ class projectorPromptRobertaFormatter(BasicFormatter):
         label = []
         max_len = self.max_len + 3 + self.prompt_num#+ self.prompt_len * 1 + 4
 
-        print("DATSET MAP:")
+        #print("DATSET MAP:")
         #print(set([l["dataset"] for l in data]))
         #print("---")
         #print(list(set([l["dataset"] for l in data])))
@@ -35,7 +35,7 @@ class projectorPromptRobertaFormatter(BasicFormatter):
         #print("---")
         #exit()
         DATSSET_MAP = {name:id for id, name in enumerate(l)}
-        print(DATSSET_MAP)
+        #print(DATSSET_MAP)
         #print({k for k in list(set([l["dataset"] for l in data])).sort()})
         #print("---")
         #= for data in list({l["dataset"] for l in data}).sort()

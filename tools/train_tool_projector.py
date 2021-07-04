@@ -8,29 +8,72 @@ import shutil
 from timeit import default_timer as timer
 import random
 import numpy as np
-from tools.eval_tool import valid, gen_time_str, output_value
+from tools.eval_tool_projector import valid, gen_time_str, output_value
 from tools.init_tool import init_test_dataset, init_formatter
 from reader.reader import init_dataset, init_formatter, init_test_dataset
+import torch.nn as nn
+import torch.optim as optim
 
 logger = logging.getLogger(__name__)
 
-'''
-def load_task_prompt():
-    task_prompt_dict=dict()
-    path="./task_prompt_emb"
-    files = os.listdir(path)
-    for file in files:
-        task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-        name = str(file.strip().split("P")[0]).lower()
-        print(task_prompt_emb.shape)
-        print(name)
-        task_prompt_dict[name] = task_prompt_emb
-    #exit()
-    return task_prompt_dict
-'''
 
 
-def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
+class AE(nn.Module):
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["input_dim"], out_features=kwargs["compress_dim"]
+        )
+        '''
+        self.encoder_hidden_layer = nn.Linear(
+            in_features=kwargs["input_shape"], out_features=76800
+        )
+        self.encoder_output_layer = nn.Linear(
+            in_features=76800, out_features=2
+        )
+        '''
+        self.decoder = nn.Linear(
+            in_features=kwargs["compress_dim"], out_features=kwargs["input_dim"]
+        )
+        '''
+        self.decoder_hidden_layer = nn.Linear(
+            in_features=2, out_features=76800
+        )
+        self.decoder_output_layer = nn.Linear(
+            in_features=76800, out_features=kwargs["input_shape"]
+        )
+        '''
+
+        # mean-squared error loss
+        self.criterion = nn.CrossEntropyLoss()
+
+    def encoding(self, features):
+        return self.encoder(features)
+    def decoding(self, features):
+        return self.decoder(features)
+
+    def forward(self, features):
+        '''
+        activation = self.encoder_hidden_layer(features)
+        activation = torch.relu(activation)
+        code = self.encoder_output_layer(activation)
+        code = torch.relu(code)
+        activation = self.decoder_hidden_layer(code)
+        activation = torch.relu(activation)
+        activation = self.decoder_output_layer(activation)
+        reconstructed = torch.relu(activation)
+        return reconstructed
+        '''
+        encoded_emb = self.encoding(features)
+        decoded_emb = self.decoding(encoded_emb)
+        return decoded_emb
+
+
+
+def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, model_AE):
+
+    ####Original_model#####
+    '''
     model_to_save = model.module if hasattr(model, 'module') else model
     save_params = {
         "model": model_to_save.state_dict(),
@@ -42,6 +85,19 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
 
     try:
         torch.save(save_params, filename)
+    except Exception as e:
+        logger.warning("Cannot save models with error %s, continue anyway" % str(e))
+    '''
+    ####################
+
+    ###model_AE
+    #print("=====")
+    #print(filename)
+    #print("=====")
+    filename = filename.strip().replace(".pkl","")
+    filename = filename+"_model_AE.pkl"
+    try:
+        torch.save(model_AE, filename)
     except Exception as e:
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
 
@@ -90,13 +146,22 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
     print("Epoch  Stage  Iterations  Time Usage    Loss    Output Information")
 
 
-    '''
-    total_len = len(dataset)
-    more = ""
-    if total_len < 10000:
-        more = "\t"
-    '''
-    more = ""
+    ###########AE
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model_AE = AE(input_dim=768,compress_dim=3).to(device)
+    # create an optimizer object
+    # Adam optimizer with learning rate 1e-3
+    optimizer_AE = optim.Adam(model_AE.parameters(), lr=1e-3)
+    model_AE.train()
+    ###########
+
+
+    #total_len = len(dataset)
+    #more = ""
+    #if total_len < 10000:
+    #    more = "\t"
+    #more = ""
+
     for epoch_num in range(trained_epoch, epoch):
         ###
 
@@ -135,17 +200,22 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
                     else:
                         data[key] = Variable(data[key])
 
-            model.zero_grad()
+            ####
+            #model.zero_grad()
+            model_AE.zero_grad()
+            ####
 
 
-            results = model(data, config, gpu_list, acc_result, "train")
+            results = model(data, config, gpu_list, acc_result, "train", AE=model_AE)
 
             loss, acc_result = results["loss"], results["acc_result"]
 
             total_loss += float(loss)
 
-            #loss.backward()
+            loss.backward()
+            ###AE
             #optimizer.step()
+            optimizer_AE.step()
 
             if step % output_time == 0 and local_rank <= 0:
                 output_info = output_function(acc_result, config)
@@ -176,14 +246,14 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
             raise NotImplementedError
 
         if local_rank <= 0:
-            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config,
-                    global_step)
-            writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1),
-                            current_epoch)
+            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step, model_AE)
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1), current_epoch)
 
         if current_epoch % test_time == 0:
             with torch.no_grad():
-                valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function)
+                ###
+                valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, AE=model_AE)
+                ###
                 if do_test:
                     valid(model, test_dataset, current_epoch, writer, config, gpu_list, output_function, mode="test")
         if local_rank >= 0:
