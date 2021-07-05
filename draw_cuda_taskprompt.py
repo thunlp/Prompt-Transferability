@@ -489,7 +489,7 @@ blocked_list = []
 #Domain
 
 #Wiki, reataurant, computer, movie, Fiction
-blocked_list = [3,6,7,8]
+blocked_list = [3,6,8]
 
 
 #========================
@@ -587,9 +587,9 @@ elif dim == 3:
 #plt.legend(loc="upper left")
 #plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
-plt.savefig('output.jpg')
+#plt.savefig('output.jpg')
 #plt.savefig('exp_results/SENTIMENT.jpg')
-#plt.savefig('exp_results/domain.jpg')
+plt.savefig('exp_results/domain.jpg')
 #plt.savefig('exp_results/PCA_DOMAIN_BASE_SENTIMENT.jpg')
 
 
