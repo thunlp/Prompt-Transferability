@@ -83,7 +83,7 @@ Task base:
 
 Domain base:
 
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/PCA_DOMAIN_BASE_SENTIMENT.jpg)
+![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
 
 
 Demo random combination:
