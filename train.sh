@@ -67,11 +67,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/RTEPromptRoberta.con
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
 
+'''
+
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
 
 
+'''
 
 ############
 #RE
@@ -86,14 +89,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/REPrompt.config \
 #Other
 ############
 
-'''
 
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
 
 
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
 '''

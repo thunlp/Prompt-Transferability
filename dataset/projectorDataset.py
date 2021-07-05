@@ -69,14 +69,14 @@ def pre_data_wnli(mode):
     validation_data = data['validation']
     test_data = data['test']
     #no, yes
-    dict_={0:1,1:0}
+    #dict_={0:1,1:0}
 
     if mode == "test":
         data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"wnli"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": dict_[ins['label']], "dataset":"wnli"} for ins in validation_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'], "dataset":"wnli"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": dict_[ins['label']] , "dataset":"wnli"} for ins in train_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'] , "dataset":"wnli"} for ins in train_data]
 
     #print([l['label'] for l in data][:10])
     #exit()
