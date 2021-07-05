@@ -478,7 +478,7 @@ color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#32CD3
 
 
 #blocked_list = [1,3,4,5,6,7,8]
-blocked_list = []
+blocked_list = [1,4,7,8]
 
 #sentiment, NLI, RE, Paraphrase
 #blocked_list = [5,8]
@@ -586,7 +586,8 @@ elif dim == 3:
 #plt.legend(loc="upper left")
 #plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
-plt.savefig('output.jpg')
+#plt.savefig('output.jpg')
+plt.savefig('exp_results/SENTIMENT.jpg')
 #plt.savefig('exp_results/PCA_DOMAIN_BASE_SENTIMENT.jpg')
 
 
