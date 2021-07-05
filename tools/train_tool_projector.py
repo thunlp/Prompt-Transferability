@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 class AE(nn.Module):
     def __init__(self, **kwargs):
-        super().__init__()
+        super(AE, self).__init__()
         self.encoder = nn.Linear(
             in_features=kwargs["input_dim"], out_features=kwargs["compress_dim"]
         )
@@ -148,7 +148,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
     ###########AE
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model_AE = AE(input_dim=768,compress_dim=3).to(device)
+    model_AE = AE(input_dim=76800,compress_dim=3).to(device)
     # create an optimizer object
     # Adam optimizer with learning rate 1e-3
     optimizer_AE = optim.Adam(model_AE.parameters(), lr=1e-3)

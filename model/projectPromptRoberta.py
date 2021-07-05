@@ -128,7 +128,15 @@ class projectPromptRoberta(nn.Module):
             #exit()
 
             model_AE = kwargs["AE"]
-            task_specific_prompt_emb = model_AE(task_specific_prompt_emb)
+
+
+
+            task_specific_prompt_emb_ = task_specific_prompt_emb.reshape( int(task_specific_prompt_emb.shape[0]), int(task_specific_prompt_emb.shape[1])*int(task_specific_prompt_emb.shape[2]))
+            task_specific_prompt_emb_ = model_AE(task_specific_prompt_emb_)
+            task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
+
+
+
 
 
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)

@@ -31,10 +31,12 @@ class projectorDataset(Dataset):
         self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
         #self.min_length = min([self.laptop_length, self.imdb_length])
 
+
         #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
         self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-
         #self.all_dataset = [self.laptop, self.imdb]
+
+
         self.all = self.sample_choose()
 
 

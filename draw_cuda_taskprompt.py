@@ -31,7 +31,8 @@ import glob
 
 class AE(nn.Module):
     def __init__(self, **kwargs):
-        super().__init__()
+        #super().__init__()
+        super(AE, self).__init__()
         self.encoder = nn.Linear(
             in_features=kwargs["input_shape"], out_features=kwargs["out_features"]
         )
@@ -54,12 +55,12 @@ class AE(nn.Module):
             in_features=76800, out_features=kwargs["input_shape"]
         )
         '''
+        self.criterion = nn.CrossEntropyLoss()
 
     def encoding(self, features):
         return self.encoder(features)
     def decoding(self, features):
         return self.decoder(features)
-
     def forward(self, features):
         '''
         activation = self.encoder_hidden_layer(features)
@@ -75,6 +76,33 @@ class AE(nn.Module):
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+
+
+
+
+
+def trained_AE(input=None, out_features=None):
+
+    ##################
+    #######AE training
+    ##################
+
+
+
+    PATH="model/projectPromptRoberta/15_model_AE.pkl"
+    #load_model = AE(input_shape=int(all_prompt_emb.shape[-1]),out_features=dim)
+    load_model = torch.load(PATH).to("cpu")
+    load_model.eval()
+
+    #print(input.shape)
+    #input = input.view(-1, int(input.shape[-1])).to("cpu")
+    #print(input.shape)
+    #exit()
+
+    compressed_prompt_emb = load_model.encoder(input.to("cpu"))
+
+    return compressed_prompt_emb
+
 
 
 
@@ -417,7 +445,13 @@ print("===================")
 ##3D or 2D
 dim=3
 #compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
-compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
+
+################
+print("Using trained AE model")
+compressed_prompt_emb = trained_AE(input=all_prompt_emb,out_features=dim)
+#################
+
+#compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
 #all: 92%
 #sentiment: 100%
