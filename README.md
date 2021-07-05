@@ -78,7 +78,8 @@ Imagine:
 
 Task base:
 
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/PCA_TASK_BASE_NLI_and_re.jpg)
+![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
+![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 
 
 Domain base:
