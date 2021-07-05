@@ -489,7 +489,7 @@ blocked_list = []
 #Domain
 
 #Wiki, reataurant, computer, movie, Fiction
-blocked_list = [3,6,8]
+#blocked_list = [3,6,8]
 
 
 #========================
@@ -499,7 +499,7 @@ blocked_list = [3,6,8]
 #blocked_list = [4,5,6,8]
 
 #NLI, RE
-#blocked_list = [0,4,5,6,8,9,10]
+blocked_list = [0,6,8,9,10,11]
 
 
 
@@ -589,7 +589,8 @@ elif dim == 3:
 #plt.savefig('output.pdf')
 #plt.savefig('output.jpg')
 #plt.savefig('exp_results/SENTIMENT.jpg')
-plt.savefig('exp_results/domain.jpg')
+plt.savefig('exp_results/NLI.jpg')
+#plt.savefig('exp_results/domain.jpg')
 #plt.savefig('exp_results/PCA_DOMAIN_BASE_SENTIMENT.jpg')
 
 

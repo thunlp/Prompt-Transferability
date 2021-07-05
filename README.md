@@ -57,7 +57,7 @@ Downstream Dataset
 Task:
 - Sentiment Classification: SST2, laptop, restaurant, IMDB
 - Paraphrase: MRPC, QQP, STSB(?)
-- NLI: MNLI, RTE, WNLI(Coreference)
+- NLI: MNLI, RTE, WNLI(Coreference), QNLI(QA)
 - RE: Fewrel
 - Sentence Similiarity: STSB
 - QA: QNLI(QA), SQUAD
@@ -79,6 +79,7 @@ Imagine:
 Task base:
 
 ![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
+![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 
 
 Domain base:
