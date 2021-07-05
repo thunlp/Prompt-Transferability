@@ -79,7 +79,6 @@ Imagine:
 Task base:
 
 ![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 
 
 Domain base:
