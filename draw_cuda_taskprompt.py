@@ -453,6 +453,7 @@ compressed_prompt_emb = trained_AE(input=all_prompt_emb,out_features=dim)
 
 #compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
+
 #all: 92%
 #sentiment: 100%
 
