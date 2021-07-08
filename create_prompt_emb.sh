@@ -18,6 +18,7 @@ gpus=2
 #Sentiment Classification
 ############
 
+'''
 #restaurant
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptRoberta.config \
@@ -38,6 +39,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/laptopPromptRoberta
     --gpu $gpus \
     --checkpoint model/laptopPromptRoberta/15.pkl \
     --return_or_save save
+'''
 
 #SST
 rm -rf task_prompt_emb/SST2PromptRoberta

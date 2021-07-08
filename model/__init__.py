@@ -3,6 +3,7 @@ from .REBERT import REBERT
 from .REPromptRoberta import REPromptRoberta
 from .PromptRoberta import PromptRoberta
 from .projectPromptRoberta import projectPromptRoberta
+from .projectPromptRoberta_prompt import projectPromptRoberta_prompt
 #from .SQuADPromptRoberta import SQuADPromptRoberta
 model_list = {
     "BinaryClsBERT": BinaryClsBERT,
@@ -12,6 +13,7 @@ model_list = {
     "REPrompt": REPromptRoberta,
     "projectPromptRoberta": projectPromptRoberta,
     "PromptRoberta": PromptRoberta,
+    "projectPromptRoberta_prompt": projectPromptRoberta_prompt,
     #"SQuADPromptRoberta": SQuADPromptRoberta
 }
 

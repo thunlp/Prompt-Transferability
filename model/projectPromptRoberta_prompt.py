@@ -11,8 +11,14 @@ from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 from .modelling_roberta import RobertaForMaskedLM
 tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
-def load_task_prompt():
-    #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
+
+def load_task_prompt(file_name):
+    path="task_prompt_emb"
+    task_prompt_emb = torch.load(path+"/"+file_name+"/task_prompt")
+
+    return task_prompt_emb
+
+    '''
     choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
     name_list = list()
     task_prompt_dict=dict()
@@ -43,12 +49,12 @@ def load_task_prompt():
     task_prompt_ten = torch.stack(task_prompt_ten)
 
     return task_prompt_ten
+    '''
 
 
-class projectPromptRoberta(nn.Module):
+class projectPromptRoberta_prompt(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
-        #super(PromptRoberta, self).__init__()
-        super(projectPromptRoberta, self).__init__()
+        super(projectPromptRoberta_prompt, self).__init__()
 
 
         try:
@@ -65,7 +71,9 @@ class projectPromptRoberta(nn.Module):
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
 
-        self.task_specific_prompt_emb = load_task_prompt().to('cuda')
+        self.task_specific_prompt_emb = load_task_prompt(config.get("output","model_name")).to('cuda')
+
+
 
         self.plmconfig = AutoConfig.from_pretrained(model)
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]
@@ -89,7 +97,6 @@ class projectPromptRoberta(nn.Module):
 
             self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
-            #torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
 
         ##############
@@ -115,25 +122,23 @@ class projectPromptRoberta(nn.Module):
     def init_prompt_emb(self, init_ids):
         self.encoder.roberta.embeddings.init_prompt_emb(torch.tensor(init_ids, dtype=torch.long).to(torch.cuda.current_device()))
 
+        # init_ids = [] #tokenizer.encode("the relation between the first sentence and the second sentence is")
+        # pad_num = self.prompt_num - len(init_ids)
+        # init_ids.extend([tokenizer.mask_token_id] * pad_num)
+        # self.prompt_emb = nn.Embedding(self.prompt_num, self.hidden_size).from_pretrained(self.encoder.get_input_embeddings()(torch.tensor(init_ids, dtype=torch.long)), freeze=False)
+        # self.class_token_id = torch.tensor([10932, 2362])
 
     def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output="replace_task_specific_prompt_emb", **kwargs):
         # print(self.encoder.roberta.embeddings.prompt_embeddings.weight)
         if prompt_emb_output == True:
-            output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
+            output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
+
+
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
-
-
-            task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
-            model_AE = kwargs["AE"]
-
-
-            task_specific_prompt_emb_ = task_specific_prompt_emb.reshape( int(task_specific_prompt_emb.shape[0]), int(task_specific_prompt_emb.shape[1])*int(task_specific_prompt_emb.shape[2]))
-            task_specific_prompt_emb_ = model_AE(task_specific_prompt_emb_)
-            task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
-
-
+            task_specific_prompt_emb = torch.stack([self.task_specific_prompt_emb]*int(data["inputx"].shape[0]))
 
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
+        #elif prompt_emb_output == "prompt_AE":
         else:
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 
@@ -172,14 +177,20 @@ class projectPromptRoberta(nn.Module):
         print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
         print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
 
+
         print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
         print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
 
+        print("==============")
+        print("==============")
+        exit()
         '''
 
-        #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
-        score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1),mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1)], dim=1)
-
+        '''
+        if config.get("data", "train_dataset_type") == "IMDB":
+            #sentiment
+            #mo_dict={"positive":22173,"negative":33407}
+            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1)], dim=1)
         '''
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
             #sentiment
@@ -220,15 +231,15 @@ class projectPromptRoberta(nn.Module):
             #mask_logits:torch.Size([16, 50265])
             #mo_dict={"yes":10932,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        '''
+
 
 
 
         loss = self.criterion(score, data["label"])
-        #if config.get("data", "train_dataset_type") == "STSB":
-        #    acc_result = pearson(score, data['label'], acc_result)
-        #else:
-        acc_result = acc(score, data['label'], acc_result)
+        if config.get("data", "train_dataset_type") == "STSB":
+            acc_result = pearson(score, data['label'], acc_result)
+        else:
+            acc_result = acc(score, data['label'], acc_result)
 
         if prompt_emb_output == True:
             return {'loss': loss, 'acc_result': acc_result}, prompt_emb, data['label']
@@ -237,6 +248,16 @@ class projectPromptRoberta(nn.Module):
 
 
 def acc(score, label, acc_result):
+    '''
+    print("========")
+    print("========")
+    print(label)
+    print(score)
+    #print(predict)
+    print("========")
+    print("========")
+    exit()
+    '''
     if acc_result is None:
         acc_result = {'total': 0, 'right': 0}
     predict = torch.max(score, dim = 1)[1]

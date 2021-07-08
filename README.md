@@ -20,6 +20,12 @@ bash train.sh
 ```
 
 
+#### Valid
+```
+bash valid.sh
+```
+
+
 #### Extract Prompt Embedding
 ```
 bash create_prompt_emb.sh

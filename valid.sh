@@ -4,23 +4,16 @@ gpus=5
 #SST
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    --checkpoint /data3/private/suyusheng/prompt/prompt/model/SST2PromptRoberta/1.pkl \
-    #--result /data3/private/suyusheng/prompt/prompt/model/SST2PromptRoberta_result \
-    #--data_type eval \
-    #--local_rank \
-    #--do_test \
-    #--comment \
-    #--seed
-
+    --checkpoint model/SST2PromptRoberta/15.pkl \
 
 
 #RTE
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint /data3/private/suyusheng/prompt/prompt/model/RTE_BERT/1.pkl \
+    --checkpoint model/RTE_BERT/15.pkl \
 
 
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
     --gpu $gpus \
-    --checkpoint /data3/private/suyusheng/prompt/prompt/model/REPrompt/15.pkl \
+    --checkpoint model/REPrompt/15.pkl \
