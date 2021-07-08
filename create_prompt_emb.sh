@@ -1,6 +1,5 @@
 #rm -rf task_prompt_emb/*
 
-'''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
 read ans
 
@@ -11,7 +10,6 @@ else
     echo "Do not rewrite"
     #exit
 fi
-'''
 
 
 gpus=2
