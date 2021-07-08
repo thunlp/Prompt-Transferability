@@ -14,7 +14,7 @@ model/WNLIPromptRoberta*
 model/laptopPromptRoberta*
 model/restaurantPromptRoberta*
 model/IMDBPromptRoberta*
-model/projectPromptRoberta*
+model/projectPromptRoberta/*
 
 
 /RobertaForMaskedLM
