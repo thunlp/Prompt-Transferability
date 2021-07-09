@@ -80,6 +80,25 @@ class AE(nn.Module):
 
 
 
+def recovered_AE(input=None, out_features=None):
+
+    ##################
+    #######AE training
+    ##################
+
+
+    PATH="model/projectPromptRoberta/15_model_AE.pkl"
+    load_model = torch.load(PATH).to("cuda")
+    load_model.eval()
+
+    recovered_prompt_emb = load_model(input.to("cuda"))
+    print(recovered_prompt_emb.shape)
+    #exit()
+    recovered_prompt_emb = recovered_prompt_emb.reshape(12,100,768)
+
+    return recovered_prompt_emb
+
+
 
 def trained_AE(input=None, out_features=None):
 
@@ -88,10 +107,9 @@ def trained_AE(input=None, out_features=None):
     ##################
 
 
-
     PATH="model/projectPromptRoberta/15_model_AE.pkl"
     #load_model = AE(input_shape=int(all_prompt_emb.shape[-1]),out_features=dim)
-    load_model = torch.load(PATH).to("cpu")
+    load_model = torch.load(PATH).to("cuda")
     load_model.eval()
 
     #print(input.shape)
@@ -99,7 +117,8 @@ def trained_AE(input=None, out_features=None):
     #print(input.shape)
     #exit()
 
-    compressed_prompt_emb = load_model.encoder(input.to("cpu"))
+    compressed_prompt_emb = load_model.encoder(input.to("cuda"))
+    compressed_prompt_emb = compressed_prompt_emb.to("cpu")
 
     return compressed_prompt_emb
 
@@ -180,7 +199,7 @@ def PCA_svd(X=None, k=None, center=True):
     #H = H.cuda()
     X_center =  torch.mm(H.double(), X.double())
     u, s, v = torch.svd(X_center)
-    components  = v[:k].t()
+    components = v[:k].t()
     s_2 = s*s
     print("Compression rate: {}% ".format( int(torch.sqrt(s_2[:k].sum()/s_2.sum())*100) ) )
     #exit()
@@ -445,6 +464,36 @@ print("===================")
 ##3D or 2D
 dim=3
 #compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
+
+################
+################
+################
+print("encoder-decoder rep")
+recovered_prompt_emb = recovered_AE(input=all_prompt_emb,out_features=dim)
+print(recovered_prompt_emb.shape)
+#task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
+for k, v in task_map.items():
+    if v=="laptop" or v=="restaurant":
+        pass
+    else:
+        v = v.upper()
+    dir_pro = "task_prompt_emb/"+str(v)+"PromptRoberta_proj"
+    try:
+        os.mkdir(dir_pro)
+    except:
+        print("Exist dir:", dir_pro)
+        pass
+
+    dir_pro = "task_prompt_emb/"+str(v)+"PromptRoberta_proj/task_prompt"
+
+    os.remove(dir_pro)
+    torch.save(recovered_prompt_emb[k], dir_pro)
+print("Done")
+exit()
+################
+################
+################
+
 
 ################
 print("Using trained AE model")

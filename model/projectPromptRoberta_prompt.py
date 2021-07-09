@@ -14,42 +14,12 @@ tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 def load_task_prompt(file_name):
     path="task_prompt_emb"
-    task_prompt_emb = torch.load(path+"/"+file_name+"/task_prompt")
-
-    return task_prompt_emb
-
-    '''
-    choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
-    name_list = list()
-    task_prompt_dict=dict()
-    task_prompt_ten=list()
-    path="./task_prompt_emb"
-    files = os.listdir(path)
-    for file in files:
-        task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-        name = str(file.strip().split("P")[0]).lower()
-        if name=="mr" or name=="qq":
-            name+="p"
-        #if name not in choosed_tasks:
-        #    continue
-
-        #print(task_prompt_emb.shape)
-        #print(name)
-        name_list.append(name)
-        task_prompt_dict[name] = task_prompt_emb
-    #print(name_list)
-    name_list.sort()
-    #print(name_list)
-    name_dict = {id:n for id,n in enumerate(name_list)}
-    print(name_dict)
+    task_prompt_emb = torch.load(path+"/"+file_name+"_proj"+"/task_prompt")
+    #task_prompt_emb = torch.load(path+"/"+file_name+"/task_prompt")
+    print(task_prompt_emb.shape)
     #exit()
 
-    for id, name in name_dict.items():
-        task_prompt_ten.append(task_prompt_dict[name])
-    task_prompt_ten = torch.stack(task_prompt_ten)
-
-    return task_prompt_ten
-    '''
+    return task_prompt_emb
 
 
 class projectPromptRoberta_prompt(nn.Module):
@@ -245,6 +215,7 @@ class projectPromptRoberta_prompt(nn.Module):
             return {'loss': loss, 'acc_result': acc_result}, prompt_emb, data['label']
         else:
             return {'loss': loss, 'acc_result': acc_result}
+
 
 
 def acc(score, label, acc_result):

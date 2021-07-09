@@ -174,6 +174,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
         ###
 
         total_len = len(dataset)
+        #print(dataset[])
 
         if total_len < 10000 and epoch_num==trained_epoch:
             more = "\t"

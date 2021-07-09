@@ -128,6 +128,17 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
             gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                     "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
 
+        ###save result
+        try:
+            dataset_name = config.get("output","model_name")
+            dir_save = "result/"+str(dataset_name)
+            os.mkdir(dir_save)
+        except:
+            print("Path exists:",dir_save)
+
+        with open(dir_save+"/"+"result.json", "w") as f:
+            json.dump(output_info, f)
+
         #writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)
 
     #model.train()

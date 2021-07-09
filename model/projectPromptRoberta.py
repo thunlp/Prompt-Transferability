@@ -20,6 +20,8 @@ def load_task_prompt():
     path="./task_prompt_emb"
     files = os.listdir(path)
     for file in files:
+        if "proj" in file:
+            continue
         task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
         name = str(file.strip().split("P")[0]).lower()
         if name=="mr" or name=="qq":
@@ -39,8 +41,8 @@ def load_task_prompt():
     #exit()
 
     for id, name in name_dict.items():
-        task_prompt_ten.append(task_prompt_dict[name])
-    task_prompt_ten = torch.stack(task_prompt_ten)
+        task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
+    task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
 
     return task_prompt_ten
 
