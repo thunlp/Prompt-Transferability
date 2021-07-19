@@ -17,41 +17,42 @@ import torch.optim as optim
 logger = logging.getLogger(__name__)
 
 
-
 class AE(nn.Module):
     def __init__(self, **kwargs):
+        #super().__init__()
         super(AE, self).__init__()
         self.encoder = nn.Linear(
-            in_features=kwargs["input_dim"], out_features=kwargs["compress_dim"]
+            in_features=kwargs["input_dim"], out_features=int(kwargs["input_dim"]/64)
+        )
+        self.encoder_1 = nn.Linear(
+            in_features=int(kwargs["input_dim"]/64), out_features=kwargs["compress_dim"]
         )
         '''
-        self.encoder_hidden_layer = nn.Linear(
-            in_features=kwargs["input_shape"], out_features=76800
-        )
         self.encoder_output_layer = nn.Linear(
             in_features=76800, out_features=2
         )
         '''
         self.decoder = nn.Linear(
-            in_features=kwargs["compress_dim"], out_features=kwargs["input_dim"]
+            in_features=kwargs["compress_dim"], out_features=int(kwargs["input_dim"]/64)
+        )
+        self.decoder_1 = nn.Linear(
+            in_features=int(kwargs["input_dim"]/64), out_features=kwargs["input_dim"]
         )
         '''
-        self.decoder_hidden_layer = nn.Linear(
-            in_features=2, out_features=76800
-        )
         self.decoder_output_layer = nn.Linear(
             in_features=76800, out_features=kwargs["input_shape"]
         )
         '''
-
-        # mean-squared error loss
         self.criterion = nn.CrossEntropyLoss()
 
     def encoding(self, features):
-        return self.encoder(features)
+        mid = torch.relu(self.encoder(features))
+        encoding = self.encoder_1(mid)
+        return encoding
     def decoding(self, features):
-        return self.decoder(features)
-
+        mid = torch.relu(self.decoder(features))
+        decoding = self.decoder_1(mid)
+        return decoding
     def forward(self, features):
         '''
         activation = self.encoder_hidden_layer(features)
@@ -67,6 +68,52 @@ class AE(nn.Module):
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+
+'''
+class AE(nn.Module):
+    def __init__(self, **kwargs):
+        super(AE, self).__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["input_dim"], out_features=kwargs["compress_dim"]
+        )
+        #self.encoder_hidden_layer = nn.Linear(
+        #    in_features=kwargs["input_shape"], out_features=76800
+        #)
+        #self.encoder_output_layer = nn.Linear(
+        #    in_features=76800, out_features=2
+        #)
+        self.decoder = nn.Linear(
+            in_features=kwargs["compress_dim"], out_features=kwargs["input_dim"]
+        )
+        #self.decoder_hidden_layer = nn.Linear(
+        #    in_features=2, out_features=76800
+        #)
+        #self.decoder_output_layer = nn.Linear(
+        #    in_features=76800, out_features=kwargs["input_shape"]
+        #)
+
+        # mean-squared error loss
+        self.criterion = nn.CrossEntropyLoss()
+
+    def encoding(self, features):
+        return self.encoder(features)
+    def decoding(self, features):
+        return self.decoder(features)
+
+    def forward(self, features):
+        #activation = self.encoder_hidden_layer(features)
+        #activation = torch.relu(activation)
+        #code = self.encoder_output_layer(activation)
+        #code = torch.relu(code)
+        #activation = self.decoder_hidden_layer(code)
+        #activation = torch.relu(activation)
+        #activation = self.decoder_output_layer(activation)
+        #reconstructed = torch.relu(activation)
+        #return reconstructed
+        encoded_emb = self.encoding(features)
+        decoded_emb = self.decoding(encoded_emb)
+        return decoded_emb
+'''
 
 
 
@@ -116,7 +163,18 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
 
     trained_epoch = parameters["trained_epoch"] + 1
     model = parameters["model"]
+
+
+
     optimizer = parameters["optimizer"]
+    #print("======")
+    #print(model)
+    #print("-----")
+    #print(optimizer)
+    #print(optimizer.state_dict())
+    #print("======")
+    #exit()
+
     #dataset = parameters["train_dataset"]
     global_step = parameters["global_step"]
     output_function = parameters["output_function"]

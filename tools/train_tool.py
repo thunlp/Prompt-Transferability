@@ -45,6 +45,14 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
     trained_epoch = parameters["trained_epoch"] + 1
     model = parameters["model"]
     optimizer = parameters["optimizer"]
+    #print("=====")
+    #print(model)
+    #print(model.state_dict)
+    #print("------")
+    #print(optimizer)
+    #print(optimizer.state_dict())
+    #print("=====")
+    #exit()
     dataset = parameters["train_dataset"]
     global_step = parameters["global_step"]
     output_function = parameters["output_function"]
