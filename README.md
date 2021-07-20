@@ -134,12 +134,7 @@ Performance:
 Table:
 
 ---
-- Change config files
-- Config: format_type cannot change Roberta to Bert
-
-- Change format files
-- format: support Roberta and Bert version
-
-- Check tool files
-- format: support Roberta and Bert version
-
+To Do:
+1. Try latest trained Projector
+2. project bert prompt and roberta prompt
+3. use bert prompt for roberta model (transfer)
