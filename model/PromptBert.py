@@ -45,13 +45,6 @@ class PromptBert(nn.Module):
         if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
             self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:
-            '''
-            print("=====")
-            self.encoder = BertForMaskedLM.from_pretrained("bert-base-uncased", config=self.plmconfig)
-            torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
-            print("=====")
-            exit()
-            '''
 
             self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 
@@ -112,30 +105,29 @@ class PromptBert(nn.Module):
         mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
 
 
-        '''
         print("==============")
         print("==============")
 
+        '''
         #sentiment
         #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
-        print(tokenizer.encode("positive",add_special_tokens=False)) #22173
-        #print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
-        print(tokenizer.encode("moderate",add_special_tokens=False)) #19397
-        print(tokenizer.encode("negative",add_special_tokens=False)) #33407
-        print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
+        print(tokenizer.encode("positive",add_special_tokens=False)) #[3893]
+        print(tokenizer.encode("neutral",add_special_tokens=False)) #[8699]
+        print(tokenizer.encode("moderate",add_special_tokens=False)) #[8777]
+        print(tokenizer.encode("negative",add_special_tokens=False)) #[4997]
+        print(tokenizer.encode("conflict",add_special_tokens=False)) #[4736]
 
         #NLI
-        print(tokenizer.convert_ids_to_tokens([10932])) #['yes']
-        print(tokenizer.convert_ids_to_tokens([12516])) #['neutral']
-        print(tokenizer.convert_ids_to_tokens([2362])) #['no']
+        print(tokenizer.encode("yes",add_special_tokens=False)) # [2748]
+        print(tokenizer.encode("no",add_special_tokens=False)) # [2053]
 
         #paraphrase
-        print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
-        print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
+        print(tokenizer.encode("true",add_special_tokens=False)) #[2995]
+        print(tokenizer.encode("false",add_special_tokens=False)) #[6270]
 
 
-        print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
-        print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
+        print(tokenizer.encode("right",add_special_tokens=False)) #[2157]
+        print(tokenizer.encode("wrong",add_special_tokens=False)) #[3308]
 
         print("==============")
         print("==============")
@@ -151,42 +143,51 @@ class PromptBert(nn.Module):
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
-            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
+            #mo_dict={"positive":3893,"moderate":8777,"negative":4997,"conflict":4736}
+            score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:, 8777].unsqueeze(1), mask_logits[:, 3893].unsqueeze(1), mask_logits[:,4736].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB":
             #sentiment
             #mo_dict={"positive":22173,"negative":33407}
-            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:,22173].unsqueeze(1)], dim=1)
+            #mo_dict={"positive":3893,"negative":4997}
+            score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:,3893].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "MNLI":
             #NLI
             #mo_dict={"yes":10932,"neutral":12516,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            #mo_dict={"yes":2748,"neutral":8699,"no":2053}
+            score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 8699].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "RTE":
             #NLI
             #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            #mo_dict={"yes":2748,"no":2053}
+            score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "WNLI":
             #NLI
             #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            #mo_dict={"yes":2748,"no":2053}
+            score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "QNLI":
             #NLI
             #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            #mo_dict={"yes":2748,"no":2053}
+            score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "MRPC":
             #paraphrase
             #mo_dict={"true":29225,"false":22303}
-            score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
+            #mo_dict={"true":2995,"false":6270}
+            score = torch.cat([mask_logits[:, 6270].unsqueeze(1), mask_logits[:,2995].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "QQP":
             #paraphrase
             #mo_dict={"true":29225,"false":22303}
-            score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
+            #mo_dict={"true":2995,"false":6270}
+            score = torch.cat([mask_logits[:, 6270].unsqueeze(1), mask_logits[:,2995].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "STSB":
             score = mask_logits[:, 10932]
         else:
             #Other
             #mask_logits:torch.Size([16, 50265])
             #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            #mo_dict={"yes":2748,"no":2053}
+            score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
 
 
 
