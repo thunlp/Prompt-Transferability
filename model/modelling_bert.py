@@ -1051,10 +1051,8 @@ class BertModel(BertPreTrainedModel):
 
         if kwargs["prompt_emb_output"] == True:
             embedding_output, prompt_emb = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds, prompt_emb_output=True)
-
         elif kwargs["prompt_emb_output"] == "replace_task_specific_prompt_emb":
             embedding_output = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds, prompt_emb_output="replace_task_specific_prompt_emb", task_specific_prompt_emb=kwargs["task_specific_prompt_emb"])
-
         else:
             embedding_output = self.embeddings(input_ids=input_ids, position_ids=position_ids, token_type_ids=token_type_ids, inputs_embeds=inputs_embeds)
 
@@ -1437,6 +1435,7 @@ class BertForMaskedLM(BertPreTrainedModel):
                 output_attentions=output_attentions,
                 output_hidden_states=output_hidden_states,
                 return_dict=return_dict,
+                prompt_emb_output=prompt_emb_output
             )
 
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
@@ -1469,6 +1468,7 @@ class BertForMaskedLM(BertPreTrainedModel):
                 output_attentions=output_attentions,
                 output_hidden_states=output_hidden_states,
                 return_dict=return_dict,
+                prompt_emb_output=prompt_emb_output
             )
 
 

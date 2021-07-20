@@ -9,7 +9,7 @@ gpus=7
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptBert/15.pkl \
+    --checkpoint model/restaurantPromptBert/1.pkl \
 
 
 '''
