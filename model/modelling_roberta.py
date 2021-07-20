@@ -968,15 +968,6 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         **kwargs
     ):
 
-        #print("===========")
-        #print("===========")
-        #print("===========")
-        #exit()
-
-        #print("=========")
-        #print(kwargs)
-        #print("=========")
-        #exit()
         r"""
         labels (:obj:`torch.LongTensor` of shape :obj:`(batch_size, sequence_length)`, `optional`):
             Labels for computing the masked language modeling loss.
@@ -997,12 +988,6 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
         #assert kwargs == {}, f"Unexpected keyword arguments: {list(kwargs.keys())}."
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
-        #print(input_ids)
-        #print(input_ids.shape)
-        #print(input_ids[0])
-
-        #print(kwargs["prompt_emb_output"])
-        #exit()
 
 
         if prompt_emb_output == True:

@@ -20,10 +20,13 @@ model/projectPromptRoberta_1layer*
 mode/projectorPromptRoberta*
 
 
+/BertForMaskedLM
+/BertLargeForMaskedLM
 /RobertaForMaskedLM
 /RobertaLargeForMaskedLM
 /task_prompt_emb
 /tensorboard
+/bert-base-uncased
 
 ../CSS-LM
 ../GCAE

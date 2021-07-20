@@ -133,3 +133,13 @@ Performance:
 
 Table:
 
+---
+- Change config files
+- Config: format_type cannot change Roberta to Bert
+
+- Change format files
+- format: support Roberta and Bert version
+
+- Check tool files
+- format: support Roberta and Bert version
+

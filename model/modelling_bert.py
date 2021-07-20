@@ -54,7 +54,7 @@ from transformers.modeling_utils import (
     prune_linear_layer,
 )
 from transformers.utils import logging
-#from .configuration_bert import BertConfig
+from transformers import BertConfig
 
 
 logger = logging.get_logger(__name__)
@@ -186,7 +186,12 @@ class BertEmbeddings(nn.Module):
                 torch.zeros(self.position_ids.size(), dtype=torch.long, device=self.position_ids.device),
                 persistent=False,
             )
-
+        ####
+        # End copy
+        self.padding_idx = config.pad_token_id
+        self.position_embeddings = nn.Embedding(
+            config.max_position_embeddings, config.hidden_size, padding_idx=self.padding_idx
+        )
         ####
         self.prompt_embeddings = nn.Embedding(100, 768)
 
@@ -195,8 +200,7 @@ class BertEmbeddings(nn.Module):
         self.prompt_embeddings.weight.data = prompt_weights
         print("init_prompt_done, check_if_requires_grad")
 
-    def forward(
-        self, input_ids=None, token_type_ids=None, position_ids=None, inputs_embeds=None, inputs_embeds=None, **kwargs):
+    def forward(self, input_ids=None, token_type_ids=None, position_ids=None, inputs_embeds=None, **kwargs):
 
         if position_ids is None:
             #position_ids = self.position_ids[:, past_key_values_length : seq_length + past_key_values_length]
@@ -274,6 +278,22 @@ class BertEmbeddings(nn.Module):
                 return embeddings
         else:
             return embeddings
+
+
+    def create_position_ids_from_inputs_embeds(self, inputs_embeds):
+        """We are provided embeddings directly. We cannot infer which are padded so just generate
+        sequential position ids.
+
+        :param torch.Tensor inputs_embeds:
+        :return torch.Tensor:
+        """
+        input_shape = inputs_embeds.size()[:-1]
+        sequence_length = input_shape[1]
+
+        position_ids = torch.arange(
+            self.padding_idx + 1, sequence_length + self.padding_idx + 1, dtype=torch.long, device=inputs_embeds.device
+        )
+        return position_ids.unsqueeze(0).expand(input_shape)
 
 
 
@@ -937,6 +957,7 @@ class BertModel(BertPreTrainedModel):
         output_attentions=None,
         output_hidden_states=None,
         return_dict=None,
+        **kwargs
     ):
         r"""
         encoder_hidden_states  (:obj:`torch.FloatTensor` of shape :obj:`(batch_size, sequence_length, hidden_size)`, `optional`):
@@ -1917,4 +1938,18 @@ class BertForQuestionAnswering(BertPreTrainedModel):
             hidden_states=outputs.hidden_states,
             attentions=outputs.attentions,
         )
+
+
+def create_position_ids_from_input_ids(input_ids, padding_idx):
+    """Replace non-padding symbols with their position numbers. Position numbers begin at
+    padding_idx+1. Padding symbols are ignored. This is modified from fairseq's
+    `utils.make_positions`.
+
+    :param torch.Tensor x:
+    :return torch.Tensor:
+    """
+    # The series of casts and type-conversions here are carefully balanced to both work with ONNX export and XLA.
+    mask = input_ids.ne(padding_idx).int() #* (input_ids >= 0).int()
+    incremental_indices = torch.cumsum(mask, dim=1).type_as(mask) * mask
+    return (incremental_indices.long() + padding_idx)# * (input_ids >= 0).int()
 
