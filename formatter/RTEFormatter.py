@@ -10,12 +10,22 @@ class RTEFormatter(BasicFormatter):
         self.mode = mode
         self.max_len = config.getint("train", "max_len")
         self.mode = mode
-        self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        ##########
+        self.model_name = config.get("model","model_name")
+        if "Roberta" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        elif "Bert" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        else:
+            print("Have no matching in the formatter")
+            exit()
+        #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        ##########
         self.label2id = {
             "not_entailment": 0,
             "entailment": 1,
         }
-    
+
     def truncate(self, sent1, sent2):
         while len(sent1) + len(sent2) > self.max_len - 3:
             if len(sent1) > len(sent2):

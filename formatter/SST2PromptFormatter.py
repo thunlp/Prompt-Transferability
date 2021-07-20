@@ -11,8 +11,17 @@ class SST2PromptFormatter(BasicFormatter):
         self.max_len = config.getint("train", "max_len")
         self.prompt_len = config.getint("prompt", "prompt_len")
         self.mode = mode
-        self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
-
+        ##########
+        self.model_name = config.get("model","model_name")
+        if "Roberta" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        elif "Bert" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        else:
+            print("Have no matching in the formatter")
+            exit()
+        #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        ##########
     def process(self, data, config, mode, *args, **params):
         inputx = []
         mask = []

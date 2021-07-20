@@ -10,9 +10,19 @@ class WikiREFormatter(BasicFormatter):
         self.mode = mode
         self.max_len = config.getint("train", "max_len")
         self.mode = mode
-        self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        ##########
+        self.model_name = config.get("model","model_name")
+        if "Roberta" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        elif "Bert" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        else:
+            print("Have no matching in the formatter")
+            exit()
+        #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        ##########
         self.labelinfo = json.load(open(config.get("data", "label_info"), "r"))
-    
+
     def sent2token(self, ins):
         ents = [(head[0], head[-1] + 1, 'head') for head in ins["h"][2]] + [(tail[0], tail[-1] + 1, 'tail') for tail in ins["t"][2]]
         ents.sort()

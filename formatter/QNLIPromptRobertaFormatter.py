@@ -12,7 +12,17 @@ class QNLIPromptRobertaFormatter(BasicFormatter):
         self.prompt_len = config.getint("prompt", "prompt_len")
         self.prompt_num = config.getint("prompt", "prompt_num")
         self.mode = mode
-        self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        ##########
+        self.model_name = config.get("model","model_name")
+        if "Roberta" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        elif "Bert" in self.model_name:
+            self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        else:
+            print("Have no matching in the formatter")
+            exit()
+        #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+        ##########
         self.prompt_prefix = [- (i + 1) for i in range(self.prompt_len)]
         # self.prompt_middle = [- (i + 1 + self.prompt_len) for i in range(self.prompt_len)]
 

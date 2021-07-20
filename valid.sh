@@ -2,6 +2,15 @@
 
 gpus=7
 
+
+
+#################################################
+#################################################
+##################Roberta########################
+#################################################
+#################################################
+
+'''
 ############
 #Sentiment
 ############
@@ -70,18 +79,18 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
     --checkpoint model/WNLIPromptRoberta/15.pkl \
 
 
+'''
 
 ############
 #RE
 ############
-'''
 #RE
-CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WikiREDPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/REPrompt/15.pkl \
+    --checkpoint model/REPromptRoberta/15.pkl \
+
+
 '''
-
-
 ############
 #Other
 ############
@@ -92,15 +101,111 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/QNLIPromptRoberta/15.pkl \
 
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
+
 '''
 
+#################################################
+#################################################
+##################Bert###########################
+#################################################
+#################################################
 
 
 
+############
+#Sentiment
+############
+
+#restaurant
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/restaurantPromptBert/15.pkl \
+
+
+
+#laptop
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/laptopPromptBert/15.pkl \
+
+
+#IMDB
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/IMDBPromptBert/15.pkl \
+
+
+#SST-2
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/SST2PromptBert/15.pkl \
+
+
+
+############
+#Paraphrase
+############
+
+#MRPC
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MRPCPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/MRPCPromptBert/15.pkl \
+
+#QQP
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/QQPPromptBert/15.pkl \
+
+
+############
+#NLI
+############
+
+#RTE
+#Remove prompts between two sentences
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/RTEPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/RTEPromptBert/15.pkl \
+
+#MNLI
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MNLIPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/MNLIPromptBert/15.pkl \
+
+
+
+#WNLI
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/WNLIPromptBert/15.pkl \
+
+
+
+############
+#RE
+############
+#RE
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WikiREDPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/REPromptBert/15.pkl \
+
+
+############
+#Other
+############
+
+
+#QNLI
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/QNLIPromptBert/15.pkl \
+
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/STSBPromptBert/15.pkl \
 
 
 
