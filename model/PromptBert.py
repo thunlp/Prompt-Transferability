@@ -104,11 +104,10 @@ class PromptBert(nn.Module):
 
         mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
 
-
-        print("==============")
-        print("==============")
-
         '''
+        print("==============")
+        print("==============")
+
         #sentiment
         #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
         print(tokenizer.encode("positive",add_special_tokens=False)) #[3893]

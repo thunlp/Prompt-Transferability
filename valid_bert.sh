@@ -7,12 +7,12 @@ gpus=7
 ############
 
 #restaurant
-CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta/15.pkl \
+    --checkpoint model/restaurantPromptBert/15.pkl \
 
 
-
+'''
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
@@ -74,12 +74,10 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
 ############
 #RE
 ############
-'''
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
     --gpu $gpus \
     --checkpoint model/REPrompt/15.pkl \
-'''
 
 
 ############
@@ -92,7 +90,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/QNLIPromptRoberta/15.pkl \
 
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \

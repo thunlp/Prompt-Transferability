@@ -1,5 +1,5 @@
 mkdir BertForMaskedLM
-gpus=1
+gpus=0
 
 ############
 #Sentiment

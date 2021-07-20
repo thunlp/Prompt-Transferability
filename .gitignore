@@ -20,13 +20,33 @@ model/projectPromptRoberta_1layer*
 mode/projectorPromptRoberta*
 
 
-/BertForMaskedLM
-/BertLargeForMaskedLM
+model/SST2PromptBert*
+model/REPrompt*
+model/MNLIPromptBert*
+model/MRPCPromptBert*
+model/QNLIPromptBert*
+model/QQPPromptBert*
+model/RTEPromptBert*
+model/STSBPromptBert*
+model/WNLIPromptBert*
+model/laptopPromptBert*
+model/restaurantPromptBert*
+model/IMDBPromptBert*
+model/projectPromptBert*
+model/projectPromptBert_1layer*
+mode/projectorPromptBert*
+
+
+
+
 /RobertaForMaskedLM
 /RobertaLargeForMaskedLM
 /task_prompt_emb
 /tensorboard
+
 /bert-base-uncased
+/BertForMaskedLM
+/BertLargeForMaskedLM
 
 ../CSS-LM
 ../GCAE

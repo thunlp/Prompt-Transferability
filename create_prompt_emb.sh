@@ -1,5 +1,6 @@
 #rm -rf task_prompt_emb/*
 
+'''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
 read ans
 
@@ -10,16 +11,16 @@ else
     echo "Do not rewrite"
     #exit
 fi
+'''
 
 
-gpus=2
+gpus=5
 #CUDA_VISIBLE_DEVICES=$gpus
 ############
 #Sentiment Classification
 ############
-
 '''
-#restaurant
+#IMDB
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
@@ -39,7 +40,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/laptopPromptRoberta
     --gpu $gpus \
     --checkpoint model/laptopPromptRoberta/15.pkl \
     --return_or_save save
-'''
 
 #SST
 rm -rf task_prompt_emb/SST2PromptRoberta
@@ -130,4 +130,15 @@ rm -rf task_prompt_emb/STSBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
+    --return_or_save save
+'''
+
+
+
+
+#restaurant
+rm -rf task_prompt_emb/restaurantPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/restaurantPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/restaurantPromptBert/1.pkl \
     --return_or_save save
