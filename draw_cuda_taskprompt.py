@@ -29,28 +29,29 @@ import glob
 
 #####
 
+
 class AE(nn.Module):
     def __init__(self, **kwargs):
         #super().__init__()
         super(AE, self).__init__()
         self.encoder = nn.Linear(
-            in_features=kwargs["input_shape"], out_features=kwargs["out_features"]
+            in_features=kwargs["input_shape"], out_features=int(kwargs["input_shape"]/64)
+        )
+        self.encoder_1 = nn.Linear(
+            in_features=int(kwargs["input_shape"]/64), out_features=kwargs["out_features"]
         )
         '''
-        self.encoder_hidden_layer = nn.Linear(
-            in_features=kwargs["input_shape"], out_features=76800
-        )
         self.encoder_output_layer = nn.Linear(
             in_features=76800, out_features=2
         )
         '''
         self.decoder = nn.Linear(
-            in_features=kwargs["out_features"], out_features=kwargs["input_shape"]
+            in_features=kwargs["out_features"], out_features=int(kwargs["input_shape"]/64)
+        )
+        self.decoder_1 = nn.Linear(
+            in_features=int(kwargs["input_shape"]/64), out_features=kwargs["input_shape"]
         )
         '''
-        self.decoder_hidden_layer = nn.Linear(
-            in_features=2, out_features=76800
-        )
         self.decoder_output_layer = nn.Linear(
             in_features=76800, out_features=kwargs["input_shape"]
         )
@@ -58,9 +59,13 @@ class AE(nn.Module):
         self.criterion = nn.CrossEntropyLoss()
 
     def encoding(self, features):
-        return self.encoder(features)
+        mid = torch.relu(self.encoder(features))
+        encoding = self.encoder_1(mid)
+        return encoding
     def decoding(self, features):
-        return self.decoder(features)
+        mid = torch.relu(self.decoder(features))
+        decoding = self.decoder_1(mid)
+        return decoding
     def forward(self, features):
         '''
         activation = self.encoder_hidden_layer(features)
@@ -78,6 +83,51 @@ class AE(nn.Module):
         return decoded_emb
 
 
+'''
+class AE(nn.Module):
+    def __init__(self, **kwargs):
+        #super().__init__()
+        super(AE, self).__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["input_shape"], out_features=kwargs["out_features"]
+        )
+        #self.encoder_hidden_layer = nn.Linear(
+        #    in_features=kwargs["input_shape"], out_features=76800
+        #)
+        #self.encoder_output_layer = nn.Linear(
+        #    in_features=76800, out_features=2
+        #)
+        self.decoder = nn.Linear(
+            in_features=kwargs["out_features"], out_features=kwargs["input_shape"]
+        )
+        #self.decoder_hidden_layer = nn.Linear(
+        #    in_features=2, out_features=76800
+        #)
+        #self.decoder_output_layer = nn.Linear(
+        #    in_features=76800, out_features=kwargs["input_shape"]
+        #)
+        self.criterion = nn.CrossEntropyLoss()
+
+    def encoding(self, features):
+        return self.encoder(features)
+    def decoding(self, features):
+        return self.decoder(features)
+    def forward(self, features):
+        #activation = self.encoder_hidden_layer(features)
+        #activation = torch.relu(activation)
+        #code = self.encoder_output_layer(activation)
+        #code = torch.relu(code)
+        #activation = self.decoder_hidden_layer(code)
+        #activation = torch.relu(activation)
+        #activation = self.decoder_output_layer(activation)
+        #reconstructed = torch.relu(activation)
+        #return reconstructed
+        encoded_emb = self.encoding(features)
+        decoded_emb = self.decoding(encoded_emb)
+        return decoded_emb
+'''
+
+
 
 
 def recovered_AE(input=None, out_features=None):
@@ -87,7 +137,7 @@ def recovered_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/15_model_AE.pkl"
+    PATH="model/projectPromptRoberta/99_model_AE.pkl"
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
 
@@ -410,38 +460,38 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 #task_map={0:"sst2",1:"rte",2:"re"}
 
 #0
-sst2_label_ten = torch.zeros(int(sst2_ten.shape[0]),dtype=torch.int32)
+sst2_label_ten = torch.zeros(int(sst2_ten.shape[0]),dtype=torch.int64)
 #1
-rte_label_ten = torch.ones(int(rte_ten.shape[0]),dtype=torch.int32)
+rte_label_ten = torch.ones(int(rte_ten.shape[0]),dtype=torch.int64)
 #2
-re_label_ten = torch.ones(int(re_ten.shape[0]),dtype=torch.int32)
+re_label_ten = torch.ones(int(re_ten.shape[0]),dtype=torch.int64)
 re_label_ten[re_label_ten==1]=2
 #3
-MNLI_label_ten = torch.ones(int(MNLI_ten.shape[0]),dtype=torch.int32)
+MNLI_label_ten = torch.ones(int(MNLI_ten.shape[0]),dtype=torch.int64)
 MNLI_label_ten[MNLI_label_ten==1]=3
 #4
-MRPC_label_ten = torch.ones(int(MRPC_ten.shape[0]),dtype=torch.int32)
+MRPC_label_ten = torch.ones(int(MRPC_ten.shape[0]),dtype=torch.int64)
 MRPC_label_ten[MRPC_label_ten==1]=4
 #5
-QNLI_label_ten = torch.ones(int(QNLI_ten.shape[0]),dtype=torch.int32)
+QNLI_label_ten = torch.ones(int(QNLI_ten.shape[0]),dtype=torch.int64)
 QNLI_label_ten[QNLI_label_ten==1]=5
 #6
-QQP_label_ten = torch.ones(int(QQP_ten.shape[0]),dtype=torch.int32)
+QQP_label_ten = torch.ones(int(QQP_ten.shape[0]),dtype=torch.int64)
 QQP_label_ten[QQP_label_ten==1]=6
 #7
-WNLI_label_ten = torch.ones(int(WNLI_ten.shape[0]),dtype=torch.int32)
+WNLI_label_ten = torch.ones(int(WNLI_ten.shape[0]),dtype=torch.int64)
 WNLI_label_ten[WNLI_label_ten==1]=7
 #8
-STSB_label_ten = torch.ones(int(STSB_ten.shape[0]),dtype=torch.int32)
+STSB_label_ten = torch.ones(int(STSB_ten.shape[0]),dtype=torch.int64)
 STSB_label_ten[STSB_label_ten==1]=8
 #9
-laptop_label_ten = torch.ones(int(laptop_ten.shape[0]),dtype=torch.int32)
+laptop_label_ten = torch.ones(int(laptop_ten.shape[0]),dtype=torch.int64)
 laptop_label_ten[laptop_label_ten==1]=9
 #10
-restaurant_label_ten = torch.ones(int(restaurant_ten.shape[0]),dtype=torch.int32)
+restaurant_label_ten = torch.ones(int(restaurant_ten.shape[0]),dtype=torch.int64)
 restaurant_label_ten[restaurant_label_ten==1]=10
 #11
-IMDB_label_ten = torch.ones(int(IMDB_ten.shape[0]),dtype=torch.int32)
+IMDB_label_ten = torch.ones(int(IMDB_ten.shape[0]),dtype=torch.int64)
 IMDB_label_ten[IMDB_label_ten==1]=11
 
 #print(sst2_label_ten.shape)
@@ -523,7 +573,7 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 #task_map={0:"sst2",1:"re",2:"laptop",3:"restaurant",4:"IMDB"}
 
 #color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",6:"#CB6D51",7:"#556B2F",8:"STSB",9:"#4863A0",10:"#151B8D"}
-color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#32CD32",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}
+color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#64CD64",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}
 
 
 blocked_list = []

@@ -36,6 +36,22 @@ bash create_prompt_emb.sh
 rank_task_sim.py
 ```
 
+### train.py
+```
+Generate prompt for each task
+```
+
+### train projector.py
+```
+Train an AE
+```
+
+### valid projector prompt.py
+```
+Compare original prompt with compressed prompt
+```
+
+
 
 
 To-Do
@@ -83,18 +99,18 @@ Domain:
 Imagine:
 
 Task base:
-
+(AE)
 ![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
 ![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 
 
 Domain base:
-
+(AE)
 ![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
 
 
 Demo random combination:
-
+(AE)
 ![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
 
 

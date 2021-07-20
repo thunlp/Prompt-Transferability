@@ -145,21 +145,6 @@ class RobertaEmbeddings(nn.Module):
         if inputs_embeds is None:
             word_embeds = self.word_embeddings(input_ids * (input_ids >= 0).int()) * (input_ids >= 0).int().unsqueeze(2)
             prompt_ids = - (input_ids + 1)
-            # print("prompt_ids")
-            # print(prompt_ids.tolist()[0])
-            # print("input_ids")
-            # print(input_ids.tolist()[0])
-            # print("=" * 20)
-
-            #[8,383]
-            ########show prompt ids
-            '''
-            print(prompt_ids[0])
-            print(prompt_ids.shape)
-            print("-------")
-            print((prompt_ids * (prompt_ids >= 0).int())[0])
-            exit()
-            '''
             ########
             if "prompt_emb_output" in kwargs:
                 if kwargs['prompt_emb_output']=="replace_task_specific_prompt_emb":
@@ -171,8 +156,6 @@ class RobertaEmbeddings(nn.Module):
             else:
                 prompt_emb = self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
 
-            #print(prompt_emb.shape)
-            #exit()
 
 
             #print(word_embeds.shape) #([8, 383, 768])
@@ -183,6 +166,7 @@ class RobertaEmbeddings(nn.Module):
 
         position_embeddings = self.position_embeddings(position_ids)
         token_type_embeddings = self.token_type_embeddings(token_type_ids)
+
 
         embeddings = inputs_embeds + position_embeddings + token_type_embeddings
         embeddings = self.LayerNorm(embeddings)
@@ -1085,12 +1069,9 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
 
         masked_lm_loss = None
         if labels is not None:
-            #print(111111111111111)
             loss_fct = CrossEntropyLoss()
 
             masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.view(-1))
-            #print(2222222222222222)
-            #exit()
 
         if not return_dict:
             output = (prediction_scores,) + outputs[2:]

@@ -11,6 +11,8 @@ from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 from .modelling_roberta import RobertaForMaskedLM
 tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
+#{0: 'imdb', 1: 'laptop', 2: 'mnli', 3: 'mrp', 4: 'qnli', 5: 'qqp', 6: 're', 7: 'restaurant', 8: 'rte', 9: 'sst2', 10: 'stsb', 11: 'wnli'}
+
 def load_task_prompt():
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
     choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
@@ -37,7 +39,7 @@ def load_task_prompt():
     name_list.sort()
     #print(name_list)
     name_dict = {id:n for id,n in enumerate(name_list)}
-    print(name_dict)
+    #print(name_dict)
     #exit()
 
     for id, name in name_dict.items():
@@ -124,6 +126,9 @@ class projectPromptRoberta(nn.Module):
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
 
+            #print("===============")
+            #print(data["task_name"])
+            #exit()
 
             task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
             model_AE = kwargs["AE"]
