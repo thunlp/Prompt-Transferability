@@ -6,6 +6,7 @@ from model.optimizer import init_optimizer
 from .output_init import init_output_function
 from torch import nn
 from transformers import AutoTokenizer
+import string
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +83,53 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         else:
             model.load_state_dict(parameters["model"])
 
+        #############
+        #print("===")
+        #print(model)
+        #print("===")
+        #for param_tensor in model.state_dict():
+        #    print(param_tensor)
+        #print("!!!")
+        #print(model.state_dict()["encoder.bert.embeddings.prompt_embeddings.weight"])
+        #print("!!!")
+        #exit()
+
+        #Roberta or Bert
+        name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
+        present_config = params["args"].config
+        #Donnot change prompt
+        if name_of_model_prompt in present_config:
+            pass
+        else:
+            #Change prompt
+            load_task_prompt_dir = params["args"].checkpoint.strip().split("/")[1]
+
+            if "Roberta" in params["args"].checkpoint:
+                #Replace Roberta with Bert
+                load_task_prompt_dir = load_task_prompt_dir.replace("Roberta",name_of_model_prompt)
+                load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
+            elif "Bert" in params["args"].checkpoint:
+                #Replace Bert with Roberta
+                load_task_prompt_dir = load_task_prompt_dir.replace("Bert",name_of_model_prompt)
+                load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
+            else:
+                print("Error")
+                exit()
+
+            prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir))
+            #print(load_task_prompt_dir)
+            #print("-------")
+            #print(prompt_emb)
+            #print("-------")
+            #print(model.state_dict()["encoder.bert.embeddings.prompt_embeddings.weight"].shape)
+            #print(model.encoder.bert.embeddings.prompt_embeddings.weight)
+            #print("======")
+            model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
+            #print(model.encoder.bert.embeddings.prompt_embeddings.weight)
+            #exit()
+        #############
+
+
         if mode == "train":
             trained_epoch = parameters["trained_epoch"]
             if config.get("train", "optimizer") == parameters["optimizer_name"]:
@@ -93,12 +141,17 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 global_step = parameters["global_step"]
 
     except Exception as e:
+        exit()
+
         information = "Cannot load checkpoint file with error %s" % str(e)
         if mode == "test":
             logger.error(information)
             raise e
         else:
             logger.warning(information)
+
+
+
 
     result["model"] = model
     if mode == "train":
