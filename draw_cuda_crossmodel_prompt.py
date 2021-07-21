@@ -483,7 +483,8 @@ IMDB_label_ten_B[IMDB_label_ten_B==1]=23
 
 
 #all_prompt_emb = torch.stack([laptop_ten,restaurant_ten,IMDB_ten,laptop_ten_B,restaurant_ten_B,IMDB_ten_B])
-all_prompt_emb = torch.stack([laptop_ten,restaurant_ten,IMDB_ten])
+#all_prompt_emb = torch.stack([laptop_ten,restaurant_ten,IMDB_ten])
+all_prompt_emb = torch.stack([laptop_ten_B,restaurant_ten_B,IMDB_ten_B])
 
 #100%
 ###
@@ -492,7 +493,8 @@ all_prompt_emb = torch.stack([laptop_ten,restaurant_ten,IMDB_ten])
 #all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten,sst2_label_ten_B,rte_label_ten_B,re_label_ten_B,MNLI_label_ten_B,MRPC_label_ten_B,QNLI_label_ten_B,QQP_label_ten_B,WNLI_label_ten_B,STSB_label_ten_B,laptop_label_ten_B,restaurant_label_ten_B,IMDB_label_ten_B])
 
 #all_label = torch.stack([laptop_label_ten,restaurant_label_ten,IMDB_label_ten,laptop_label_ten_B,restaurant_label_ten_B,IMDB_label_ten_B])
-all_label = torch.stack([laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
+#all_label = torch.stack([laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
+all_label = torch.stack([laptop_label_ten_B,restaurant_label_ten_B,IMDB_label_ten_B])
 
 
 print("===================")
@@ -526,7 +528,8 @@ all_label = all_label.to("cpu").numpy()
 #task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB",12:"sst2_B",13:"rte_B",14:"re_B",15:"MNLI_B",16:"MRPC_B",17:"QNLI_B",18:"QQP_B",19:"WNLI_B",20:"STSB_B",21:"laptop_B",22:"restaurant_B",23:"IMDB_B"}
 
 #task_map={0:"laptop",1:"restaurant",2:"IMDB",3:"laptop_B",4:"restaurant_B",5:"IMDB_B"}
-task_map={0:"laptop",1:"restaurant",2:"IMDB"}
+#task_map={0:"laptop",1:"restaurant",2:"IMDB"}
+task_map={0:"laptopi_B",1:"restaurant_B",2:"IMDB_B"}
 
 ###
 #task_map={0:"sst2",1:"re",2:"laptop",3:"restaurant",4:"IMDB"}
@@ -537,7 +540,9 @@ task_map={0:"laptop",1:"restaurant",2:"IMDB"}
 
 #color_map={0:"#186A3B",1:"#1D8348",2:"#239B56",3:"#F1948A",4:"#D98880",5:"#E6B0AA"}
 
-color_map={0:"#186A3B",1:"#1D8348",2:"#239B56"}
+#color_map={0:"#186A3B",1:"#1D8348",2:"#239B56"}
+color_map={0:"#F1948A",1:"#D98880",2:"#E6B0AA"}
+
 
 
 blocked_list = []
