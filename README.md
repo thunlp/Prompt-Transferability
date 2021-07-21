@@ -100,18 +100,18 @@ Imagine:
 
 Task base:
 (AE)
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 
 
 Domain base:
 (AE)
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
 
 
 Demo random combination:
 (AE)
-![TSNE](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
 
 
 ---
@@ -141,4 +141,4 @@ To Do:
 2. project bert prompt and roberta prompt
 3. use bert prompt for roberta model (transfer)
 ---
-![BERT_and_ROBERTA](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)
