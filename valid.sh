@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=7
+gpus=5
 
 
 
@@ -79,7 +79,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
     --checkpoint model/WNLIPromptRoberta/15.pkl \
 
 
-'''
 
 ############
 #RE
@@ -90,7 +89,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WikiREDPromptRoberta
     --checkpoint model/REPromptRoberta/15.pkl \
 
 
-'''
 ############
 #Other
 ############
@@ -130,6 +128,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptBert.config \
     --gpu $gpus \
     --checkpoint model/laptopPromptBert/15.pkl \
+
+
 
 
 #IMDB

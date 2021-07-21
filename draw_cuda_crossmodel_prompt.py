@@ -30,216 +30,6 @@ import glob
 #####
 
 
-class AE(nn.Module):
-    def __init__(self, **kwargs):
-        #super().__init__()
-        super(AE, self).__init__()
-        self.encoder = nn.Linear(
-            in_features=kwargs["input_shape"], out_features=int(kwargs["input_shape"]/64)
-        )
-        self.encoder_1 = nn.Linear(
-            in_features=int(kwargs["input_shape"]/64), out_features=kwargs["out_features"]
-        )
-        '''
-        self.encoder_output_layer = nn.Linear(
-            in_features=76800, out_features=2
-        )
-        '''
-        self.decoder = nn.Linear(
-            in_features=kwargs["out_features"], out_features=int(kwargs["input_shape"]/64)
-        )
-        self.decoder_1 = nn.Linear(
-            in_features=int(kwargs["input_shape"]/64), out_features=kwargs["input_shape"]
-        )
-        '''
-        self.decoder_output_layer = nn.Linear(
-            in_features=76800, out_features=kwargs["input_shape"]
-        )
-        '''
-        self.criterion = nn.CrossEntropyLoss()
-
-    def encoding(self, features):
-        mid = torch.relu(self.encoder(features))
-        encoding = self.encoder_1(mid)
-        return encoding
-    def decoding(self, features):
-        mid = torch.relu(self.decoder(features))
-        decoding = self.decoder_1(mid)
-        return decoding
-    def forward(self, features):
-        '''
-        activation = self.encoder_hidden_layer(features)
-        activation = torch.relu(activation)
-        code = self.encoder_output_layer(activation)
-        code = torch.relu(code)
-        activation = self.decoder_hidden_layer(code)
-        activation = torch.relu(activation)
-        activation = self.decoder_output_layer(activation)
-        reconstructed = torch.relu(activation)
-        return reconstructed
-        '''
-        encoded_emb = self.encoding(features)
-        decoded_emb = self.decoding(encoded_emb)
-        return decoded_emb
-
-
-'''
-class AE(nn.Module):
-    def __init__(self, **kwargs):
-        #super().__init__()
-        super(AE, self).__init__()
-        self.encoder = nn.Linear(
-            in_features=kwargs["input_shape"], out_features=kwargs["out_features"]
-        )
-        #self.encoder_hidden_layer = nn.Linear(
-        #    in_features=kwargs["input_shape"], out_features=76800
-        #)
-        #self.encoder_output_layer = nn.Linear(
-        #    in_features=76800, out_features=2
-        #)
-        self.decoder = nn.Linear(
-            in_features=kwargs["out_features"], out_features=kwargs["input_shape"]
-        )
-        #self.decoder_hidden_layer = nn.Linear(
-        #    in_features=2, out_features=76800
-        #)
-        #self.decoder_output_layer = nn.Linear(
-        #    in_features=76800, out_features=kwargs["input_shape"]
-        #)
-        self.criterion = nn.CrossEntropyLoss()
-
-    def encoding(self, features):
-        return self.encoder(features)
-    def decoding(self, features):
-        return self.decoder(features)
-    def forward(self, features):
-        #activation = self.encoder_hidden_layer(features)
-        #activation = torch.relu(activation)
-        #code = self.encoder_output_layer(activation)
-        #code = torch.relu(code)
-        #activation = self.decoder_hidden_layer(code)
-        #activation = torch.relu(activation)
-        #activation = self.decoder_output_layer(activation)
-        #reconstructed = torch.relu(activation)
-        #return reconstructed
-        encoded_emb = self.encoding(features)
-        decoded_emb = self.decoding(encoded_emb)
-        return decoded_emb
-'''
-
-
-
-
-def recovered_AE(input=None, out_features=None):
-
-    ##################
-    #######AE training
-    ##################
-
-
-    PATH="model/projectPromptRoberta/99_model_AE.pkl"
-    load_model = torch.load(PATH).to("cuda")
-    load_model.eval()
-
-    recovered_prompt_emb = load_model(input.to("cuda"))
-    print(recovered_prompt_emb.shape)
-    #exit()
-    recovered_prompt_emb = recovered_prompt_emb.reshape(12,100,768)
-
-    return recovered_prompt_emb
-
-
-
-def trained_AE(input=None, out_features=None):
-
-    ##################
-    #######AE training
-    ##################
-
-
-    PATH="model/projectPromptRoberta/15_model_AE.pkl"
-    #load_model = AE(input_shape=int(all_prompt_emb.shape[-1]),out_features=dim)
-    load_model = torch.load(PATH).to("cuda")
-    load_model.eval()
-
-    #print(input.shape)
-    #input = input.view(-1, int(input.shape[-1])).to("cpu")
-    #print(input.shape)
-    #exit()
-
-    compressed_prompt_emb = load_model.encoder(input.to("cuda"))
-    compressed_prompt_emb = compressed_prompt_emb.to("cpu")
-
-    return compressed_prompt_emb
-
-
-
-
-def train_AE(input=None, out_features=None):
-
-    ##################
-    #######AE training
-    ##################
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    # create a model from `AE` autoencoder class
-    # load it to the specified device, either gpu or cpu
-    model = AE(input_shape=int(input.shape[-1]),out_features=out_features).to(device)
-
-    # create an optimizer object
-    # Adam optimizer with learning rate 1e-3
-    optimizer = optim.Adam(model.parameters(), lr=1e-3)
-
-    # mean-squared error loss
-    criterion = nn.MSELoss()
-
-    epochs=10
-    iterations=100
-    model.train()
-    for epoch in range(epochs):
-        loss = 0
-        #for batch_features, _ in train_loader:
-        for iter in range(iterations):
-            # reshape mini-batch data to [N, 784] matrix
-            # load it to the active device
-            batch_features = all_prompt_emb.view(-1, int(input.shape[-1])).to(device)
-
-            # reset the gradients back to zero
-            # PyTorch accumulates gradients on subsequent backward passes
-            optimizer.zero_grad()
-
-            # compute reconstructions
-            outputs = model(batch_features)
-
-            # compute training reconstruction loss
-            train_loss = criterion(outputs, batch_features)
-
-            # compute accumulated gradients
-            train_loss.backward()
-
-            # perform parameter update based on current gradients
-            optimizer.step()
-
-            # add the mini-batch training loss to epoch loss
-            loss += train_loss.item()
-
-        # compute the epoch training loss
-        #loss = loss / len(train_loader)
-        loss = loss / iterations
-
-        # display the epoch training loss
-        print("epoch : {}/{}, loss = {:.6f}".format(epoch + 1, epochs, loss))
-
-    ##################
-    #######AE Inference
-    ##################
-    model.eval().to('cpu')
-    compressed_prompt_emb = model.encoder(all_prompt_emb)
-    print(compressed_prompt_emb.shape)
-    return compressed_prompt_emb
-
-
-
 def PCA_svd(X=None, k=None, center=True):
     #############original##############
     n = X.size()[0]
@@ -324,6 +114,9 @@ IMDB_ten = torch.load(path).view(76800)
 print(IMDB_ten.shape)
 #IMDB_ten = torch.stack([IMDB_ten for i in range(200)])
 #print(IMDB_ten.shape)
+
+print(11111111)
+exit()
 
 
 #SST2
@@ -451,9 +244,151 @@ print(STSB_ten.shape)
 
 
 
-###########################
-###########################
-###########################
+
+####################################################
+####################################################
+
+
+
+#IMDB
+IMDB_ten = list()
+path="task_prompt_emb/IMDBPromptBert/task_prompt"
+IMDB_ten = torch.load(path).view(76800)
+print(IMDB_ten.shape)
+#IMDB_ten = torch.stack([IMDB_ten for i in range(200)])
+#print(IMDB_ten.shape)
+
+
+#SST2
+sst2_ten = list()
+path="task_prompt_emb/SST2PromptBert/task_prompt"
+sst2_ten = torch.load(path).view(76800)
+print(sst2_ten.shape)
+#sst2_ten = torch.stack([sst2_ten for i in range(200)])
+#print(sst2_ten.shape)
+
+
+#laptop
+laptop_ten = list()
+laptop_ten = list()
+path="task_prompt_emb/laptopPromptBert/task_prompt"
+laptop_ten = torch.load(path).view(76800)
+print(laptop_ten.shape)
+#laptop_ten = torch.stack([laptop_ten for i in range(200)])
+#print(laptop_ten.shape)
+
+
+#restaurant
+restaurant_ten = list()
+restaurant_ten = list()
+path="task_prompt_emb/restaurantPromptBert/task_prompt"
+restaurant_ten = torch.load(path).view(76800)
+print(restaurant_ten.shape)
+#restaurant_ten = torch.stack([restaurant_ten for i in range(200)])
+#print(restaurant_ten.shape)
+
+#############
+#############
+
+
+#RTE
+rte_ten = list()
+path="task_prompt_emb/RTEPromptBert/task_prompt"
+rte_ten = torch.load(path).view(76800)
+print(rte_ten.shape)
+#rte_ten = torch.stack([rte_ten for i in range(200)])
+#print(rte_ten.shape)
+
+
+#MNLI
+MNLI_ten = list()
+MNLI_ten = list()
+path="task_prompt_emb/MNLIPromptBert/task_prompt"
+MNLI_ten = torch.load(path).view(76800)
+print(MNLI_ten.shape)
+#MNLI_ten = torch.stack([MNLI_ten for i in range(200)])
+#print(MNLI_ten.shape)
+
+
+
+#WNLI
+WNLI_ten = list()
+WNLI_ten = list()
+path="task_prompt_emb/WNLIPromptBert/task_prompt"
+WNLI_ten = torch.load(path).view(76800)
+print(WNLI_ten.shape)
+#WNLI_ten = torch.stack([WNLI_ten for i in range(200)])
+#print(WNLI_ten.shape)
+
+
+################
+#Paraphrase
+################
+
+#MRPC
+MRPC_ten = list()
+MRPC_ten = list()
+path="task_prompt_emb/MRPCPromptBert/task_prompt"
+MRPC_ten = torch.load(path).view(76800)
+print(MRPC_ten.shape)
+#MRPC_ten = torch.stack([MRPC_ten for i in range(200)])
+#print(MRPC_ten.shape)
+
+
+#QQP
+QQP_ten = list()
+QQP_ten = list()
+path="task_prompt_emb/QQPPromptBert/task_prompt"
+QQP_ten = torch.load(path).view(76800)
+print(QQP_ten.shape)
+#QQP_ten = torch.stack([QQP_ten for i in range(200)])
+#print(QQP_ten.shape)
+
+
+################
+#RE
+################
+#RE
+re_ten = list()
+path="task_prompt_emb/REPrompt/task_prompt"
+re_ten = torch.load(path).view(76800)
+print(re_ten.shape)
+#re_ten = torch.stack([re_ten for i in range(200)])
+#print(re_ten.shape)
+
+
+################
+#Other
+################
+
+
+#QNLI
+QNLI_ten = list()
+QNLI_ten = list()
+path="task_prompt_emb/QNLIPromptBert/task_prompt"
+QNLI_ten = torch.load(path).view(76800)
+print(QNLI_ten.shape)
+#QNLI_ten = torch.stack([QNLI_ten for i in range(200)])
+#print(QNLI_ten.shape)
+
+
+
+#STSB
+STSB_ten = list()
+STSB_ten = list()
+path="task_prompt_emb/STSBPromptBert/task_prompt"
+STSB_ten = torch.load(path).view(76800)
+print(STSB_ten.shape)
+#STSB_ten = torch.stack([STSB_ten for i in range(200)])
+#print(STSB_ten.shape)
+
+
+
+
+
+######################################################
+######################################################
+######################################################
 
 task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
 
@@ -514,43 +449,9 @@ print("===================")
 ##3D or 2D
 dim=3
 #compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
-
-################
-################
-################
-print("encoder-decoder rep")
-recovered_prompt_emb = recovered_AE(input=all_prompt_emb,out_features=dim)
-print(recovered_prompt_emb.shape)
-#task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
-for k, v in task_map.items():
-    if v=="laptop" or v=="restaurant":
-        pass
-    else:
-        v = v.upper()
-    dir_pro = "task_prompt_emb/"+str(v)+"PromptRoberta_proj"
-    try:
-        os.mkdir(dir_pro)
-    except:
-        print("Exist dir:", dir_pro)
-        pass
-
-    dir_pro = "task_prompt_emb/"+str(v)+"PromptRoberta_proj/task_prompt"
-
-    os.remove(dir_pro)
-    torch.save(recovered_prompt_emb[k], dir_pro)
-print("Done")
-exit()
-################
-################
-################
-
-
-################
-print("Using trained AE model")
-compressed_prompt_emb = trained_AE(input=all_prompt_emb,out_features=dim)
 #################
 
-#compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
+compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
 
 #all: 92%
@@ -686,7 +587,7 @@ elif dim == 3:
 #plt.legend(loc="upper left")
 #plt.title("Task Prompt Dist")
 #plt.savefig('output.pdf')
-plt.savefig('output.jpg')
+plt.savefig('roberta_bert_prompt.jpg')
 #plt.savefig('exp_results/SENTIMENT.jpg')
 #plt.savefig('exp_results/NLI.jpg')
 #plt.savefig('exp_results/domain.jpg')

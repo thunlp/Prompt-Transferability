@@ -1,5 +1,7 @@
 #rm -rf task_prompt_emb/*
 
+gpus=5
+
 '''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
 read ans
@@ -14,12 +16,10 @@ fi
 '''
 
 
-gpus=5
 #CUDA_VISIBLE_DEVICES=$gpus
 ############
 #Sentiment Classification
 ############
-'''
 #IMDB
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptRoberta.config \
@@ -131,14 +131,125 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptRoberta.c
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
     --return_or_save save
-'''
 
 
+####################################
+############Bert####################
+####################################
 
+#CUDA_VISIBLE_DEVICES=$gpus
+############
+#Sentiment Classification
+############
+#IMDB
+rm -rf task_prompt_emb/IMDBPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/IMDBPromptBert/15.pkl \
+    --return_or_save save
 
 #restaurant
 rm -rf task_prompt_emb/restaurantPromptBert
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptBert/1.pkl \
+    --checkpoint model/restaurantPromptBert/15.pkl \
     --return_or_save save
+
+#laptop
+rm -rf task_prompt_emb/laptopPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/laptopPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/laptopPromptBert/15.pkl \
+    --return_or_save save
+
+#SST
+rm -rf task_prompt_emb/SST2PromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/SST2PromptBert/15.pkl \
+    --return_or_save save
+    #--result /data3/private/suyusheng/prompt/prompt/model/SST2PromptBert_result \
+    #--data_type eval \
+    #--local_rank \
+    #--do_test \
+    #--comment \
+    #--seed
+
+############
+#NLI
+############
+
+#RTE
+rm -rf task_prompt_emb/RTEPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/RTEPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/RTEPromptBert/15.pkl \
+    --return_or_save save
+
+#MNLI
+rm -rf task_prompt_emb/MNLIPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MNLIPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/MNLIPromptBert/15.pkl \
+    --return_or_save save
+
+#WNLI
+rm -rf task_prompt_emb/WNLIPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/WNLIPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/WNLIPromptBert/15.pkl \
+    --return_or_save save
+
+############
+#Paraphrase
+############
+
+#MRPC
+rm -rf task_prompt_emb/MRPCPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MRPCPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/MRPCPromptBert/15.pkl \
+    --return_or_save save
+
+
+#QQP
+rm -rf task_prompt_emb/QQPPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QQPPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/QQPPromptBert/15.pkl \
+    --return_or_save save
+
+
+
+
+############
+#RE
+############
+#RE
+rm -rf task_prompt_emb/REPrompt
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/REPrompt.config \
+    --gpu $gpus \
+    --checkpoint model/REPrompt/15.pkl \
+
+
+
+
+
+############
+#Other
+############
+#QNLI
+rm -rf task_prompt_emb/QNLIPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QNLIPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/QNLIPromptBert/15.pkl \
+    --return_or_save save
+
+
+#STSB
+rm -rf task_prompt_emb/STSBPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/STSBPromptBert/15.pkl \
+    --return_or_save save
+
