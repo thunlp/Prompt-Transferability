@@ -138,3 +138,5 @@ To Do:
 1. Try latest trained Projector
 2. project bert prompt and roberta prompt
 3. use bert prompt for roberta model (transfer)
+---
+![BERT_and_ROBERTA](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)

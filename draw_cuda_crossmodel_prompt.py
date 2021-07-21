@@ -115,8 +115,6 @@ print(IMDB_ten.shape)
 #IMDB_ten = torch.stack([IMDB_ten for i in range(200)])
 #print(IMDB_ten.shape)
 
-print(11111111)
-exit()
 
 
 #SST2
@@ -245,80 +243,79 @@ print(STSB_ten.shape)
 
 
 
-####################################################
-####################################################
-
+########################################################
+######################BERT##############################
+########################################################
 
 
 #IMDB
-IMDB_ten = list()
+IMDB_ten_B = list()
 path="task_prompt_emb/IMDBPromptBert/task_prompt"
-IMDB_ten = torch.load(path).view(76800)
-print(IMDB_ten.shape)
-#IMDB_ten = torch.stack([IMDB_ten for i in range(200)])
-#print(IMDB_ten.shape)
+IMDB_ten_B = torch.load(path).view(76800)
+print(IMDB_ten_B.shape)
+#IMDB_ten_B = torch.stack([IMDB_ten_B for i in range(200)])
+#print(IMDB_ten_B.shape)
 
 
+'''
 #SST2
-sst2_ten = list()
+sst2_ten_B = list()
 path="task_prompt_emb/SST2PromptBert/task_prompt"
-sst2_ten = torch.load(path).view(76800)
-print(sst2_ten.shape)
-#sst2_ten = torch.stack([sst2_ten for i in range(200)])
-#print(sst2_ten.shape)
+sst2_ten_B = torch.load(path).view(76800)
+print(sst2_ten_B.shape)
+#sst2_ten_B = torch.stack([sst2_ten_B for i in range(200)])
+#print(sst2_ten_B.shape)
+'''
 
 
 #laptop
-laptop_ten = list()
-laptop_ten = list()
+laptop_ten_B = list()
 path="task_prompt_emb/laptopPromptBert/task_prompt"
-laptop_ten = torch.load(path).view(76800)
-print(laptop_ten.shape)
-#laptop_ten = torch.stack([laptop_ten for i in range(200)])
-#print(laptop_ten.shape)
+laptop_ten_B = torch.load(path).view(76800)
+print(laptop_ten_B.shape)
+#laptop_ten_B = torch.stack([laptop_ten_B for i in range(200)])
+#print(laptop_ten_B.shape)
 
 
 #restaurant
-restaurant_ten = list()
-restaurant_ten = list()
+restaurant_ten_B = list()
 path="task_prompt_emb/restaurantPromptBert/task_prompt"
-restaurant_ten = torch.load(path).view(76800)
-print(restaurant_ten.shape)
-#restaurant_ten = torch.stack([restaurant_ten for i in range(200)])
-#print(restaurant_ten.shape)
+restaurant_ten_B = torch.load(path).view(76800)
+print(restaurant_ten_B.shape)
+#restaurant_ten_B = torch.stack([restaurant_ten_B for i in range(200)])
+#print(restaurant_ten_B.shape)
 
 #############
 #############
 
 
+'''
 #RTE
-rte_ten = list()
+rte_ten_B = list()
 path="task_prompt_emb/RTEPromptBert/task_prompt"
-rte_ten = torch.load(path).view(76800)
-print(rte_ten.shape)
-#rte_ten = torch.stack([rte_ten for i in range(200)])
-#print(rte_ten.shape)
+rte_ten_B = torch.load(path).view(76800)
+print(rte_ten_B.shape)
+#rte_ten_B = torch.stack([rte_ten_B for i in range(200)])
+#print(rte_ten_B.shape)
 
 
 #MNLI
-MNLI_ten = list()
-MNLI_ten = list()
+MNLI_ten_B = list()
 path="task_prompt_emb/MNLIPromptBert/task_prompt"
-MNLI_ten = torch.load(path).view(76800)
-print(MNLI_ten.shape)
-#MNLI_ten = torch.stack([MNLI_ten for i in range(200)])
-#print(MNLI_ten.shape)
+MNLI_ten_B = torch.load(path).view(76800)
+print(MNLI_ten_B.shape)
+#MNLI_ten_B = torch.stack([MNLI_ten_B for i in range(200)])
+#print(MNLI_ten_B.shape)
 
 
 
 #WNLI
-WNLI_ten = list()
-WNLI_ten = list()
+WNLI_ten_B = list()
 path="task_prompt_emb/WNLIPromptBert/task_prompt"
-WNLI_ten = torch.load(path).view(76800)
-print(WNLI_ten.shape)
-#WNLI_ten = torch.stack([WNLI_ten for i in range(200)])
-#print(WNLI_ten.shape)
+WNLI_ten_B = torch.load(path).view(76800)
+print(WNLI_ten_B.shape)
+#WNLI_ten_B = torch.stack([WNLI_ten_B for i in range(200)])
+#print(WNLI_ten_B.shape)
 
 
 ################
@@ -326,35 +323,34 @@ print(WNLI_ten.shape)
 ################
 
 #MRPC
-MRPC_ten = list()
-MRPC_ten = list()
+MRPC_ten_B = list()
+MRPC_ten_B = list()
 path="task_prompt_emb/MRPCPromptBert/task_prompt"
-MRPC_ten = torch.load(path).view(76800)
-print(MRPC_ten.shape)
-#MRPC_ten = torch.stack([MRPC_ten for i in range(200)])
-#print(MRPC_ten.shape)
+MRPC_ten_B = torch.load(path).view(76800)
+print(MRPC_ten_B.shape)
+#MRPC_ten_B = torch.stack([MRPC_ten_B for i in range(200)])
+#print(MRPC_ten_B.shape)
 
 
 #QQP
-QQP_ten = list()
-QQP_ten = list()
+QQP_ten_B = list()
 path="task_prompt_emb/QQPPromptBert/task_prompt"
-QQP_ten = torch.load(path).view(76800)
-print(QQP_ten.shape)
-#QQP_ten = torch.stack([QQP_ten for i in range(200)])
-#print(QQP_ten.shape)
+QQP_ten_B = torch.load(path).view(76800)
+print(QQP_ten_B.shape)
+#QQP_ten_B = torch.stack([QQP_ten_B for i in range(200)])
+#print(QQP_ten_B.shape)
 
 
 ################
 #RE
 ################
 #RE
-re_ten = list()
+re_ten_B = list()
 path="task_prompt_emb/REPrompt/task_prompt"
-re_ten = torch.load(path).view(76800)
-print(re_ten.shape)
-#re_ten = torch.stack([re_ten for i in range(200)])
-#print(re_ten.shape)
+re_ten_B = torch.load(path).view(76800)
+print(re_ten_B.shape)
+#re_ten_B = torch.stack([re_ten_B for i in range(200)])
+#print(re_ten_B.shape)
 
 
 ################
@@ -363,24 +359,23 @@ print(re_ten.shape)
 
 
 #QNLI
-QNLI_ten = list()
-QNLI_ten = list()
+QNLI_ten_B = list()
 path="task_prompt_emb/QNLIPromptBert/task_prompt"
-QNLI_ten = torch.load(path).view(76800)
-print(QNLI_ten.shape)
-#QNLI_ten = torch.stack([QNLI_ten for i in range(200)])
-#print(QNLI_ten.shape)
+QNLI_ten_B = torch.load(path).view(76800)
+print(QNLI_ten_B.shape)
+#QNLI_ten_B = torch.stack([QNLI_ten_B for i in range(200)])
+#print(QNLI_ten_B.shape)
 
 
 
 #STSB
-STSB_ten = list()
-STSB_ten = list()
+STSB_ten_B = list()
 path="task_prompt_emb/STSBPromptBert/task_prompt"
-STSB_ten = torch.load(path).view(76800)
-print(STSB_ten.shape)
-#STSB_ten = torch.stack([STSB_ten for i in range(200)])
-#print(STSB_ten.shape)
+STSB_ten_B = torch.load(path).view(76800)
+print(STSB_ten_B.shape)
+#STSB_ten_B = torch.stack([STSB_ten_B for i in range(200)])
+#print(STSB_ten_B.shape)
+'''
 
 
 
@@ -390,7 +385,9 @@ print(STSB_ten.shape)
 ######################################################
 ######################################################
 
-task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
+#task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
+
+task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB",12:"sst2_B",13:"rte_B",14:"re_B",15:"MNLI_B",16:"MRPC_B",17:"QNLI_B",18:"QQP_B",19:"WNLI_B",20:"STSB_B",21:"laptop_B",22:"restaurant_B",23:"IMDB_B"}
 
 #task_map={0:"sst2",1:"rte",2:"re"}
 
@@ -429,18 +426,70 @@ restaurant_label_ten[restaurant_label_ten==1]=10
 IMDB_label_ten = torch.ones(int(IMDB_ten.shape[0]),dtype=torch.int64)
 IMDB_label_ten[IMDB_label_ten==1]=11
 
+################################################
+################################################
+
+'''
+#12
+sst2_label_ten_B = torch.ones(int(sst2_ten_B.shape[0]),dtype=torch.int64)
+sst2_label_ten_B[sst2_label_ten_B==1]=12
+#13
+rte_label_ten_B = torch.ones(int(rte_ten_B.shape[0]),dtype=torch.int64)
+rte_label_ten_B[rte_label_ten_B==1]=13
+#14
+re_label_ten_B = torch.ones(int(re_ten_B.shape[0]),dtype=torch.int64)
+re_label_ten_B[re_label_ten_B==1]=14
+#15
+MNLI_label_ten_B = torch.ones(int(MNLI_ten_B.shape[0]),dtype=torch.int64)
+MNLI_label_ten_B[MNLI_label_ten_B==1]=15
+#16
+MRPC_label_ten_B = torch.ones(int(MRPC_ten_B.shape[0]),dtype=torch.int64)
+MRPC_label_ten_B[MRPC_label_ten_B==1]=16
+#17
+QNLI_label_ten_B = torch.ones(int(QNLI_ten_B.shape[0]),dtype=torch.int64)
+QNLI_label_ten_B[QNLI_label_ten_B==1]=17
+#18
+QQP_label_ten_B = torch.ones(int(QQP_ten_B.shape[0]),dtype=torch.int64)
+QQP_label_ten_B[QQP_label_ten_B==1]=18
+#19
+WNLI_label_ten_B = torch.ones(int(WNLI_ten_B.shape[0]),dtype=torch.int64)
+WNLI_label_ten_B[WNLI_label_ten_B==1]=19
+#20
+STSB_label_ten_B = torch.ones(int(STSB_ten_B.shape[0]),dtype=torch.int64)
+STSB_label_ten_B[STSB_label_ten_B==1]=20
+'''
+#21
+laptop_label_ten_B = torch.ones(int(laptop_ten_B.shape[0]),dtype=torch.int64)
+laptop_label_ten_B[laptop_label_ten_B==1]=21
+#22
+restaurant_label_ten_B = torch.ones(int(restaurant_ten_B.shape[0]),dtype=torch.int64)
+restaurant_label_ten_B[restaurant_label_ten_B==1]=22
+#23
+IMDB_label_ten_B = torch.ones(int(IMDB_ten_B.shape[0]),dtype=torch.int64)
+IMDB_label_ten_B[IMDB_label_ten_B==1]=23
+
+
+
+
 #print(sst2_label_ten.shape)
 #print(rte_label_ten.shape)
 #print(re_label_ten.shape)
 
 #92%
-all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
+#all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
+
+#all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten,sst2_ten_B,rte_ten_B,re_ten_B,MNLI_ten_B,MRPC_ten_B,QNLI_ten_B,QQP_ten_B,WNLI_ten_B,STSB_ten_B,laptop_ten_B,restaurant_ten_B,IMDB_ten_B])
+
+
+all_prompt_emb = torch.stack([laptop_ten,restaurant_ten,IMDB_ten,laptop_ten_B,restaurant_ten_B,IMDB_ten_B])
+
 #100%
 ###
 #all_prompt_emb = torch.stack([sst2_ten,re_ten,laptop_ten,restaurant_ten,IMDB_ten])
 
+#all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten,sst2_label_ten_B,rte_label_ten_B,re_label_ten_B,MNLI_label_ten_B,MRPC_label_ten_B,QNLI_label_ten_B,QQP_label_ten_B,WNLI_label_ten_B,STSB_label_ten_B,laptop_label_ten_B,restaurant_label_ten_B,IMDB_label_ten_B])
 
-all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
+all_label = torch.stack([laptop_label_ten,restaurant_label_ten,IMDB_label_ten,laptop_label_ten_B,restaurant_label_ten_B,IMDB_label_ten_B])
 
 
 print("===================")
@@ -469,12 +518,19 @@ all_label = all_label.to("cpu").numpy()
 
 #color table: https://www.computerhope.com/htmcolor.htm#color-codes
 
-task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
+#task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
+
+#task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB",12:"sst2_B",13:"rte_B",14:"re_B",15:"MNLI_B",16:"MRPC_B",17:"QNLI_B",18:"QQP_B",19:"WNLI_B",20:"STSB_B",21:"laptop_B",22:"restaurant_B",23:"IMDB_B"}
+
+task_map={0:"laptop",1:"restaurant",2:"IMDB",3:"laptop_B",4:"restaurant_B",5:"IMDB_B"}
+
 ###
 #task_map={0:"sst2",1:"re",2:"laptop",3:"restaurant",4:"IMDB"}
 
 #color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"QNLI",6:"#CB6D51",7:"#556B2F",8:"STSB",9:"#4863A0",10:"#151B8D"}
-color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#64CD64",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}
+
+#color_map={0:"#186A3B",1:"#1D8348",2:"#239B56",3:"#28B463",4:"#145A32",5:"#196F3D",6:"#1E8449",7:"#229954",8:"#0B5345 ",9:"#0E6655",10:"#117A65",11:"#CD6155",12:"#C0392B",13:"#A93226",14:"#922B21",15:"#7B241C",16:"#943126",17:"#B03A2E",18:"#CB4335",19:"#E74C3C",20:"#EC7063",21:"#F1948A",22:"#D98880",23:"#E6B0AA"}
+color_map={0:"#186A3B",1:"#1D8348",2:"#239B56",3:"#F1948A",4:"#D98880",5:"#E6B0AA"}
 
 
 blocked_list = []
