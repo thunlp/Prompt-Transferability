@@ -483,7 +483,7 @@ IMDB_label_ten_B[IMDB_label_ten_B==1]=23
 
 
 #all_prompt_emb = torch.stack([laptop_ten,restaurant_ten,IMDB_ten,laptop_ten_B,restaurant_ten_B,IMDB_ten_B])
-all_prompt_emb = torch.stack([laptop_ten,restaurant_ten])
+all_prompt_emb = torch.stack([laptop_ten,restaurant_ten,IMDB_ten])
 
 #100%
 ###
