@@ -146,7 +146,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptRoberta.c
 rm -rf task_prompt_emb/IMDBPromptBert
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptBert/11.pkl \
+    --checkpoint model/IMDBPromptBert/15.pkl \
     --return_or_save save
 
 

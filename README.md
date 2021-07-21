@@ -141,6 +141,7 @@ To Do:
 2. project bert prompt and roberta prompt
 3. use bert prompt for roberta model (transfer)
 4. Observe: the similiar tasks have the common cluster (the task should be far different)
-5. Fix projector_prompt.py --> I can just change prompt emb in the init_tool.py.
+5. Fix projector_prompt.py --> I can just change prompt emb in the init_tool.py. (Tink: how to not use prompt_output parameter)
+6. create.py (extract prompt....think better methods)
 ---
 ![](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)

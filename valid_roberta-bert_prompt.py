@@ -34,8 +34,8 @@ if __name__ == "__main__":
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--model_prompt", type=str, default=None)
+    parser.add_argument("--save_result_name",type=str,default="roberta_bert")
     args = parser.parse_args()
-
 
     configFilePath = args.config
 
@@ -78,4 +78,6 @@ if __name__ == "__main__":
 
     model = parameters["model"]
 
-    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=True, save_name=args.config)
+
+
+    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=False, save_name=args.save_result_name)

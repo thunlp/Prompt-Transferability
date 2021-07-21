@@ -104,7 +104,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                     print("Error")
                     exit()
 
-                prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir))
+                prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir)).to("cuda")
                 model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
         else:
             pass
