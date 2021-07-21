@@ -45,8 +45,7 @@ class PromptBert(nn.Module):
         if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
             self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:
-
-            self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+            #self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 
             from distutils.dir_util import copy_tree
             copy_tree(str(str(ckp)+"/restaurantPromptBert"), self.init_model_path)
