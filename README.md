@@ -135,6 +135,8 @@ Table:
 
 ---
 To Do:
+!!!!!!!!! Rerange the order of the tensor: (and the corresponding fot on the figures)
+
 1. Try latest trained Projector
 2. project bert prompt and roberta prompt
 3. use bert prompt for roberta model (transfer)
