@@ -27,12 +27,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
-    #print("=========")
-    #print(model)
-    #print("=========")
-    #exit()
-    #print(args)
-    #print("----------")
     #print(params) #{'local_rank': -1, 'prompt_emb_output': True}
     optimizer = init_optimizer(model, config, *args, **params)
     trained_epoch = 0
@@ -76,6 +70,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             model.init_prompt_emb(init_ids)
 
 
+
     try:
         parameters = torch.load(checkpoint, map_location=lambda storage, loc: storage)
         if hasattr(model, 'module'):
@@ -83,51 +78,39 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         else:
             model.load_state_dict(parameters["model"])
 
-        #############
-        #print("===")
-        #print(model)
-        #print("===")
-        #for param_tensor in model.state_dict():
-        #    print(param_tensor)
-        #print("!!!")
-        #print(model.state_dict()["encoder.bert.embeddings.prompt_embeddings.weight"])
-        #print("!!!")
-        #exit()
-
-        #Roberta or Bert
-        name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
-        present_config = params["args"].config
-        #Donnot change prompt
-        if name_of_model_prompt in present_config:
-            pass
-        else:
-            #Change prompt
-            load_task_prompt_dir = params["args"].checkpoint.strip().split("/")[1]
-
-            if "Roberta" in params["args"].checkpoint:
-                #Replace Roberta with Bert
-                load_task_prompt_dir = load_task_prompt_dir.replace("Roberta",name_of_model_prompt)
-                load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
-            elif "Bert" in params["args"].checkpoint:
-                #Replace Bert with Roberta
-                load_task_prompt_dir = load_task_prompt_dir.replace("Bert",name_of_model_prompt)
-                load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
+        ########################
+        ####Evalid will Open####
+        ########################
+        if "args" in params:
+            #Roberta or Bert
+            name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
+            present_config = params["args"].config
+            #Donnot change prompt
+            if name_of_model_prompt in present_config:
+                pass
             else:
-                print("Error")
-                exit()
+                #Change prompt
+                load_task_prompt_dir = params["args"].checkpoint.strip().split("/")[1]
 
-            prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir))
-            #print(load_task_prompt_dir)
-            #print("-------")
-            #print(prompt_emb)
-            #print("-------")
-            #print(model.state_dict()["encoder.bert.embeddings.prompt_embeddings.weight"].shape)
-            #print(model.encoder.bert.embeddings.prompt_embeddings.weight)
-            #print("======")
-            model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
-            #print(model.encoder.bert.embeddings.prompt_embeddings.weight)
-            #exit()
-        #############
+                if "Roberta" in params["args"].checkpoint:
+                    #Replace Roberta with Bert
+                    load_task_prompt_dir = load_task_prompt_dir.replace("Roberta",name_of_model_prompt)
+                    load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
+                elif "Bert" in params["args"].checkpoint:
+                    #Replace Bert with Roberta
+                    load_task_prompt_dir = load_task_prompt_dir.replace("Bert",name_of_model_prompt)
+                    load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
+                else:
+                    print("Error")
+                    exit()
+
+                prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir))
+                model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
+        else:
+            pass
+        ########################
+        ########################
+        ########################
 
 
         if mode == "train":
@@ -141,7 +124,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 global_step = parameters["global_step"]
 
     except Exception as e:
-        exit()
 
         information = "Cannot load checkpoint file with error %s" % str(e)
         if mode == "test":

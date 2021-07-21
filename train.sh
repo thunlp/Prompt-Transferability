@@ -107,13 +107,11 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.co
 ###########BERT#################
 ################################
 
-
-
+'''
 ############
 #Sentiment
 ############
 
-'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
@@ -122,7 +120,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptBert
     #--do_test \
     #--comment \
     #--seed
-'''
 
 
 #laptop
@@ -148,20 +145,24 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptBert.confi
     #--do_test \
     #--comment \
     #--seed
-
+'''
 
 
 ############
 #Paraphrase
 ############
 
+
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptBert.config \
     --gpu $gpus \
 
+
+
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptBert.config \
     --gpu $gpus \
+
 
 
 ############
@@ -173,9 +174,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptBert.config
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/RTEPromptBert.config \
     --gpu $gpus \
 
+
+
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptBert.config \
     --gpu $gpus \
+
 
 
 #WNLI
@@ -201,6 +205,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WikiREDPromptBert.co
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptBert.config \
     --gpu $gpus \
+
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptBert.config \
