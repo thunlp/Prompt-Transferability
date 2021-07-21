@@ -529,7 +529,7 @@ all_label = all_label.to("cpu").numpy()
 
 #task_map={0:"laptop",1:"restaurant",2:"IMDB",3:"laptop_B",4:"restaurant_B",5:"IMDB_B"}
 #task_map={0:"laptop",1:"restaurant",2:"IMDB"}
-task_map={0:"laptopi_B",1:"restaurant_B",2:"IMDB_B"}
+task_map={0:"laptop_B",1:"restaurant_B",2:"IMDB_B"}
 
 ###
 #task_map={0:"sst2",1:"re",2:"laptop",3:"restaurant",4:"IMDB"}
