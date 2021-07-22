@@ -157,7 +157,7 @@ def trained_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/15_model_AE.pkl"
+    PATH="model/projectPromptRoberta/99_model_AE.pkl"
     #load_model = AE(input_shape=int(all_prompt_emb.shape[-1]),out_features=dim)
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
@@ -539,7 +539,7 @@ for k, v in task_map.items():
     os.remove(dir_pro)
     torch.save(recovered_prompt_emb[k], dir_pro)
 print("Done")
-exit()
+#exit()
 ################
 ################
 ################
