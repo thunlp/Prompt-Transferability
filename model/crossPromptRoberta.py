@@ -44,8 +44,8 @@ def load_task_prompt(model_prompt):
     name_list.sort()
     #print(name_list)
     name_dict = {id:n for id,n in enumerate(name_list)}
-    print(name_dict)
-    exit()
+    #print(name_dict)
+    #exit()
 
     #print(name_dict)
     #exit()
