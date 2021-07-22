@@ -337,7 +337,6 @@ print(sst2_ten.shape)
 
 #laptop
 laptop_ten = list()
-laptop_ten = list()
 path="task_prompt_emb/laptopPromptRoberta/task_prompt"
 laptop_ten = torch.load(path).view(76800)
 print(laptop_ten.shape)
@@ -346,7 +345,6 @@ print(laptop_ten.shape)
 
 
 #restaurant
-restaurant_ten = list()
 restaurant_ten = list()
 path="task_prompt_emb/restaurantPromptRoberta/task_prompt"
 restaurant_ten = torch.load(path).view(76800)
@@ -369,7 +367,6 @@ print(rte_ten.shape)
 
 #MNLI
 MNLI_ten = list()
-MNLI_ten = list()
 path="task_prompt_emb/MNLIPromptRoberta/task_prompt"
 MNLI_ten = torch.load(path).view(76800)
 print(MNLI_ten.shape)
@@ -379,7 +376,6 @@ print(MNLI_ten.shape)
 
 
 #WNLI
-WNLI_ten = list()
 WNLI_ten = list()
 path="task_prompt_emb/WNLIPromptRoberta/task_prompt"
 WNLI_ten = torch.load(path).view(76800)
@@ -394,7 +390,6 @@ print(WNLI_ten.shape)
 
 #MRPC
 MRPC_ten = list()
-MRPC_ten = list()
 path="task_prompt_emb/MRPCPromptRoberta/task_prompt"
 MRPC_ten = torch.load(path).view(76800)
 print(MRPC_ten.shape)
@@ -403,7 +398,6 @@ print(MRPC_ten.shape)
 
 
 #QQP
-QQP_ten = list()
 QQP_ten = list()
 path="task_prompt_emb/QQPPromptRoberta/task_prompt"
 QQP_ten = torch.load(path).view(76800)
@@ -431,7 +425,6 @@ print(re_ten.shape)
 
 #QNLI
 QNLI_ten = list()
-QNLI_ten = list()
 path="task_prompt_emb/QNLIPromptRoberta/task_prompt"
 QNLI_ten = torch.load(path).view(76800)
 print(QNLI_ten.shape)
@@ -441,7 +434,6 @@ print(QNLI_ten.shape)
 
 
 #STSB
-STSB_ten = list()
 STSB_ten = list()
 path="task_prompt_emb/STSBPromptRoberta/task_prompt"
 STSB_ten = torch.load(path).view(76800)

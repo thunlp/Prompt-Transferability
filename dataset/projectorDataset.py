@@ -13,7 +13,6 @@ class projectorDataset(Dataset):
         ###
         ##self.re, self.re_length = pre_data_re(mode)
         #self.stsb, self.stsb_length = pre_data_stsb(mode)
-        '''
         self.sst2, self.sst2_length = pre_data_sst2(mode)
         self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
         self.qnli, self.qnli_length = pre_data_qnli(mode)
@@ -22,7 +21,6 @@ class projectorDataset(Dataset):
         self.wnli, self.wnli_length = pre_data_wnli(mode)
         self.rte, self.rte_length = pre_data_rte(mode)
         self.mnli, self.mnli_length = pre_data_mnli(mode)
-        '''
         self.laptop, self.laptop_length = pre_data_laptop(mode)
         self.imdb, self.imdb_length = pre_data_imdb(mode)
         #print("Done")
@@ -30,17 +28,13 @@ class projectorDataset(Dataset):
 
 
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
-        '''
         self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
-        '''
-        self.min_length = min([self.laptop_length, self.imdb_length])
+        #self.min_length = min([self.laptop_length, self.imdb_length])
 
 
         #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-        '''
         self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-        '''
-        self.all_dataset = [self.laptop, self.imdb]
+        #self.all_dataset = [self.laptop, self.imdb]
 
 
         self.all = self.sample_choose()

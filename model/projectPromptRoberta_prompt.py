@@ -19,6 +19,9 @@ def load_task_prompt(file_name):
     print(task_prompt_emb.shape)
     #exit()
 
+    #print(self.task_specific_prompt_emb)
+    #exit()
+
     return task_prompt_emb
 
 

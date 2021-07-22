@@ -11,6 +11,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/res
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
 
+
+
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \

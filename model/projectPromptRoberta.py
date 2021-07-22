@@ -42,6 +42,9 @@ def load_task_prompt():
     #print(name_dict)
     #exit()
 
+    #print(name_dict)
+    #exit()
+
     for id, name in name_dict.items():
         task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
     task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
@@ -125,10 +128,6 @@ class projectPromptRoberta(nn.Module):
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
-
-            #print("===============")
-            #print(data["task_name"])
-            #exit()
 
             task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
             model_AE = kwargs["AE"]
