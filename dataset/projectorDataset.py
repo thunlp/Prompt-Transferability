@@ -10,40 +10,50 @@ class projectorDataset(Dataset):
         self.config = config
         self.mode = mode
 
-        ###
+        #####
         ##self.re, self.re_length = pre_data_re(mode)
         #self.stsb, self.stsb_length = pre_data_stsb(mode)
+        #print("======")
         self.sst2, self.sst2_length = pre_data_sst2(mode)
-        print("sst2")
+        #print("sst2")
         self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
-        print("restaurant")
+        #print("restaurant")
+        '''
         self.qnli, self.qnli_length = pre_data_qnli(mode)
-        print("qnli")
+        '''
+        #print("qnli") #
         self.qqp, self.qqp_length = pre_data_qqp(mode)
-        print("qqp")
+        #print("qqp")
         self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
-        print("mrpc")
+        #print("mrpc")
         self.wnli, self.wnli_length = pre_data_wnli(mode)
-        print("wnli")
+        #print("wnli")
+        '''
         self.rte, self.rte_length = pre_data_rte(mode)
-        print("rte")
+        '''
+        #print("rte") #
+        '''
         self.mnli, self.mnli_length = pre_data_mnli(mode)
-        print("mnli")
+        '''
+        #print("mnli") #
         self.laptop, self.laptop_length = pre_data_laptop(mode)
-        print("laptop")
+        #print("laptop")
         self.imdb, self.imdb_length = pre_data_imdb(mode)
-        print("imdb")
+        #print("imdb")
+        #print("======")
         #print("Done")
-        ###
+        #####
 
 
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
-        self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
+        #self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
+        self.min_length = min([self.wnli_length, self.sst2_length, self.restaurant_length, self.qqp_length, self.mrpc_length, self.laptop_length, self.imdb_length])
         #self.min_length = min([self.laptop_length, self.imdb_length])
 
 
         #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-        self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
+        #self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
+        self.all_dataset = [self.wnli, self.sst2, self.restaurant, self.qqp, self.mrpc, self.laptop, self.imdb]
         #self.all_dataset = [self.laptop, self.imdb]
 
 
@@ -81,13 +91,13 @@ def pre_data_wnli(mode):
     test_data = data['test']
     '''
 
-    tsv_file = open("data/WNLI/train.tsv")
+    tsv_file = open("data/WNLI/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/WNLI/dev.tsv")
+    tsv_file = open("data/WNLI/dev.tsv",encoding="utf-8-sig")
     validation_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/WNLI/test.tsv")
+    tsv_file = open("data/WNLI/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
     #no, yes
@@ -96,9 +106,9 @@ def pre_data_wnli(mode):
     if mode == "test":
         data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"wnli"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'], "dataset":"wnli"} for ins in validation_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": int(ins['label']), "dataset":"wnli"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": ins['label'] , "dataset":"wnli"} for ins in train_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": int(ins['label']) , "dataset":"wnli"} for ins in train_data]
 
     #print([l['label'] for l in data][:10])
 
@@ -114,34 +124,41 @@ def pre_data_rte(mode):
     else:
         d = csv.reader(open("./data/RTE/test.tsv", "r"), delimiter='\t')
     '''
-    '''
     data = load_dataset('glue','rte')
+    '''
     if mode=='valid':
         mode = "validation"
     data = data[mode]
     '''
 
-    tsv_file = open("data/RTE/train.tsv")
+    train_data = data['train']
+    validation_data = data['validation']
+    test_data = data['test']
+
+    '''
+    tsv_file = open("data/RTE/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/RTE/dev.tsv")
+    tsv_file = open("data/RTE/dev.tsv",encoding="utf-8-sig")
     validation_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/RTE/test.tsv")
+    tsv_file = open("data/RTE/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
+    '''
 
 
     dict_={0:1,1:0}
+    #dict_={'not_entailment':0,'entailment':1}
 
     if mode == "test":
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip()} for ins in data[1:]]
         data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "dataset":"rte"} for ins in test_data]
     elif mode == "train":
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": ins[3].strip()} for ins in data[1:] if len(ins) == 4]
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':dict_[int(ins['label'])], "dataset":"rte"} for ins in train_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"} for ins in train_data]
     elif mode == "valid":
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": ins[3].strip()} for ins in data[1:] if len(ins) == 4]
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':dict_[int(ins['label'])], "dataset":"rte"} for ins in validation_data]
+        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"} for ins in validation_data]
 
     return data, len(data)
 
@@ -154,33 +171,29 @@ def pre_data_qnli(mode):
     validation_data = data['validation']
     test_data = data['test']
     '''
-    tsv_file = open("data/QNLI/train.tsv")
+    tsv_file = open("data/QNLI/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/QNLI/dev.tsv")
+    tsv_file = open("data/QNLI/dev.tsv",encoding="utf-8-sig")
     validation_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/QNLI/test.tsv")
+    tsv_file = open("data/QNLI/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
 
-    #dict_={0:1,1:0}
-    dict_={"not_entailment":0,"entailment":1}
+    dict_={0:1,1:0}
+    #dict_={"not_entailment":0,"entailment":1}
 
-    data=[]
+    #data=[]
     if mode == "test":
-        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'], "dataset":"qnli"} for ins in test_data]
+        data = [{"sent1": ins['question'], "sent2": ins['sentence'], "dataset":"qnli"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label']] , "dataset":"qnli"} for ins in validation_data]
+        data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in validation_data]
     else:
-        #data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label'].strip()] , "dataset":"qnli"} for ins in train_data]
-        for ins in train_data:
-            try:
-                data.append({"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label'].strip()] , "dataset":"qnli"})
-            except:
-                print(ins)
+        data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in train_data]
+
+    print("Done")
     print(mode, "the number of data", len(data))
-    exit()
 
     return data, len(data)
 
@@ -219,13 +232,13 @@ def pre_data_stsb(mode):
     test_data = data['test']
     '''
 
-    tsv_file = open("data/STS-B/train.tsv")
+    tsv_file = open("data/STS-B/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/STS-B/dev.tsv")
+    tsv_file = open("data/STS-B/dev.tsv",encoding="utf-8-sig")
     validation_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/STS-B/test.tsv")
+    tsv_file = open("data/STS-B/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
 
@@ -295,17 +308,18 @@ def pre_data_qqp(mode):
     test_data = data['test']
     '''
 
-    tsv_file = open("data/QQP/train.tsv")
+    tsv_file = open("data/QQP/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/QQP/dev.tsv")
+    tsv_file = open("data/QQP/dev.tsv",encoding="utf-8-sig")
     validation_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/QQP/test.tsv")
+    tsv_file = open("data/QQP/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
     _map={0:2,1:4}
 
+    '''
     if mode == "test":
         data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'], "dataset":"qqp"} for ins in test_data]
     elif mode == 'valid':
@@ -313,6 +327,16 @@ def pre_data_qqp(mode):
     else:
         data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[ins['label']], "dataset":"qqp"} for ins in
                      train_data]
+    '''
+
+    if mode == "test":
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'], "dataset":"qqp"} for ins in test_data]
+    elif mode == 'valid':
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[int(ins['is_duplicate'])], "dataset":"qqp"} for ins in validation_data]
+    else:
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[int(ins['is_duplicate'])], "dataset":"qqp"} for ins in
+                     train_data]
+
     #print(mode, "the number of data", len(data))
 
     #print([l['label'] for l in data][:10])
@@ -332,23 +356,23 @@ def pre_data_mrpc(mode):
     test_data = data['test']
     '''
 
-    tsv_file = open("data/MRPC/msr_paraphrase_train.txt")
+    tsv_file = open("data/MRPC/msr_paraphrase_train.txt", encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/MRPC/msr_paraphrase_test.txt")
+    tsv_file = open("data/MRPC/msr_paraphrase_test.txt", encoding="utf-8-sig")
     validation_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    tsv_file = open("data/MRPC/msr_paraphrase_test.txt")
+    tsv_file = open("data/MRPC/msr_paraphrase_test.txt", encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
     _map={0:2,1:4}
 
     if mode == "test":
-        data = [{"sent1": ins['#1 String'].strip(), "sent2": ins['#2 String'], "dataset":"mrpc"} for ins in test_data]
+        data = [{"sent1": ins['#1 String'], "sent2": ins['#2 String'], "dataset":"mrpc"} for ins in test_data]
     elif mode == 'valid':
-        data = [{"sent1": ins['#1 String'].strip(), "sent2": ins['#2 String'].strip(), "label": ins['label'], "dataset":"mrpc"} for ins in validation_data]
+        data = [{"sent1": ins['#1 String'], "sent2": ins['#2 String'], "label": _map[int(ins['Quality'])], "dataset":"mrpc"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['#1 String'].strip(), "sent2": ins['#2 String'].strip(), "label": ins['label'], "dataset":"mrpc"} for ins in train_data]
+        data = [{"sent1": ins['#1 String'], "sent2": ins['#2 String'], "label": _map[int(ins['Quality'])], "dataset":"mrpc"} for ins in train_data]
     #print(mode, "the number of data", len(data))
 
     #print([l['label'] for l in data][:10])

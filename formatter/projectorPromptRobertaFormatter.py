@@ -36,7 +36,8 @@ class projectorPromptRobertaFormatter(BasicFormatter):
         l = list(set([l["dataset"] for l in data]))
         l.sort()
         DATSSET_MAP = {name:id for id, name in enumerate(l)}
-        print(DATSSET_MAP)
+
+        #print(DATSSET_MAP)
         #exit()
 
         task_name_list=[]

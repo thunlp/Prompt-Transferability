@@ -15,7 +15,8 @@ tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 def load_task_prompt():
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
-    choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
+    #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
+    choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
     name_list = list()
     task_prompt_dict=dict()
     task_prompt_ten=list()

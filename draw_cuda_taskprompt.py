@@ -30,6 +30,7 @@ import glob
 #####
 
 
+'''
 class AE(nn.Module):
     def __init__(self, **kwargs):
         #super().__init__()
@@ -40,22 +41,12 @@ class AE(nn.Module):
         self.encoder_1 = nn.Linear(
             in_features=int(kwargs["input_shape"]/64), out_features=kwargs["out_features"]
         )
-        '''
-        self.encoder_output_layer = nn.Linear(
-            in_features=76800, out_features=2
-        )
-        '''
         self.decoder = nn.Linear(
             in_features=kwargs["out_features"], out_features=int(kwargs["input_shape"]/64)
         )
         self.decoder_1 = nn.Linear(
             in_features=int(kwargs["input_shape"]/64), out_features=kwargs["input_shape"]
         )
-        '''
-        self.decoder_output_layer = nn.Linear(
-            in_features=76800, out_features=kwargs["input_shape"]
-        )
-        '''
         self.criterion = nn.CrossEntropyLoss()
 
     def encoding(self, features):
@@ -67,23 +58,12 @@ class AE(nn.Module):
         decoding = self.decoder_1(mid)
         return decoding
     def forward(self, features):
-        '''
-        activation = self.encoder_hidden_layer(features)
-        activation = torch.relu(activation)
-        code = self.encoder_output_layer(activation)
-        code = torch.relu(code)
-        activation = self.decoder_hidden_layer(code)
-        activation = torch.relu(activation)
-        activation = self.decoder_output_layer(activation)
-        reconstructed = torch.relu(activation)
-        return reconstructed
-        '''
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
-
-
 '''
+
+
 class AE(nn.Module):
     def __init__(self, **kwargs):
         #super().__init__()
@@ -125,7 +105,6 @@ class AE(nn.Module):
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
-'''
 
 
 
@@ -137,7 +116,7 @@ def recovered_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/99_model_AE.pkl"
+    PATH="model/projectPromptRoberta/15_model_AE.pkl"
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
 
@@ -157,7 +136,7 @@ def trained_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/99_model_AE.pkl"
+    PATH="model/projectPromptRoberta/15_model_AE.pkl"
     #load_model = AE(input_shape=int(all_prompt_emb.shape[-1]),out_features=dim)
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
