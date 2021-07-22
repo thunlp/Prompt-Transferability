@@ -84,6 +84,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         if "args" in params:
             #Roberta or Bert
             name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
+
+
             present_config = params["args"].config
             #Donnot change prompt
             if name_of_model_prompt in present_config:
@@ -105,12 +107,16 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                     exit()
 
                 prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir)).to("cuda")
-                model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
+                #print(prompt_emb)
+                #print(model.encoder.bert.embeddings.prompt_embeddings.weight)
+                model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
+                #model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
         else:
             pass
         ########################
         ########################
         ########################
+
 
 
         if mode == "train":
@@ -123,6 +129,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             if "global_step" in parameters:
                 global_step = parameters["global_step"]
 
+
     except Exception as e:
 
         information = "Cannot load checkpoint file with error %s" % str(e)
@@ -131,7 +138,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             raise e
         else:
             logger.warning(information)
-
 
 
 

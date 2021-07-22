@@ -6,16 +6,14 @@ gpus=6
 #Sentiment
 ############
 
+'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --model_prompt Bert-base
 
-exit
 
-
-'''
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \

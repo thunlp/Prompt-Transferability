@@ -123,7 +123,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert
     --checkpoint model/restaurantPromptBert/15.pkl \
 
 
-exit
 
 
 #laptop
