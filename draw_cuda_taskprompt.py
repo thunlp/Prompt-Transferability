@@ -512,9 +512,12 @@ print("===================")
 print("===================")
 
 ##3D or 2D
-dim=3
+dim=2
 #compressed_prompt_emb = train_AE(input=all_prompt_emb,out_features=dim)
 
+
+#AE compress
+'''
 ################
 ################
 ################
@@ -539,24 +542,27 @@ for k, v in task_map.items():
     os.remove(dir_pro)
     torch.save(recovered_prompt_emb[k], dir_pro)
 print("Done")
-#exit()
 ################
 ################
 ################
-
 
 ################
 print("Using trained AE model")
 compressed_prompt_emb = trained_AE(input=all_prompt_emb,out_features=dim)
 #################
+'''
 
-#compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
+
+
+#PCA compress
+####################
+compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
 
 #all: 92%
 #sentiment: 100%
 
-#exit()
+####################
 
 
 
