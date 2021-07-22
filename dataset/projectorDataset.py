@@ -167,6 +167,7 @@ def pre_data_qnli(mode):
     #dict_={0:1,1:0}
     dict_={"not_entailment":0,"entailment":1}
 
+    data=[]
     if mode == "test":
         data = [{"sent1": ins['question'].strip(), "sent2": ins['sentence'], "dataset":"qnli"} for ins in test_data]
     elif mode == 'valid':
@@ -177,8 +178,9 @@ def pre_data_qnli(mode):
             try:
                 data.append({"sent1": ins['question'].strip(), "sent2": ins['sentence'].strip(), "label": dict_[ins['label'].strip()] , "dataset":"qnli"})
             except:
-                print(ins['label'])
-    #print(mode, "the number of data", len(data))
+                print(ins)
+    print(mode, "the number of data", len(data))
+    exit()
 
     return data, len(data)
 
