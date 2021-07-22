@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=6
+gpus=4
 
 ############
 #Sentiment
@@ -51,16 +51,21 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/QQP
 #NLI
 ############
 
+'''
 #RTE
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/RTEPromptRoberta/15.pkl \
+'''
 
+
+'''
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/MNLIPromptRoberta/15.pkl \
+'''
 
 
 
@@ -71,6 +76,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/WNL
 
 
 
+'''
 ############
 #RE
 ############
@@ -78,6 +84,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/WNL
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/REPrompt.config \
     --gpu $gpus \
     --checkpoint model/REPrompt/15.pkl \
+'''
 
 
 ############
@@ -85,15 +92,19 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/REP
 ############
 
 
+'''
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/QNLIPromptRoberta/15.pkl \
+'''
 
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
+'''
 
 
 '''

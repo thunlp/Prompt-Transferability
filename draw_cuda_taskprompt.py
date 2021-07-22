@@ -116,7 +116,7 @@ def recovered_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/15_model_AE.pkl"
+    PATH="model/projectPromptRoberta/18_model_AE.pkl"
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
 
@@ -136,7 +136,7 @@ def trained_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/15_model_AE.pkl"
+    PATH="model/projectPromptRoberta/18_model_AE.pkl"
     #load_model = AE(input_shape=int(all_prompt_emb.shape[-1]),out_features=dim)
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
@@ -488,7 +488,6 @@ dim=3
 
 
 #AE compress
-'''
 ################
 ################
 ################
@@ -521,14 +520,15 @@ print("Done")
 print("Using trained AE model")
 compressed_prompt_emb = trained_AE(input=all_prompt_emb,out_features=dim)
 #################
-'''
 
 
 
 #PCA compress
 ####################
+'''
 compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
+'''
 
 #all: 92%
 #sentiment: 100%
