@@ -116,7 +116,7 @@ def recovered_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/18_model_AE.pkl"
+    PATH="model/projectPromptRoberta/99_model_AE.pkl"
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
 
@@ -136,7 +136,7 @@ def trained_AE(input=None, out_features=None):
     ##################
 
 
-    PATH="model/projectPromptRoberta/18_model_AE.pkl"
+    PATH="model/projectPromptRoberta/99_model_AE.pkl"
     #load_model = AE(input_shape=int(all_prompt_emb.shape[-1]),out_features=dim)
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
