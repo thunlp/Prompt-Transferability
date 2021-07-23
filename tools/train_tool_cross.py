@@ -22,10 +22,10 @@ class AE(nn.Module):
     def __init__(self, **kwargs):
         super(AE, self).__init__()
         self.encoder = nn.Linear(
-            in_features=kwargs["input_dim"], out_features=kwargs["input_dim"]
+            in_features=kwargs["input_dim"], out_features=int(kwargs["input_dim"]/100)
         )
         self.decoder = nn.Linear(
-            in_features=kwargs["input_dim"], out_features=kwargs["input_dim"]
+            in_features=int(kwargs["input_dim"]/100), out_features=kwargs["input_dim"]
         )
 
         # mean-squared error loss
@@ -35,6 +35,7 @@ class AE(nn.Module):
         return self.encoder(features)
     def decoding(self, features):
         return self.decoder(features)
+
 
     def forward(self, features):
         encoded_emb = self.encoding(features)
@@ -70,6 +71,8 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, m
     #print("=====")
     filename = filename.strip().replace(".pkl","")
     filename = filename+"_model_corss.pkl"
+    #print(filename)
+    #exit()
     try:
         torch.save(model_AE, filename)
     except Exception as e:

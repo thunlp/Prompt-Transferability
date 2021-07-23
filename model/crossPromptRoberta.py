@@ -18,7 +18,9 @@ def load_task_prompt(model_prompt):
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
     choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
 
+    #use prompt: Bert, Roberta
     model_prompt = str.title(model_prompt.strip().split("-")[0])
+    #print(model_prompt)
 
     name_list = list()
     task_prompt_dict=dict()
@@ -26,15 +28,17 @@ def load_task_prompt(model_prompt):
     path="./task_prompt_emb"
     files = os.listdir(path)
     for file in files:
+        #print(file)
 
-        if "proj" in file or model_prompt not in file:
+        if "proj" in file or model_prompt in file:
             continue
+
         task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
         name = str(file.strip().split("P")[0]).lower()
         if name=="mr" or name=="qq":
             name+="p"
-        #if name not in choosed_tasks:
-        #    continue
+        if name not in choosed_tasks:
+            continue
 
         #print(task_prompt_emb.shape)
         #print(name)
@@ -43,14 +47,15 @@ def load_task_prompt(model_prompt):
     #print(name_list)
     name_list.sort()
     #print(name_list)
-    name_dict = {id:n for id,n in enumerate(name_list)}
+    #name_dict = {id:n for id,n in enumerate(name_list)}
     #print(name_dict)
     #exit()
 
     #print(name_dict)
     #exit()
 
-    for id, name in name_dict.items():
+    #for id, name in name_dict.items():
+    for id, name in enumerate(name_list):
         task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
     task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
 

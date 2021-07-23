@@ -39,6 +39,7 @@ class projectorPromptRobertaFormatter(BasicFormatter):
 
         #print(DATSSET_MAP)
         #exit()
+        #{0: 'imdb', 1: 'laptop', 2: 'mrp', 3: 'qqp', 4: 'restaurant', 5: 'sst2', 6: 'wnli'}
 
         task_name_list=[]
         for ins in data:
