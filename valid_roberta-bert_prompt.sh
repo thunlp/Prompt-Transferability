@@ -2,6 +2,10 @@
 
 gpus=6
 
+#MODEL_PROMPT="Roberta-base"
+#MODEL_PROMPT="Bert-base"
+MODEL_PROMPT="Random"
+
 ############
 #Sentiment
 ############
@@ -107,26 +111,27 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
 ############
 #Sentiment
 ############
-
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptBert/15.pkl \
-    --model_prompt Roberta-base
+    --model_prompt $MODEL_PROMPT
 
-exit
 
 
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/laptopPromptBert.config \
     --gpu $gpus \
     --checkpoint model/laptopPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/IMDBPromptBert.config \
     --gpu $gpus \
     --checkpoint model/IMDBPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 
@@ -135,6 +140,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/SST2PromptBert.config \
     --gpu $gpus \
     --checkpoint model/SST2PromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 
 

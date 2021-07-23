@@ -1,6 +1,6 @@
 #rm -rf task_prompt_emb/*
 
-gpus=5
+gpus=4
 
 '''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
@@ -177,6 +177,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptBert.conf
     #--do_test \
     #--comment \
     #--seed
+
 
 ############
 #NLI
