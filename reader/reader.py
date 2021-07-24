@@ -51,6 +51,8 @@ def init_one_dataset(config, mode, *args, **params):
     ##########
     if config.get("data", "train_formatter_type") == "projectorPromptRoberta":
         which = "projector"
+    elif config.get("data", "train_formatter_type") == "crossPromptRoberta":
+        which = "cross"
     ##########
     else:
         which = config.get("data", "%s_dataset_type" % temp_mode)

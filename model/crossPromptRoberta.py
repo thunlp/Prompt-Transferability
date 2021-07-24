@@ -21,6 +21,7 @@ def load_task_prompt(model_prompt):
     #use prompt: Bert, Roberta
     model_prompt = str.title(model_prompt.strip().split("-")[0])
     #print(model_prompt)
+    #exit()
 
     name_list = list()
     task_prompt_dict=dict()
@@ -30,7 +31,7 @@ def load_task_prompt(model_prompt):
     for file in files:
         #print(file)
 
-        if "proj" in file or model_prompt in file:
+        if "proj" in file or model_prompt not in file:
             continue
 
         task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
@@ -48,8 +49,9 @@ def load_task_prompt(model_prompt):
     name_list.sort()
     #print(name_list)
     #name_dict = {id:n for id,n in enumerate(name_list)}
-    #print(name_dict)
-    #exit()
+    print("-------")
+    print(name_list)
+    print("-------")
 
     #print(name_dict)
     #exit()
