@@ -13,10 +13,14 @@ tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 #{0: 'imdb', 1: 'laptop', 2: 'mnli', 3: 'mrp', 4: 'qnli', 5: 'qqp', 6: 're', 7: 'restaurant', 8: 'rte', 9: 'sst2', 10: 'stsb', 11: 'wnli'}
 
-def load_task_prompt(model_prompt):
+def load_task_prompt(model_prompt, config):
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
-    choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
+
+    #print("=======")
+    choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
+
+    #choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
 
     #use prompt: Bert, Roberta
     model_prompt = str.title(model_prompt.strip().split("-")[0])
@@ -87,7 +91,7 @@ class crossPromptRoberta(nn.Module):
             self.hidden_size = 768
 
 
-        self.task_specific_prompt_emb = load_task_prompt(params["model_prompt"]).to('cuda')
+        self.task_specific_prompt_emb = load_task_prompt(params["model_prompt"], config).to('cuda')
 
         self.plmconfig = AutoConfig.from_pretrained(model)
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]

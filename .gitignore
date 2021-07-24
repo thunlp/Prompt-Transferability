@@ -19,6 +19,7 @@ model/WikiREDPromptRoberta*
 model/projectPromptRoberta*
 model/projectPromptRoberta_1layer*
 model/projectorPromptRoberta*
+model/crossPromptRoberta*
 
 
 model/SST2PromptBert*
@@ -37,6 +38,7 @@ model/WikiREDPromptBert*
 model/projectPromptBert*
 model/projectPromptBert_1layer*
 mode/projectorPromptBert*
+model/crossPromptBert*
 
 
 
