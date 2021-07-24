@@ -83,7 +83,10 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         ########################
         ####Evalid will Open####
         ########################
-        '''
+        #print("====")
+        #print(params)
+        #print("====")
+        #exit()
         if "args" in params:
             #Roberta or Bert
             name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
@@ -118,7 +121,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 #model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
         else:
             pass
-        '''
         ########################
         ########################
         ########################

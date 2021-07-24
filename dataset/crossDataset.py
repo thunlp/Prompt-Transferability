@@ -91,7 +91,10 @@ class crossDataset(Dataset):
             show_dataset.append("imdb")
             #print("imdb")
 
-        self.min_length = min(self.min_length)
+        if mode == "train":
+            self.min_length = min(self.min_length)
+        else:
+            self.min_length = sum(self.min_length)
         self.all_dataset = self.all_dataset
         show_dataset.sort()
         print("==========")

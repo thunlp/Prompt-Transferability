@@ -1,8 +1,7 @@
 #rm -rf task_prompt_emb/*
 
-gpus=4
+gpus=7
 
-'''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
 read ans
 
@@ -13,14 +12,13 @@ else
     echo "Do not rewrite"
     #exit
 fi
-'''
 
-'''
 #CUDA_VISIBLE_DEVICES=$gpus
 ############
 #Sentiment Classification
 ############
 #IMDB
+'''
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
