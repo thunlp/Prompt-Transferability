@@ -16,68 +16,87 @@ class crossDataset(Dataset):
 
         self.min_length = []
         self.all_dataset = []
+        show_dataset = list()
         #####
         if "re" in self.dataset_list:
             self.re, self.re_length = pre_data_re(mode)
             self.min_length.append(self.re_length)
             self.all_dataset.append(self.re)
-            print("re")
+            show_dataset.append("re")
+            #print("re")
         if "stsb" in self.dataset_list:
             self.stsb, self.stsb_length = pre_data_stsb(mode)
             self.min_length.append(self.stsb_length)
             self.all_dataset.append(self.stsb)
-            print("stsb")
+            show_dataset.append("stsb")
+            #print("stsb")
         if "sst2" in self.dataset_list:
             self.sst2, self.sst2_length = pre_data_sst2(mode)
             self.min_length.append(self.sst2_length)
             self.all_dataset.append(self.sst2)
-            print("sst2")
+            show_dataset.append("sst2")
+            #print("sst2")
         if "restaurant" in self.dataset_list:
             self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
             self.min_length.append(self.restaurant_length)
             self.all_dataset.append(self.restaurant)
-            print("restaurant")
+            show_dataset.append("restaurant")
+            #print("restaurant")
         if "qnli" in self.dataset_list:
             self.qnli, self.qnli_length = pre_data_qnli(mode)
             self.min_length.append(self.qnli_length)
             self.all_dataset.append(self.qnli)
-            print("qnli")
+            show_dataset.append("qnli")
+            #print("qnli")
         if "qqp" in self.dataset_list:
             self.qqp, self.qqp_length = pre_data_qqp(mode)
             self.min_length.append(self.qqp_length)
             self.all_dataset.append(self.qqp)
-            print("qqp")
+            show_dataset.append("qqp")
+            #print("qqp")
         if "mrpc" in self.dataset_list:
             self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
             self.min_length.append(self.mrpc_length)
             self.all_dataset.append(self.mrpc)
-            print("mrpc")
+            show_dataset.append("mrpc")
+            #print("mrpc")
         if "wnli" in self.dataset_list:
             self.wnli, self.wnli_length = pre_data_wnli(mode)
             self.min_length.append(self.wnli_length)
             self.all_dataset.append(self.wnli)
-            print("wnli")
+            show_dataset.append("wnli")
+            #print("wnli")
         if "rte" in self.dataset_list:
             self.rte, self.rte_length = pre_data_rte(mode)
             self.min_length.append(self.rte_length)
             self.all_dataset.append(self.rte)
-            print("rte")
+            show_dataset.append("rte")
+            #print("rte")
         if "mnli" in self.dataset_list:
             self.mnli, self.mnli_length = pre_data_mnli(mode)
-            print("mnli")
+            self.min_length.append(self.mnli_length)
+            self.all_dataset.append(self.mnli)
+            show_dataset.append("mnli")
+            #print("mnli")
         if "laptop" in self.dataset_list:
             self.laptop, self.laptop_length = pre_data_laptop(mode)
             self.min_length.append(self.laptop_length)
             self.all_dataset.append(self.laptop)
-            print("laptop")
+            show_dataset.append("laptop")
+            #print("laptop")
         if "imdb" in self.dataset_list:
             self.imdb, self.imdb_length = pre_data_imdb(mode)
             self.min_length.append(self.imdb_length)
             self.all_dataset.append(self.imdb)
-            print("imdb")
+            show_dataset.append("imdb")
+            #print("imdb")
 
         self.min_length = min(self.min_length)
         self.all_dataset = self.all_dataset
+        show_dataset.sort()
+        print("==========")
+        print(show_dataset)
+        print("==========")
 
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
         #self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])

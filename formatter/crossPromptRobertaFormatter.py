@@ -36,9 +36,9 @@ class crossPromptRobertaFormatter(BasicFormatter):
         l = list(set([l["dataset"] for l in data]))
         l.sort()
         DATSSET_MAP = {name:id for id, name in enumerate(l)}
-        print("=========")
-        print(DATSSET_MAP)
-        print("=========")
+        #print("=========")
+        #print(DATSSET_MAP)
+        #print("=========")
 
         #print(DATSSET_MAP)
         #exit()

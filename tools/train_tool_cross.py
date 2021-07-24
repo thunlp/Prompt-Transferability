@@ -146,6 +146,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
     for epoch_num in range(trained_epoch, epoch):
         ###
 
+
         logger.info("Begin to initialize dataset and formatter...")
         #if mode == "train":
             #parameters["train_dataset"], parameters["valid_dataset"] = init_dataset(config, *args, **params)
@@ -153,6 +154,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
         #else:
         #parameters["test_dataset"] = init_test_dataset(config, *args, **params)
         ###
+
 
         total_len = len(dataset)
         #print(dataset[])
@@ -188,9 +190,13 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
             ####
 
 
+
             results = model(data, config, gpu_list, acc_result, "train", AE=model_AE)
 
             loss, acc_result = results["loss"], results["acc_result"]
+
+
+
 
             total_loss += float(loss)
 
@@ -207,6 +213,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
                 output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
                     gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                              "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
+
 
             global_step += 1
             writer.add_scalar(config.get("output", "model_name") + "_train_iter", float(loss), global_step)
