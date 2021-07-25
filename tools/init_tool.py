@@ -124,7 +124,15 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 #print(prompt_emb)
                 #prompt_emb = torch.nn.Parameter(torch.load("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/laptopPromptBert/task_prompt")).to("cuda")
                 #print(model.encoder.bert.embeddings.prompt_embeddings.weight.shape)
-                model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
+
+
+                if "Roberta" in params["args"].checkpoint:
+                    model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_emb
+                elif "Bert" in params["args"].checkpoint:
+                    model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
+                else:
+                    print("Wrong!!!")
+                    exit()
                 #model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
         else:
             pass

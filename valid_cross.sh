@@ -10,30 +10,35 @@ MODEL_PROMPT="Bert-base"
 #Sentiment
 ############
 
-'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
-    --model_prompt Bert-base
+    --model_prompt $MODEL_PROMPT
+
+exit
 
 
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/laptopPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/IMDBPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/SST2PromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 
@@ -45,11 +50,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptRobe
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/MRPCPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/QQPPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 ############
@@ -61,11 +68,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptRober
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/RTEPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/MNLIPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 
@@ -73,6 +82,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptRobe
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/WNLIPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 
@@ -83,6 +93,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/WNLIPromptRobe
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/REPrompt.config \
     --gpu $gpus \
     --checkpoint model/REPrompt/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 ############
@@ -94,14 +105,15 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/REPrompt.confi
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/QNLIPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
-'''
 
 ################################
 ###########BERT#################
@@ -119,15 +131,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/restaurantProm
 
 
 
-exit
-
-
-
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/laptopPromptBert.config \
     --gpu $gpus \
     --checkpoint model/laptopPromptBert/15.pkl \
     --model_prompt $MODEL_PROMPT
+
 
 
 
@@ -157,11 +166,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptBert
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MRPCPromptBert.config \
     --gpu $gpus \
     --checkpoint model/MRPCPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptBert.config \
     --gpu $gpus \
     --checkpoint model/QQPPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
 
 
 ############
@@ -173,11 +185,15 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptBert.
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/RTEPromptBert.config \
     --gpu $gpus \
     --checkpoint model/RTEPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptBert.config \
     --gpu $gpus \
     --checkpoint model/MNLIPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 
 
@@ -185,6 +201,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptBert
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/WNLIPromptBert.config \
     --gpu $gpus \
     --checkpoint model/WNLIPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 
 
@@ -206,11 +224,15 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/REPrompt.confi
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QNLIPromptBert.config \
     --gpu $gpus \
     --checkpoint model/QNLIPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/STSBPromptBert.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptBert/15.pkl \
+    --model_prompt $MODEL_PROMPT
+
 
 
 

@@ -43,9 +43,9 @@ if __name__ == "__main__":
 
     config = create_config(configFilePath)
 
-    if config.get("model","model_name") != "crossPromptRoberta":
-        config.set("model","model_name", "crossPromptRoberta")
-    #print(config.get("model","model_name"))
+    #if config.get("model","model_name") != "crossPromptRoberta":
+    #    config.set("model","model_name", "crossPromptRoberta")
+    print(config.get("model","model_name"))
 
 
     use_gpu = True
@@ -85,4 +85,4 @@ if __name__ == "__main__":
 
     model = parameters["model"]
 
-    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output="replace_task_specific_prompt_emb", save_name=args.config)
+    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output="replace_task_specific_prompt_emb", save_name="cross")

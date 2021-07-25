@@ -10,12 +10,60 @@ import string
 
 logger = logging.getLogger(__name__)
 
+def trained_AE(load_task_prompt_dir=None):
+    PATH="model/crossPromptRoberta/99_model_corss.pkl"
+    load_model = torch.load(PATH).to("cuda")
+    load_model.eval()
+
+    #print(load_model)
+    #exit()
+
+    ####
+    #prompt_emb=torch.rand(100,768).to("cuda")
+    #prompt_emb=torch.zeros(100,768).to("cuda")
+    #prompt_emb=torch.ones(100,768).to("cuda")
+    prompt_emb = torch.load(load_task_prompt_dir).to("cuda")
+    ####
+    cross_prompt_emb = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
+
+    cross_prompt_emb = load_model(cross_prompt_emb.to("cuda"))
+    prompt_emb = cross_prompt_emb.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1]))
+    return prompt_emb
+
+
+class AE(nn.Module):
+    def __init__(self, **kwargs):
+        super(AE, self).__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["input_dim"], out_features=int(kwargs["input_dim"]/100)
+        )
+        self.decoder = nn.Linear(
+            in_features=int(kwargs["input_dim"]/100), out_features=kwargs["input_dim"]
+        )
+
+        # mean-squared error loss
+        self.criterion = nn.CrossEntropyLoss()
+
+    def encoding(self, features):
+        return self.encoder(features)
+    def decoding(self, features):
+        return self.decoder(features)
+
+
+    def forward(self, features):
+        encoded_emb = self.encoding(features)
+        encoded_emb = torch.relu(encoded_emb)
+        decoded_emb = self.decoding(encoded_emb)
+        return decoded_emb
+
+
+
+
 
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
     result = {}
 
-    '''
     logger.info("Begin to initialize dataset and formatter...")
     if mode == "train":
         # init_formatter(config, ["train", "valid"], *args, **params)
@@ -23,7 +71,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     else:
         # init_formatter(config, ["test"], *args, **params)
         result["test_dataset"] = init_test_dataset(config, *args, **params)
-    '''
 
     logger.info("Begin to initialize models...")
 
@@ -83,15 +130,10 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         ########################
         ####Evalid will Open####
         ########################
-        #print("====")
-        #print(params)
-        #print("====")
-        #exit()
         if "args" in params:
 
             #Roberta or Bert
             name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
-
 
             present_config = params["args"].config
             #Donnot change prompt
@@ -100,6 +142,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             else:
                 #Change prompt
                 load_task_prompt_dir = params["args"].checkpoint.strip().split("/")[1]
+
 
                 if "Roberta" in params["args"].checkpoint:
                     #Replace Roberta with Bert
@@ -113,11 +156,20 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                     print("Error")
                     exit()
 
-                prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir)).to("cuda")
+                prompt_emb = trained_AE(load_task_prompt_dir=load_task_prompt_dir)
+                #prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir)).to("cuda")
+                #prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir)).to("cuda")
                 #print(prompt_emb)
                 #prompt_emb = torch.nn.Parameter(torch.load("/data3/private/suyusheng/prompt/prompt/task_prompt_emb/laptopPromptBert/task_prompt")).to("cuda")
                 #print(model.encoder.bert.embeddings.prompt_embeddings.weight)
-                model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
+                if "Roberta" in params["args"].checkpoint:
+                    model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_emb
+                elif "Bert" in params["args"].checkpoint:
+                    model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
+                else:
+                    print("Error")
+                    exit()
+
                 #exit()
                 #model.encoder.bert.embeddings.prompt_embeddings.weight = prompt_emb
         else:
@@ -140,6 +192,10 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
     except Exception as e:
+        print("======")
+        print("except in")
+        print("======")
+        exit()
 
         information = "Cannot load checkpoint file with error %s" % str(e)
         if mode == "test":
