@@ -88,6 +88,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         #print("====")
         #exit()
         if "args" in params:
+
             #Roberta or Bert
             name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
 

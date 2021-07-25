@@ -34,7 +34,10 @@ if __name__ == "__main__":
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--model_prompt", type=str, default=None)
+
+
     args = parser.parse_args()
+
 
     configFilePath = args.config
 
@@ -71,7 +74,7 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
+    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, model_prompt=args.model_prompt, args=args)
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
 
     #print(parameters)
