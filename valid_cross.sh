@@ -9,14 +9,13 @@ MODEL_PROMPT="Bert-base"
 ############
 #Sentiment
 ############
-
+'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --model_prompt $MODEL_PROMPT
 
-exit
 
 
 #laptop
@@ -33,13 +32,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/IMDBPromptRobe
     --checkpoint model/IMDBPromptRoberta/15.pkl \
     --model_prompt $MODEL_PROMPT
 
+'''
 
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/SST2PromptRoberta/15.pkl \
     --model_prompt $MODEL_PROMPT
-
 
 
 ############

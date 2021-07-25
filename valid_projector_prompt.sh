@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=4
+gpus=5
 
 ############
 #Sentiment
@@ -97,11 +97,11 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/STS
     --checkpoint model/STSBPromptRoberta/15.pkl \
 
 
-
 ################################
 ###########BERT#################
 ################################
 
+'''
 
 ############
 #Sentiment
@@ -111,6 +111,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/STS
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptBert/15.pkl \
+
+
 
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/laptopPromptBert.config \
@@ -193,6 +195,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/QNL
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_projector_prompt.py --config config/STSBPromptBert.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptBert/15.pkl \
+'''
 
 
 
