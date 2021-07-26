@@ -194,6 +194,7 @@ def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
+
     if data_args.eval_data_file is None and training_args.do_eval:
         raise ValueError(
             "Cannot do evaluation without an evaluation data file. Either supply a file to --eval_data_file "
@@ -223,9 +224,6 @@ def main():
         bool(training_args.local_rank != -1),
         training_args.fp16,
     )
-    print(training_args)
-    print("============")
-    exit()
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
@@ -332,7 +330,7 @@ def main():
         data_collator=data_collator,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
-        prediction_loss_only=True,
+        #prediction_loss_only=True,
     )
 
     # Training
@@ -346,8 +344,10 @@ def main():
         trainer.save_model()
         # For convenience, we also re-save the tokenizer to the same directory,
         # so that you can share your model easily on huggingface.co/models =)
+        '''
         if trainer.is_world_master():
             tokenizer.save_pretrained(training_args.output_dir)
+        '''
 
     # Evaluation
     results = {}
@@ -360,12 +360,14 @@ def main():
         result = {"perplexity": perplexity}
 
         output_eval_file = os.path.join(training_args.output_dir, "eval_results_lm.txt")
+        '''
         if trainer.is_world_master():
-            with open(output_eval_file, "w") as writer:
-                logger.info("***** Eval results *****")
-                for key in sorted(result.keys()):
-                    logger.info("  %s = %s", key, str(result[key]))
-                    writer.write("%s = %s\n" % (key, str(result[key])))
+        '''
+        with open(output_eval_file, "w") as writer:
+            logger.info("***** Eval results *****")
+            for key in sorted(result.keys()):
+                logger.info("  %s = %s", key, str(result[key]))
+                writer.write("%s = %s\n" % (key, str(result[key])))
 
         results.update(result)
 

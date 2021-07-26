@@ -33,4 +33,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 run_lm.py \
     --train_data_file=$TRAIN_FILE \
     --do_eval \
     --eval_data_file=$TEST_FILE \
-    --mlm
+    --mlm \
+	--per_gpu_train_batch_size 4 \
+    --overwrite_output_dir \
