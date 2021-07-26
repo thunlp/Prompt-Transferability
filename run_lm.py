@@ -192,6 +192,17 @@ def main():
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
+
+    '''
+    print(ModelArguments)
+    print("----")
+    print(DataTrainingArguments)
+    print("----")
+    print(TrainingArguments)
+    exit()
+    '''
+
+
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
 
@@ -324,6 +335,21 @@ def main():
             )
 
     # Initialize our Trainer
+    print("=====")
+    print(data_collator)
+    print("11111")
+    print(training_args)
+    print("-----")
+    print(train_dataset)
+    print("!!!!!")
+    '''
+    for line in train_dataset:
+        print(line)
+        exit()
+    '''
+    print("=====")
+    exit()
+
     trainer = Trainer(
         model=model,
         args=training_args,

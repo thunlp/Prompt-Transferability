@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     result = {}
 
-
     logger.info("Begin to initialize dataset and formatter...")
     if mode == "train":
         # init_formatter(config, ["train", "valid"], *args, **params)

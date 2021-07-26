@@ -38,6 +38,11 @@ def init_formatter(config, task_list, *args, **params):
 
 def init_one_dataset(config, mode, *args, **params):
 
+    #print("====")
+    #print(params)
+    #print("====")
+    #exit()
+
     temp_mode = mode
 
     if mode != "train":
@@ -56,6 +61,53 @@ def init_one_dataset(config, mode, *args, **params):
     ##########
     else:
         which = config.get("data", "%s_dataset_type" % temp_mode)
+
+
+    #print(params["args"].pre_train_mlm)
+
+
+    #########
+    #Maske sure if MLM task
+    if "pre_train_mlm" in params["args"]:
+
+
+        from transformers import (
+            #CONFIG_MAPPING,
+            #MODEL_WITH_LM_HEAD_MAPPING,
+            #AutoConfig,
+            #AutoModelWithLMHead,
+            #AutoTokenizer,
+            DataCollatorForLanguageModeling,
+            #DataCollatorForPermutationLanguageModeling,
+            #DataCollatorForWholeWordMask,
+            HfArgumentParser,
+            #LineByLineTextDataset,
+            #LineByLineWithRefDataset,
+            #PreTrainedTokenizer,
+            #TextDataset,
+            #Trainer,
+            TrainingArguments,
+            #set_seed,
+        )
+
+        if params["args"].pre_train_mlm == True:
+
+            #parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
+            parser = HfArgumentParser(TrainingArguments)
+
+            #model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+            training_args = parser.parse_args_into_dataclasses()
+
+            print("====")
+            print(training_args)
+            print("====")
+            exit()
+
+            data_collator = DataCollatorForLanguageModeling(
+                tokenizer=tokenizer, mlm=data_args.mlm, mlm_probability=data_args.mlm_probability
+            )
+    #########
+
 
     #print(dataset_list)
 
