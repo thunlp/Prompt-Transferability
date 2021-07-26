@@ -69,8 +69,10 @@ def init_one_dataset(config, mode, *args, **params):
     #########
     #Maske sure if MLM task
     if "pre_train_mlm" in params["args"]:
+        if params["args"].pre_train_mlm == True:
+            which = "mlm"
 
-
+    '''
         from transformers import (
             #CONFIG_MAPPING,
             #MODEL_WITH_LM_HEAD_MAPPING,
@@ -92,21 +94,28 @@ def init_one_dataset(config, mode, *args, **params):
 
         if params["args"].pre_train_mlm == True:
 
+
             #parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
-            parser = HfArgumentParser(TrainingArguments)
+
+            #print(TrainingArguments)
+            #print(TrainingArguments.parse_args())
+            #exit()
+
+            #parser = HfArgumentParser(TrainingArguments)
 
             #model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-            training_args = parser.parse_args_into_dataclasses()
+            #training_args = parser.parse_args_into_dataclasses()
 
-            print("====")
-            print(training_args)
-            print("====")
-            exit()
+            #print("====")
+            #print(training_args)
+            #print("====")
+            #exit()
 
             data_collator = DataCollatorForLanguageModeling(
                 tokenizer=tokenizer, mlm=data_args.mlm, mlm_probability=data_args.mlm_probability
             )
     #########
+    '''
 
 
     #print(dataset_list)
