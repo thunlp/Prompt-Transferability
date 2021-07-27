@@ -22,6 +22,7 @@ from .IMDBPromptRobertaFormatter import IMDBPromptRobertaFormatter
 from .projectorPromptRobertaFormatter import projectorPromptRobertaFormatter
 from .mutiGPU_STSBPromptRobertaFormatter import mutiGPU_STSBPromptRobertaFormatter
 from .crossPromptRobertaFormatter import crossPromptRobertaFormatter
+from .mlmPromptRobertaFormatter import mlmPromptRobertaFormatter
 logger = logging.getLogger(__name__)
 
 
@@ -49,6 +50,7 @@ formatter_list = {
     "projectorPromptRoberta": projectorPromptRobertaFormatter,
     "mutiGPU_STSBPromptRoberta": mutiGPU_STSBPromptRobertaFormatter,
     "crossPromptRoberta":crossPromptRobertaFormatter,
+    "mlmPromptRoberta":mlmPromptRobertaFormatter,
 }
 
 

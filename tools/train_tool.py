@@ -30,7 +30,7 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
 
 
-def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
+def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
     epoch = config.getint("train", "epoch")
     batch_size = config.getint("train", "batch_size")
 

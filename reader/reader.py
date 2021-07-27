@@ -15,7 +15,6 @@ formatter = {}
 
 def init_formatter(config, task_list, *args, **params):
 
-
     for task in task_list:
         formatter[task] = form.init_formatter(config, task, *args, **params)
 
@@ -34,6 +33,7 @@ def init_formatter(config, task_list, *args, **params):
             collate_fn[task] = valid_collate_fn
         else:
             collate_fn[task] = test_collate_fn
+
 
 
 def init_one_dataset(config, mode, *args, **params):
@@ -67,53 +67,11 @@ def init_one_dataset(config, mode, *args, **params):
 
 
     #########
+    '''
     #Maske sure if MLM task
     if "pre_train_mlm" in params["args"]:
         if params["args"].pre_train_mlm == True:
             which = "mlm"
-
-    '''
-        from transformers import (
-            #CONFIG_MAPPING,
-            #MODEL_WITH_LM_HEAD_MAPPING,
-            #AutoConfig,
-            #AutoModelWithLMHead,
-            #AutoTokenizer,
-            DataCollatorForLanguageModeling,
-            #DataCollatorForPermutationLanguageModeling,
-            #DataCollatorForWholeWordMask,
-            HfArgumentParser,
-            #LineByLineTextDataset,
-            #LineByLineWithRefDataset,
-            #PreTrainedTokenizer,
-            #TextDataset,
-            #Trainer,
-            TrainingArguments,
-            #set_seed,
-        )
-
-        if params["args"].pre_train_mlm == True:
-
-
-            #parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
-
-            #print(TrainingArguments)
-            #print(TrainingArguments.parse_args())
-            #exit()
-
-            #parser = HfArgumentParser(TrainingArguments)
-
-            #model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-            #training_args = parser.parse_args_into_dataclasses()
-
-            #print("====")
-            #print(training_args)
-            #print("====")
-            #exit()
-
-            data_collator = DataCollatorForLanguageModeling(
-                tokenizer=tokenizer, mlm=data_args.mlm, mlm_probability=data_args.mlm_probability
-            )
     #########
     '''
 
@@ -165,6 +123,7 @@ def init_one_dataset(config, mode, *args, **params):
         else:
             sampler = RandomSampler(dataset)
 
+
         dataloader = DataLoader(dataset=dataset,
                                 batch_size=batch_size,
                                 #shuffle=shuffle,
@@ -172,6 +131,7 @@ def init_one_dataset(config, mode, *args, **params):
                                 collate_fn=collate_fn[mode],
                                 drop_last=drop_last,
                                 sampler=sampler)
+
 
         return dataloader
     else:
@@ -187,7 +147,6 @@ def init_test_dataset(config, *args, **params):
 
 
 def init_dataset(config, *args, **params):
-
     init_formatter(config, ["train", "valid"], *args, **params)
     train_dataset = init_one_dataset(config, "train", *args, **params)
     valid_dataset = init_one_dataset(config, "valid", *args, **params)

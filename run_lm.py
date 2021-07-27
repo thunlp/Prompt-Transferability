@@ -342,11 +342,10 @@ def main():
     print("-----")
     print(train_dataset)
     print("!!!!!")
-    '''
     for line in train_dataset:
         print(line)
+        print(len(line)) #512
         exit()
-    '''
     print("=====")
     exit()
 
