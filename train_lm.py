@@ -102,11 +102,13 @@ if __name__ == "__main__":
 
     formatter = "mlmPrompt"
     config.set("data","train_formatter_type",formatter)
+    config.set("data","valid_formatter_type",formatter)
+    config.set("data","test_formatter_type",formatter)
+
     config.set("model","model_name","mlmPrompt")
 
 
     parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, args=args)
-
 
 
     do_test = False

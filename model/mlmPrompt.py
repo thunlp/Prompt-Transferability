@@ -71,9 +71,9 @@ class mlmPrompt(nn.Module):
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
-        self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
-        print(self.init_model_path)
-        exit()
+        self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")+str(model.split("-")[0].capitalize())
+        #print(self.init_model_path)
+        #exit()
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it

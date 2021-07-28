@@ -81,10 +81,6 @@ def init_formatter(config, task_list, *args, **params):
 
 def init_one_dataset(config, mode, *args, **params):
 
-    #print("====")
-    #print(params)
-    #print("====")
-    #exit()
 
     temp_mode = mode
 
@@ -106,23 +102,8 @@ def init_one_dataset(config, mode, *args, **params):
         which = config.get("data", "%s_dataset_type" % temp_mode)
 
 
-    #print(params["args"].pre_train_mlm)
 
 
-    #########
-    '''
-    #Maske sure if MLM task
-    if "pre_train_mlm" in params["args"]:
-        if params["args"].pre_train_mlm == True:
-            which = "mlm"
-    #########
-    '''
-
-
-    #print(dataset_list)
-
-    #print(dataset_list)
-    #exit()
     if which in dataset_list:
         if mode in ["valid", "test"] and "MNLI" in which:
             if config.get("data", "matched"):
@@ -132,7 +113,7 @@ def init_one_dataset(config, mode, *args, **params):
 
         dataset = dataset_list[which](config, mode, *args, **params)
 
-        #######
+
         if "matched" in mode:
             if "valid" in mode:
                 mode = "valid"
@@ -165,7 +146,6 @@ def init_one_dataset(config, mode, *args, **params):
             sampler = DistributedSampler(dataset)
         else:
             sampler = RandomSampler(dataset)
-
 
         dataloader = DataLoader(dataset=dataset,
                                 batch_size=batch_size,

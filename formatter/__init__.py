@@ -22,7 +22,7 @@ from .IMDBPromptRobertaFormatter import IMDBPromptRobertaFormatter
 from .projectorPromptRobertaFormatter import projectorPromptRobertaFormatter
 from .mutiGPU_STSBPromptRobertaFormatter import mutiGPU_STSBPromptRobertaFormatter
 from .crossPromptRobertaFormatter import crossPromptRobertaFormatter
-from .mlmPromptRobertaFormatter import mlmPromptRobertaFormatter
+from .mlmPromptFormatter import mlmPromptFormatter
 logger = logging.getLogger(__name__)
 
 
