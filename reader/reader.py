@@ -15,11 +15,53 @@ formatter = {}
 
 def init_formatter(config, task_list, *args, **params):
 
+
+    if "args" in params:
+        if params["args"].pre_train_mlm==True:
+            for task in task_list:
+                formatter[task] = form.init_formatter(config, task, *args, **params)
+
+                def train_collate_fn(data):
+                    return formatter["train"].process(data, config, "train", args=params)
+
+                def valid_collate_fn(data):
+                    return formatter["valid"].process(data, config, "valid", args=params)
+
+                def test_collate_fn(data):
+                    return formatter["test"].process(data, config, "test", args=params)
+
+                if task == "train":
+                    collate_fn[task] = train_collate_fn
+                elif task == "valid":
+                    collate_fn[task] = valid_collate_fn
+                else:
+                    collate_fn[task] = test_collate_fn
+    else:
+        for task in task_list:
+            formatter[task] = form.init_formatter(config, task, *args, **params)
+
+            def train_collate_fn(data):
+                return formatter["train"].process(data, config, "train", args=params)
+
+            def valid_collate_fn(data):
+                return formatter["valid"].process(data, config, "valid")
+
+            def test_collate_fn(data):
+                return formatter["test"].process(data, config, "test")
+
+            if task == "train":
+                collate_fn[task] = train_collate_fn
+            elif task == "valid":
+                collate_fn[task] = valid_collate_fn
+            else:
+                collate_fn[task] = test_collate_fn
+
+    '''
     for task in task_list:
         formatter[task] = form.init_formatter(config, task, *args, **params)
 
         def train_collate_fn(data):
-            return formatter["train"].process(data, config, "train")
+            return formatter["train"].process(data, config, "train", args=params)
 
         def valid_collate_fn(data):
             return formatter["valid"].process(data, config, "valid")
@@ -33,6 +75,7 @@ def init_formatter(config, task_list, *args, **params):
             collate_fn[task] = valid_collate_fn
         else:
             collate_fn[task] = test_collate_fn
+    '''
 
 
 

@@ -25,6 +25,14 @@ class restaurantDataset(Dataset):
                 self.data.append(ins)
         '''
 
+        '''
+        for line in data:
+            print(line)
+        print("===")
+        print(len(data))
+        exit()
+        '''
+
         emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
         #emo_dict={"positive":0,"neutral":1,"negative":2}
 

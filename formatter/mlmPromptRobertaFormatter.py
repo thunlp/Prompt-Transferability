@@ -3,6 +3,8 @@ import torch
 import json
 import numpy as np
 from .Basic import BasicFormatter
+import random
+import logging
 
 class mlmPromptRobertaFormatter(BasicFormatter):
     def __init__(self, config, mode, *args, **params):
@@ -28,28 +30,13 @@ class mlmPromptRobertaFormatter(BasicFormatter):
 
     def process(self, data, config, mode, *args, **params):
 
-        print("====")
-        print(params)
-        print("====")
-        exit()
+        if params["args"]["args"].pre_train_mlm==True:
+            return self.convert_example_to_features(data)
 
-        '''
-        print("========")
-        print("========")
-        print("========")
 
-        for line in data:
-            print(line)
-            exit()
-        print("!!!!")
-        print("!!!!")
-        print("!!!!")
-
-        exit()
-        '''
         ###############
         ###############
-
+        '''
         inputx = []
         mask = []
         label = []
@@ -72,3 +59,105 @@ class mlmPromptRobertaFormatter(BasicFormatter):
             "label": torch.tensor(label, dtype=torch.long),
         }
         return ret
+        '''
+
+    def convert_example_to_features(self, data):
+
+        inputx = []
+        mask = []
+        label = []
+
+        max_len = self.max_len + 3 + self.prompt_num
+
+        #input_ids, lm_label_ids, input_mask,
+        for d in data:
+            #tokens = self.tokenizer.encode(d["sent"], add_special_tokens = False)
+            input_ids = self.tokenizer.encode(d["sent"], add_special_tokens = False)
+
+            if len(input_ids) > self.max_len-3:
+                input_ids = input_ids[:self.max_len-3]
+
+            input_ids, lm_label_ids = self.random_word(input_ids)
+
+            input_ids = self.prompt_prefix + [self.tokenizer.cls_token_id] + input_ids + [self.tokenizer.sep_token_id]
+            lm_label_ids = [-1]*len(self.prompt_prefix) + [-1]*len([self.tokenizer.cls_token_id]) + lm_label_ids + [-1]*len([self.tokenizer.sep_token_id])
+
+            input_mask = [1] * len(input_ids)
+
+            while len(input_ids) < max_len:
+                input_ids.append(0)
+                input_mask.append(0)
+                #segment_ids.append(0)
+                lm_label_ids.append(-1)
+
+            inputx.append(input_ids)
+            mask.append(input_mask)
+            label.append(lm_label_ids)
+
+        ret = {
+            "inputx": torch.tensor(inputx, dtype=torch.long),
+            "mask": torch.tensor(mask, dtype=torch.float),
+            "label": torch.tensor(label, dtype=torch.long),
+        }
+
+
+    def random_word(self, tokens):
+        """
+        Masking some random tokens for Language Model task with probabilities as in the original BERT paper.
+        :param tokens: list of str, tokenized sentence.
+        :param tokenizer: Tokenizer, object used for tokenization (we need it's vocab here)
+        :return: (list of str, list of int), masked tokens and related labels for LM prediction
+        """
+        output_label = []
+
+        #tokens --> token id
+        for i, token in enumerate(tokens):
+            prob = random.random()
+            # mask token with 15% probability
+            if prob < 0.15:
+                prob /= 0.15
+
+                # 80% randomly change token to mask token
+                #print(self.tokenizer.decode[50264])
+                if prob < 0.8:
+                    if "Roberta" in self.model_name:
+                        tokens[i] = self.tokenizer.encode("<mask>",add_special_tokens=False)[0]
+                    elif "Bert" in self.model_name:
+                        tokens[i] = self.tokenizer.encode("[MASK]",add_special_tokens=False)[0]
+                    else:
+                        print("Wrong")
+                        exit()
+                    #tokens[i] = "[MASK]"
+
+                # 10% randomly change token to random token
+                elif prob < 0.9:
+                    #tokens[i] = random.choice(list(self.tokenizer.vocab.items()))[0]
+                    tokens[i] = random.choice(list(self.tokenizer.vocab.items()))[1]
+
+                # -> rest 10% randomly keep current token
+
+                # append current token to output (we will predict these later)
+
+                try:
+                    #output_label.append(self.tokenizer.vocab[token])
+                    output_label.append(token)
+                except KeyError:
+                    # For unknown words (should not occur with BPE vocab)
+                    ###
+                    if "Roberta" in self.model_name:
+                        output_label.append(self.tokenizer.vocab["<unk>"])
+                    elif "Bert" in self.model_name:
+                        output_label.append(self.tokenizer.vocab["[UNK]"])
+                    else:
+                        print("Wrong")
+                        exit()
+                    ###
+                    #output_label.append(self.tokenizer.vocab["[UNK]"])
+                    logger.warning("Cannot find token '{}' in vocab. Using [UNK] insetad".format(token))
+            else:
+                # no masking token (will be ignored by loss function later)
+                output_label.append(-1)
+
+        return tokens, output_label
+
+

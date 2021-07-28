@@ -335,6 +335,7 @@ def main():
             )
 
     # Initialize our Trainer
+    '''
     print("=====")
     print(data_collator)
     print("11111")
@@ -348,6 +349,7 @@ def main():
         exit()
     print("=====")
     exit()
+    '''
 
     trainer = Trainer(
         model=model,
@@ -357,6 +359,16 @@ def main():
         eval_dataset=eval_dataset,
         #prediction_loss_only=True,
     )
+
+    '''
+    print("=====")
+    print(trainer)
+    for line in trainer:
+        print(line)
+    print("=====")
+    exit()
+    '''
+
 
     # Training
     if training_args.do_train:
