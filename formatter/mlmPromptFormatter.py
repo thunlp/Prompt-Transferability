@@ -15,7 +15,7 @@ class mlmPromptRobertaFormatter(BasicFormatter):
         self.prompt_num = config.getint("prompt", "prompt_num")
         self.mode = mode
         ##########
-        self.model_name = config.get("model","model_name")
+        self.model_name = config.get("output","model_name")
         if "Roberta" in self.model_name:
             self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
         elif "Bert" in self.model_name:

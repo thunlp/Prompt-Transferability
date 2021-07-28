@@ -7,6 +7,7 @@ from .projectPromptRoberta_prompt import projectPromptRoberta_prompt
 #from .SQuADPromptRoberta import SQuADPromptRoberta
 from .PromptBert import PromptBert
 from .crossPromptRoberta import crossPromptRoberta
+from .mlmPrompt import mlmPrompt
 model_list = {
     "BinaryClsBERT": BinaryClsBERT,
     "RTEPrompt": PromptClsBERT,
@@ -18,7 +19,8 @@ model_list = {
     "projectPromptRoberta_prompt": projectPromptRoberta_prompt,
     "crossPromptRoberta": crossPromptRoberta,
     #"SQuADPromptRoberta": SQuADPromptRoberta
-    "PromptBert": PromptBert
+    "PromptBert": PromptBert,
+    "mlmPrompt": mlmPrompt
 }
 
 def get_model(model_name):

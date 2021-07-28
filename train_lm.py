@@ -81,6 +81,8 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
+    ####
+    '''
     if "Roberta" in config.get("data","train_formatter_type"):
         formatter = "mlmPromptRoberta"
         config.set("data","train_formatter_type",formatter)
@@ -94,6 +96,14 @@ if __name__ == "__main__":
     else:
         print("Wrong")
         exit()
+    '''
+    ####
+
+
+    formatter = "mlmPrompt"
+    config.set("data","train_formatter_type",formatter)
+    config.set("model","model_name","mlmPrompt")
+
 
     parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, args=args)
 

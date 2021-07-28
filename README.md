@@ -144,5 +144,6 @@ To-Do:
 5. Fix projector_prompt.py --> I can just change prompt emb in the init_tool.py. (Think: how to not use prompt_output parameter)
 6. create.py (extract prompt....think better methods)
 7. Fix code (valid_projector_prompt.py) like (valid_roberta-bert_prompt.py)
+8. To-Do: merge Bert and Roberta in Model and Formatter
 ---
 ![](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)

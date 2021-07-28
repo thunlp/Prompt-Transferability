@@ -50,7 +50,7 @@ formatter_list = {
     "projectorPromptRoberta": projectorPromptRobertaFormatter,
     "mutiGPU_STSBPromptRoberta": mutiGPU_STSBPromptRobertaFormatter,
     "crossPromptRoberta":crossPromptRobertaFormatter,
-    "mlmPromptRoberta":mlmPromptRobertaFormatter,
+    "mlmPrompt":mlmPromptFormatter,
 }
 
 
