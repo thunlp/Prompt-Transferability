@@ -100,6 +100,8 @@ class mlmPromptRobertaFormatter(BasicFormatter):
             "label": torch.tensor(label, dtype=torch.long),
         }
 
+        return ret
+
 
     def random_word(self, tokens):
         """
