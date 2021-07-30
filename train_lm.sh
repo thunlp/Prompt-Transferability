@@ -19,7 +19,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/restaurantPromptR
     #--do_test \
     #--comment \
     #--seed
-exit
 
 
 
