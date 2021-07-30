@@ -52,7 +52,7 @@ class mlmPromptFormatter(BasicFormatter):
             input_ids, lm_label_ids = self.random_word(input_ids)
 
             input_ids = self.prompt_prefix + [self.tokenizer.cls_token_id] + input_ids + [self.tokenizer.sep_token_id]
-            lm_label_ids = [-1]*len(self.prompt_prefix) + [-1]*len([self.tokenizer.cls_token_id]) + lm_label_ids + [-1]*len([self.tokenizer.sep_token_id])
+            lm_label_ids = [-100]*len(self.prompt_prefix) + [-100]*len([self.tokenizer.cls_token_id]) + lm_label_ids + [-100]*len([self.tokenizer.sep_token_id])
 
             input_mask = [1] * len(input_ids)
 
@@ -60,7 +60,7 @@ class mlmPromptFormatter(BasicFormatter):
                 input_ids.append(0)
                 input_mask.append(0)
                 #segment_ids.append(0)
-                lm_label_ids.append(-1)
+                lm_label_ids.append(-100)
 
             inputx.append(input_ids)
             mask.append(input_mask)
@@ -130,7 +130,7 @@ class mlmPromptFormatter(BasicFormatter):
                     logger.warning("Cannot find token '{}' in vocab. Using [UNK] insetad".format(token))
             else:
                 # no masking token (will be ignored by loss function later)
-                output_label.append(-1)
+                output_label.append(-100)
 
         return tokens, output_label
 

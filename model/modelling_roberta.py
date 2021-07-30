@@ -1059,6 +1059,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
 
             masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.view(-1))
 
+
         if not return_dict:
             output = (prediction_scores,) + outputs[2:]
             if prompt_emb_output == True:

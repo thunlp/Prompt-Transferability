@@ -136,62 +136,22 @@ class mlmPrompt(nn.Module):
         # self.class_token_id = torch.tensor([10932, 2362])
 
     def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output=False, **kwargs):
-        # print(self.encoder.roberta.embeddings.prompt_embeddings.weight)
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
+        elif "label" in data:
+            output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], labels=data["label"])
         else:
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 
-        # batch, seq_len = data["inputx"].shape[0], data["inputx"].shape[1]
-        # prompt = self.prompt_emb.weight # prompt_len, 768
-
-        # input = self.encoder.get_input_embeddings()(data["inputx"])
-        # embs = torch.cat([prompt.unsqueeze(0).repeat(batch, 1, 1), input], dim = 1)
-
-        # output = self.encoder(attention_mask=data['mask'], inputs_embeds=embs)
 
 
         logits = output["logits"] # batch, seq_len, vocab_size #torch.Size([16, 231, 50265])
 
         mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
-
-
-        '''
-        print("==============")
-        print("==============")
-
-        #sentiment
-        #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
-        print(tokenizer.encode("positive",add_special_tokens=False)) #22173
-        #print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
-        print(tokenizer.encode("moderate",add_special_tokens=False)) #19397
-        print(tokenizer.encode("negative",add_special_tokens=False)) #33407
-        print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
-
-        #NLI
-        print(tokenizer.convert_ids_to_tokens([10932])) #['yes']
-        print(tokenizer.convert_ids_to_tokens([12516])) #['neutral']
-        print(tokenizer.convert_ids_to_tokens([2362])) #['no']
-
-        #paraphrase
-        print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
-        print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
-
-
-        print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
-        print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
-
-        print("==============")
-        print("==============")
-        exit()
         '''
 
-        '''
-        if config.get("data", "train_dataset_type") == "IMDB":
-            #sentiment
-            #mo_dict={"positive":22173,"negative":33407}
-            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1)], dim=1)
-        '''
+
+
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
@@ -236,10 +196,18 @@ class mlmPrompt(nn.Module):
 
 
         loss = self.criterion(score, data["label"])
+
         if config.get("data", "train_dataset_type") == "STSB":
             acc_result = pearson(score, data['label'], acc_result)
         else:
             acc_result = acc(score, data['label'], acc_result)
+        '''
+
+        ####
+        #MLM
+        loss = output["loss"]
+        acc_result = acc_mlm(logits, data['label'], acc_result)
+        ####
 
         if prompt_emb_output == True:
             return {'loss': loss, 'acc_result': acc_result}, prompt_emb, data['label']
@@ -247,17 +215,23 @@ class mlmPrompt(nn.Module):
             return {'loss': loss, 'acc_result': acc_result}
 
 
+def acc_mlm(score, label, acc_result):
+    if acc_result is None:
+        acc_result = {'total': 0, 'right': 0}
+
+    predict = torch.max(score, dim = 2)[1]
+
+    NOT_MASK = [label!=-100]
+    predict = predict[NOT_MASK]
+    label = label[NOT_MASK]
+
+    acc_result['total'] += int(label.shape[0])
+    acc_result['right'] += int((predict == label).int().sum())
+
+    return acc_result
+
+
 def acc(score, label, acc_result):
-    '''
-    print("========")
-    print("========")
-    print(label)
-    print(score)
-    #print(predict)
-    print("========")
-    print("========")
-    exit()
-    '''
     if acc_result is None:
         acc_result = {'total': 0, 'right': 0}
     predict = torch.max(score, dim = 1)[1]

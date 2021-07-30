@@ -1,5 +1,5 @@
 mkdir RobertaForMaskedLM
-gpus=2
+gpus=7
 
 
 ################################
@@ -20,12 +20,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/restaurantPromptR
     #--comment \
     #--seed
 
-exit
 
-'''
+
 #laptop
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
     #--checkpoint roberta-base \
     #--local_rank \
     #--do_test \
@@ -34,13 +34,16 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
 
 
 #IMDB
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
+
 
 
 #SST-2
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
     #--checkpoint roberta-base \
     #--local_rank \
     #--do_test \
@@ -54,12 +57,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
 ############
 
 #MRPC
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
 
 #QQP
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
 
 
 ############
@@ -68,17 +73,22 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.con
 
 #RTE
 #Remove prompts between two sentences
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/RTEPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
+
+
 
 #MNLI
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
 
 
 #WNLI
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
 
 
 ############
@@ -86,8 +96,9 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptRoberta.co
 ############
 
 #RE
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WikiREDPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/WikiREDPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
 
 
 ############
@@ -95,28 +106,31 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WikiREDPromptRoberta
 ############
 
 
+
 #QNLI
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
 
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
+    --pre-train_mlm True \
+
+
+
 '''
-
-
-
 ################################
 ###########BERT#################
 ################################
 
-'''
 ############
 #Sentiment
 ############
 
 #restaurant
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
     #--checkpoint roberta-base \
     #--local_rank \
@@ -126,7 +140,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptBert
 
 
 #laptop
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/laptopPromptBert.config \
     --gpu $gpus \
     #--checkpoint roberta-base \
     #--local_rank \
@@ -136,12 +150,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptBert.con
 
 
 #IMDB
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/IMDBPromptBert.config \
     --gpu $gpus \
 
 
 #SST-2
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/SST2PromptBert.config \
     --gpu $gpus \
     #--checkpoint roberta-base \
     #--local_rank \
@@ -156,13 +170,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptBert.confi
 
 
 #MRPC
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MRPCPromptBert.config \
     --gpu $gpus \
 
 
 
 #QQP
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QQPPromptBert.config \
     --gpu $gpus \
 
 
@@ -173,19 +187,19 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptBert.config
 
 #RTE
 #Remove prompts between two sentences
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/RTEPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/RTEPromptBert.config \
     --gpu $gpus \
 
 
 
 #MNLI
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MNLIPromptBert.config \
     --gpu $gpus \
 
 
 
 #WNLI
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/WNLIPromptBert.config \
     --gpu $gpus \
 
 
@@ -195,7 +209,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptBert.confi
 ############
 
 #RE
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WikiREDPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/WikiREDPromptBert.config \
     --gpu $gpus \
 
 
@@ -205,12 +219,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WikiREDPromptBert.co
 
 
 #QNLI
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QNLIPromptBert.config \
     --gpu $gpus \
 
 
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptBert.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/STSBPromptBert.config \
     --gpu $gpus \
 '''
 

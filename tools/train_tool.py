@@ -31,6 +31,8 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
 
 
 def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
+
+
     epoch = config.getint("train", "epoch")
     batch_size = config.getint("train", "batch_size")
 
@@ -45,14 +47,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
     trained_epoch = parameters["trained_epoch"] + 1
     model = parameters["model"]
     optimizer = parameters["optimizer"]
-    #print("=====")
-    #print(model)
-    #print(model.state_dict)
-    #print("------")
-    #print(optimizer)
-    #print(optimizer.state_dict())
-    #print("=====")
-    #exit()
     dataset = parameters["train_dataset"]
     global_step = parameters["global_step"]
     output_function = parameters["output_function"]
@@ -106,7 +100,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
 
             model.zero_grad()
 
-
             results = model(data, config, gpu_list, acc_result, "train")
 
             loss, acc_result = results["loss"], results["acc_result"]
@@ -145,10 +138,12 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
             raise NotImplementedError
 
         if local_rank <= 0:
-            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config,
-                    global_step)
-            writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1),
-                            current_epoch)
+            if args["args"].pre_train_mlm==True:
+                checkpoint(os.path.join(output_path+"_mlm", "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
+            else:
+                checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
+
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1), current_epoch)
 
         if current_epoch % test_time == 0:
             with torch.no_grad():

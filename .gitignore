@@ -21,6 +21,27 @@ model/projectPromptRoberta_1layer*
 model/projectorPromptRoberta*
 model/crossPromptRoberta*
 
+model/RTE_BERT_mlm*
+model/SST2PromptRoberta_mlm*
+model/REPrompt_mlm*
+model/MNLIPromptRoberta_mlm*
+model/MRPCPromptRoberta_mlm*
+model/QNLIPromptRoberta_mlm*
+model/QQPPromptRoberta_mlm*
+model/RTEPromptRoberta_mlm*
+model/STSBPromptRoberta_mlm*
+model/WNLIPromptRoberta_mlm*
+model/laptopPromptRoberta_mlm*
+model/restaurantPromptRoberta_mlm*
+model/IMDBPromptRoberta_mlm*
+model/WikiREDPromptRoberta_mlm*
+model/projectPromptRoberta_mlm*
+model/projectorPromptRoberta_mlm*
+model/crossPromptRoberta_mlm*
+
+
+
+
 
 model/SST2PromptBert*
 model/REPrompt*
@@ -39,6 +60,24 @@ model/projectPromptBert*
 model/projectPromptBert_1layer*
 mode/projectorPromptBert*
 model/crossPromptBert*
+
+model/SST2PromptBert_mlm*
+model/REPrompt_mlm*
+model/MNLIPromptBert_mlm*
+model/MRPCPromptBert_mlm*
+model/QNLIPromptBert_mlm*
+model/QQPPromptBert_mlm*
+model/RTEPromptBert_mlm*
+model/STSBPromptBert_mlm*
+model/WNLIPromptBert_mlm*
+model/laptopPromptBert_mlm*
+model/restaurantPromptBert_mlm*
+model/IMDBPromptBert_mlm*
+model/WikiREDPromptBert_mlm*
+model/projectPromptBert_mlm*
+model/projectPromptBert_mlm_1layer*
+mode/projectorPromptBert_mlm*
+model/crossPromptBert_mlm*
 
 
 /result_mlm
