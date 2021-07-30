@@ -136,10 +136,15 @@ class mlmPrompt(nn.Module):
         # self.class_token_id = torch.tensor([10932, 2362])
 
     def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output=False, **kwargs):
+
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
-        elif "label" in data:
-            output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], labels=data["label"])
+        elif "pre_train_mlm" in kwargs["args"]["args"]:
+            if kwargs["args"]["args"].pre_train_mlm:
+                output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], labels=data["label"])
+            else:
+                print("Have no train task!!")
+                exit()
         else:
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 

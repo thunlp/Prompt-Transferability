@@ -39,8 +39,11 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
     output_time = config.getint("output", "output_time")
     test_time = config.getint("output", "test_time")
 
-    if args["args"].pre_train_mlm == True:
-        output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))+"_mlm"
+    if "pre_train_mlm" in args["args"]:
+        if args["args"].pre_train_mlm == True:
+            output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))+"_mlm"
+        else:
+            output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))
     else:
         output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))
     if os.path.exists(output_path):
@@ -103,7 +106,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
 
             model.zero_grad()
 
-            results = model(data, config, gpu_list, acc_result, "train")
+
+            results = model(data, config, gpu_list, acc_result, "train", args=args)
+            #results = model(data, config, gpu_list, acc_result, "train")
 
             loss, acc_result = results["loss"], results["acc_result"]
 

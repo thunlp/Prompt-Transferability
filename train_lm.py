@@ -6,6 +6,7 @@ import random
 import numpy as np
 from tools.init_tool import init_all
 from config_parser import create_config
+#from tools.train_tool_mlm import train
 from tools.train_tool import train
 ######################
 from transformers import DataCollatorForLanguageModeling
@@ -36,7 +37,7 @@ if __name__ == "__main__":
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
     #parser.add_argument("--load_initial_model", type=str, default=None)
-    parser.add_argument("--pre-train_mlm", type=bool, default=False)
+    parser.add_argument("--pre_train_mlm", type=bool, default=False)
 
     args = parser.parse_args()
 
