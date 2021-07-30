@@ -39,7 +39,10 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
     output_time = config.getint("output", "output_time")
     test_time = config.getint("output", "test_time")
 
-    output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))
+    if args["args"].pre_train_mlm == True:
+        output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))+"_mlm"
+    else:
+        output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))
     if os.path.exists(output_path):
         logger.warning("Output path exists, check whether need to change a name of model")
     os.makedirs(output_path, exist_ok=True)
@@ -138,11 +141,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
             raise NotImplementedError
 
         if local_rank <= 0:
-            if args["args"].pre_train_mlm==True:
-                checkpoint(os.path.join(output_path+"_mlm", "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
-            else:
-                checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
-
+            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
             writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1), current_epoch)
 
         if current_epoch % test_time == 0:
