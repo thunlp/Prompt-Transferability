@@ -1,4 +1,4 @@
-gpus=7
+gpus=2
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 run_lm.py

@@ -1,6 +1,7 @@
 /data
 /tsne-cuda
 
+result_mlm*
 
 model/RTE_BERT*
 model/SST2PromptRoberta*
