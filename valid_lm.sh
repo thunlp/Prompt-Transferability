@@ -17,12 +17,10 @@ gpus=6
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_lm.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta_mlm/8.pkl \
+    --checkpoint model/restaurantPromptRoberta_mlm/15.pkl \
     --pre_train_mlm True \
     --save_name mlm
 
-
-exit
 
 
 #laptop

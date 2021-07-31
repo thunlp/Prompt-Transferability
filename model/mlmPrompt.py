@@ -157,10 +157,10 @@ class mlmPrompt(nn.Module):
 
         logits = output["logits"] # batch, seq_len, vocab_size #torch.Size([16, 231, 50265])
 
+        '''
         mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
 
 
-        '''
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}

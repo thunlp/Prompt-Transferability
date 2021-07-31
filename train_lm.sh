@@ -1,5 +1,5 @@
 mkdir RobertaForMaskedLM
-gpus=7
+gpus=1
 
 
 ################################
@@ -20,6 +20,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/restaurantPromptR
     #--comment \
     #--seed
 
+exit
 
 
 #laptop
