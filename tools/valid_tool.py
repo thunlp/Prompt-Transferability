@@ -48,6 +48,11 @@ def output_value(epoch, mode, step, time, loss, info, end, config):
 
 
 def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mode="valid", **kwargs):
+
+
+    if "args" in kwargs:
+        kwargs = kwargs["args"]
+
     model.eval()
     local_rank = config.getint('distributed', 'local_rank')
 
@@ -77,16 +82,19 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                         data[key] = Variable(data[key])
 
             #results = model(data, config, gpu_list, acc_result, "valid")
-            if kwargs["prompt_emb_output"]==True:
-                results, prompt_emb, label = model(data, config, gpu_list, acc_result, "valid", prompt_emb_output=kwargs["prompt_emb_output"])
+            if "prompt_emb_output" in kwargs:
+                if kwargs.prompt_emb_output:
+                    results, prompt_emb, label = model(data, config, gpu_list, acc_result, "valid", prompt_emb_output=kwargs.prompt_emb_output, args=kwargs)
 
-                prompt_emb = prompt_emb.to("cpu")
-                label = label.to("cpu")
-                for index, emb in enumerate(prompt_emb):
-                    try:
-                        recoder_prompt_emb[int(label[index])].append(emb)
-                    except:
-                        recoder_prompt_emb[int(label[index])]=[emb]
+                    prompt_emb = prompt_emb.to("cpu")
+                    label = label.to("cpu")
+                    for index, emb in enumerate(prompt_emb):
+                        try:
+                            recoder_prompt_emb[int(label[index])].append(emb)
+                        except:
+                            recoder_prompt_emb[int(label[index])]=[emb]
+                else:
+                    results = model(data, config, gpu_list, acc_result, "valid")
             else:
                 results = model(data, config, gpu_list, acc_result, "valid")
 
@@ -131,7 +139,8 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
 
         ###save result
         if "save_name" in kwargs:
-            postfix = kwargs["save_name"]
+            #postfix = kwargs["save_name"]
+            postfix = kwargs.save_name
         else:
             postfix = None
 

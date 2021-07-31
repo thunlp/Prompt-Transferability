@@ -136,6 +136,7 @@ class mlmPrompt(nn.Module):
         # self.class_token_id = torch.tensor([10932, 2362])
 
     def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output=False, **kwargs):
+
         if "args" in kwargs:
             kwargs = kwargs["args"]
 
@@ -144,6 +145,8 @@ class mlmPrompt(nn.Module):
         elif "pre_train_mlm" in kwargs:
             if kwargs.pre_train_mlm:
                 output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], labels=data["label"])
+            if kwargs.pre_train_mlm==False:
+                output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
             else:
                 print("Have no train task!!")
                 exit()
@@ -155,10 +158,9 @@ class mlmPrompt(nn.Module):
         logits = output["logits"] # batch, seq_len, vocab_size #torch.Size([16, 231, 50265])
 
         mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
+
+
         '''
-
-
-
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
@@ -198,8 +200,6 @@ class mlmPrompt(nn.Module):
             #mask_logits:torch.Size([16, 50265])
             #mo_dict={"yes":10932,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-
-
 
 
         loss = self.criterion(score, data["label"])

@@ -33,6 +33,10 @@ if __name__ == "__main__":
     parser.add_argument('--do_test', help="do test while training or not", action="store_true")
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument("--pre_train_mlm", type=bool, default=False)
+    parser.add_argument("--prompt_emb_output", type=bool, default=False)
+    parser.add_argument("--save_name", type=str, default=None)
+
     args = parser.parse_args()
 
     configFilePath = args.config
@@ -77,4 +81,4 @@ if __name__ == "__main__":
     model = parameters["model"]
 
     #valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=False, save_name=args.config)
-    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=False)
+    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid")

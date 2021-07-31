@@ -34,6 +34,7 @@ if __name__ == "__main__":
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--model_prompt", type=str, default=None)
+    parser.add_argument("--save_name", type=str, default="cross")
 
 
     args = parser.parse_args()
@@ -85,4 +86,5 @@ if __name__ == "__main__":
 
     model = parameters["model"]
 
-    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output="replace_task_specific_prompt_emb", save_name="cross")
+
+    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output="replace_task_specific_prompt_emb", args=args)
