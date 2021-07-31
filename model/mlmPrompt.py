@@ -145,7 +145,7 @@ class mlmPrompt(nn.Module):
         elif "pre_train_mlm" in kwargs:
             if kwargs.pre_train_mlm:
                 output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], labels=data["label"])
-            if kwargs.pre_train_mlm==False:
+            elif kwargs.pre_train_mlm==False:
                 output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
             else:
                 print("Have no train task!!")
