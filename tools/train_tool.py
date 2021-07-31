@@ -30,7 +30,10 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
 
 
-def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
+def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **kwargs):
+
+    if "args" in kwargs:
+        kwargs = kwargs["args"]
 
 
     epoch = config.getint("train", "epoch")
@@ -39,13 +42,11 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
     output_time = config.getint("output", "output_time")
     test_time = config.getint("output", "test_time")
 
-    if "pre_train_mlm" in args["args"]:
-        if args["args"].pre_train_mlm == True:
-            output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))+"_mlm"
-        else:
-            output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))
+    if kwargs.pre_train_mlm == True:
+        output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))+"_mlm"
     else:
         output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))
+
     if os.path.exists(output_path):
         logger.warning("Output path exists, check whether need to change a name of model")
     os.makedirs(output_path, exist_ok=True)
@@ -107,7 +108,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
             model.zero_grad()
 
 
-            results = model(data, config, gpu_list, acc_result, "train", args=args)
+            results = model(data, config, gpu_list, acc_result, "train", args=kwargs)
             #results = model(data, config, gpu_list, acc_result, "train")
 
             loss, acc_result = results["loss"], results["acc_result"]
@@ -151,7 +152,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **args):
 
         if current_epoch % test_time == 0:
             with torch.no_grad():
-                valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function)
+                valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, args=kwargs)
                 if do_test:
                     valid(model, test_dataset, current_epoch, writer, config, gpu_list, output_function, mode="test")
         if local_rank >= 0:

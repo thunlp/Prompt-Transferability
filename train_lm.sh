@@ -33,6 +33,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/laptopPromptRober
     #--seed
 
 
+
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
@@ -60,6 +61,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/SST2PromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
     --pre_train_mlm True \
+
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QQPPromptRoberta.config \

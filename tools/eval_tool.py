@@ -45,7 +45,11 @@ def output_value(epoch, mode, step, time, loss, info, end, config):
         print(s)
 
 
-def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode="valid"):
+def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode="valid", **kwargs):
+    if "args" in kwargs:
+        kwargs = kwargs["args"]
+
+
     model.eval()
     local_rank = config.getint('distributed', 'local_rank')
 
@@ -70,7 +74,7 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
                 else:
                     data[key] = Variable(data[key])
 
-        results = model(data, config, gpu_list, acc_result, "valid")
+        results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
 
         loss, acc_result = results["loss"], results["acc_result"]
         total_loss += float(loss)
