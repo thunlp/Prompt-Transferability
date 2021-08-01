@@ -146,5 +146,6 @@ To-Do:
 7. Fix code (valid_projector_prompt.py) like (valid_roberta-bert_prompt.py)
 8. To-Do: merge Bert and Roberta in Model and Formatter
 9. Merge: (train.py, train_lm.py), (valid.py, valid_lm.py), (mlmPrompt, PromptRoberta, PromptBert)
+10. MUST merge model/--Prompt--.py. Prompt_mlm is the optimal.
 ---
 ![](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)

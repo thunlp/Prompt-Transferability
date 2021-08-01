@@ -10,6 +10,7 @@ import random
 import numpy as np
 from tools.eval_tool import valid, gen_time_str, output_value
 from tools.init_tool import init_test_dataset, init_formatter
+from reader.reader import init_dataset
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
 
 
-def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **kwargs):
+def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **kwargs):
 
     if "args" in kwargs:
         kwargs = kwargs["args"]
@@ -97,6 +98,22 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **kwargs):
 
         output_info = ""
         step = -1
+        ##############################
+        #####MLM re-mask tokens#######
+        ##Other task remain the same##
+        ##############################
+        if kwargs.pre_train_mlm == True:
+            if do_test:
+                init_formatter(config, ["test"])
+                test_dataset = init_test_dataset(config, *args, args=kwargs)
+            else:
+                parameters["train_dataset"], parameters["valid_dataset"] = init_dataset(config, *args, args=kwargs)
+                dataset = parameters["train_dataset"]
+        else:
+            pass
+        ##############################
+
+
         for step, data in enumerate(dataset):
             for key in data.keys():
                 if isinstance(data[key], torch.Tensor):
