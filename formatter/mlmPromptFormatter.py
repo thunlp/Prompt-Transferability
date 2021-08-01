@@ -44,7 +44,12 @@ class mlmPromptFormatter(BasicFormatter):
         #input_ids, lm_label_ids, input_mask,
         for d in data:
             #tokens = self.tokenizer.encode(d["sent"], add_special_tokens = False)
-            input_ids = self.tokenizer.encode(d["sent"], add_special_tokens = False)
+            if "sent1" in d and "sent2" in d:
+                input_ids = self.tokenizer.encode(d["sent1"], add_special_tokens = False)
+                input_ids = self.tokenizer.encode(d["sent2"], add_special_tokens = False)
+            else:
+                input_ids = self.tokenizer.encode(d["sent"], add_special_tokens = False)
+            #input_ids = self.tokenizer.encode(d["sent"], add_special_tokens = False)
 
             if len(input_ids) > self.max_len-3:
                 input_ids = input_ids[:self.max_len-3]
