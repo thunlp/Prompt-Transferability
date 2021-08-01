@@ -69,10 +69,6 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
-    #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
-
-    #print(parameters)
 
     do_test = False
     if args.do_test:
@@ -88,5 +84,9 @@ if __name__ == "__main__":
     config.set("model","model_name","mlmPrompt")
     ###
 
+    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, args=args)
+    #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
+
     model = parameters["model"]
+
     valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", args=args)

@@ -18,7 +18,6 @@ fi
 #Sentiment Classification
 ############
 #IMDB
-'''
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
@@ -129,9 +128,11 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptRoberta.c
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
     --return_or_save save
+
+
+
+
 '''
-
-
 ####################################
 ############Bert####################
 ####################################
@@ -254,4 +255,123 @@ CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptBert.conf
     --gpu $gpus \
     --checkpoint model/STSBPromptBert/15.pkl \
     --return_or_save save
+'''
 
+
+
+
+################
+######MLM
+################
+
+#IMDB
+rm -rf task_prompt_emb/IMDBPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/IMDBPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/IMDBPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+#restaurant
+rm -rf task_prompt_emb/restaurantPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/restaurantPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/restaurantPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+#laptop
+rm -rf task_prompt_emb/laptopPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/laptopPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/laptopPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+#SST
+rm -rf task_prompt_emb/SST2PromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/SST2PromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/SST2PromptRoberta_mlm/15.pkl \
+    --return_or_save save
+    #--result /data3/private/suyusheng/prompt/prompt/model/SST2PromptRoberta_mlm_result \
+    #--data_type eval \
+    #--local_rank \
+    #--do_test \
+    #--comment \
+    #--seed
+
+############
+#NLI
+############
+
+#RTE
+rm -rf task_prompt_emb/RTEPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/RTEPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/RTEPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+#MNLI
+rm -rf task_prompt_emb/MNLIPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MNLIPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/MNLIPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+#WNLI
+rm -rf task_prompt_emb/WNLIPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/WNLIPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/WNLIPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+############
+#Paraphrase
+############
+
+#MRPC
+rm -rf task_prompt_emb/MRPCPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/MRPCPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/MRPCPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+
+#QQP
+rm -rf task_prompt_emb/QQPPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QQPPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/QQPPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+
+
+
+############
+#RE
+############
+#RE
+rm -rf task_prompt_emb/REPrompt
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/REPrompt.config \
+    --gpu $gpus \
+    --checkpoint model/REPrompt/15.pkl \
+
+
+
+
+
+############
+#Other
+############
+#QNLI
+rm -rf task_prompt_emb/QNLIPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/QNLIPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/QNLIPromptRoberta_mlm/15.pkl \
+    --return_or_save save
+
+
+#STSB
+rm -rf task_prompt_emb/STSBPromptRoberta_mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 create.py --config config/STSBPromptRoberta_mlm.config \
+    --gpu $gpus \
+    --checkpoint model/STSBPromptRoberta_mlm/15.pkl \
+    --return_or_save save

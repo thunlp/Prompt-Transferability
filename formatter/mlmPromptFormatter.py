@@ -71,6 +71,7 @@ class mlmPromptFormatter(BasicFormatter):
             mask.append(input_mask)
             label.append(lm_label_ids)
 
+
         ret = {
             "inputx": torch.tensor(inputx, dtype=torch.long),
             "mask": torch.tensor(mask, dtype=torch.float),

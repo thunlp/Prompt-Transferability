@@ -49,7 +49,6 @@ def output_value(epoch, mode, step, time, loss, info, end, config):
 
 def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mode="valid", **kwargs):
 
-
     if "args" in kwargs:
         kwargs = kwargs["args"]
 
@@ -94,9 +93,9 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                         except:
                             recoder_prompt_emb[int(label[index])]=[emb]
                 else:
-                    results = model(data, config, gpu_list, acc_result, "valid")
+                    results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
             else:
-                results = model(data, config, gpu_list, acc_result, "valid")
+                results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
 
             loss, acc_result = results["loss"], results["acc_result"]
             total_loss += float(loss)

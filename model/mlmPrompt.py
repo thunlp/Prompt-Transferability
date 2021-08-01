@@ -137,9 +137,11 @@ class mlmPrompt(nn.Module):
 
     def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output=False, **kwargs):
 
+
         if "args" in kwargs:
             kwargs = kwargs["args"]
 
+        #create
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
         elif "pre_train_mlm" in kwargs:
@@ -210,6 +212,9 @@ class mlmPrompt(nn.Module):
             acc_result = acc(score, data['label'], acc_result)
         '''
 
+        #print("-------")
+        #print("-------")
+        #exit()
         ####
         #MLM
         loss = output["loss"]

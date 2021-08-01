@@ -10,7 +10,6 @@ gpus=7
 #Sentiment
 ############
 
-'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
@@ -20,6 +19,9 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobe
     #--comment \
     #--seed
 
+exit
+
+'''
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \

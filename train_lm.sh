@@ -23,6 +23,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/restaurantPromptR
 
 
 
+
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
@@ -51,7 +52,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/SST2PromptRoberta
     #--do_test \
     #--comment \
     #--seed
-'''
 
 
 
@@ -63,8 +63,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/SST2PromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
     --pre_train_mlm True \
+'''
 
-exit
 
 
 #QQP
