@@ -33,9 +33,14 @@ if __name__ == "__main__":
     parser.add_argument('--do_test', help="do test while training or not", action="store_true")
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
+
     parser.add_argument("--pre_train_mlm", type=bool, default=False)
     parser.add_argument("--prompt_emb_output", type=bool, default=False)
     parser.add_argument("--save_name", type=str, default=None)
+    parser.add_argument("--task_transfer", type=bool, default=False)
+    parser.add_argument("--model_transfer", type=bool, default=False)
+    parser.add_argument("--model_prompt", type=str, default=None)
+
 
     args = parser.parse_args()
 

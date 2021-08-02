@@ -137,6 +137,7 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
 
 
         ###save result
+        '''
         if "save_name" in kwargs:
             #postfix = kwargs["save_name"]
             postfix = kwargs.save_name
@@ -154,11 +155,33 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
             with open(dir_save+"/"+"result.json", "w") as f:
                 json.dump(output_info, f)
 
-        elif kwargs["args"].model_transfer:
+        elif kwargs.model_transfer:
             with open(dir_save+"/"+"result_proj.json", "w") as f:
                 json.dump(output_info, f)
         else:
             with open(dir_save+"/"+postfix+"_result.json", "w") as f:
+                json.dump(output_info, f)
+        '''
+
+        try:
+            dataset_name = config.get("output","model_name")
+            dir_save = "result/"+str(dataset_name)
+            os.mkdir(dir_save)
+        except:
+            print("Path exists:",dir_save)
+
+
+        if kwargs.task_transfer:
+            with open(dir_save+"/"+"result_task_transfer.json", "w") as f:
+                json.dump(output_info, f)
+        elif kwargs.model_transfer:
+            with open(dir_save+"/"+"result_model_transfer.json", "w") as f:
+                json.dump(output_info, f)
+        elif kwargs.pre_train_mlm:
+            with open(dir_save+"/"+"result_mlm.json", "w") as f:
+                json.dump(output_info, f)
+        else:
+            with open(dir_save+"/"+"result.json", "w") as f:
                 json.dump(output_info, f)
 
         #writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)

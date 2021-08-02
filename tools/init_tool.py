@@ -44,9 +44,17 @@ def recover_transfer_prompt(prompt_dir):
     ##################
     all_model_dir = os.listdir("model/projectPromptRoberta")
     print(all_model_dir)
-    exit()
 
-    PATH="model/projectPromptRoberta/99_model_AE.pkl"
+    max_epoch_model=0
+    for model in all_model_dir:
+        present_epoch_model = int(model.split("_")[0])
+        if present_epoch_model > max_epoch_model:
+            max_epoch_model = present_epoch_model
+            PATH="model/projectPromptRoberta/"+str(model)
+    print("Applied Model:",PATH)
+    ###
+    #PATH="model/projectPromptRoberta/99_model_AE.pkl"
+    ###
     model = torch.load(PATH).to("cuda")
     model.eval()
 
@@ -136,7 +144,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     ########################
     ####Evalid will Open####
     ########################
-
     if params["args"].model_transfer:
         #Roberta or Bert
         name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])

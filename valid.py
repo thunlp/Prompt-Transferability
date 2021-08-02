@@ -24,6 +24,11 @@ def set_random_seed(seed):
         torch.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
 
+
+    ###
+    #model_prompt= "Bert-base", "Roberta-base", "Random"
+    ###
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', '-c', help="specific config file", required=True)
@@ -36,11 +41,13 @@ if __name__ == "__main__":
     parser.add_argument("--pre_train_mlm", type=bool, default=False)
     parser.add_argument("--prompt_emb_output", type=bool, default=False)
     parser.add_argument("--save_name", type=str, default=None)
-    parser.add_argument("--task_transfer", type=str, default=False)
-    parser.add_argument("--model_transfer", type=str, default=False)
+    parser.add_argument("--task_transfer", type=bool, default=False)
+    parser.add_argument("--model_transfer", type=bool, default=False)
+    parser.add_argument("--model_prompt", type=str, default=None)
 
 
     args = parser.parse_args()
+
 
     ####################
     if args.pre_train_mlm == True:
@@ -49,8 +56,8 @@ if __name__ == "__main__":
         config.set("data","valid_formatter_type",formatter)
         config.set("data","test_formatter_type",formatter)
         config.set("model","model_name","mlmPrompt")
-    elif args.task_transfer == True:
-        config.set("model","model_name", "projectPromptRoberta_prompt")
+    #elif args.task_transfer == True:
+    #    config.set("model","model_name", "projectPromptRoberta_prompt")
     #elif args.model_transfer == True:
     #    config.set("model","model_name", "projectPromptRoberta_prompt")
     else:
