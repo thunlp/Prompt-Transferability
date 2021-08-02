@@ -37,9 +37,9 @@ if __name__ == "__main__":
     parser.add_argument("--pre_train_mlm", type=bool, default=False)
     parser.add_argument("--prompt_emb_output", type=bool, default=False)
     parser.add_argument("--save_name", type=str, default=None)
-    parser.add_argument("--task_transfer", type=bool, default=False)
-    parser.add_argument("--model_transfer", type=bool, default=False)
-    parser.add_argument("--model_prompt", type=str, default=None)
+    parser.add_argument("--task_transfer_projector", type=bool, default=False)
+    parser.add_argument("--model_transfer_projector", type=bool, default=False)
+    parser.add_argument("--replacing_prompt", type=str, default=None)
 
 
     args = parser.parse_args()
@@ -74,7 +74,7 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, args=args)
+    parameters = init_all(config, gpu_list, args.checkpoint, "valid", local_rank = args.local_rank, args=args)
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
 
     #print(parameters)

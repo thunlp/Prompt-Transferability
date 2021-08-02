@@ -171,18 +171,35 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
             print("Path exists:",dir_save)
 
 
-        if kwargs.task_transfer:
-            with open(dir_save+"/"+"result_task_transfer.json", "w") as f:
-                json.dump(output_info, f)
-        elif kwargs.model_transfer:
-            with open(dir_save+"/"+"result_model_transfer.json", "w") as f:
-                json.dump(output_info, f)
+        if kwargs.task_transfer_projector:
+            if kwargs.replacing_prompt == None:
+                with open(dir_save+"/"+"result_task_transfer.json", "w") as f:
+                    json.dump(output_info, f)
+            else:
+                with open(dir_save+"/"+"result_task_transfer_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                    json.dump(output_info, f)
+
+        elif kwargs.model_transfer_projector:
+            if kwargs.replacing_prompt == None:
+                with open(dir_save+"/"+"result_model_transfer.json", "w") as f:
+                    json.dump(output_info, f)
+            else:
+                with open(dir_save+"/"+"result_model_transfer_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                    json.dump(output_info, f)
         elif kwargs.pre_train_mlm:
-            with open(dir_save+"/"+"result_mlm.json", "w") as f:
-                json.dump(output_info, f)
+            if kwargs.replacing_prompt == None:
+                with open(dir_save+"/"+"result_mlm.json", "w") as f:
+                    json.dump(output_info, f)
+            else:
+                with open(dir_save+"/"+"result_mlm_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                    json.dump(output_info, f)
         else:
-            with open(dir_save+"/"+"result.json", "w") as f:
-                json.dump(output_info, f)
+            if kwargs.replacing_prompt == None:
+                with open(dir_save+"/"+"result.json", "w") as f:
+                    json.dump(output_info, f)
+            else:
+                with open(dir_save+"/"+"result_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                    json.dump(output_info, f)
 
         #writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)
 

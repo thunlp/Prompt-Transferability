@@ -11,46 +11,28 @@ import os
 
 logger = logging.getLogger(__name__)
 
-'''
-class AE(nn.Module):
-    def __init__(self, **kwargs):
-        super(AE, self).__init__()
-        #self.encoder = nn.Linear(in_features=kwargs["input_dim"],out_features=kwargs["compress_dim"])
-        self.encoder = nn.Linear(in_features=768*100,out_features=3)
-        #self.decoder = nn.Linear(in_features=kwargs["compress_dim"],out_features=kwargs["input_dim"])
-        self.decoder = nn.Linear(in_features=3,out_features=768*100)
-
-        # mean-squared error loss
-        self.criterion = nn.CrossEntropyLoss()
-
-    def encoding(self, features):
-        return self.encoder(features)
-    def decoding(self, features):
-        return self.decoder(features)
-
-    def forward(self, features):
-        #activation = torch.relu(activation)
-        #return reconstructed
-        encoded_emb = self.encoding(features)
-        decoded_emb = self.decoding(encoded_emb)
-        return decoded_emb
-'''
-
-
-def recover_transfer_prompt(prompt_dir):
-
+def recover_model_transfer_prompt(prompt_emb,load_model):
     ##################
     #######AE trained#
     ##################
-    all_model_dir = os.listdir("model/projectPromptRoberta")
-    print(all_model_dir)
+    if "Bert" in load_model:
+        all_model_dir = os.listdir("model/crossPromptRoberta")
+        path = "model/crossPromptRoberta/"
+        print(all_model_dir)
+    elif "Roberta" in load_model:
+        all_model_dir = os.listdir("model/crossPromptBert")
+        path = "model/crosstPromptBert/"
+        print(all_model_dir)
+    else:
+        print("Error in init_tool.py/recover_model_transfer_prompt")
+
 
     max_epoch_model=0
     for model in all_model_dir:
         present_epoch_model = int(model.split("_")[0])
         if present_epoch_model > max_epoch_model:
             max_epoch_model = present_epoch_model
-            PATH="model/projectPromptRoberta/"+str(model)
+            PATH=path+str(model)
     print("Applied Model:",PATH)
     ###
     #PATH="model/projectPromptRoberta/99_model_AE.pkl"
@@ -58,8 +40,52 @@ def recover_transfer_prompt(prompt_dir):
     model = torch.load(PATH).to("cuda")
     model.eval()
 
-    load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
-    input = torch.nn.Parameter(torch.load(load_task_prompt_dir))
+    #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
+    input = torch.nn.Parameter(prompt_emb)
+    prompt_emb = input.reshape(int(input.shape[0])*int(input.shape[1]))
+    #print(input.shape)
+    prompt_emb = model(prompt_emb.to("cuda"))
+    #print(recovered_prompt_emb.shape)
+    prompt_emb = prompt_emb.reshape(int(input.shape[0]),int(input.shape[1])).data
+
+    return prompt_emb
+
+
+
+
+def recover_task_transfer_prompt(prompt_emb,load_model):
+    ##################
+    #######AE trained#
+    ##################
+    if "Bert" in load_model:
+        all_model_dir = os.listdir("model/projectPromptBert")
+        path = "model/projectPromptBert/"
+        print(all_model_dir)
+    elif "Roberta" in load_model:
+        all_model_dir = os.listdir("model/projectPromptRoberta")
+        path = "model/projectPromptRoberta/"
+        print(all_model_dir)
+    else:
+        print("Error in init_tool.py/recover_task_transfer_prompt")
+
+    #all_model_dir = os.listdir("model/projectPromptRoberta")
+    #print(all_model_dir)
+
+    max_epoch_model=0
+    for model in all_model_dir:
+        present_epoch_model = int(model.split("_")[0])
+        if present_epoch_model > max_epoch_model:
+            max_epoch_model = present_epoch_model
+            PATH=path+str(model)
+    print("Applied Model:",PATH)
+    ###
+    #PATH="model/projectPromptRoberta/99_model_AE.pkl"
+    ###
+    model = torch.load(PATH).to("cuda")
+    model.eval()
+
+    #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
+    input = torch.nn.Parameter(prompt_emb)
     prompt_emb = input.reshape(int(input.shape[0])*int(input.shape[1]))
     #print(input.shape)
     prompt_emb = model(prompt_emb.to("cuda"))
@@ -75,7 +101,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     result = {}
 
     logger.info("Begin to initialize dataset and formatter...")
-    if mode == "train":
+    if mode=="train" or mode=="valid":
         # init_formatter(config, ["train", "valid"], *args, **params)
         result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
     else:
@@ -144,47 +170,51 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     ########################
     ####Evalid will Open####
     ########################
-
-    if params["args"].model_transfer:
-        #Roberta or Bert
-        name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])
-        present_config = params["args"].config
-        #Donnot change prompt
-        if name_of_model_prompt in present_config:
-            pass
-        else:
-            #Change prompt
-            load_task_prompt_dir = params["args"].checkpoint.strip().split("/")[1]
-
-            if "Random" == name_of_model_prompt:
-                print("===============")
-                print("Random prompt_emb")
-                print("===============")
-                prompt_emb = torch.nn.Parameter(torch.rand(100,768)).to("cuda")
-            elif "Roberta" in params["args"].checkpoint:
-                print("===============")
-                print("Bert prompt_emb")
-                print("===============")
-                #Replace Roberta with Bert
-                load_task_prompt_dir = load_task_prompt_dir.replace("Roberta",name_of_model_prompt)
-                load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
-                prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir)).to("cuda")
+    if mode!="train" or mode!="Train":
+        print("=========================")
+        print(params)
+        print("=========================")
+        ###Replace or not
+        if params["args"].replacing_prompt == None:
+            print("=========================")
+            print("Using original prompt emb")
+            print("=========================")
+            '''
+            if "Roberta" in params["args"].checkpoint:
+                prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
             elif "Bert" in params["args"].checkpoint:
-                print("===============")
-                print("Roberta prompt_emb")
-                print("===============")
-                #Replace Bert with Roberta
-                load_task_prompt_dir = load_task_prompt_dir.replace("Bert",name_of_model_prompt)
-                load_task_prompt_dir = "task_prompt_emb/"+load_task_prompt_dir+"/task_prompt"
-                prompt_emb = torch.nn.Parameter(torch.load(load_task_prompt_dir)).to("cuda")
+                prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
             else:
-                print("===============")
-                print("Error:")
-                print("You will use the original prompt from the given model")
-                print("===============")
-                exit()
+                print("Wrong!!!")
+            '''
+            prompt_emb = None
+            pass
+        elif params["args"].replacing_prompt == "Random" or params["args"].replacing_prompt == "random":
+            #prompt_emb = torch.nn.Parameter(torch.rand(100,768)).to("cuda")
+            prompt_emb = torch.rand(100,768).to("cuda")
+        else:
+            load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
+            prompt_emb = torch.load(load_task_prompt_dir)
+        ###
 
+        ###Using Project or not
+        if params["args"].task_transfer_projector:
+            load_model = params["args"].checkpoint.strip().split("/")[1]
+            prompt_emb = recover_task_transfer_prompt(prompt_emb,load_model)
+        elif params["args"].model_transfer_projector:
+            load_model = params["args"].checkpoint.strip().split("/")[1]
+            prompt_emb = recover_model_transfer_prompt(prompt_emb,load_model)
+        elif params["args"].model_transfer_projector and params["args"].task_transfer_projector:
+            print("init_tool.py: Cannot choose both task_project and model_project")
+        else:
+            print("No project")
+            pass
 
+        ##Put prompt emb back to model
+        if prompt_emb != None:
+            prompt_emb = torch.nn.Parameter(prompt_emb).to("cuda")
+
+            ##Put prompt emb back to model
             if "Roberta" in params["args"].checkpoint:
                 model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_emb
             elif "Bert" in params["args"].checkpoint:
@@ -192,32 +222,19 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             else:
                 print("Wrong!!!")
                 exit()
-
-
-    elif params["args"].task_transfer:
-        load_task_prompt_dir = params["args"].checkpoint.strip().split("/")[1]
-        input_emb = recover_transfer_prompt(load_task_prompt_dir)
-        prompt_emb = torch.nn.Parameter(input_emb).to("cuda")
-
-
-        if "Roberta" in params["args"].checkpoint:
-            model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_emb
-        elif "Bert" in params["args"].checkpoint:
-            model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
         else:
-            print("Wrong!!!")
-            exit()
+            print("=========================")
+            print("Using original prompt emb")
+            print("=========================")
+            pass
 
-    else:
-        print("Donnot need to change prompt emb")
-        pass
     ########################
     ########################
     ########################
 
 
     try:
-        if mode == "train":
+        if mode == "train" or mode == "valid":
             trained_epoch = parameters["trained_epoch"]
             if config.get("train", "optimizer") == parameters["optimizer_name"]:
                 optimizer.load_state_dict(parameters["optimizer"])
@@ -246,7 +263,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
     result["model"] = model
-    if mode == "train":
+    if mode == "train" or mode == "valid":
         result["optimizer"] = optimizer
         result["trained_epoch"] = trained_epoch
         result["output_function"] = init_output_function(config)

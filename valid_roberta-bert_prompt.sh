@@ -2,22 +2,22 @@
 
 gpus=6
 
-#MODEL_PROMPT="Roberta-base"
-#MODEL_PROMPT="Bert-base"
-MODEL_PROMPT="Random"
+#replacing_prompt="Roberta-base"
+#replacing_prompt="Bert-base"
+replacing_prompt="Random"
 
 ############
 #Sentiment
 ############
 
-'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
-    --model_prompt Bert-base
+    --replacing_prompt restaurantPromptRoberta
 
 
+'''
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
@@ -100,8 +100,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
 
-
 '''
+
 
 ################################
 ###########BERT#################
@@ -115,7 +115,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptBert/15.pkl \
-    --model_prompt $MODEL_PROMPT
+    --replacing_prompt $replacing_prompt
 
 
 
@@ -123,7 +123,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/laptopPromptBert.config \
     --gpu $gpus \
     --checkpoint model/laptopPromptBert/15.pkl \
-    --model_prompt $MODEL_PROMPT
+    --replacing_prompt $replacing_prompt
 
 
 
@@ -131,7 +131,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/IMDBPromptBert.config \
     --gpu $gpus \
     --checkpoint model/IMDBPromptBert/15.pkl \
-    --model_prompt $MODEL_PROMPT
+    --replacing_prompt $replacing_prompt
 
 
 
@@ -140,11 +140,11 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/SST2PromptBert.config \
     --gpu $gpus \
     --checkpoint model/SST2PromptBert/15.pkl \
-    --model_prompt $MODEL_PROMPT
+    --replacing_prompt $replacing_prompt
 
 
 
-
+'''
 ############
 #Paraphrase
 ############
@@ -207,6 +207,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/STSBPromptBert.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptBert/15.pkl \
+'''
 
 
 
