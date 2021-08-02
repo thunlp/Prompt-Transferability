@@ -10,54 +10,97 @@ class projectorDataset(Dataset):
         self.config = config
         self.mode = mode
 
+        self.choose_dataset = config.get("data","train_dataset_type").lower().split(",")
+
+        self.all_length = []
+        self.all_dataset = []
+
+        print(self.choose_dataset)
+
         #####
-        ##self.re, self.re_length = pre_data_re(mode)
-        #self.stsb, self.stsb_length = pre_data_stsb(mode)
-        #print("======")
-        self.sst2, self.sst2_length = pre_data_sst2(mode)
-        #print("sst2")
-        self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
-        #print("restaurant")
-        '''
-        self.qnli, self.qnli_length = pre_data_qnli(mode)
-        '''
-        #print("qnli") #
-        self.qqp, self.qqp_length = pre_data_qqp(mode)
-        #print("qqp")
-        self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
-        #print("mrpc")
-        self.wnli, self.wnli_length = pre_data_wnli(mode)
-        #print("wnli")
-        '''
-        self.rte, self.rte_length = pre_data_rte(mode)
-        '''
-        #print("rte") #
-        '''
-        self.mnli, self.mnli_length = pre_data_mnli(mode)
-        '''
-        #print("mnli") #
-        self.laptop, self.laptop_length = pre_data_laptop(mode)
-        #print("laptop")
-        self.imdb, self.imdb_length = pre_data_imdb(mode)
-        #print("imdb")
-        #print("======")
-        #print("Done")
-        #####
+        if "re" in self.choose_dataset:
+            self.re, self.re_length = pre_data_re(mode)
+            self.all_length.append(self.re_length)
+            self.all_dataset.append(self.re)
+            print("re")
+        if "stsb" in self.choose_dataset:
+            self.stsb, self.stsb_length = pre_data_stsb(mode)
+            self.all_length.append(self.stsb_length)
+            self.all_dataset.append(self.stsb)
+            print("stsb")
+            #print("======")
+        if "sst2" in self.choose_dataset:
+            self.sst2, self.sst2_length = pre_data_sst2(mode)
+            self.all_length.append(self.sst2_length)
+            self.all_dataset.append(self.sst2)
+            print("sst2")
+        if "restaurant" in self.choose_dataset:
+            self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
+            self.all_length.append(self.restaurant_length)
+            self.all_dataset.append(self.restaurant)
+            print("restaurant")
+        if "qnli" in self.choose_dataset:
+            self.qnli, self.qnli_length = pre_data_qnli(mode)
+            self.all_length.append(self.qnli_length)
+            self.all_dataset.append(self.qnli)
+            print("qnli") #
+        if "qqp" in self.choose_dataset:
+            self.qqp, self.qqp_length = pre_data_qqp(mode)
+            self.all_length.append(self.qqp_length)
+            self.all_dataset.append(self.qqp)
+            print("qqp")
+        if "mrpc" in self.choose_dataset:
+            self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
+            self.all_length.append(self.mrpc_length)
+            self.all_dataset.append(self.mrpc)
+            print("mrpc")
+        if "wnli" in self.choose_dataset:
+            self.wnli, self.wnli_length = pre_data_wnli(mode)
+            self.all_length.append(self.wnli_length)
+            self.all_dataset.append(self.wnli)
+            print("wnli")
+        if "rte" in self.choose_dataset:
+            self.rte, self.rte_length = pre_data_rte(mode)
+            self.all_length.append(self.rte_length)
+            self.all_dataset.append(self.rte)
+            print("rte") #
+        if "mnli" in self.choose_dataset:
+            self.mnli, self.mnli_length = pre_data_mnli(mode)
+            self.all_length.append(self.mnli_length)
+            self.all_dataset.append(self.mnli)
+            print("mnli") #
+        if "laptop" in self.choose_dataset:
+            self.laptop, self.laptop_length = pre_data_laptop(mode)
+            self.all_length.append(self.laptop_length)
+            self.all_dataset.append(self.laptop)
+            print("laptop")
+        if "imdb" in self.choose_dataset:
+            self.imdb, self.imdb_length = pre_data_imdb(mode)
+            self.all_length.append(self.imdb_length)
+            self.all_dataset.append(self.imdb)
+            print("imdb")
+            #print("======")
+            #print("Done")
+            #####
+        #print(self.all_length)
+        #exit()
 
 
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
         #self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
 
         if mode == "train":
-            self.min_length = min([self.wnli_length, self.sst2_length, self.restaurant_length, self.qqp_length, self.mrpc_length, self.laptop_length, self.imdb_length])
+            #self.min_length = min([self.wnli_length, self.sst2_length, self.restaurant_length, self.qqp_length, self.mrpc_length, self.laptop_length, self.imdb_length])
+            self.min_length = min(self.all_length)
         else:
-            self.min_length = sum([self.wnli_length, self.sst2_length, self.restaurant_length, self.qqp_length, self.mrpc_length, self.laptop_length, self.imdb_length])
+            self.min_length = sum(self.all_length)
         #self.min_length = min([self.laptop_length, self.imdb_length])
 
 
         #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
         #self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-        self.all_dataset = [self.wnli, self.sst2, self.restaurant, self.qqp, self.mrpc, self.laptop, self.imdb]
+        #self.all_dataset = [self.wnli, self.sst2, self.restaurant, self.qqp, self.mrpc, self.laptop, self.imdb]
+        #self.all_dataset = all_dataset
         #self.all_dataset = [self.laptop, self.imdb]
 
 

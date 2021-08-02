@@ -13,10 +13,13 @@ tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 #{0: 'imdb', 1: 'laptop', 2: 'mnli', 3: 'mrp', 4: 'qnli', 5: 'qqp', 6: 're', 7: 'restaurant', 8: 'rte', 9: 'sst2', 10: 'stsb', 11: 'wnli'}
 
-def load_task_prompt():
+def load_task_prompt(config):
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
-    choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
+
+    #choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
+    choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
+
     name_list = list()
     task_prompt_dict=dict()
     task_prompt_ten=list()
@@ -24,7 +27,7 @@ def load_task_prompt():
     files = os.listdir(path)
     for file in files:
         #print(file)
-        if "proj" in file:
+        if "proj" in file or "mlm" in file:
             continue
         task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
         name = str(file.strip().split("P")[0]).lower()
@@ -44,7 +47,7 @@ def load_task_prompt():
     #print(name_dict)
     #exit()
 
-    #print(name_dict)
+    print(name_list)
     #exit()
 
     #for id, name in name_dict.items():
@@ -75,7 +78,7 @@ class projectPromptRoberta(nn.Module):
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
 
-        self.task_specific_prompt_emb = load_task_prompt().to('cuda')
+        self.task_specific_prompt_emb = load_task_prompt(config).to('cuda')
 
         self.plmconfig = AutoConfig.from_pretrained(model)
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]
