@@ -133,6 +133,7 @@ class projectPromptRoberta(nn.Module):
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
 
             task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
+
             model_AE = kwargs["AE"]
 
 

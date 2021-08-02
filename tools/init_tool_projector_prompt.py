@@ -26,11 +26,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
-    #print("=========")
-    #print(args)
-    #print("----------")
     #print(params) #{'local_rank': -1, 'prompt_emb_output': True}
-    #exit()
     optimizer = init_optimizer(model, config, *args, **params)
     trained_epoch = 0
     global_step = 0

@@ -153,6 +153,10 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
         if postfix == None:
             with open(dir_save+"/"+"result.json", "w") as f:
                 json.dump(output_info, f)
+
+        elif kwargs["args"].model_transfer:
+            with open(dir_save+"/"+"result_proj.json", "w") as f:
+                json.dump(output_info, f)
         else:
             with open(dir_save+"/"+postfix+"_result.json", "w") as f:
                 json.dump(output_info, f)

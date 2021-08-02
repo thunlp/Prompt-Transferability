@@ -31,13 +31,35 @@ if __name__ == "__main__":
     parser.add_argument('--checkpoint', help="checkpoint file path")
     parser.add_argument('--local_rank', type=int, help='local rank', default=-1)
     parser.add_argument('--do_test', help="do test while training or not", action="store_true")
+    parser.add_argument('--checkpoint', help="checkpoint file path", type=str, default=None)
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--pre_train_mlm", type=bool, default=False)
     parser.add_argument("--prompt_emb_output", type=bool, default=False)
     parser.add_argument("--save_name", type=str, default=None)
+    parser.add_argument("--task_transfer", type=str, default=False)
+    parser.add_argument("--model_transfer", type=str, default=False)
+
 
     args = parser.parse_args()
+
+    ####################
+    if args.pre_train_mlm == True:
+        formatter = "mlmPrompt"
+        config.set("data","train_formatter_type",formatter)
+        config.set("data","valid_formatter_type",formatter)
+        config.set("data","test_formatter_type",formatter)
+        config.set("model","model_name","mlmPrompt")
+    elif args.task_transfer == True:
+        config.set("model","model_name", "projectPromptRoberta_prompt")
+    #elif args.model_transfer == True:
+    #    config.set("model","model_name", "projectPromptRoberta_prompt")
+    else:
+        pass
+
+
+    ####################
+
 
     configFilePath = args.config
 
@@ -69,7 +91,7 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
+    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, args=args)
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
 
     #print(parameters)
@@ -81,4 +103,4 @@ if __name__ == "__main__":
     model = parameters["model"]
 
     #valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=False, save_name=args.config)
-    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid")
+    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", args=args)

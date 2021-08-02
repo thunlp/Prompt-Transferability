@@ -36,6 +36,11 @@ if __name__ == "__main__":
     parser.add_argument("--distributed", type=str, default=None)
     parser.add_argument("--backend", type=str, default=None)
     #parser.add_argument("--load_initial_model", type=str, default=None)
+    parser.add_argument("--pre_train_mlm", type=bool, default=False)
+    parser.add_argument("--prompt_emb_output", type=bool, default=False)
+    parser.add_argument("--save_name", type=str, default=None)
+    parser.add_argument("--task_transfer", type=str, default=False)
+    parser.add_argument("--model_transfer", type=str, default=False)
 
     args = parser.parse_args()
 

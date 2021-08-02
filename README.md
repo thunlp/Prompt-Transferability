@@ -135,6 +135,13 @@ Table:
 
 ---
 To-Do:
+- Read dataset:
+Same task, same domain: split a dataset into two parts.
+Same task, Different domain: https://arxiv.org/pdf/2102.12206.pdf
+Different Task, Same Domain:
+
+clear distribution (dataset): https://arxiv.org/pdf/2106.04489.pdf
+
 !!!!!!!!! Re-range the order of the tensor: (and the corresponding to dots on the figures )
 
 1. Try latest trained Projector
@@ -147,5 +154,7 @@ To-Do:
 8. To-Do: merge Bert and Roberta in Model and Formatter
 9. Merge: (train.py, train_lm.py), (valid.py, valid_lm.py), (mlmPrompt, PromptRoberta, PromptBert)
 10. MUST merge model/--Prompt--.py. Prompt_mlm is the optimal.
+11. prompt_emt: using m-way-k-shot training
+12. -Use trained AE (task_transfer) for restaurantPromptRoberta
 ---
 ![](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)
