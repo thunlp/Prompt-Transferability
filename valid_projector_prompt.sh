@@ -46,9 +46,9 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.co
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/MRPCPromptRoberta/15.pkl \
+    --task_transfer True
     #--model_prompt Roberta-base \
     #--model_transfer True
-    #--task_transfer True
     #--model_prompt Roberta-base \
 
 exit
