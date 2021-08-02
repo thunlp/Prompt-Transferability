@@ -7,6 +7,7 @@ from .output_init import init_output_function
 from torch import nn
 from transformers import AutoTokenizer
 import string
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,9 @@ def recover_transfer_prompt(prompt_dir):
     ##################
     #######AE trained#
     ##################
+    all_model_dir = os.listdir("model/projectPromptRoberta")
+    print(all_model_dir)
+    exit()
 
     PATH="model/projectPromptRoberta/99_model_AE.pkl"
     model = torch.load(PATH).to("cuda")
