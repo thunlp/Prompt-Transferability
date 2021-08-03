@@ -20,7 +20,6 @@ fi
 #Sentiment Classification
 ############
 #IMDB
-'''
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
@@ -53,6 +52,10 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.co
     #--do_test \
     #--comment \
     #--seed
+
+exit
+
+'''
 
 ############
 #NLI
