@@ -181,6 +181,8 @@ Extra dataset:
 
 - https://arxiv.org/pdf/2004.10964.pdf
 
+- CS-wiki: git@github.com:pmernyei/wiki-cs-dataset.git
+
 1. Same task same domain: split dataset into two parts
 2. Same task differnt domain: mlm, don't stop pre-training (general task), some glue task 
 3. Smae domain different task: mlm, don't stop pre-training (general task)
@@ -189,6 +191,6 @@ Extra dataset:
 5. model transfer: matrix bert-roberta
 ---
 MLM domain prompt: 
-1. Compare Bio (chemprot,rct-20k), CS (), Movie review (SST, IMDB)
+1. Compare Bio (chemprot,rct-20k), CS (cs-wiki), Movie review (SST, IMDB)
 
 
