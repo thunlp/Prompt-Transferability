@@ -190,7 +190,13 @@ Extra dataset:
 4. task transfer: matrix task-task
 5. model transfer: matrix bert-roberta
 ---
-MLM domain prompt: 
-1. Compare Bio (chemprot,rct-20k), CS (cs-wiki), Movie review (SST, IMDB)
-
-
+- Same Domain different Task:
+- MLM
+1. Movie review: SST-2_s1, SST-2_s2, IMDB_s1, IMDB_s2
+2. CS: cs_wiki_s1, cs_wiki_s2, scierc 
+3. News: agnews_s1, agnews_s2 
+---
+- Sentimentation Classification (Remove label bias: remove the min label and blance the negative and postive sample)
+---
+- Task and Domain and label: split all dataset into two parts: D_s1 and D_s2
+---
