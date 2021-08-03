@@ -45,31 +45,55 @@ class mlmPromptFormatter(BasicFormatter):
         for d in data:
             #tokens = self.tokenizer.encode(d["sent"], add_special_tokens = False)
             if "sent1" in d and "sent2" in d:
-                input_ids = self.tokenizer.encode(d["sent1"], add_special_tokens = False)
-                input_ids = self.tokenizer.encode(d["sent2"], add_special_tokens = False)
+                for sent in ["sent1","sent2"]:
+                    input_ids = self.tokenizer.encode(d[sent], add_special_tokens = False)
+                    ################
+                    ################
+                    if len(input_ids) > self.max_len-3:
+                        input_ids = input_ids[:self.max_len-3]
+
+                    input_ids, lm_label_ids = self.random_word(input_ids)
+
+                    input_ids = self.prompt_prefix + [self.tokenizer.cls_token_id] + input_ids + [self.tokenizer.sep_token_id]
+                    lm_label_ids = [-100]*len(self.prompt_prefix) + [-100]*len([self.tokenizer.cls_token_id]) + lm_label_ids + [-100]*len([self.tokenizer.sep_token_id])
+
+                    input_mask = [1] * len(input_ids)
+
+                    while len(input_ids) < max_len:
+                        input_ids.append(0)
+                        input_mask.append(0)
+                        #segment_ids.append(0)
+                        lm_label_ids.append(-100)
+
+                    inputx.append(input_ids)
+                    mask.append(input_mask)
+                    label.append(lm_label_ids)
+
+
             else:
                 input_ids = self.tokenizer.encode(d["sent"], add_special_tokens = False)
             #input_ids = self.tokenizer.encode(d["sent"], add_special_tokens = False)
+                ################
+                ################
+                if len(input_ids) > self.max_len-3:
+                    input_ids = input_ids[:self.max_len-3]
 
-            if len(input_ids) > self.max_len-3:
-                input_ids = input_ids[:self.max_len-3]
+                input_ids, lm_label_ids = self.random_word(input_ids)
 
-            input_ids, lm_label_ids = self.random_word(input_ids)
+                input_ids = self.prompt_prefix + [self.tokenizer.cls_token_id] + input_ids + [self.tokenizer.sep_token_id]
+                lm_label_ids = [-100]*len(self.prompt_prefix) + [-100]*len([self.tokenizer.cls_token_id]) + lm_label_ids + [-100]*len([self.tokenizer.sep_token_id])
 
-            input_ids = self.prompt_prefix + [self.tokenizer.cls_token_id] + input_ids + [self.tokenizer.sep_token_id]
-            lm_label_ids = [-100]*len(self.prompt_prefix) + [-100]*len([self.tokenizer.cls_token_id]) + lm_label_ids + [-100]*len([self.tokenizer.sep_token_id])
+                input_mask = [1] * len(input_ids)
 
-            input_mask = [1] * len(input_ids)
+                while len(input_ids) < max_len:
+                    input_ids.append(0)
+                    input_mask.append(0)
+                    #segment_ids.append(0)
+                    lm_label_ids.append(-100)
 
-            while len(input_ids) < max_len:
-                input_ids.append(0)
-                input_mask.append(0)
-                #segment_ids.append(0)
-                lm_label_ids.append(-100)
-
-            inputx.append(input_ids)
-            mask.append(input_mask)
-            label.append(lm_label_ids)
+                inputx.append(input_ids)
+                mask.append(input_mask)
+                label.append(lm_label_ids)
 
 
         ret = {

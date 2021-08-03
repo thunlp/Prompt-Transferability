@@ -15,7 +15,7 @@ gpus=6
 ############
 
 #restaurant
-CUDA_VISIBLE_DEVICES=$gpus python3 valid_lm.py --config config/restaurantPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta_mlm/8.pkl \
     --pre_train_mlm True \
@@ -49,7 +49,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_lm.py --config config/SST2PromptRoberta
     --save_name mlm
 
 
-
+'''
 ############
 #Paraphrase
 ############
@@ -257,6 +257,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_lm.py --config config/STSBPromptBert.co
     --checkpoint model/STSBPromptBert_mlm/15.pkl \
     --pre_train_mlm True \
     --save_name mlm
+'''
 
 
 
