@@ -98,15 +98,16 @@ def recover_task_transfer_prompt(prompt_emb,load_model):
 
 
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
+
     result = {}
 
     logger.info("Begin to initialize dataset and formatter...")
-    if mode=="train" or mode=="valid":
-        # init_formatter(config, ["train", "valid"], *args, **params)
-        result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
-    else:
+    if mode=="test":
         # init_formatter(config, ["test"], *args, **params)
         result["test_dataset"] = init_test_dataset(config, *args, **params)
+    else:
+        # init_formatter(config, ["train", "valid"], *args, **params)
+        result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
 
     logger.info("Begin to initialize models...")
 
@@ -168,9 +169,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
     ########################
+    ########################
+    ########################
+
+    ########################
     ####Evalid will Open####
     ########################
-    if mode!="train" or mode!="Train":
+    if mode=="valid" or mode=="Valid" or mode=="test" or mode=="Test":
         print("=========================")
         print(params)
         print("=========================")
@@ -179,20 +184,18 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("=========================")
             print("Using original prompt emb")
             print("=========================")
-            '''
-            if "Roberta" in params["args"].checkpoint:
-                prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
-            elif "Bert" in params["args"].checkpoint:
-                prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
-            else:
-                print("Wrong!!!")
-            '''
             prompt_emb = None
             pass
         elif params["args"].replacing_prompt == "Random" or params["args"].replacing_prompt == "random":
+            print("=========================")
+            print("Using random prompt emb")
+            print("=========================")
             #prompt_emb = torch.nn.Parameter(torch.rand(100,768)).to("cuda")
             prompt_emb = torch.rand(100,768).to("cuda")
         else:
+            print("=========================")
+            print("Replace", params["args"].checkpoint.split("/")[1], "with", params["args"].replacing_prompt)
+            print("=========================")
             load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
             prompt_emb = torch.load(load_task_prompt_dir)
         ###
@@ -227,6 +230,45 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("Using original prompt emb")
             print("=========================")
             pass
+
+    ########################
+    #Return and Save prompt#
+    ########################
+    elif mode=="extract_prompt":
+        print("=========================")
+        print("Extract prompt emb")
+        print("=========================")
+        #mlm or not mlm
+        save_name = params["args"].checkpoint.split("/")[1]
+
+        if "Roberta" in save_name:
+            prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
+        elif "Bert" in save_name:
+            prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
+        else:
+            print("Wrong!!!")
+
+        fp = str("task_prompt_emb/"+save_name)
+        if os.path.exists(fp):
+            print("Exist:",fp)
+        else:
+            os.mkdir(fp)
+            print("Create:",fp)
+
+
+        fp_dir = fp+"/task_prompt"
+        print("save to:", fp_dir)
+        torch.save(prompt_emb, fp_dir)
+        print("!!!!!!!")
+        print(prompt_emb.shape)
+        print("!!!!!!!")
+        print("Save prompt_emb_output")
+        exit()
+
+
+    ########################
+    ####Train####
+    ########################
 
     ########################
     ########################

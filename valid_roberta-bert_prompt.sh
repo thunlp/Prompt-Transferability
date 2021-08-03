@@ -11,13 +11,13 @@ replacing_prompt="Random"
 ############
 
 #restaurant
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --replacing_prompt restaurantPromptRoberta
 
 
-'''
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_roberta-bert_prompt.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \

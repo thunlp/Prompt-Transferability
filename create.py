@@ -66,7 +66,7 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
+    parameters = init_all(config, gpu_list, args.checkpoint, "valid", local_rank = args.local_rank)
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
 
     #print(parameters)

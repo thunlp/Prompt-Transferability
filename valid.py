@@ -44,6 +44,8 @@ if __name__ == "__main__":
     parser.add_argument("--pre_train_mlm", default=False, action='store_true')
     parser.add_argument("--task_transfer_projector", default=False, action='store_true')
     parser.add_argument("--model_transfer_projector", default=False, action='store_true')
+    parser.add_argument("--mode", type=str, default="valid")
+    #parser.add_argument("--return_and_save_prompt", default=False, action='store_true')
 
 
     args = parser.parse_args()
@@ -102,7 +104,7 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "valid", local_rank = args.local_rank, args=args)
+    parameters = init_all(config, gpu_list, args.checkpoint, args.mode, local_rank = args.local_rank, args=args)
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
 
     #print(parameters)
@@ -114,4 +116,4 @@ if __name__ == "__main__":
     model = parameters["model"]
 
     #valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", prompt_emb_output=False, save_name=args.config)
-    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode="valid", args=args)
+    valid(model, parameters["valid_dataset"], 1, None, config, gpu_list, parameters["output_function"], mode=args.mode, args=args)
