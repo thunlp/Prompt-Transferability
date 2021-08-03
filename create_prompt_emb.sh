@@ -1,6 +1,6 @@
 #rm -rf task_prompt_emb/*
 
-gpus=6
+gpus=5
 
 '''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
@@ -53,9 +53,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.co
     #--comment \
     #--seed
 
-exit
 
-'''
 
 ############
 #NLI
@@ -138,6 +136,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
 
 
 
+'''
 ####################################
 ############Bert####################
 ####################################
@@ -265,6 +264,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptBert.confi
 
 
 
+'''
 ################
 ######MLM
 ################
@@ -384,3 +384,4 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta_mlm/15.pkl \
     --mode extract_prompt
+'''

@@ -49,11 +49,8 @@ if __name__ == "__main__":
 
 
     args = parser.parse_args()
-
-    #print("=================")
-    #print(args)
-    #print("=================")
-    #exit()
+    configFilePath = args.config
+    config = create_config(configFilePath)
 
 
     ####################
@@ -74,9 +71,6 @@ if __name__ == "__main__":
     ####################
 
 
-    configFilePath = args.config
-
-    config = create_config(configFilePath)
 
     use_gpu = True
     gpu_list = []
