@@ -98,26 +98,24 @@ Domain:
 ---
 Imagine:
 
-Task base:
-(AE)
+- Task base: (AE)
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 
 
-Domain base:
-(AE)
+- Domain base: (AE)
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
 
 
-Demo random combination:
-(AE)
+- Demo random combination: (AE)
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)
 
-Model transfer
+- Model transfer
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)
 
-MLM task
+- MLM task
 ![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
+
 
 ---
 Finding:
@@ -171,6 +169,7 @@ Extra dataset:
 1. Same task same domain: split dataset into two parts
 2. Same task differnt domain: mlm, don't stop pre-training (general task), some glue task 
 3. Smae domain different task: mlm, don't stop pre-training (general task)
+3'. domain: only do mlm on differet domain datasets
 4. task transfer: matrix task-task
 5. model transfer: matrix bert-roberta
 ---
