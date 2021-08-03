@@ -48,6 +48,16 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
     else:
         output_path = os.path.join(config.get("output", "model_path"), config.get("output", "model_name"))
 
+    #############(for training split mlm)
+    if "_s1" in kwargs.config:
+        output_path += "_s1"
+    elif "_s2" in kwargs.config:
+        output_path += "_s2"
+    else:
+        pass
+    #############
+
+
     if os.path.exists(output_path):
         logger.warning("Output path exists, check whether need to change a name of model")
     os.makedirs(output_path, exist_ok=True)
