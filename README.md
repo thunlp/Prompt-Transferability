@@ -111,8 +111,13 @@ Domain base:
 
 Demo random combination:
 (AE)
-![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)
 
+Model transfer
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)
+
+MLM task
+![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
 
 ---
 Finding:
@@ -167,4 +172,3 @@ https://arxiv.org/pdf/2106.04489.pdf
 4. task transfer: matrix task-task
 5. model transfer: matrix bert-roberta
 ---
-![](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)
