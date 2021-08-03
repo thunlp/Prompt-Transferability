@@ -260,8 +260,8 @@ IMDB_label_ten[IMDB_label_ten==1]=11
 
 #92%
 #all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
-#all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten, MRPC_ten])
-all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten])
+all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten, MRPC_ten])
+#all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten])
 
 #100%
 
@@ -307,6 +307,7 @@ compressed_prompt_emb = compressed_prompt_emb.to("cpu").detach().numpy()
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#64CD64",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}
 
 
+blocked_list = []
 #blocked_list = [4]
 #blocked_list = [1,3,4,5,6,7,8]
 #blocked_list = [1,3,2,5,8]
