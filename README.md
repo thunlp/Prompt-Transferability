@@ -179,6 +179,8 @@ Extra dataset:
 
 - https://arxiv.org/pdf/2106.04489.pdf
 
+- https://arxiv.org/pdf/2004.10964.pdf
+
 1. Same task same domain: split dataset into two parts
 2. Same task differnt domain: mlm, don't stop pre-training (general task), some glue task 
 3. Smae domain different task: mlm, don't stop pre-training (general task)
@@ -186,3 +188,7 @@ Extra dataset:
 4. task transfer: matrix task-task
 5. model transfer: matrix bert-roberta
 ---
+MLM domain prompt: 
+1. Compare Bio (chemprot,rct-20k), CS (), Movie review (SST, IMDB)
+
+

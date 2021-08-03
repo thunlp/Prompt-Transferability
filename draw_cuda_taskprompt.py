@@ -225,7 +225,10 @@ def PCA_svd(X=None, k=None, center=True):
     ones = torch.ones(n).view([n,1])
     h = ((1/n) * torch.mm(ones, ones.t())) if center else torch.zeros(n*n).view([n,n])
     H = torch.eye(n) - h
-    #H = H.cuda()
+
+    H = H.cpu()
+    X = X.cpu()
+
     X_center =  torch.mm(H.double(), X.double())
     u, s, v = torch.svd(X_center)
     components = v[:k].t()
@@ -390,8 +393,11 @@ print(QQP_ten.shape)
 ################
 #RE
 re_ten = list()
+'''
 path="task_prompt_emb/REPrompt/task_prompt"
 re_ten = torch.load(path).view(76800)
+'''
+re_ten = torch.rand(100,768).to("cuda").view(76800)
 print(re_ten.shape)
 #re_ten = torch.stack([re_ten for i in range(200)])
 #print(re_ten.shape)
@@ -488,6 +494,7 @@ dim=3
 
 
 #AE compress
+'''
 ################
 ################
 ################
@@ -520,15 +527,14 @@ print("Done")
 print("Using trained AE model")
 compressed_prompt_emb = trained_AE(input=all_prompt_emb,out_features=dim)
 #################
+'''
 
 
 
 #PCA compress
 ####################
-'''
 compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
-'''
 
 #all: 92%
 #sentiment: 100%
@@ -553,9 +559,9 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 color_map={0:"#728FCE",1:"#347235",2:"#3D0C02",3:"#6B8E23",4:"#C04000",5:"#64CD64",6:"#CB6D51",7:"#556B2F",8:"#FFC0CB",9:"#4863A0",10:"#151B8D",11:"#00FFFF"}
 
 
-#blocked_list = []
+blocked_list = []
 #blocked_list = [1,3,4,5,6,7,8]
-blocked_list = [1,3,2,5,8]
+#blocked_list = [1,3,2,5,8]
 
 #sentiment, NLI, RE, Paraphrase
 #blocked_list = [5,8]

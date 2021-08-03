@@ -20,6 +20,7 @@ fi
 #Sentiment Classification
 ############
 #IMDB
+'''
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
@@ -98,6 +99,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptRoberta.con
     --gpu $gpus \
     --checkpoint model/QQPPromptRoberta/15.pkl \
     --mode extract_prompt
+'''
 
 
 
@@ -114,7 +116,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
 
 
 
-
+'''
 ############
 #Other
 ############
@@ -132,6 +134,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
     --mode extract_prompt
+'''
 
 
 
