@@ -77,7 +77,7 @@ def plot(x, y, **kwargs):
 
 #IMDB
 IMDB_ten = list()
-path="task_prompt_emb/IMDBPromptRoberta/task_prompt"
+path="task_prompt_emb/IMDBPromptRoberta_mlm/task_prompt"
 IMDB_ten = torch.load(path).view(76800).to("cpu")
 print(IMDB_ten.shape)
 #IMDB_ten = torch.stack([IMDB_ten for i in range(200)])
@@ -86,7 +86,7 @@ print(IMDB_ten.shape)
 
 #SST2
 sst2_ten = list()
-path="task_prompt_emb/SST2PromptRoberta/task_prompt"
+path="task_prompt_emb/SST2PromptRoberta_mlm/task_prompt"
 sst2_ten = torch.load(path).view(76800).to("cpu")
 print(sst2_ten.shape)
 #sst2_ten = torch.stack([sst2_ten for i in range(200)])
@@ -95,7 +95,7 @@ print(sst2_ten.shape)
 
 #laptop
 laptop_ten = list()
-path="task_prompt_emb/laptopPromptRoberta/task_prompt"
+path="task_prompt_emb/laptopPromptRoberta_mlm/task_prompt"
 laptop_ten = torch.load(path).view(76800).to("cpu")
 print(laptop_ten.shape)
 #laptop_ten = torch.stack([laptop_ten for i in range(200)])
@@ -104,7 +104,7 @@ print(laptop_ten.shape)
 
 #restaurant
 restaurant_ten = list()
-path="task_prompt_emb/restaurantPromptRoberta/task_prompt"
+path="task_prompt_emb/restaurantPromptRoberta_mlm/task_prompt"
 restaurant_ten = torch.load(path).view(76800).to("cpu")
 print(restaurant_ten.shape)
 #restaurant_ten = torch.stack([restaurant_ten for i in range(200)])
@@ -116,7 +116,7 @@ print(restaurant_ten.shape)
 
 #MRPC
 MRPC_ten = list()
-path="task_prompt_emb/MRPCPromptRoberta/task_prompt"
+path="task_prompt_emb/MRPCPromptRoberta_mlm/task_prompt"
 MRPC_ten = torch.load(path).view(76800).to("cpu")
 print(MRPC_ten.shape)
 #MRPC_ten = torch.stack([MRPC_ten for i in range(200)])

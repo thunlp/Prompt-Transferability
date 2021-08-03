@@ -164,7 +164,8 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
         '''
 
         try:
-            dataset_name = config.get("output","model_name")
+            dataset_name = kwargs.checkpoint.split("/")[1]
+            #dataset_name = config.get("output","model_name")
             dir_save = "result/"+str(dataset_name)
             os.mkdir(dir_save)
         except:
@@ -188,10 +189,10 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                     json.dump(output_info, f)
         elif kwargs.pre_train_mlm:
             if kwargs.replacing_prompt == None:
-                with open(dir_save+"/"+"result_mlm.json", "w") as f:
+                with open(dir_save+"/"+"result.json", "w") as f:
                     json.dump(output_info, f)
             else:
-                with open(dir_save+"/"+"result_mlm_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                with open(dir_save+"/"+"result_"+str(kwargs.replacing_prompt)+".json", "w") as f:
                     json.dump(output_info, f)
         else:
             if kwargs.replacing_prompt == None:
