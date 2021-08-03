@@ -77,8 +77,8 @@ def plot(x, y, **kwargs):
 
 #IMDB
 IMDB_ten = list()
-path="task_prompt_emb/IMDBPromptRoberta/task_prompt"
-IMDB_ten = torch.load(path).view(76800).to("cpu")
+path="task_prompt_emb/IMDBPromptRoberta_mlm/task_prompt"
+IMDB_ten = torch.load(path).view(76800)
 print(IMDB_ten.shape)
 #IMDB_ten = torch.stack([IMDB_ten for i in range(200)])
 #print(IMDB_ten.shape)
@@ -86,8 +86,8 @@ print(IMDB_ten.shape)
 
 #SST2
 sst2_ten = list()
-path="task_prompt_emb/SST2PromptRoberta/task_prompt"
-sst2_ten = torch.load(path).view(76800).to("cpu")
+path="task_prompt_emb/SST2PromptRoberta_mlm/task_prompt"
+sst2_ten = torch.load(path).view(76800)
 print(sst2_ten.shape)
 #sst2_ten = torch.stack([sst2_ten for i in range(200)])
 #print(sst2_ten.shape)
@@ -95,8 +95,8 @@ print(sst2_ten.shape)
 
 #laptop
 laptop_ten = list()
-path="task_prompt_emb/laptopPromptRoberta/task_prompt"
-laptop_ten = torch.load(path).view(76800).to("cpu")
+path="task_prompt_emb/laptopPromptRoberta_mlm/task_prompt"
+laptop_ten = torch.load(path).view(76800)
 print(laptop_ten.shape)
 #laptop_ten = torch.stack([laptop_ten for i in range(200)])
 #print(laptop_ten.shape)
@@ -104,8 +104,8 @@ print(laptop_ten.shape)
 
 #restaurant
 restaurant_ten = list()
-path="task_prompt_emb/restaurantPromptRoberta/task_prompt"
-restaurant_ten = torch.load(path).view(76800).to("cpu")
+path="task_prompt_emb/restaurantPromptRoberta_mlm/task_prompt"
+restaurant_ten = torch.load(path).view(76800)
 print(restaurant_ten.shape)
 #restaurant_ten = torch.stack([restaurant_ten for i in range(200)])
 #print(restaurant_ten.shape)
@@ -116,8 +116,8 @@ print(restaurant_ten.shape)
 
 #MRPC
 MRPC_ten = list()
-path="task_prompt_emb/MRPCPromptRoberta/task_prompt"
-MRPC_ten = torch.load(path).view(76800).to("cpu")
+path="task_prompt_emb/MRPCPromptRoberta_mlm/task_prompt"
+MRPC_ten = torch.load(path).view(76800)
 print(MRPC_ten.shape)
 #MRPC_ten = torch.stack([MRPC_ten for i in range(200)])
 #print(MRPC_ten.shape)
@@ -210,8 +210,8 @@ print(STSB_ten.shape)
 
 #task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
 
-#task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2",4:"MRPC"}
-task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2"}
+task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2",4:"MRPC"}
+#task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2"}
 
 #task_map={0:"sst2",1:"rte",2:"re"}
 
