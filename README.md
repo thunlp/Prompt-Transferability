@@ -99,19 +99,19 @@ Domain:
 Imagine:
 
 - Task base: (AE)
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
+![SENTIMENT](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
+![NLI](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 
 
 - Domain base: (AE)
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
+![domain.](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
 
 
 - Demo random combination: (AE)
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)
+![all_task](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)
 
 - Model transfer
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)
+![roberta_bert_prompt](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)
 
 - MLM task
 ![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
