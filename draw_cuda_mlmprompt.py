@@ -210,7 +210,8 @@ print(STSB_ten.shape)
 
 #task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB",9:"laptop",10:"restaurant",11:"IMDB"}
 
-task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2",4:"MRPC"}
+#task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2",4:"MRPC"}
+task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2"}
 
 #task_map={0:"sst2",1:"rte",2:"re"}
 
@@ -259,7 +260,8 @@ IMDB_label_ten[IMDB_label_ten==1]=11
 
 #92%
 #all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
-all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten, MRPC_ten])
+#all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten, MRPC_ten])
+all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten])
 
 #100%
 
