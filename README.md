@@ -100,26 +100,26 @@ Imagine:
 
 - Task base: (AE)
 
-![SENTIMENT](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
-![NLI](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
 ---
 
 
 - Domain base: (AE)
 
-![domain.](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
 ---
 
 
 - Demo random combination: (AE)
 
-![all_task](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)
 ---
 
 
 - Model transfer
 
-![roberta_bert_prompt](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)
 ---
 
 
