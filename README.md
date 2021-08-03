@@ -157,10 +157,10 @@ clear distribution (dataset): https://arxiv.org/pdf/2106.04489.pdf
 11. prompt_emt: using m-way-k-shot training
 12. -Use trained AE (task_transfer) for restaurantPromptRoberta
 ---
-A. Same task same domain: split dataset into two parts
-B. Same task differnt domain: mlm, don't stop pre-training (general task), some glue task 
-C. Smae domain different task: mlm, don't stop pre-training (general task)
-D. task transfer: matrix task-task
-E. model transfer: matrix bert-roberta
+1. Same task same domain: split dataset into two parts
+2. Same task differnt domain: mlm, don't stop pre-training (general task), some glue task 
+3. Smae domain different task: mlm, don't stop pre-training (general task)
+4. task transfer: matrix task-task
+5. model transfer: matrix bert-roberta
 ---
 ![](https://github.com/yushengsu-thu/prompt/blob/main/roberta_bert_prompt.jpg)
