@@ -157,6 +157,10 @@ clear distribution (dataset): https://arxiv.org/pdf/2106.04489.pdf
 11. prompt_emt: using m-way-k-shot training
 12. -Use trained AE (task_transfer) for restaurantPromptRoberta
 ---
+Extra dataset:
+https://arxiv.org/pdf/2102.12206.pdf
+https://arxiv.org/pdf/2106.04489.pdf
+
 1. Same task same domain: split dataset into two parts
 2. Same task differnt domain: mlm, don't stop pre-training (general task), some glue task 
 3. Smae domain different task: mlm, don't stop pre-training (general task)
