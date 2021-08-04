@@ -9,8 +9,8 @@ class WikiREDataset(Dataset):
     def __init__(self, config, mode, encoding="utf8", *args, **params):
         self.config = config
         self.mode = mode
-        # self.data_path = config.get("data", "%s_data_path" % mode)
-        self.data_path = config.get("data", "train_data_path")
+        self.data_path = config.get("data", "%s_data_path" % mode)
+        #self.data_path = config.get("data", "train_data_path")
         data = json.load(open(self.data_path, "r"))
         self.data = []
         for rel in data:
