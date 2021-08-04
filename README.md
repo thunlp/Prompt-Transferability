@@ -96,7 +96,7 @@ Domain:
 - computer: laptop
 
 ---
-\*Edit table: https://stackoverflow.com/questions/47324785/how-can-i-add-a-table-with-multi-row-cells-to-a-readme-in-vsts/47335483#47335483\*
+\*Edit table: https://stackoverflow.com/questions/47324785/how-can-i-add-a-table-with-multi-row-cells-to-a-readme-in-vsts/47335483#47335483*\
 
 
 - Domain Similarity
