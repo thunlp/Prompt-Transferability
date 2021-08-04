@@ -99,7 +99,9 @@ Domain:
 Comment out text in markdown: https://stackoverflow.com/questions/16525877/how-do-you-display-a-section-of-plain-text-in-github-markdown
 
 
-- Domain Similarity
+## Domain Similarity
+- Top 5000 token
+- 20000 instances for Each dataset
 
 
 |   | SST-2_s1 | SST-2_s2 | IMDB_s1 | IMDB_s2 | cs_wiki_s1 | cs_wiki_s2 | scierc_s1 | scierc_s2 | agnews_s1 | agnews_s2 |
