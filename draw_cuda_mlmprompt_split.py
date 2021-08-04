@@ -162,7 +162,8 @@ print("===================")
 print("===================")
 
 ##3D or 2D
-dim=3
+#dim=3
+dim=2
 
 
 #PCA compress
