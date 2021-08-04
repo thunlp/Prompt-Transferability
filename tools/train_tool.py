@@ -74,15 +74,24 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
         test_dataset = init_test_dataset(config)
 
 
+    if "projector" in kwargs.config:
+        postfix = "_projector"
+    elif "cross" in kwargs.config:
+        postfix = "_cross"
+    elif kwargs.pre_train_mlm:
+        postfix = "_mlm"
+    else:
+        postfix = ""
+
     if trained_epoch == 0:
         shutil.rmtree(
-            os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")), True)
+            os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")+postfix), True)
 
-    os.makedirs(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")),
+    os.makedirs(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")+postfix),
                 exist_ok=True)
 
-    writer = SummaryWriter(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")),
-                           config.get("output", "model_name"))
+    writer = SummaryWriter(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")+postfix),
+                           config.get("output", "model_name")+postfix)
 
     step_size = config.getint("train", "step_size")
     gamma = config.getfloat("train", "lr_multiplier")

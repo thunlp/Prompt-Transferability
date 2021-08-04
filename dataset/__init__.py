@@ -16,6 +16,9 @@ from .IMDBDataset import IMDBDataset
 from .projectorDataset import projectorDataset
 from .crossDataset import crossDataset
 from .mutiGPU_STSBDataset import mutiGPU_STSBDataset
+from .agnewsDataset import agnewsDataset
+from .cs_wikiDataset import cs_wikiDataset
+from .sciercDataset import sciercDataset
 dataset_list = {
     "JsonFromFiles": JsonFromFilesDataset,
     "RTE": RTEDataset,
@@ -35,4 +38,7 @@ dataset_list = {
     "projector": projectorDataset,
     "mutiGPU_STSB": mutiGPU_STSBDataset,
     "cross": crossDataset,
+    "agnews": agnewsDataset,
+    "cs_wiki": cs_wikiDataset,
+    "scierc": sciercDataset,
 }
