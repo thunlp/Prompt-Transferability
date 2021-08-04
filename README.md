@@ -96,7 +96,7 @@ Domain:
 - computer: laptop
 
 ---
-Edit table: https://stackoverflow.com/questions/47324785/how-can-i-add-a-table-with-multi-row-cells-to-a-readme-in-vsts/47335483#47335483
+Comment out text in markdown: https://stackoverflow.com/questions/16525877/how-do-you-display-a-section-of-plain-text-in-github-markdown
 
 
 - Domain Similarity
