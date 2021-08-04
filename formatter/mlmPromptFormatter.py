@@ -15,14 +15,16 @@ class mlmPromptFormatter(BasicFormatter):
         self.prompt_num = config.getint("prompt", "prompt_num")
         self.mode = mode
         ##########
+        self.model_base = config.get("model","model_base")
         self.model_name = config.get("output","model_name")
-        if "Roberta" in self.model_name:
+        if "Roberta" in self.model_base:
             self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
-        elif "Bert" in self.model_name:
+        elif "Bert" in self.model_base:
             self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
         else:
             print("Have no matching in the formatter")
-            exit()
+            print("MLM")
+            self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
         #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
         ##########
         self.prompt_prefix = [- (i + 1) for i in range(self.prompt_len)]
@@ -124,13 +126,18 @@ class mlmPromptFormatter(BasicFormatter):
                 # 80% randomly change token to mask token
                 #print(self.tokenizer.decode[50264])
                 if prob < 0.8:
-                    if "Roberta" in self.model_name:
+                    if "Roberta" in self.model_base:
                         tokens[i] = self.tokenizer.encode("<mask>",add_special_tokens=False)[0]
-                    elif "Bert" in self.model_name:
+                    elif "Bert" in self.model_base:
                         tokens[i] = self.tokenizer.encode("[MASK]",add_special_tokens=False)[0]
                     else:
-                        print("Wrong")
-                        exit()
+                        print("Wrong!!")
+                        print("Wrong!!")
+                        print("Wrong!!")
+                        print("replace with Roberta")
+                        print("MLM")
+                        tokens[i] = self.tokenizer.encode("<mask>",add_special_tokens=False)[0]
+
                     #tokens[i] = "[MASK]"
 
                 # 10% randomly change token to random token
@@ -148,13 +155,17 @@ class mlmPromptFormatter(BasicFormatter):
                 except KeyError:
                     # For unknown words (should not occur with BPE vocab)
                     ###
-                    if "Roberta" in self.model_name:
+                    if "Roberta" in self.model_base:
                         output_label.append(self.tokenizer.vocab["<unk>"])
-                    elif "Bert" in self.model_name:
+                    elif "Bert" in self.model_base:
                         output_label.append(self.tokenizer.vocab["[UNK]"])
                     else:
-                        print("Wrong")
-                        exit()
+                        print("Wrong!!")
+                        print("Wrong!!")
+                        print("Wrong!!")
+                        print("Replace with Roberta")
+                        print("MLM")
+                        output_label.append(self.tokenizer.vocab["<unk>"])
                     ###
                     #output_label.append(self.tokenizer.vocab["[UNK]"])
                     logger.warning("Cannot find token '{}' in vocab. Using [UNK] insetad".format(token))

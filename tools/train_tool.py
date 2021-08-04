@@ -123,7 +123,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
         ##############################
         if kwargs.pre_train_mlm == True:
             if do_test:
-                init_formatter(config, ["test"])
                 test_dataset = init_test_dataset(config, *args, args=kwargs)
             else:
                 parameters["train_dataset"], parameters["valid_dataset"] = init_dataset(config, *args, args=kwargs)

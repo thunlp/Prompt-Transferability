@@ -64,6 +64,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --mode extract_prompt
+'''
 
 
 
@@ -72,8 +73,10 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta_mlm/15.pkl \
-    --mode extract_prompt
-'''
+    --mode extract_prompt \
+    --pre_train_mlm
+
+exit
 
 
 #restaurant

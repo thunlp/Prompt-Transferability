@@ -45,9 +45,7 @@ if __name__ == "__main__":
 
 
     args = parser.parse_args()
-
     configFilePath = args.config
-
     config = create_config(configFilePath)
 
 
@@ -87,7 +85,7 @@ if __name__ == "__main__":
         raise NotImplementedError
     set_random_seed(args.seed)
 
-    ###
+    #############################
     #MLM
     formatter = "mlmPrompt"
     config.set("data","train_formatter_type",formatter)
@@ -95,7 +93,8 @@ if __name__ == "__main__":
     config.set("data","test_formatter_type",formatter)
 
     config.set("model","model_name","mlmPrompt")
-    ###
+    #config.set("output","model_name", config.set("output","model_name")+"_mlm")
+    #############################
 
 
     parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, args=args)

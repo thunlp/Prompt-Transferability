@@ -15,6 +15,7 @@ formatter = {}
 
 def init_formatter(config, task_list, *args, **params):
 
+
     if "args" in params:
         if params["args"].pre_train_mlm:
             for task in task_list:
@@ -189,6 +190,7 @@ def init_test_dataset(config, *args, **params):
 
 
 def init_dataset(config, *args, **params):
+
     init_formatter(config, ["train", "valid"], *args, **params)
     train_dataset = init_one_dataset(config, "train", *args, **params)
     valid_dataset = init_one_dataset(config, "valid", *args, **params)

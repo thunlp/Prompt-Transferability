@@ -105,12 +105,15 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     if mode=="test":
         # init_formatter(config, ["test"], *args, **params)
         result["test_dataset"] = init_test_dataset(config, *args, **params)
-    else:
+    elif mode=="train" or mode=="valid":
         # init_formatter(config, ["train", "valid"], *args, **params)
         result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
+    else:
+        print("Don't need to load data")
 
     logger.info("Begin to initialize models...")
 
+    print(config.get("model", "model_name"))
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
     #print(params) #{'local_rank': -1, 'prompt_emb_output': True}
     optimizer = init_optimizer(model, config, *args, **params)
@@ -143,6 +146,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             logger.warning("No init_multi_gpu implemented in the model, use single gpu instead.")
 
 
+    '''
     if config.getboolean("prompt", "prompt_tune") and config.get("model", "model_name") == "SQuADPromptRoberta":
         tokenizer = AutoTokenizer.from_pretrained("roberta-base")
         init_ids = [] #tokenizer.encode("the relation between the first sentence and the second sentence is")
@@ -152,6 +156,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             model.module.init_prompt_emb(init_ids)
         else:
             model.init_prompt_emb(init_ids)
+    '''
 
 
     #########

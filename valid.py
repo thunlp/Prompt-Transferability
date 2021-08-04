@@ -53,24 +53,6 @@ if __name__ == "__main__":
     config = create_config(configFilePath)
 
 
-    ####################
-    if args.pre_train_mlm == True:
-        formatter = "mlmPrompt"
-        config.set("data","train_formatter_type",formatter)
-        config.set("data","valid_formatter_type",formatter)
-        config.set("data","test_formatter_type",formatter)
-        config.set("model","model_name","mlmPrompt")
-    #elif args.task_transfer == True:
-    #    config.set("model","model_name", "projectPromptRoberta_prompt")
-    #elif args.model_transfer == True:
-    #    config.set("model","model_name", "projectPromptRoberta_prompt")
-    else:
-        pass
-
-
-    ####################
-
-
 
     use_gpu = True
     gpu_list = []
@@ -97,6 +79,26 @@ if __name__ == "__main__":
         logger.error("CUDA is not available but specific gpu id")
         raise NotImplementedError
     set_random_seed(args.seed)
+
+
+    ####################
+    if args.pre_train_mlm == True:
+        formatter = "mlmPrompt"
+        config.set("data","train_formatter_type",formatter)
+        config.set("data","valid_formatter_type",formatter)
+        config.set("data","test_formatter_type",formatter)
+        config.set("model","model_name","mlmPrompt")
+        #config.set("output","model_name", config.set("output","model_name")+"_mlm")
+    #elif args.task_transfer == True:
+    #    config.set("model","model_name", "projectPromptRoberta_prompt")
+    #elif args.model_transfer == True:
+    #    config.set("model","model_name", "projectPromptRoberta_prompt")
+    else:
+        pass
+    ####################
+
+
+
 
     parameters = init_all(config, gpu_list, args.checkpoint, args.mode, local_rank = args.local_rank, args=args)
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)

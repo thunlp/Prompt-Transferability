@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=6 python3 draw_cuda_mlmprompt_split.py

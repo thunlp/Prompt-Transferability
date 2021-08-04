@@ -16,7 +16,7 @@ class mlmPrompt(nn.Module):
         super(mlmPrompt, self).__init__()
 
 
-        if "Roberta" in config.get("output","model_name"):
+        if "Roberta" in config.get("model","model_base"):
             try:
                 if config.get("model","model_size")=="large":
                     model = "roberta-large"
@@ -30,23 +30,30 @@ class mlmPrompt(nn.Module):
                 model = "roberta-base"
                 ckp = "RobertaForMaskedLM"
                 self.hidden_size = 768
-        elif "Bert" in config.get("output","model_name"):
+        elif "Bert" in config.get("model","model_base"):
             try:
                 if config.get("model","model_size")=="large":
-                    model = "roberta-large"
+                    model = "bert-large"
                     ckp = "BertLargeForMaskedLM"
                     self.hidden_size = 1024
                 else:
-                    model = "roberta-base"
+                    model = "bert-base"
                     ckp = "BertForMaskedLM"
                     self.hidden_size = 768
             except:
-                model = "roberta-base"
+                model = "bert-base"
                 ckp = "BertForMaskedLM"
                 self.hidden_size = 768
         else:
-            print("Wrong")
+            print("Wrong!!!")
+            print("Wrong!!!")
+            print("Wrong!!!")
+            print("MLM")
             exit()
+            print("Replace with Roberta")
+            model = "roberta-base"
+            ckp = "RobertaForMaskedLM"
+            self.hidden_size = 768
 
         '''
         try:
@@ -80,10 +87,10 @@ class mlmPrompt(nn.Module):
         #print(self.init_model_path)
         #exit()
         if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
-            if "Roberta" in config.get("output","model_name"):
+            if "Roberta" in config.get("model","model_base"):
                 from .modelling_roberta import RobertaForMaskedLM
                 self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
-            elif "Bert" in config.get("output","model_name"):
+            elif "Bert" in config.get("model","model_base"):
                 from .modelling_bert import BertForMaskedLM
                 self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
             else:
@@ -92,12 +99,13 @@ class mlmPrompt(nn.Module):
         else:
             from distutils.dir_util import copy_tree
 
-            if "Roberta" in config.get("output","model_name"):
+            if "Roberta" in config.get("model","model_base"):
                 copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
-            elif "Bert" in config.get("output","model_name"):
+            elif "Bert" in config.get("model","model_base"):
                 copy_tree(str(str(ckp)+"/SST2PromptBert"), self.init_model_path)
             else:
-                print("Wrong")
+                print("Wrong!!!!!")
+                copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
                 exit()
             #copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
             os.remove(self.init_model_path+"/pytorch_model.bin")
