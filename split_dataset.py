@@ -24,6 +24,7 @@ wrong_data 0
 
 max_length=20000
 datasets = ["SST-2/train.tsv","IMDB/train.csv","cs_wiki/train.json","scierc/train.jsonl","agnews/train.jsonl"]
+#datasets = ["scierc/train.jsonl"]
 for dataset in datasets:
     title = []
     length = []
