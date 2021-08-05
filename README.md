@@ -1,6 +1,7 @@
 
 # Prompt Analysis
 
+
 ![](https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png)
 
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
@@ -99,7 +100,10 @@ Domain:
 Comment out text in markdown: https://stackoverflow.com/questions/16525877/how-do-you-display-a-section-of-plain-text-in-github-markdown
 
 
-## Domain Similarity
+## Domain and Task Transferability
+
+---
+### Domain Similarity
 - Top 5000 token
 - 20000 instances for Each dataset
 
@@ -120,7 +124,9 @@ Comment out text in markdown: https://stackoverflow.com/questions/16525877/how-d
 Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_replaceprompt.sh
 
 
-__ : dataset, | : prompt
+### Domain Prompt Transferability
+
+| : Filename(dataset) ; __ : prompt_emb
 
 |   | SST-2_s1 | SST-2_s2 | IMDB_s1 | IMDB_s2 | cs_wiki_s1 | cs_wiki_s2 | scierc_s1 | scierc_s2 | agnews_s1 | agnews_s2 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -135,9 +141,52 @@ __ : dataset, | : prompt
 | agnews_s1 | 54.9 | 55.6 | 69.0 | 68.9 | 46.8 | 47.1 | 51.1 | 50.7 | 74.5 | 74.5 |
 | agnews_s2 | 54.6 | 56.1 | 68.9 | 68.9 | 47.1 | 46.2 | 49.6 | 51.3 | 74.0 | 74.5 |
 
+---
+### Task Similarity
+
+Task:
+- Sentiment Classification: SST2, laptop, restaurant, IMDB
+- Paraphrase: MRPC, QQP, STSB(?)
+- NLI: MNLI, RTE, WNLI(Coreference), QNLI(QA)
+- RE: Fewrel
+- Sentence Similiarity: STSB
+- QA: QNLI(QA), SQUAD
+
+
+### Task Prompt Transferability
+
+###Non-projector
+
+
+###Projector
 
 
 
+---
+## Model Transferability
+
+### Task Similarity
+Model:
+- Roberta
+- Bert
+
+###Non-projector
+
+
+###Projector
+
+
+
+
+
+
+
+
+
+
+
+
+---
 ---
 Imagine:
 
