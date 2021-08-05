@@ -1,5 +1,5 @@
 mkdir RobertaForMaskedLM
-gpus=7
+gpus=6
 
 
 ################################
@@ -10,6 +10,7 @@ gpus=7
 #Sentiment
 ############
 
+'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
@@ -19,9 +20,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobe
     #--comment \
     #--seed
 
-exit
 
-'''
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
@@ -45,6 +44,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
     #--do_test \
     #--comment \
     #--seed
+'''
 
 
 
@@ -56,6 +56,9 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
 
+exit
+
+'''
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
@@ -101,7 +104,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.co
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
-'''
 
 
 
@@ -109,7 +111,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.co
 ###########BERT#################
 ################################
 
-'''
 ############
 #Sentiment
 ############
@@ -147,7 +148,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptBert.confi
     #--do_test \
     #--comment \
     #--seed
-'''
 
 
 ############
@@ -213,3 +213,4 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptBert.confi
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptBert.config \
     --gpu $gpus \
 
+'''

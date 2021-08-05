@@ -3,7 +3,10 @@ import os
 from torch.utils.data import Dataset
 import csv
 from datasets import load_dataset
+
 import random
+import sys
+csv.field_size_limit(sys.maxsize)
 
 class projectorDataset(Dataset):
     def __init__(self, config, mode, encoding="utf8", *args, **params):
@@ -22,63 +25,63 @@ class projectorDataset(Dataset):
             self.re, self.re_length = pre_data_re(mode)
             self.all_length.append(self.re_length)
             self.all_dataset.append(self.re)
-            print("re")
+            print("re",self.re_length) #del
         if "stsb" in self.choose_dataset:
             self.stsb, self.stsb_length = pre_data_stsb(mode)
             self.all_length.append(self.stsb_length)
             self.all_dataset.append(self.stsb)
-            print("stsb")
+            print("stsb",self.stsb_length) #del
             #print("======")
         if "sst2" in self.choose_dataset:
             self.sst2, self.sst2_length = pre_data_sst2(mode)
             self.all_length.append(self.sst2_length)
             self.all_dataset.append(self.sst2)
-            print("sst2")
+            print("sst2",self.sst2_length)
         if "restaurant" in self.choose_dataset:
             self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
             self.all_length.append(self.restaurant_length)
             self.all_dataset.append(self.restaurant)
-            print("restaurant")
+            print("restaurant",self.restaurant_length)
         if "qnli" in self.choose_dataset:
             self.qnli, self.qnli_length = pre_data_qnli(mode)
             self.all_length.append(self.qnli_length)
             self.all_dataset.append(self.qnli)
-            print("qnli") #
+            print("qnli",self.qnli_length) #del
         if "qqp" in self.choose_dataset:
             self.qqp, self.qqp_length = pre_data_qqp(mode)
             self.all_length.append(self.qqp_length)
             self.all_dataset.append(self.qqp)
-            print("qqp")
+            print("qqp",self.qqp_length)
         if "mrpc" in self.choose_dataset:
             self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
             self.all_length.append(self.mrpc_length)
             self.all_dataset.append(self.mrpc)
-            print("mrpc")
+            print("mrpc",self.mrpc_length)
         if "wnli" in self.choose_dataset:
             self.wnli, self.wnli_length = pre_data_wnli(mode)
             self.all_length.append(self.wnli_length)
             self.all_dataset.append(self.wnli)
-            print("wnli")
+            print("wnli",self.wnli_length)
         if "rte" in self.choose_dataset:
             self.rte, self.rte_length = pre_data_rte(mode)
             self.all_length.append(self.rte_length)
             self.all_dataset.append(self.rte)
-            print("rte") #
+            print("rte",self.rte_length) #
         if "mnli" in self.choose_dataset:
             self.mnli, self.mnli_length = pre_data_mnli(mode)
             self.all_length.append(self.mnli_length)
             self.all_dataset.append(self.mnli)
-            print("mnli") #
+            print("mnli",self.mnli_length) #
         if "laptop" in self.choose_dataset:
             self.laptop, self.laptop_length = pre_data_laptop(mode)
             self.all_length.append(self.laptop_length)
             self.all_dataset.append(self.laptop)
-            print("laptop")
+            print("laptop",self.laptop_length)
         if "imdb" in self.choose_dataset:
             self.imdb, self.imdb_length = pre_data_imdb(mode)
             self.all_length.append(self.imdb_length)
             self.all_dataset.append(self.imdb)
-            print("imdb")
+            print("imdb",self.imdb_length)
             #print("======")
             #print("Done")
             #####
@@ -170,19 +173,16 @@ def pre_data_rte(mode):
         d = load_dataset('glue', 'rte')
     else:
         d = csv.reader(open("./data/RTE/test.tsv", "r"), delimiter='\t')
-    '''
     data = load_dataset('glue','rte')
-    '''
     if mode=='valid':
         mode = "validation"
     data = data[mode]
-    '''
 
     train_data = data['train']
     validation_data = data['validation']
     test_data = data['test']
-
     '''
+
     tsv_file = open("data/RTE/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
@@ -191,32 +191,51 @@ def pre_data_rte(mode):
 
     tsv_file = open("data/RTE/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
-    '''
 
 
-    dict_={0:1,1:0}
-    #dict_={'not_entailment':0,'entailment':1}
+    #dict_={0:1,1:0}
+    dict_={'not_entailment':0,'entailment':1}
 
+    data=list()
     if mode == "test":
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip()} for ins in data[1:]]
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "dataset":"rte"} for ins in test_data]
+        #data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "dataset":"rte"} for ins in test_data]
+        for ins in test_data:
+            try:
+                _d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "dataset":"rte"}
+                data.append(_d)
+            except:
+                pass
     elif mode == "train":
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": ins[3].strip()} for ins in data[1:] if len(ins) == 4]
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"} for ins in train_data]
+        #data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"} for ins in train_data]
+        for ins in train_data:
+            try:
+                _d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"}
+                data.append(_d)
+            except:
+                pass
     elif mode == "valid":
         #data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": ins[3].strip()} for ins in data[1:] if len(ins) == 4]
-        data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"} for ins in validation_data]
+        #data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"} for ins in validation_data]
+        for ins in validation_data:
+            try:
+                _d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), 'label':int(dict_[ins['label']]), "dataset":"rte"}
+                data.append(_d)
+            except:
+                pass
 
     return data, len(data)
 
 
-
+#data preprocess problem
 def pre_data_qnli(mode):
     '''
     data = load_dataset('glue', 'qnli')
     train_data = data['train']
     validation_data = data['validation']
     test_data = data['test']
+    dict_={0:1,1:0}
     '''
     tsv_file = open("data/QNLI/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
@@ -227,9 +246,7 @@ def pre_data_qnli(mode):
     tsv_file = open("data/QNLI/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
-
-    dict_={0:1,1:0}
-    #dict_={"not_entailment":0,"entailment":1}
+    dict_={"not_entailment":0,"entailment":1}
 
     #data=[]
     if mode == "test":
@@ -430,6 +447,7 @@ def pre_data_mrpc(mode):
 
 
 def pre_data_mnli(mode):
+    '''
     data = load_dataset('glue', 'mnli')
     train_data = data['train']
     validation_matched_data = data['validation_matched']
@@ -445,23 +463,54 @@ def pre_data_mnli(mode):
 
     tsv_file = open("data/MNLI/dev_matched.tsv")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
-    '''
 
 
     #no, neutral, yes
     #_dict={2:0,1:1,0:2}
-    _dict={2:0,1:3,0:1}
+    #_dict={2:0,1:3,0:1}
+    _dict={"contradiction":0,"neutral":3,"entailment":1}
 
+    data = list()
     if mode == "test_matched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_matched_data]
+        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_matched_data]
+        for ins in test_matched_data:
+            try:
+                d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"mnli"}
+                data.append(d)
+            except:
+                pass
     elif mode == "test_mismatched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_mismatched_data]
+        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_mismatched_data]
+        for ins in test_mismatched_data:
+            try:
+                d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence1'], "dataset":"mnli"}
+                data.append(d)
+            except:
+                pass
     elif mode == "valid_matched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_matched_data]
+        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_matched_data]
+        for ins in validation_matched_data:
+            try:
+                d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label1": _dict[ins['label']], "dataset":"mnli"}
+                data.append(d)
+            except:
+                pass
     elif mode == "valid_mismatched":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_mismatched_data]
+        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_mismatched_data]
+        for ins in validation_mismatched_data:
+            try:
+                d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": _dict[ins['label1']], "dataset":"mnli"}
+                data.append(d)
+            except:
+                pass
     else:
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in train_data]
+        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in train_data]
+        for ins in train_data:
+            try:
+                d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": _dict[ins['label1']], "dataset":"mnli"}
+                data.append(d)
+            except:
+                pass
 
     #org: [1, 0, 0, 0, 1, 0, 1, 0, 2, 2]
     #print([l['label'] for l in data][:10])

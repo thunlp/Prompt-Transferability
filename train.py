@@ -33,11 +33,14 @@ if __name__ == "__main__":
     parser.add_argument('--comment', help="checkpoint file path", default=None)
     parser.add_argument("--seed", type=int, default=None)
     #parser.add_argument("--load_initial_model", type=str, default=None)
-    parser.add_argument("--pre_train_mlm", type=bool, default=False)
     parser.add_argument("--prompt_emb_output", type=bool, default=False)
     parser.add_argument("--save_name", type=str, default=None)
-    parser.add_argument("--task_transfer", type=str, default=False)
-    parser.add_argument("--model_transfer", type=str, default=False)
+    parser.add_argument("--replacing_prompt", type=str, default=None)
+    parser.add_argument("--pre_train_mlm", default=False, action='store_true')
+    parser.add_argument("--task_transfer_projector", default=False, action='store_true')
+    parser.add_argument("--model_transfer_projector", default=False, action='store_true')
+    parser.add_argument("--mode", type=str, default="train")
+
 
     args = parser.parse_args()
 
@@ -100,10 +103,10 @@ if __name__ == "__main__":
 
 
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank)
+    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, args=args)
     do_test = False
     if args.do_test:
         do_test = True
 
     print(args.comment)
-    train(parameters, config, gpu_list, do_test, args.local_rank)
+    train(parameters, config, gpu_list, do_test, args.local_rank, args=args)

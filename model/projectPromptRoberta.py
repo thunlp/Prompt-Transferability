@@ -47,8 +47,7 @@ def load_task_prompt(config):
     #print(name_dict)
     #exit()
 
-    print(name_list)
-    #exit()
+    print("map:",name_list)
 
     #for id, name in name_dict.items():
     for id, name in enumerate(name_list):
@@ -134,7 +133,6 @@ class projectPromptRoberta(nn.Module):
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
-
             task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
 
             model_AE = kwargs["AE"]
@@ -143,7 +141,6 @@ class projectPromptRoberta(nn.Module):
             task_specific_prompt_emb_ = task_specific_prompt_emb.reshape(int(task_specific_prompt_emb.shape[0]), int(task_specific_prompt_emb.shape[1])*int(task_specific_prompt_emb.shape[2]))
             task_specific_prompt_emb_ = model_AE(task_specific_prompt_emb_)
             task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
-
 
 
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
