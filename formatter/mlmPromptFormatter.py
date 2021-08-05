@@ -123,7 +123,7 @@ class mlmPromptFormatter(BasicFormatter):
             if prob < 0.15:
                 prob /= 0.15
 
-                # 80% randomly change token to mask token
+                # 80% randomly change token to [mask] token
                 #print(self.tokenizer.decode[50264])
                 if prob < 0.8:
                     if "Roberta" in self.model_base:
@@ -141,6 +141,7 @@ class mlmPromptFormatter(BasicFormatter):
                     #tokens[i] = "[MASK]"
 
                 # 10% randomly change token to random token
+                '''
                 elif prob < 0.9:
                     #tokens[i] = random.choice(list(self.tokenizer.vocab.items()))[0]
                     tokens[i] = random.choice(list(self.tokenizer.vocab.items()))[1]
@@ -148,7 +149,7 @@ class mlmPromptFormatter(BasicFormatter):
                 # -> rest 10% randomly keep current token
 
                 # append current token to output (we will predict these later)
-
+                '''
                 try:
                     #output_label.append(self.tokenizer.vocab[token])
                     output_label.append(token)

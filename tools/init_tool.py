@@ -114,6 +114,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     logger.info("Begin to initialize models...")
 
     print(config.get("model", "model_name"))
+
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
     #print(params) #{'local_rank': -1, 'prompt_emb_output': True}
     optimizer = init_optimizer(model, config, *args, **params)

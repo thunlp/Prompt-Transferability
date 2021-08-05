@@ -385,6 +385,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
     --mode extract_prompt
 '''
 
+
+
 ######################
 ######################
 ######################
@@ -394,6 +396,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptRoberta_
     --checkpoint model/agnewsPromptRoberta_mlm_s1/15.pkl \
     --mode extract_prompt \
     --pre_train_mlm
+
 
 
 #Extract prompt mlm
@@ -416,7 +419,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/cs_wikiPromptRoberta
 #Extract prompt mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/cs_wikiPromptRoberta_s2.config \
     --gpu $gpus \
-    --checkpoint model/cs_wikiPromptRoberta_mlm_s2/3.pkl \
+    --checkpoint model/cs_wikiPromptRoberta_mlm_s2/15.pkl \
     --mode extract_prompt \
     --pre_train_mlm
 
@@ -433,7 +436,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta_s1
 #Extract prompt mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta_s2.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptRoberta_mlm_s2/15.pkl \
+    --checkpoint model/IMDBPromptRoberta_mlm_s2/12.pkl \
     --mode extract_prompt \
     --pre_train_mlm
 
