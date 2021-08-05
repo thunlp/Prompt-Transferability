@@ -120,8 +120,7 @@ Comment out text in markdown: https://stackoverflow.com/questions/16525877/how-d
 Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_replaceprompt.sh
 
 
-__ : dataset
-| : prompt
+__ : dataset, | : prompt
 
 |   | SST-2_s1 | SST-2_s2 | IMDB_s1 | IMDB_s2 | cs_wiki_s1 | cs_wiki_s2 | scierc_s1 | scierc_s2 | agnews_s1 | agnews_s2 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
