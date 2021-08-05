@@ -141,14 +141,14 @@ imdb_s2_ten = torch.load(path).view(76800).to("cpu")
 
 #task_map={0:"restaurant",1:"laptop",2:"IMDB",3:"SST2",4:"MRPC"}
 #task_map={0:"sst2_s1",1:"sst2_s1",2:"agnews_s1",3:"agnews_s2",4:"scierc_s1",5:"scierc_s2",6:"cs_wiki_s1",7:"cs_wiki_s2",8:"imdb_s1",9:"imdb_s2"}
-task_map={0:"sst2_s1",1:"agnews_s1",2:"scierc_s1",3:"cs_wiki_s1",4:"imdb_s1"}
+task_map={0:"sst2_s1",1:"agnews_s1",2:"scierc_s1",3:"cs_wiki_s1"}
 
 
 #92%
 #all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
 #all_prompt_emb = torch.stack([restaurant_ten, laptop_ten, IMDB_ten, sst2_ten, MRPC_ten])
 #all_prompt_emb = torch.stack([sst2_s1_ten, sst2_s2_ten, agnews_s1_ten, agnews_s2_ten, scierc_s1_ten, scierc_s2_ten, cs_wiki_s1_ten, cs_wiki_s2_ten, imdb_s1_ten, imdb_s2_ten])
-all_prompt_emb = torch.stack([sst2_s1_ten,agnews_s1_ten,  scierc_s1_ten,cs_wiki_s1_ten,imdb_s1_ten])
+all_prompt_emb = torch.stack([sst2_s1_ten,agnews_s1_ten,  scierc_s1_ten,cs_wiki_s1_ten])
 
 #100%
 
