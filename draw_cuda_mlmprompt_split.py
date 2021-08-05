@@ -197,7 +197,7 @@ color_map={0:"#728FCE",1:"#728FCE",2:"#3D0C02",3:"#3D0C02",4:"#C04000",5:"#C0400
 #color_map={0:"#728FCE",1:"#3D0C02",2:"#C04000",3:"#CB6D51",4:"#FFC0CB"}
 
 
-blocked_list = [6]
+blocked_list = []
 #blocked_list = [4]
 #blocked_list = [1,3,4,5,6,7,8]
 #blocked_list = [1,3,2,5,8]
