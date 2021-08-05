@@ -1,4 +1,4 @@
-gpus=7
+gpus=5
 
 #imdb
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/SST2PromptRoberta_s1.config \

@@ -436,7 +436,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta_s1
 #Extract prompt mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta_s2.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptRoberta_mlm_s2/12.pkl \
+    --checkpoint model/IMDBPromptRoberta_mlm_s2/15.pkl \
     --mode extract_prompt \
     --pre_train_mlm
 

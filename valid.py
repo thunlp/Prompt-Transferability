@@ -101,6 +101,7 @@ if __name__ == "__main__":
 
 
     parameters = init_all(config, gpu_list, args.checkpoint, args.mode, local_rank = args.local_rank, args=args)
+
     #parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, prompt_emb_output=True)
 
     #print(parameters)

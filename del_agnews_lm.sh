@@ -1,4 +1,4 @@
-gpus=6
+gpus=1
 
 #agnews
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/agnewsPromptRoberta_s1.config \

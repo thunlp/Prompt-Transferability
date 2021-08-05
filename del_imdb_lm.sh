@@ -1,4 +1,4 @@
-gpus=4
+gpus=3
 
 #imdb
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/IMDBPromptRoberta_s1.config \

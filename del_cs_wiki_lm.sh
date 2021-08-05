@@ -1,4 +1,4 @@
-gpus=5
+gpus=2
 
 #cs_wiki
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/cs_wikiPromptRoberta_s1.config \

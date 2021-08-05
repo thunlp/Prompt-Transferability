@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=5
+gpus=0
 
 
 
@@ -41,12 +41,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --replacing_prompt restaurantPromptRoberta \
     --task_transfer_projector
 
+'''
 
 #Model transfer, proj:False
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptBert/15.pkl \
-    --replacing_prompt restaurantPromptRoberta
+    --replacing_prompt restaurantPromptRoberta \
+    --mode valid
 
 
 
@@ -64,7 +66,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --mode extract_prompt
-'''
 
 
 
@@ -76,7 +77,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --mode extract_prompt \
     --pre_train_mlm
 
-exit
 
 
 #restaurant

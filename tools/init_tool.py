@@ -275,7 +275,9 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     ########################
     ####Train####
     ########################
-
+    else:
+        print("Mode: Train")
+        pass
     ########################
     ########################
     ########################
