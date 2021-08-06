@@ -92,7 +92,7 @@ class projectorDataset(Dataset):
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
         #self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
 
-        if mode == "train":
+        if mode == "train" or mode == "valid":
             #self.min_length = min([self.wnli_length, self.sst2_length, self.restaurant_length, self.qqp_length, self.mrpc_length, self.laptop_length, self.imdb_length])
             self.min_length = min(self.all_length)
         else:

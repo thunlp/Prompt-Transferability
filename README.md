@@ -155,10 +155,10 @@ Task:
 
 ### Task Prompt Transferability
 
-###Non-projector
+### Non-projector
 
 
-###Projector
+### Projector
 
 
 
@@ -170,10 +170,13 @@ Model:
 - Roberta
 - Bert
 
-###Non-projector
+### Non-projector
+- Roberta
+
+- Bert
 
 
-###Projector
+### Projector
 
 
 
