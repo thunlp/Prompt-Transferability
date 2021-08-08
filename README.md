@@ -142,6 +142,13 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 | agnews_s2 | 54.6 | 56.1 | 68.9 | 68.9 | 47.1 | 46.2 | 49.6 | 51.3 | 74.0 | 74.5 |
 
 
+- Domain similiarty (Acc result) 
+
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_3D.jpg)
+
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_2D.jpg)
+
+
 - Domain similiarty (PCA) 
 
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_PCA_3D.jpg)
