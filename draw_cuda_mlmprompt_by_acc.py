@@ -74,6 +74,7 @@ def plot(x, y, **kwargs):
 
 all_domain_ten = list()
 task_map = dict()
+task_map_keep = dict()
 
 counter = 0
 #dataset
@@ -84,6 +85,7 @@ for MODEL_1 in ["agnewsPromptRoberta_mlm_","cs_wikiPromptRoberta_mlm_","IMDBProm
         if "PromptRoberta" in name_1:
             name_1 = name_1.replace("PromptRoberta","")
         task_map[counter] = name_1+"_"+S_1
+        task_map_keep[int(counter/2)] = name_1
         counter+=1
 
         domain_ten = list()
@@ -97,7 +99,23 @@ for MODEL_1 in ["agnewsPromptRoberta_mlm_","cs_wikiPromptRoberta_mlm_","IMDBProm
                     domain_ten.append(acc)
         all_domain_ten.append(torch.tensor(domain_ten))
 
-all_prompt_emb = torch.stack(all_domain_ten)
+
+#filter
+###
+all_domain_ten_keep = list()
+for id, ten in enumerate(all_domain_ten):
+    if id%2 ==0:
+        all_domain_ten_keep.append(ten)
+task_map = task_map_keep
+###
+
+
+
+#all_prompt_emb = torch.stack(all_domain_ten)
+all_prompt_emb = torch.stack(all_domain_ten_keep)
+print("============")
+print(all_prompt_emb)
+print("============")
 
 
 
@@ -293,6 +311,9 @@ elif dim == 2:
 else:
     pass
 
+
+
+print(task_map)
 for task_id, task_name in task_map.items():
     print(task_id)
     if task_id in blocked_list:
