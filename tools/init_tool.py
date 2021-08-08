@@ -41,14 +41,13 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     model.eval()
 
     #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
-    input = torch.nn.Parameter(prompt_emb)
-    prompt_emb = input.reshape(int(input.shape[0])*int(input.shape[1]))
-    #print(input.shape)
-    prompt_emb = model(prompt_emb.to("cuda"))
-    #print(recovered_prompt_emb.shape)
-    prompt_emb = prompt_emb.reshape(int(input.shape[0]),int(input.shape[1])).data
+    prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
+    prompt_emb_ = torch.nn.Parameter(prompt_emb_)
+    prompt_emb_ = model(prompt_emb_.to("cuda"))
+    prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1])).data
 
-    return prompt_emb
+    return prompt_emb_
+
 
 
 
@@ -85,18 +84,16 @@ def recover_task_transfer_prompt(prompt_emb,load_model):
     model.eval()
 
     #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
-    input = torch.nn.Parameter(prompt_emb)
+    prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
     print("========")
-    print(input.shape)
+    print(prompt_emb_.shape)
     print("========")
     exit()
-    prompt_emb = input.reshape(int(input.shape[0])*int(input.shape[1]))
-    #print(input.shape)
-    prompt_emb = model(prompt_emb.to("cuda"))
-    #print(recovered_prompt_emb.shape)
-    prompt_emb = prompt_emb.reshape(int(input.shape[0]),int(input.shape[1])).data
+    prompt_emb_ = torch.nn.Parameter(prompt_emb_)
+    prompt_emb_ = model(prompt_emb_.to("cuda"))
+    prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1])).data
 
-    return prompt_emb
+    return prompt_emb_
 
 
 
@@ -194,8 +191,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("=========================")
             print("Using original prompt emb")
             print("=========================")
-            prompt_emb = None
-            pass
+            print("!!!!!!")
+            print(params["args"])
+            print("!!!!!!")
+            exit()
+            load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
+            prompt_emb = torch.load(load_task_prompt_dir)
+
         elif params["args"].replacing_prompt == "Random" or params["args"].replacing_prompt == "random":
             print("=========================")
             print("Using random prompt emb")
