@@ -178,9 +178,9 @@ Task:
 
 - Task similiarty (Replace prompt with various task-specific prompts and account acc.)
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/task_acc_sim_3D.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_3D.jpg)
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/task_acc_sim_2D.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_2D.jpg)
 
 
 
