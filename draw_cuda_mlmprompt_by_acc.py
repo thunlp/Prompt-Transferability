@@ -81,6 +81,8 @@ for MODEL_1 in ["agnewsPromptRoberta_mlm_","cs_wikiPromptRoberta_mlm_","IMDBProm
     for S_1 in ["s1","s2"]:
 
         name_1 = MODEL_1.split("_")[0]
+        if "PromptRoberta" in name_1:
+            name_1 = name_1.replace("","PromptRoberta")
         task_map[counter] = name_1+"_"+S_1
         counter+=1
 
@@ -193,8 +195,8 @@ print("===================")
 print("===================")
 
 ##3D or 2D
-dim=3
-#dim=2
+#dim=3
+dim=2
 
 
 #PCA compress
