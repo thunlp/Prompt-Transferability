@@ -124,6 +124,14 @@ Comment out text in markdown: https://stackoverflow.com/questions/16525877/how-d
 Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_replaceprompt.sh
 
 
+- Domain similiarty (Acc result single): draw_cuda_mlmprompt_by_acc.py 
+
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_3D.jpg)
+
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_2D.jpg)
+
+
+
 ### Domain Prompt Transferability
 
 | : Filename(dataset) ; __ : prompt_emb
@@ -141,12 +149,6 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 | agnews_s1 | 54.9 | 55.6 | 69.0 | 68.9 | 46.8 | 47.1 | 51.1 | 50.7 | 74.5 | 74.5 |
 | agnews_s2 | 54.6 | 56.1 | 68.9 | 68.9 | 47.1 | 46.2 | 49.6 | 51.3 | 74.0 | 74.5 |
 
-
-- Domain similiarty (Acc result single): draw_cuda_mlmprompt_by_acc.py 
-
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_3D.jpg)
-
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_2D.jpg)
 
 
 - Domain similiarty (Acc result): draw_cuda_mlmprompt_by_acc.py 
