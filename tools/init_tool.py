@@ -86,6 +86,10 @@ def recover_task_transfer_prompt(prompt_emb,load_model):
 
     #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
     input = torch.nn.Parameter(prompt_emb)
+    print("========")
+    print(input.shape)
+    print("========")
+    exit()
     prompt_emb = input.reshape(int(input.shape[0])*int(input.shape[1]))
     #print(input.shape)
     prompt_emb = model(prompt_emb.to("cuda"))
