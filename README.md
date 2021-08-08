@@ -182,6 +182,15 @@ Task:
 
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_2D.jpg)
 
+- Task similiarty (AE) 
+
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_AE.jpg)
+
+- Task similiarty (PCA) 
+
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_3D.jpg)
+
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_2D.jpg)
 
 
 - Bert
