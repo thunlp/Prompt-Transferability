@@ -144,9 +144,9 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 
 - Domain similiarty (Acc result single): draw_cuda_mlmprompt_by_acc.py 
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_single_acc_PCA_3D.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_3D.jpg)
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_single_acc_PCA_2D.jpg)
+![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_2D.jpg)
 
 
 - Domain similiarty (Acc result): draw_cuda_mlmprompt_by_acc.py 
