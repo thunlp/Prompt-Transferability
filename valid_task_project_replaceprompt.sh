@@ -35,5 +35,4 @@ do
         --gpu $gpus \
         --checkpoint model/$MODEL/15.pkl \
         --task_transfer_projector
-    exit
 done

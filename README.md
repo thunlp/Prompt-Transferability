@@ -255,9 +255,12 @@ Imagine:
 
 - MLM task
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
+<!-- ![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg) -->
 ---
 
+
+- output figure
+![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
 
 
 ---
