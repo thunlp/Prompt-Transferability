@@ -85,10 +85,6 @@ def recover_task_transfer_prompt(prompt_emb,load_model):
 
     #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
     prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
-    print("========")
-    print(prompt_emb_.shape)
-    print("========")
-    exit()
     prompt_emb_ = torch.nn.Parameter(prompt_emb_)
     prompt_emb_ = model(prompt_emb_.to("cuda"))
     prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1])).data
@@ -191,11 +187,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("=========================")
             print("Using original prompt emb")
             print("=========================")
-            print("!!!!!!")
-            print(params["args"])
-            print("!!!!!!")
-            exit()
-            load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
+            prompt_name = params["args"].config.split("/")[1].split(".")[0]
+            load_task_prompt_dir = "task_prompt_emb/"+prompt_name+"/task_prompt"
             prompt_emb = torch.load(load_task_prompt_dir)
 
         elif params["args"].replacing_prompt == "Random" or params["args"].replacing_prompt == "random":
