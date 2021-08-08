@@ -176,7 +176,7 @@ Task:
 | WNLI | 50.3 | 21.1 | 36.4 | 68.0 | 49.6 | 36.8 | 17.0 | 52.7 | 50.7 | | 43.8 |
 
 
-- Task similiarty (Replace prompt with various task-specific prompts and account acc.)
+- Task similiarty (Replace prompt with various task-specific prompts and account acc.): draw_cuda_taskprompt_by_acc.py
 
 ![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_3D.jpg)
 

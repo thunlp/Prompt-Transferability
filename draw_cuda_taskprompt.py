@@ -369,7 +369,6 @@ print(WNLI_ten.shape)
 ################
 #Paraphrase
 ################
-
 #MRPC
 MRPC_ten = list()
 path="task_prompt_emb/MRPCPromptRoberta/task_prompt"
@@ -393,10 +392,6 @@ print(QQP_ten.shape)
 ################
 #RE
 re_ten = list()
-'''
-path="task_prompt_emb/REPrompt/task_prompt"
-re_ten = torch.load(path).view(76800)
-'''
 re_ten = torch.rand(100,768).to("cuda").view(76800)
 print(re_ten.shape)
 #re_ten = torch.stack([re_ten for i in range(200)])
@@ -407,14 +402,12 @@ print(re_ten.shape)
 #Other
 ################
 
-
 #QNLI
 QNLI_ten = list()
 path="task_prompt_emb/QNLIPromptRoberta/task_prompt"
 QNLI_ten = torch.load(path).view(76800)
 print(QNLI_ten.shape)
 #QNLI_ten = torch.stack([QNLI_ten for i in range(200)])
-#print(QNLI_ten.shape)
 
 
 
@@ -436,44 +429,6 @@ task_map={0:"sst2",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:
 
 #task_map={0:"sst2",1:"rte",2:"re"}
 
-#0
-sst2_label_ten = torch.zeros(int(sst2_ten.shape[0]),dtype=torch.int64)
-#1
-rte_label_ten = torch.ones(int(rte_ten.shape[0]),dtype=torch.int64)
-#2
-re_label_ten = torch.ones(int(re_ten.shape[0]),dtype=torch.int64)
-re_label_ten[re_label_ten==1]=2
-#3
-MNLI_label_ten = torch.ones(int(MNLI_ten.shape[0]),dtype=torch.int64)
-MNLI_label_ten[MNLI_label_ten==1]=3
-#4
-MRPC_label_ten = torch.ones(int(MRPC_ten.shape[0]),dtype=torch.int64)
-MRPC_label_ten[MRPC_label_ten==1]=4
-#5
-QNLI_label_ten = torch.ones(int(QNLI_ten.shape[0]),dtype=torch.int64)
-QNLI_label_ten[QNLI_label_ten==1]=5
-#6
-QQP_label_ten = torch.ones(int(QQP_ten.shape[0]),dtype=torch.int64)
-QQP_label_ten[QQP_label_ten==1]=6
-#7
-WNLI_label_ten = torch.ones(int(WNLI_ten.shape[0]),dtype=torch.int64)
-WNLI_label_ten[WNLI_label_ten==1]=7
-#8
-STSB_label_ten = torch.ones(int(STSB_ten.shape[0]),dtype=torch.int64)
-STSB_label_ten[STSB_label_ten==1]=8
-#9
-laptop_label_ten = torch.ones(int(laptop_ten.shape[0]),dtype=torch.int64)
-laptop_label_ten[laptop_label_ten==1]=9
-#10
-restaurant_label_ten = torch.ones(int(restaurant_ten.shape[0]),dtype=torch.int64)
-restaurant_label_ten[restaurant_label_ten==1]=10
-#11
-IMDB_label_ten = torch.ones(int(IMDB_ten.shape[0]),dtype=torch.int64)
-IMDB_label_ten[IMDB_label_ten==1]=11
-
-#print(sst2_label_ten.shape)
-#print(rte_label_ten.shape)
-#print(re_label_ten.shape)
 
 #92%
 all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten,QQP_ten,WNLI_ten,STSB_ten,laptop_ten,restaurant_ten,IMDB_ten])
@@ -482,7 +437,6 @@ all_prompt_emb = torch.stack([sst2_ten,rte_ten,re_ten,MNLI_ten,MRPC_ten,QNLI_ten
 #all_prompt_emb = torch.stack([sst2_ten,re_ten,laptop_ten,restaurant_ten,IMDB_ten])
 
 
-all_label = torch.stack([sst2_label_ten,rte_label_ten,re_label_ten,MNLI_label_ten,MRPC_label_ten,QNLI_label_ten,QQP_label_ten,WNLI_label_ten,STSB_label_ten,laptop_label_ten,restaurant_label_ten,IMDB_label_ten])
 
 
 print("===================")
@@ -494,10 +448,10 @@ dim=3
 
 
 #AE compress
+################
+################
+################
 '''
-################
-################
-################
 print("encoder-decoder rep")
 recovered_prompt_emb = recovered_AE(input=all_prompt_emb,out_features=dim)
 print(recovered_prompt_emb.shape)
@@ -519,6 +473,7 @@ for k, v in task_map.items():
     os.remove(dir_pro)
     torch.save(recovered_prompt_emb[k], dir_pro)
 print("Done")
+'''
 ################
 ################
 ################
@@ -527,14 +482,15 @@ print("Done")
 print("Using trained AE model")
 compressed_prompt_emb = trained_AE(input=all_prompt_emb,out_features=dim)
 #################
-'''
 
 
 
 #PCA compress
 ####################
+'''
 compressed_prompt_emb = PCA_svd(X=all_prompt_emb,k=dim)
 print(compressed_prompt_emb.shape)
+'''
 
 #all: 92%
 #sentiment: 100%
@@ -547,7 +503,7 @@ print(compressed_prompt_emb.shape)
 #######Draw
 ##################
 compressed_prompt_emb = compressed_prompt_emb.to("cpu").detach().numpy()
-all_label = all_label.to("cpu").numpy()
+#all_label = all_label.to("cpu").numpy()
 
 #color table: https://www.computerhope.com/htmcolor.htm#color-codes
 
