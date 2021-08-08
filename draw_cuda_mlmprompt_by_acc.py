@@ -82,7 +82,7 @@ for MODEL_1 in ["agnewsPromptRoberta_mlm_","cs_wikiPromptRoberta_mlm_","IMDBProm
 
         name_1 = MODEL_1.split("_")[0]
         if "PromptRoberta" in name_1:
-            name_1 = name_1.replace("","PromptRoberta")
+            name_1 = name_1.replace("PromptRoberta","")
         task_map[counter] = name_1+"_"+S_1
         counter+=1
 
