@@ -235,8 +235,9 @@ Task:
 
 ### Projector
 
+(-): Have training instances
 
-|   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
+|   | IMDB | laptop | MNLI | MRPC(-) | QNLI(-) | QQP | restaurant | RTE | SST2 | STSB(-) | WNLI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Non_Proj | 89 | 77.0 | 82.9 | 76.5 | 89.9 | 74.5 | 72.1 | 53.3 | 93.5 | | 42.1 |
 | Proj | 87.9 | 73.0 | 47.6 | 39.1 | 53.5 | 64.9 | 80.5 | 53.1 | 91.5 | | 39.1 |
