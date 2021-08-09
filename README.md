@@ -176,6 +176,22 @@ Task:
 - QA: QNLI(QA), SQUAD
 
 
+| Use label similiarty 
+
+|   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| IMDB | | | | | | | | | | | |
+| laptop | | | | | | | | | | | |
+| MNLI | | | | | | | | | | | |
+| MRPC | | | | | | | | | | | |
+| QNLI | | | | | | | | | | | |
+| QQP | | | | | | | | | | | |
+| restaurant | | | | | | | | | | | |
+| RTE | | | | | | | | | | | |
+| SST2 | | | | | | | | | | | |
+| STSB | | | | | | | | | | | |
+| WNLI | | | | | | | | | | | |
+
 ### Task Prompt Transferability
 
 | : Filename(dataset) ; __ : prompt_emb
