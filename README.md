@@ -272,8 +272,10 @@ Model:
 
 - Bert
 
+- Didn't work
 
 ### Projector
+- Can work 
 
 
 
