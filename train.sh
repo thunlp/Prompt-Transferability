@@ -10,7 +10,6 @@ gpus=6
 #Sentiment
 ############
 
-'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
@@ -21,6 +20,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobe
     #--seed
 
 
+
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
@@ -29,6 +29,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
     #--do_test \
     #--comment \
     #--seed
+
+exit
 
 
 #IMDB
@@ -44,7 +46,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
     #--do_test \
     #--comment \
     #--seed
-'''
 
 
 
@@ -56,9 +57,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
 
-exit
 
-'''
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
@@ -213,4 +212,3 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptBert.confi
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptBert.config \
     --gpu $gpus \
 
-'''

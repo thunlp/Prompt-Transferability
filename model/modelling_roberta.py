@@ -94,6 +94,7 @@ class RobertaEmbeddings(nn.Module):
         self.position_embeddings = nn.Embedding(config.max_position_embeddings, config.hidden_size)
         self.token_type_embeddings = nn.Embedding(config.type_vocab_size, config.hidden_size)
 
+
         # self.LayerNorm is not snake-cased to stick with TensorFlow model variable name and be able to load
         # any TensorFlow checkpoint file
         self.LayerNorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
@@ -110,8 +111,17 @@ class RobertaEmbeddings(nn.Module):
         # Prompt embedding
         ###
         #self.prompt_embeddings = nn.Embedding(config.prompt_num, config.hidden_size)
+        #print(tokenizer.encode(["<mask>"],add_special_tokens = False))
+        #print(type(tokenizer.encode(["<mask>"],add_special_tokens = False)))
+        #####
+        '''
+        import transformers
+        tokenizer = transformers.RobertaTokenizer.from_pretrained('roberta-base')
+        self.mask_embeddings = self.word_embeddings(torch.LongTensor(tokenizer.encode(["<mask>"],add_special_tokens = False))).detach()
+        print(tokenizer.encode(["<mask>"]))
+        '''
+        #####
         self.prompt_embeddings = nn.Embedding(100, 768)
-        ###
 
     def init_prompt_emb(self, init_ids):
         prompt_weights = self.word_embeddings(init_ids).detach()
@@ -119,6 +129,7 @@ class RobertaEmbeddings(nn.Module):
         print("init_prompt_done, check_if_requires_grad")
 
     def forward(self, input_ids=None, token_type_ids=None, position_ids=None, inputs_embeds=None, **kwargs):
+
         if position_ids is None:
             if input_ids is not None:
                 # Create the position ids from the input token ids. Any padded tokens remain padded.
@@ -156,6 +167,18 @@ class RobertaEmbeddings(nn.Module):
             else:
                 prompt_emb = self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
 
+            #########################
+            '''
+            import transformers
+            tokenizer = transformers.RobertaTokenizer.from_pretrained('roberta-base')
+            self.mask_embeddings = self.word_embeddings(torch.LongTensor(tokenizer.encode(["<mask>"],add_special_tokens = False))).detach()
+            print(tokenizer.encode(["<mask>"]))
+            '''
+            mask_prompt_emb = self.word_embeddings(torch.LongTensor([50264]).to("cuda")).detach()
+
+            #self.prompt_embeddings.weight.data = prompt_weights
+            prompt_emb.data[:,0,:] = mask_prompt_emb
+            #########################
 
 
             #print(word_embeds.shape) #([8, 383, 768])

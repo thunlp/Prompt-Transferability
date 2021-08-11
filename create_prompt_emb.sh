@@ -15,17 +15,18 @@ else
 fi
 '''
 
-'''
 #CUDA_VISIBLE_DEVICES=$gpus
 ############
 #Sentiment Classification
 ############
 #IMDB
+'''
 rm -rf task_prompt_emb/IMDBPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/IMDBPromptRoberta/15.pkl \
     --mode extract_prompt
+'''
 
 #restaurant
 rm -rf task_prompt_emb/restaurantPromptRoberta
@@ -34,6 +35,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --mode extract_prompt
 
+
 #laptop
 rm -rf task_prompt_emb/laptopPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.config \
@@ -41,6 +43,10 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.
     --checkpoint model/laptopPromptRoberta/15.pkl \
     --mode extract_prompt
 
+exit
+
+
+'''
 #SST
 rm -rf task_prompt_emb/SST2PromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.config \
