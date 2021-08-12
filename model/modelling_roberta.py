@@ -174,18 +174,15 @@ class RobertaEmbeddings(nn.Module):
             self.mask_embeddings = self.word_embeddings(torch.LongTensor(tokenizer.encode(["<mask>"],add_special_tokens = False))).detach()
             print(tokenizer.encode(["<mask>"]))
             '''
+
             mask_prompt_emb = self.word_embeddings(torch.LongTensor([50264]).to("cuda")).detach()
 
-            #self.prompt_embeddings.weight.data = prompt_weights
             prompt_emb.data[:,0,:] = mask_prompt_emb
             #########################
 
 
-            #print(word_embeds.shape) #([8, 383, 768])
-            #exit()
-            #inputs_embeds = word_embeds + self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
             inputs_embeds = word_embeds + prompt_emb
-            #print(inputs_embeds.shape) #([8, 383, 768])
+
 
         position_embeddings = self.position_embeddings(position_ids)
         token_type_embeddings = self.token_type_embeddings(token_type_ids)

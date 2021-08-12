@@ -188,8 +188,14 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("Using original prompt emb")
             print("=========================")
             prompt_name = params["args"].config.split("/")[1].split(".")[0]
-            load_task_prompt_dir = "task_prompt_emb/"+prompt_name+"/task_prompt"
-            prompt_emb = torch.load(load_task_prompt_dir)
+            #load_task_prompt_dir = "task_prompt_emb/"+prompt_name+"/task_prompt"
+            #prompt_emb = torch.load(load_task_prompt_dir)
+            if "Roberta" in prompt_name:
+                prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
+            elif "Bert" in prompt_name:
+                prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
+            else:
+                print("Warning: Use original prompt emb")
 
         elif params["args"].replacing_prompt == "Random" or params["args"].replacing_prompt == "random":
             print("=========================")
