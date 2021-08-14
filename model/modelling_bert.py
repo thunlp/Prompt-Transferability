@@ -249,6 +249,17 @@ class BertEmbeddings(nn.Module):
             else:
                 prompt_emb = self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)
 
+            #################################
+            '''
+            import transformers
+            tokenizer = Transformers.BertTokenizer.from_pretrained("bert-base-uncased")
+            print(tokenizer.encode(["[MASK]"]))
+            '''
+
+            mask_prompt_emb = self.word_embeddings(torch.LongTensor([103]).to("cuda")).detach()
+            prompt_emb.data[:,0,:] = mask_prompt_emb
+            #################################
+
 
             inputs_embeds = word_embeds + prompt_emb
 

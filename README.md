@@ -282,7 +282,10 @@ Model:
 
 
 
-
+- Revised:
+* replace predict token with the [mask]
+* re-train all task prompt : mlm, all task (restaurant, laptop: done)
+* re-train all transfer matrix
 
 - To do:
 * try MLM prompt similiarty with other tasks

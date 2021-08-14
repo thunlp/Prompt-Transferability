@@ -33,6 +33,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
 exit
 
 
+
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
