@@ -141,7 +141,6 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 | scierc_s2 | 55.2 | 54.9 | 65.4 | 65.5 | 45.1 | 45.5 | 68.3 | 67.3 | 62.3 | 62.2 |
 | agnews_s1 | 54.9 | 55.6 | 69.0 | 68.9 | 46.8 | 47.1 | 51.1 | 50.7 | 74.5 | 74.5 |
 | agnews_s2 | 54.6 | 56.1 | 68.9 | 68.9 | 47.1 | 46.2 | 49.6 | 51.3 | 74.0 | 74.5 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 
 - Domain similiarty (Acc result single): draw_cuda_mlmprompt_by_acc.py 
@@ -214,6 +213,7 @@ Task:
 | SST2 | 85.4 | 49.8 | 43.0 | 67.2 | 52.6 | 36.9 | 64.3 | 52.0 | 93.6 | | 46.9 |
 | STSB | 50.3 | 2.5 | 37.2 | 68.2 | 54.5 | 36.8 | 1.3 | 52.0 | 50.0 | | 40.6 |
 | WNLI | 50.3 | 21.1 | 36.4 | 68.0 | 49.6 | 36.8 | 17.0 | 52.7 | 50.7 | | 43.8 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 
 - Task similiarty (Replace prompt with various task-specific prompts and account acc.): draw_cuda_taskprompt_by_acc.py
