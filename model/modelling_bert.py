@@ -256,8 +256,11 @@ class BertEmbeddings(nn.Module):
             print(tokenizer.encode(["[MASK]"]))
             '''
 
+            #use mask
+            '''
             mask_prompt_emb = self.word_embeddings(torch.LongTensor([103]).to("cuda")).detach()
             prompt_emb.data[:,0,:] = mask_prompt_emb
+            '''
             #################################
 
 
