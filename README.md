@@ -213,7 +213,7 @@ Task:
 | SST2 | 85.4 | 49.8 | 43.0 | 67.2 | 52.6 | 36.9 | 64.3 | 52.0 | 93.6 | | 46.9 |
 | STSB | 50.3 | 2.5 | 37.2 | 68.2 | 54.5 | 36.8 | 1.3 | 52.0 | 50.0 | | 40.6 |
 | WNLI | 50.3 | 21.1 | 36.4 | 68.0 | 49.6 | 36.8 | 17.0 | 52.7 | 50.7 | | 43.8 |
-| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- |
 
 
 - Task similiarty (Replace prompt with various task-specific prompts and account acc.): draw_cuda_taskprompt_by_acc.py

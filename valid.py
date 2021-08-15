@@ -52,6 +52,13 @@ if __name__ == "__main__":
     configFilePath = args.config
     config = create_config(configFilePath)
 
+    ########
+    ########
+    ########
+    #config.set("eval","batch_size",16)
+    ########
+    ########
+    ########
 
 
     use_gpu = True
