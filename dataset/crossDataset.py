@@ -205,18 +205,17 @@ def pre_data_mlm(data_name,mode):
         data = json.load(open("./data/"+data_name+"test.json", "r"))
 
     if mode == "test":
-    self.data = [{"sent": ins["text"].strip()} for ins in data]
-elif mode == 'valid':
-    self.data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
-else:
-    self.data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
+        data = [{"sent": ins["text"].strip()} for ins in data]
+    elif mode == 'valid':
+        data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
+    else:
+        data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
 
     return data, len(data)
 
 
 
 
-agnews_mlm,cs_wiki_mlm,scierc_mlm,sst2_mlm,imdb_mlm
 
 
 def pre_data_wnli(mode):
