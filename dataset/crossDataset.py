@@ -91,6 +91,59 @@ class crossDataset(Dataset):
             show_dataset.append("imdb")
             #print("imdb")
 
+
+        if "agnews_mlm" in self.dataset_list:
+            self.agnews_mlm_1, self.agnews_mlm_1_length = pre_data_mlm("agnews_mlm_1",mode)
+            self.min_length.append(self.agnews_mlm_1_length)
+            self.all_dataset.append(self.agnews_mlm_1)
+            self.agnews_mlm_2, self.agnews_mlm_2_length = pre_data_mlm("agnews_mlm_2",mode)
+            self.min_length.append(self.agnews_mlm_2_length)
+            self.all_dataset.append(self.agnews_mlm_2)
+            show_dataset.append("agnews_mlm")
+            #print("imdb")
+
+        if "cs_wiki_mlm" in self.dataset_list:
+            self.cs_wiki_mlm_1, self.cs_wiki_mlm_1_length = pre_data_mlm("cs_wiki_mlm_1",mode)
+            self.min_length.append(self.cs_wiki_mlm_1_length)
+            self.all_dataset.append(self.cs_wiki_mlm_1)
+            self.cs_wiki_mlm_2, self.cs_wiki_mlm_2_length = pre_data_mlm("cs_wiki_mlm_2",mode)
+            self.min_length.append(self.cs_wiki_mlm_2_length)
+            self.all_dataset.append(self.cs_wiki_mlm_2)
+            show_dataset.append("cs_wiki_mlm")
+            #print("cs_wiki_mlm")
+
+        if "scierc_mlm" in self.dataset_list:
+            self.scierc_mlm_1, self.scierc_mlm_1_length = pre_data_mlm("scierc_mlm_1",mode)
+            self.min_length.append(self.scierc_mlm_1_length)
+            self.all_dataset.append(self.scierc_mlm_1)
+            self.scierc_mlm_2, self.scierc_mlm_2_length = pre_data_mlm("scierc_mlm_2",mode)
+            self.min_length.append(self.scierc_mlm_2_length)
+            self.all_dataset.append(self.scierc_mlm_2)
+            show_dataset.append("scierc_mlm")
+            #print("scierc_mlm")
+
+
+        if "sst2_mlm" in self.dataset_list:
+            self.sst2_mlm_1, self.sst2_mlm_1_length = pre_data_sst2(mode)
+            self.min_length.append(self.sst2_mlm_1_length)
+            self.all_dataset.append(self.sst2_mlm_1)
+            self.sst2_mlm_2, self.sst2_mlm_2_length = pre_data_sst2(mode)
+            self.min_length.append(self.sst2_mlm_2_length)
+            self.all_dataset.append(self.sst2_mlm_2)
+            show_dataset.append("sst2_mlm")
+
+
+        if "imdb_mlm" in self.dataset_list:
+            self.imdb_mlm_1, self.imdb_mlm_1_length = pre_data_imdb(mode)
+            self.min_length.append(self.imdb_mlm_1_length)
+            self.all_dataset.append(self.imdb_mlm_1)
+            self.imdb_mlm_2, self.imdb_mlm_2_length = pre_data_imdb(mode)
+            self.min_length.append(self.imdb_mlm_2_length)
+            self.all_dataset.append(self.imdb_mlm_2)
+            show_dataset.append("imdb_mlm")
+
+
+
         if mode == "train":
             self.min_length = min(self.min_length)
         else:
@@ -141,6 +194,29 @@ class crossDataset(Dataset):
 
 
 #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:negative, conflict}
+
+
+def pre_data_mlm(data_name,mode):
+    if mode == "train":
+        data = json.load(open("./data/"+data_name+"/train.json", "r"))
+    elif mode == "valid":
+        data = json.load(open("./data/"+data_name+"/test.json", "r"))
+    else:
+        data = json.load(open("./data/"+data_name+"test.json", "r"))
+
+    if mode == "test":
+    self.data = [{"sent": ins["text"].strip()} for ins in data]
+elif mode == 'valid':
+    self.data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
+else:
+    self.data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
+
+    return data, len(data)
+
+
+
+
+agnews_mlm,cs_wiki_mlm,scierc_mlm,sst2_mlm,imdb_mlm
 
 
 def pre_data_wnli(mode):

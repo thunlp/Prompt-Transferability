@@ -9,6 +9,7 @@ import datasets
 
 from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 #from .modelling_roberta import RobertaForMaskedLM
+#from .modelling_bert import BertForMaskedLM
 #tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 class mlmPrompt(nn.Module):
@@ -23,11 +24,11 @@ class mlmPrompt(nn.Module):
                     ckp = "RobertaLargeForMaskedLM"
                     self.hidden_size = 1024
                 else:
-                    model = "roberta-base"
+                    model = "roberta-base-uncased"
                     ckp = "RobertaForMaskedLM"
                     self.hidden_size = 768
             except:
-                model = "roberta-base"
+                model = "roberta-base-uncased"
                 ckp = "RobertaForMaskedLM"
                 self.hidden_size = 768
         elif "Bert" in config.get("model","model_base"):
@@ -37,11 +38,11 @@ class mlmPrompt(nn.Module):
                     ckp = "BertLargeForMaskedLM"
                     self.hidden_size = 1024
                 else:
-                    model = "bert-base"
+                    model = "bert-base-uncased"
                     ckp = "BertForMaskedLM"
                     self.hidden_size = 768
             except:
-                model = "bert-base"
+                model = "bert-base-uncased"
                 ckp = "BertForMaskedLM"
                 self.hidden_size = 768
         else:
@@ -51,7 +52,7 @@ class mlmPrompt(nn.Module):
             print("MLM")
             exit()
             print("Replace with Roberta")
-            model = "roberta-base"
+            model = "roberta-base-uncased"
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
 
@@ -62,11 +63,11 @@ class mlmPrompt(nn.Module):
                 ckp = "RobertaLargeForMaskedLM"
                 self.hidden_size = 1024
             else:
-                model = "roberta-base"
+                model = "roberta-base-uncased"
                 ckp = "RobertaForMaskedLM"
                 self.hidden_size = 768
         except:
-            model = "roberta-base"
+            model = "roberta-base-uncased"
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
         '''
@@ -97,21 +98,30 @@ class mlmPrompt(nn.Module):
                 print("Wrong")
                 exit()
         else:
+            print(self.init_model_path+"/pytorch_model.bin")
+
             from distutils.dir_util import copy_tree
 
             if "Roberta" in config.get("model","model_base"):
-                copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
+                copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
             elif "Bert" in config.get("model","model_base"):
-                copy_tree(str(str(ckp)+"/SST2PromptBert"), self.init_model_path)
+                copy_tree(str(str(ckp)+"/SST2_PromptBert"), self.init_model_path)
             else:
                 print("Wrong!!!!!")
-                copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
+                copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
                 exit()
             #copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
             os.remove(self.init_model_path+"/pytorch_model.bin")
 
-            self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
-            torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
+
+            if "Roberta" in config.get("model","model_base"):
+                from .modelling_roberta import RobertaForMaskedLM
+                self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
+                torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
+            elif "Bert" in config.get("model","model_base"):
+                from .modelling_bert import BertForMaskedLM
+                self.encoder = BertForMaskedLM.from_pretrained(model, config=self.plmconfig)
+                torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
 
         ##############

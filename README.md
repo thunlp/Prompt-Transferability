@@ -214,11 +214,11 @@ Task:
 | STSB | 50.3 | 2.5 | 37.2 | 68.2 | 54.5 | 36.8 | 1.3 | 52.0 | 50.0 | | 40.6 |
 | WNLI | 50.3 | 21.1 | 36.4 | 68.0 | 49.6 | 36.8 | 17.0 | 52.7 | 50.7 | | 43.8 |
 | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- | -MLM- |
-| IMDB_lm |  | |  |  |  |  |  |  |  |  |  |
-| laptop_lm | |  |  |  |  |  |  |  |  |  |  |
-| MRPC_lm | |  |  |  |  |  |  |  |  |  |  |
-| restaurant_lm |  |  |  |  |  |  |  |  |  |  |  |
-| SST2_lm | |  |  |  |  |  |  |  |  |  |  |
+| IMDB_lm | 50.4 | 25.1 |  | 68.8  | 16.7 |  |  |  | 51.3 |  |  |
+| laptop_lm | 50.4 | 5.2 |  | 67.7 | 8.3 |  |  |  | 51.7 |  |  |
+| MRPC_lm | 50.4 | 2.3 |  |  | 68.8 | 1.2 |  |  | 51.2 |  |  |
+| restaurant_lm | 50.3 | 13.4 | 68.2 | 15.1 |  |  |  |  | 51.4 |  |  |
+| SST2_lm | 50.3 | 2.3 |  | 67.7 | 1.2 |  |  |  | 51.3 |  |  |
 
 
 - Task similiarty (Replace prompt with various task-specific prompts and account acc.): draw_cuda_taskprompt_by_acc.py
@@ -295,6 +295,7 @@ Model:
 
 - To do:
 * Measure MLM prompt similiarty with other tasks
+* Bert mlm promt: haven't trained del_sst2_lm
 
 
 

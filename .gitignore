@@ -91,6 +91,17 @@ model/sciercPromptRoberta_mlm_s2*
 model/SST2PromptRoberta_mlm_s1*
 model/SST2PromptRoberta_mlm_s2*
 
+model/agnewsPromptBert_mlm_s1*
+model/agnewsPromptBert_mlm_s2*
+model/cs_wikiPromptBert_mlm_s1*
+model/cs_wikiPromptBert_mlm_s2*
+model/IMDBPromptBert_mlm_s1*
+model/IMDBPromptBert_mlm_s2*
+model/sciercPromptBert_mlm_s1*
+model/sciercPromptBert_mlm_s2*
+model/SST2PromptBert_mlm_s1*
+model/SST2PromptBert_mlm_s2*
+
 
 
 /result_mlm

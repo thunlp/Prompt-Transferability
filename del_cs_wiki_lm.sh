@@ -1,5 +1,6 @@
-gpus=2
+gpus=3
 
+'''
 #cs_wiki
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/cs_wikiPromptRoberta_s1.config \
     --gpu $gpus \
@@ -7,5 +8,17 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/cs_wikiPromptRobe
 
 #cs_wiki
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/cs_wikiPromptRoberta_s2.config \
+    --gpu $gpus \
+    --pre_train_mlm True
+'''
+
+
+#cs_wiki
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/cs_wikiPromptBert_s1.config \
+    --gpu $gpus \
+    --pre_train_mlm True
+
+#cs_wiki
+CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/cs_wikiPromptBert_s2.config \
     --gpu $gpus \
     --pre_train_mlm True
