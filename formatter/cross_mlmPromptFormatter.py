@@ -74,7 +74,12 @@ class cross_mlmPromptFormatter(BasicFormatter):
             d, data_map_id = d_map
 
             #task_name_list.append(DATSSET_MAP[ins["dataset"]])
-            task_name_list.append(data_map_id[ins["dataset"]])
+            #print("===========")
+            #print(data_map_id)
+            #print("---------")
+            #print(d["dataset"])
+            #print("===========")
+            task_name_list.append(data_map_id[d["dataset"]])
 
             #tokens = self.tokenizer.encode(d["sent"], add_special_tokens = False)
             if "sent1" in d and "sent2" in d:

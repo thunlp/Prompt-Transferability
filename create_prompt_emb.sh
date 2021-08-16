@@ -485,21 +485,24 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta_s2
 
 
 #Berta mlm
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptBert_s1.config \
     --gpu $gpus \
     --checkpoint model/agnewsPromptBert_mlm_s1/15.pkl \
     --mode extract_prompt \
     --pre_train_mlm
+'''
 
 
 
 #Extract prompt mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptBert_s2.config \
     --gpu $gpus \
-    --checkpoint model/agnewsPromptBert_mlm_s2/15.pkl \
+    --checkpoint model/agnewsPromptBert_mlm_s2/4.pkl \
     --mode extract_prompt \
     --pre_train_mlm
 
+exit
 
 
 #Extract prompt mlm

@@ -295,6 +295,7 @@ Model:
 
 * mlm_cross, cross, project --> didn't match the key
 * cross, project --> didn't match roberta or bert prompt
+* Re-train transfer-matric (task, model)
 
 - To do:
 * Measure MLM prompt similiarty with other tasks

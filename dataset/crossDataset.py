@@ -100,7 +100,7 @@ class crossDataset(Dataset):
             self.agnews_mlm_2, self.agnews_mlm_2_length = pre_data_mlm("agnews_s2",mode)
             self.min_length.append(self.agnews_mlm_2_length)
             self.all_dataset.append(self.agnews_mlm_2)
-            show_dataset.append("agnews_2")
+            show_dataset.append("agnews_s2")
             #print("imdb")
         if "cs_wiki_s1" in self.dataset_list:
             self.cs_wiki_mlm_1, self.cs_wiki_mlm_1_length = pre_data_mlm("cs_wiki_s1",mode)

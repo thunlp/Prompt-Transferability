@@ -52,13 +52,18 @@ def load_task_prompt(model_prompt, config):
         if "_s1" in file or "_s2" in file:
             if model_prompt in file and model_prompt_not_in not in file:
                 task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-                #name = str(file.strip().split("P")[0]).lower()
-                #if name=="mr" or name=="qq":
-                #    name+="p"
+                name = str(file.strip().split("P")[0]).lower()
+                if name=="mr" or name=="qq":
+                    name+="p"
+
+                if "_s1" in file:
+                    name += "_s1"
+                elif "_s2" in file:
+                    name += "_s2"
                 #if name not in choosed_tasks:
                 #    continue
-                name_list.append(file)
-                task_prompt_dict[file] = task_prompt_emb
+                name_list.append(name)
+                task_prompt_dict[name] = task_prompt_emb
             else:
                 continue
 
@@ -78,13 +83,13 @@ def load_task_prompt(model_prompt, config):
 
     name_list.sort()
 
-    print("-------")
-    print(name_list)
-    print("-------")
-    print(choosed_tasks)
-    print(model_prompt)
+    #print("-------")
+    #print(name_list)
+    #print("-------")
+    #print(choosed_tasks)
+    #print(model_prompt)
     #print(name_dict)
-    exit()
+    #exit()
 
     #for id, name in name_dict.items():
     for id, name in enumerate(name_list):
