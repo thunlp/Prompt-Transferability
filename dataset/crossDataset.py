@@ -154,7 +154,9 @@ class crossDataset(Dataset):
             self.min_length = sum(self.min_length)
         self.all_dataset = self.all_dataset
 
+        show_dataset = list(set(show_dataset))
         show_dataset.sort()
+        self.dataset_map_id = {name:id, for id, name in enumerate(show_dataset)}
         #print("==========")
         #print(show_dataset)
         #print("==========")
@@ -176,7 +178,7 @@ class crossDataset(Dataset):
         #self.all_dataset = [self.laptop, self.imdb]
 
 
-        self.all, show_dataset = self.sample_choose()
+        self.all = self.sample_choose()
 
 
 
@@ -195,7 +197,8 @@ class crossDataset(Dataset):
 
 
     def __getitem__(self, item):
-        return self.all[item]
+        #return self.all[item]
+        return self.all[item], self.dataset_map_id
 
     def __len__(self):
         #return len(self.data)
