@@ -11,8 +11,6 @@ class crossDataset(Dataset):
         self.mode = mode
 
         self.dataset_list = self.config.get("data","train_dataset_type").lower().split(",")
-        #print(self.dataset_list)
-        #exit()
 
         self.min_length = []
         self.all_dataset = []
@@ -93,55 +91,59 @@ class crossDataset(Dataset):
         ###
 
         ###
-        if "agnews_mlm" in self.dataset_list:
-            self.agnews_mlm_1, self.agnews_mlm_1_length = pre_data_mlm("agnews_mlm_1",mode)
+        if "agnews_s1" in self.dataset_list:
+            self.agnews_mlm_1, self.agnews_mlm_1_length = pre_data_mlm("agnews_s1",mode)
             self.min_length.append(self.agnews_mlm_1_length)
             self.all_dataset.append(self.agnews_mlm_1)
-            self.agnews_mlm_2, self.agnews_mlm_2_length = pre_data_mlm("agnews_mlm_2",mode)
+            show_dataset.append("agnews_s1")
+        if "agnews_s2" in self.dataset_list:
+            self.agnews_mlm_2, self.agnews_mlm_2_length = pre_data_mlm("agnews_s2",mode)
             self.min_length.append(self.agnews_mlm_2_length)
             self.all_dataset.append(self.agnews_mlm_2)
-            show_dataset.append("agnews_mlm")
+            show_dataset.append("agnews_2")
             #print("imdb")
-
-        if "cs_wiki_mlm" in self.dataset_list:
-            self.cs_wiki_mlm_1, self.cs_wiki_mlm_1_length = pre_data_mlm("cs_wiki_mlm_1",mode)
+        if "cs_wiki_s1" in self.dataset_list:
+            self.cs_wiki_mlm_1, self.cs_wiki_mlm_1_length = pre_data_mlm("cs_wiki_s1",mode)
             self.min_length.append(self.cs_wiki_mlm_1_length)
             self.all_dataset.append(self.cs_wiki_mlm_1)
-            self.cs_wiki_mlm_2, self.cs_wiki_mlm_2_length = pre_data_mlm("cs_wiki_mlm_2",mode)
+            show_dataset.append("cs_wiki_s1")
+        if "cs_wiki_s2" in self.dataset_list:
+            self.cs_wiki_mlm_2, self.cs_wiki_mlm_2_length = pre_data_mlm("cs_wiki_s2",mode)
             self.min_length.append(self.cs_wiki_mlm_2_length)
             self.all_dataset.append(self.cs_wiki_mlm_2)
-            show_dataset.append("cs_wiki_mlm")
+            show_dataset.append("cs_wiki_s2")
             #print("cs_wiki_mlm")
-
-        if "scierc_mlm" in self.dataset_list:
-            self.scierc_mlm_1, self.scierc_mlm_1_length = pre_data_mlm("scierc_mlm_1",mode)
+        if "scierc_s1" in self.dataset_list:
+            self.scierc_mlm_1, self.scierc_mlm_1_length = pre_data_mlm("scierc_s1",mode)
             self.min_length.append(self.scierc_mlm_1_length)
             self.all_dataset.append(self.scierc_mlm_1)
-            self.scierc_mlm_2, self.scierc_mlm_2_length = pre_data_mlm("scierc_mlm_2",mode)
+            show_dataset.append("scierc_s1")
+        if "scierc_s2" in self.dataset_list:
+            self.scierc_mlm_2, self.scierc_mlm_2_length = pre_data_mlm("scierc_s2",mode)
             self.min_length.append(self.scierc_mlm_2_length)
             self.all_dataset.append(self.scierc_mlm_2)
-            show_dataset.append("scierc_mlm")
+            show_dataset.append("scierc_s2")
             #print("scierc_mlm")
-
-
-        if "sst2_mlm" in self.dataset_list:
-            self.sst2_mlm_1, self.sst2_mlm_1_length = pre_data_sst2(mode)
+        if "sst-2_s1" in self.dataset_list:
+            self.sst2_mlm_1, self.sst2_mlm_1_length = pre_data_sst2(mode,"SST-2_s1")
             self.min_length.append(self.sst2_mlm_1_length)
             self.all_dataset.append(self.sst2_mlm_1)
-            self.sst2_mlm_2, self.sst2_mlm_2_length = pre_data_sst2(mode)
+            show_dataset.append("sst-2_s1")
+        if "sst-2_s2" in self.dataset_list:
+            self.sst2_mlm_2, self.sst2_mlm_2_length = pre_data_sst2(mode,"SST-2_s2")
             self.min_length.append(self.sst2_mlm_2_length)
             self.all_dataset.append(self.sst2_mlm_2)
-            show_dataset.append("sst2_mlm")
-
-
-        if "imdb_mlm" in self.dataset_list:
-            self.imdb_mlm_1, self.imdb_mlm_1_length = pre_data_imdb(mode)
+            show_dataset.append("sst-2_s2")
+        if "imdb_s1" in self.dataset_list:
+            self.imdb_mlm_1, self.imdb_mlm_1_length = pre_data_imdb(mode,"IMDB_s1")
             self.min_length.append(self.imdb_mlm_1_length)
             self.all_dataset.append(self.imdb_mlm_1)
-            self.imdb_mlm_2, self.imdb_mlm_2_length = pre_data_imdb(mode)
+            show_dataset.append("imdb_s1")
+        if "imdb_s2" in self.dataset_list:
+            self.imdb_mlm_2, self.imdb_mlm_2_length = pre_data_imdb(mode,"IMDB_s1")
             self.min_length.append(self.imdb_mlm_2_length)
             self.all_dataset.append(self.imdb_mlm_2)
-            show_dataset.append("imdb_mlm")
+            show_dataset.append("imdb_s2")
         ###
 
 
@@ -151,10 +153,12 @@ class crossDataset(Dataset):
         else:
             self.min_length = sum(self.min_length)
         self.all_dataset = self.all_dataset
+
         show_dataset.sort()
-        print("==========")
-        print(show_dataset)
-        print("==========")
+        #print("==========")
+        #print(show_dataset)
+        #print("==========")
+        #exit()
 
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
         #self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
@@ -172,7 +176,7 @@ class crossDataset(Dataset):
         #self.all_dataset = [self.laptop, self.imdb]
 
 
-        self.all = self.sample_choose()
+        self.all, show_dataset = self.sample_choose()
 
 
 
@@ -181,6 +185,9 @@ class crossDataset(Dataset):
         for dataset in self.all_dataset:
             random.shuffle(dataset)
             #self.sample_part += dataset[:self.min_length]
+            #print("!!!!")
+            #print(dataset[0]["dataset"])
+            #print("!!!!")
             sample_part += dataset[:self.min_length]
         return sample_part
 
@@ -200,18 +207,31 @@ class crossDataset(Dataset):
 
 def pre_data_mlm(data_name,mode):
     if mode == "train":
-        data = json.load(open("./data/"+data_name+"/train.json", "r"))
+        data = json.load(open("data/"+data_name+"/train.json", "r"))
     elif mode == "valid":
-        data = json.load(open("./data/"+data_name+"/test.json", "r"))
+        data = json.load(open("data/"+data_name+"/valid.json", "r"))
     else:
-        data = json.load(open("./data/"+data_name+"test.json", "r"))
+        data = json.load(open("data/"+data_name+"/valid.json", "r"))
+
+
+    key_phrase = list()
+    for ins in data:
+        #print(ins.keys())
+        key_phrase = ins.keys()
+        break
+
+    if "tokens" in key_phrase:
+        data = [{"text": ins["tokens"].strip(), "label":ins["label"]} for ins in data]
+    else:
+        pass
+
 
     if mode == "test":
-        data = [{"sent": ins["text"].strip()} for ins in data]
+        data = [{"sent1": ins["text"].strip(), "dataset": data_name.lower()} for ins in data]
     elif mode == 'valid':
-        data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
+        data = [{"sent1": ins["text"].strip(), "label":ins["label"], "dataset": data_name.lower()} for ins in data]
     else:
-        data = [{"sent": ins["text"].strip(), "label":ins["label"]} for ins in data]
+        data = [{"sent1": ins["text"].strip(), "label":ins["label"], "dataset": data_name.lower()} for ins in data]
 
     return data, len(data)
 
@@ -239,6 +259,7 @@ def pre_data_wnli(mode):
 
     #no, yes
     #dict_={0:1,1:0}
+
 
     if mode == "test":
         data = [{"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"wnli"} for ins in test_data]
@@ -393,23 +414,40 @@ def pre_data_stsb(mode):
 
 
 
-def pre_data_sst2(mode):
+def pre_data_sst2(mode,data_name=None):
 
-    _map={0:5, 1:7}
+    if data_name==None:
+        _map={0:5, 1:7}
+        if mode == "train":
+            d = csv.reader(open("./data/SST-2/train.tsv", "r"), delimiter='\t', quotechar='"')
+        elif mode == "valid" or mode == "validation":
+            d = csv.reader(open("./data/SST-2/dev.tsv", "r"), delimiter='\t', quotechar='"')
+        else:
+            d = csv.reader(open("./data/SST-2/test.tsv", "r"), delimiter='\t', quotechar='"')
 
-    if mode == "train":
-        d = csv.reader(open("./data/SST-2/train.tsv", "r"), delimiter='\t', quotechar='"')
-    elif mode == "valid" or mode == "validation":
-        d = csv.reader(open("./data/SST-2/dev.tsv", "r"), delimiter='\t', quotechar='"')
+        data = [row for row in d]
+        if mode == "test":
+            data = [{"sent1": ins[0].strip(), "dataset":"sst2"} for ins in data[1:]]
+        else:
+            data = [{"sent1": ins[0].strip(), "label": _map[int(ins[1].strip())], "dataset":"sst2"} for ins in data[1:]]
+
+
     else:
-        d = csv.reader(open("./data/SST-2/test.tsv", "r"), delimiter='\t', quotechar='"')
+        _map={0:5, 1:7}
+        if mode == "train":
+            d = csv.reader(open("./data/"+data_name+"/train.tsv", "r"), delimiter='\t', quotechar='"')
+        elif mode == "valid" or mode == "validation":
+            d = csv.reader(open("./data/"+data_name+"/dev.tsv", "r"), delimiter='\t', quotechar='"')
+        else:
+            d = csv.reader(open("./data/"+data_name+"/test.tsv", "r"), delimiter='\t', quotechar='"')
 
-    data = [row for row in d]
-    if mode == "test":
-        data = [{"sent1": ins[0].strip(), "dataset":"sst2"} for ins in data[1:]]
-    else:
-        data = [{"sent1": ins[0].strip(), "label": _map[int(ins[1].strip())], "dataset":"sst2"} for ins in data[1:]]
-    #print(mode, "the number of data", len(data))
+        data = [row for row in d]
+        if mode == "test":
+            data = [{"sent1": ins[0].strip(), "dataset":data_name.lower()} for ins in data[1:]]
+        else:
+            data = [{"sent1": ins[0].strip(), "label": _map[int(ins[1].strip())], "dataset":data_name.lower()} for ins in data[1:]]
+
+
     return data, len(data)
 
 
@@ -586,22 +624,41 @@ def pre_data_laptop(mode):
 
 #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
 
-def pre_data_imdb(mode):
-    if mode == "train":
-        data_imdb = csv.reader(open("./data/IMDB/train.csv", "r"), delimiter='\t')
-    elif mode == "valid":
-        data_imdb = csv.reader(open("./data/IMDB/dev.csv", "r"), delimiter='\t')
-    else:
-        data_imdb = csv.reader(open("./data/IMDB/test.csv", "r"), delimiter='\t')
+def pre_data_imdb(mode,data_name=None):
 
-    data = [row for row in data_imdb]
-    #label_map = {"positive":1, "negative":0}
-    label_map = {"positive":7, "negative":5}
-    if mode == "test":
-        data = [{"sent1": ins[0].strip(), "dataset":"imdb"} for ins in data]
-    else:
-        data = [{"sent1": ins[0].strip(), "label":label_map[ins[1].strip()], "dataset":"imdb"} for ins in data]
+    if data_name == None:
+        if mode == "train":
+            data_imdb = csv.reader(open("./data/IMDB/train.csv", "r"), delimiter='\t')
+        elif mode == "valid":
+            data_imdb = csv.reader(open("./data/IMDB/dev.csv", "r"), delimiter='\t')
+        else:
+            data_imdb = csv.reader(open("./data/IMDB/test.csv", "r"), delimiter='\t')
 
-    #print([l['label'] for l in data])
+        data = [row for row in data_imdb]
+        #label_map = {"positive":1, "negative":0}
+        label_map = {"positive":7, "negative":5}
+        if mode == "test":
+            data = [{"sent1": ins[0].strip(), "dataset":"imdb"} for ins in data]
+        else:
+            data = [{"sent1": ins[0].strip(), "label":label_map[ins[1].strip()], "dataset":"imdb"} for ins in data]
+
+
+    else:
+        if mode == "train":
+            data_imdb = csv.reader(open("./data/"+data_name+"/train.csv", "r"), delimiter='\t')
+        elif mode == "valid":
+            data_imdb = csv.reader(open("./data/"+data_name+"/dev.csv", "r"), delimiter='\t')
+        else:
+            data_imdb = csv.reader(open("./data/"+data_name+"/test.csv", "r"), delimiter='\t')
+
+
+        data = [row for row in data_imdb]
+        #label_map = {"positive":1, "negative":0}
+        label_map = {"positive":7, "negative":5}
+        if mode == "test":
+            data = [{"sent1": ins[0].strip(), "dataset":data_name.lower()} for ins in data]
+        else:
+            data = [{"sent1": ins[0].strip(), "label":label_map[ins[1].strip()], "dataset":data_name.lower()} for ins in data]
+
 
     return data, len(data)

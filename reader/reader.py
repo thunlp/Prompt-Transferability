@@ -118,12 +118,17 @@ def init_one_dataset(config, mode, *args, **params):
         which = "projector"
     elif config.get("data", "train_formatter_type") == "crossPromptRoberta":
         which = "cross"
+    elif config.get("data", "train_formatter_type") == "cross_mlmPrompt":
+        which = "cross"
     ##########
     else:
         which = config.get("data", "%s_dataset_type" % temp_mode)
 
-
-
+    #print("=========")
+    #print(which)
+    #print("=========")
+    #print(dataset_list)
+    #exit()
 
     if which in dataset_list:
         if mode in ["valid", "test"] and "MNLI" in which:

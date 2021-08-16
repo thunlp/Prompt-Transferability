@@ -45,7 +45,7 @@ class AE(nn.Module):
 
 
 
-def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, model_AE):
+def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, model_AE, **kwargs):
 
     ####Original_model#####
     '''
@@ -79,7 +79,7 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, m
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
 
 
-def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
+def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     epoch = config.getint("train", "epoch")
     batch_size = config.getint("train", "batch_size")
 
@@ -150,7 +150,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
         logger.info("Begin to initialize dataset and formatter...")
         #if mode == "train":
             #parameters["train_dataset"], parameters["valid_dataset"] = init_dataset(config, *args, **params)
-        dataset, parameters["valid_dataset"] = init_dataset(config)
+        dataset, parameters["valid_dataset"] = init_dataset(config, **params)
         #else:
         #parameters["test_dataset"] = init_test_dataset(config, *args, **params)
         ###
@@ -176,7 +176,10 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1):
         step = -1
 
         #task_prompt = load_task_prompt()
+        print("bbbbbbbbbb")
         for step, data in enumerate(dataset):
+            print("aaaaaaaaa")
+            exit()
             for key in data.keys():
                 if isinstance(data[key], torch.Tensor):
                     if len(gpu_list) > 0:

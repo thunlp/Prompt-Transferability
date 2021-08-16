@@ -293,6 +293,9 @@ Model:
 * re-train all task prompt : mlm, all task (restaurant, laptop: done)
 * re-train all transfer matrix
 
+* mlm_cross, cross, project --> didn't match the key
+* cross, project --> didn't match roberta or bert prompt
+
 - To do:
 * Measure MLM prompt similiarty with other tasks
 * Bert mlm promt: haven't trained del_sst2_lm

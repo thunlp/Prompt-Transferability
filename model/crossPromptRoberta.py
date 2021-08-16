@@ -19,6 +19,8 @@ def load_task_prompt(model_prompt, config):
 
     #print("=======")
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
+    #print(choosed_tasks)
+    #exit()
 
     #choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
 
@@ -32,27 +34,36 @@ def load_task_prompt(model_prompt, config):
     task_prompt_ten=list()
     path="./task_prompt_emb"
     files = os.listdir(path)
+
+
     for file in files:
-        #print(file)
 
-        if "proj" in file or model_prompt not in file:
-            continue
 
-        task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-        name = str(file.strip().split("P")[0]).lower()
-        if name=="mr" or name=="qq":
-            name+="p"
-        if name not in choosed_tasks:
-            continue
+        if "_s1" in file or "_s2" in file:
+            task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+            #name = str(file.strip().split("P")[0]).lower()
+            #if name=="mr" or name=="qq":
+            #    name+="p"
+            #if name not in choosed_tasks:
+            #    continue
+            name_list.append(file)
+            task_prompt_dict[file] = task_prompt_emb
 
-        #print(task_prompt_emb.shape)
-        #print(name)
-        name_list.append(name)
-        task_prompt_dict[name] = task_prompt_emb
-    #print(name_list)
+        else:
+            if "proj" in file or model_prompt not in file:
+                continue
+            task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+            name = str(file.strip().split("P")[0]).lower()
+            print(name)
+            if name=="mr" or name=="qq":
+                name+="p"
+            if name not in choosed_tasks:
+                continue
+
+            name_list.append(name)
+            task_prompt_dict[name] = task_prompt_emb
+
     name_list.sort()
-    #print(name_list)
-    #name_dict = {id:n for id,n in enumerate(name_list)}
     print("-------")
     print(name_list)
     print("-------")

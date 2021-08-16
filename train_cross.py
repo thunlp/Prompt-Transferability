@@ -89,10 +89,10 @@ if __name__ == "__main__":
     set_random_seed(args.seed)
 
 
-    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, model_prompt=args.model_prompt)
+    parameters = init_all(config, gpu_list, args.checkpoint, "train", local_rank = args.local_rank, model_prompt=args.model_prompt, args=args)
     do_test = False
     if args.do_test:
         do_test = True
 
     print(args.comment)
-    train(parameters, config, gpu_list, do_test, args.local_rank)
+    train(parameters, config, gpu_list, do_test, args.local_rank, args=args)

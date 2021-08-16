@@ -66,12 +66,12 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     result = {}
 
     logger.info("Begin to initialize dataset and formatter...")
-    if mode == "train":
+    if mode == "test":
         # init_formatter(config, ["train", "valid"], *args, **params)
-        result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
-    else:
-        # init_formatter(config, ["test"], *args, **params)
         result["test_dataset"] = init_test_dataset(config, *args, **params)
+    elif mode=="train" or mode=="valid":
+        # init_formatter(config, ["test"], *args, **params)
+        result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
 
     logger.info("Begin to initialize models...")
 
@@ -121,7 +121,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
 
-    try:
+    if checkpoint!=None:
+
         parameters = torch.load(checkpoint, map_location=lambda storage, loc: storage)
         if hasattr(model, 'module'):
             model.module.load_state_dict(parameters["model"])
@@ -133,12 +134,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         ########################
         if "args" in params and mode != "train":
         #if "args" in params:
-
-            print("!!!!!")
-            print("!!!!!")
-            print("!!!!!")
-            print("!!!!!")
-            print("!!!!!")
 
 
             #Roberta or Bert
@@ -200,18 +195,22 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 global_step = parameters["global_step"]
 
 
-    except Exception as e:
+    #except Exception as e:
+    else:
         print("======")
-        print("except in")
+        print("Have no checkpoint")
         print("======")
-        exit()
+        #exit()
 
-        information = "Cannot load checkpoint file with error %s" % str(e)
+        #information = "Cannot load checkpoint file with error %s" % str(e)
+        #print(information)
+        '''
         if mode == "test":
             logger.error(information)
             raise e
         else:
             logger.warning(information)
+        '''
 
 
 

@@ -10,7 +10,9 @@ model_prompt="bert-base"
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/cross_mlmPromptRoberta.config \
     --gpu $gpus \
-    --model_prompt $model_prompt
+    --model_prompt $model_prompt \
+    --pre_train_mlm True
+
 exit
 
 '''
