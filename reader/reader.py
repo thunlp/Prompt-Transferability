@@ -58,6 +58,7 @@ def init_formatter(config, task_list, *args, **params):
 
     else:
         for task in task_list:
+
             formatter[task] = form.init_formatter(config, task, *args, **params)
 
             def train_collate_fn(data):

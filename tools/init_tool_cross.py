@@ -62,6 +62,7 @@ class AE(nn.Module):
 
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
+
     result = {}
 
     logger.info("Begin to initialize dataset and formatter...")
@@ -130,7 +131,15 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         ########################
         ####Evalid will Open####
         ########################
-        if "args" in params:
+        if "args" in params and mode != "train":
+        #if "args" in params:
+
+            print("!!!!!")
+            print("!!!!!")
+            print("!!!!!")
+            print("!!!!!")
+            print("!!!!!")
+
 
             #Roberta or Bert
             name_of_model_prompt = string.capwords(params["args"].model_prompt.strip().split("-")[0])

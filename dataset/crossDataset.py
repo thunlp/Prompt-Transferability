@@ -90,8 +90,9 @@ class crossDataset(Dataset):
             self.all_dataset.append(self.imdb)
             show_dataset.append("imdb")
             #print("imdb")
+        ###
 
-
+        ###
         if "agnews_mlm" in self.dataset_list:
             self.agnews_mlm_1, self.agnews_mlm_1_length = pre_data_mlm("agnews_mlm_1",mode)
             self.min_length.append(self.agnews_mlm_1_length)
@@ -141,6 +142,7 @@ class crossDataset(Dataset):
             self.min_length.append(self.imdb_mlm_2_length)
             self.all_dataset.append(self.imdb_mlm_2)
             show_dataset.append("imdb_mlm")
+        ###
 
 
 
