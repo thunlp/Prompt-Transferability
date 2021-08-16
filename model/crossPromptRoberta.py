@@ -174,9 +174,14 @@ class crossPromptRoberta(nn.Module):
 
 
     def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output="replace_task_specific_prompt_emb", **kwargs):
+
+
+
         # print(self.encoder.roberta.embeddings.prompt_embeddings.weight)
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
+
+
         elif prompt_emb_output == "replace_task_specific_prompt_emb":
 
             task_specific_prompt_emb = torch.index_select(self.task_specific_prompt_emb, 0, data["task_name"])
@@ -188,8 +193,11 @@ class crossPromptRoberta(nn.Module):
             task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
 
 
+            if "mlm" in config.get("output","model_name"):
+                output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb, labels=data["label"])
+            else:
+                output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
 
-            output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
         else:
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 
@@ -204,92 +212,114 @@ class crossPromptRoberta(nn.Module):
 
         logits = output["logits"] # batch, seq_len, vocab_size #torch.Size([16, 231, 50265])
 
-        mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
+        #print("=====")
+        #print(config.get("output","model_name"))
+        if "mlm" in config.get("output","model_name"):
+            loss = output["loss"]
+            acc_result = acc_mlm(logits, data['label'], acc_result)
 
-
-        '''
-        print("==============")
-        print("==============")
-
-        #sentiment
-        #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
-        print(tokenizer.encode("positive",add_special_tokens=False)) #22173
-        #print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
-        print(tokenizer.encode("moderate",add_special_tokens=False)) #19397
-        print(tokenizer.encode("negative",add_special_tokens=False)) #33407
-        print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
-
-        #NLI
-        print(tokenizer.convert_ids_to_tokens([10932])) #['yes']
-        print(tokenizer.convert_ids_to_tokens([12516])) #['neutral']
-        print(tokenizer.convert_ids_to_tokens([2362])) #['no']
-
-        #paraphrase
-        print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
-        print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
-
-        print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
-        print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
-
-        '''
-
-        #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
-        score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1),mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1)], dim=1)
-
-        '''
-        if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
-            #sentiment
-            #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
-            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB":
-            #sentiment
-            #mo_dict={"positive":22173,"negative":33407}
-            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:,22173].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "MNLI":
-            #NLI
-            #mo_dict={"yes":10932,"neutral":12516,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "RTE":
-            #NLI
-            #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "WNLI":
-            #NLI
-            #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "QNLI":
-            #NLI
-            #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "MRPC":
-            #paraphrase
-            #mo_dict={"true":29225,"false":22303}
-            score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "QQP":
-            #paraphrase
-            #mo_dict={"true":29225,"false":22303}
-            score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "STSB":
-            score = mask_logits[:, 10932]
         else:
-            #Other
-            #mask_logits:torch.Size([16, 50265])
-            #mo_dict={"yes":10932,"no":2362}
-            score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        '''
 
+            mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
+            '''
+            print("==============")
+            print("==============")
 
+            #sentiment
+            #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
+            print(tokenizer.encode("positive",add_special_tokens=False)) #22173
+            #print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
+            print(tokenizer.encode("moderate",add_special_tokens=False)) #19397
+            print(tokenizer.encode("negative",add_special_tokens=False)) #33407
+            print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
 
-        loss = self.criterion(score, data["label"])
-        #if config.get("data", "train_dataset_type") == "STSB":
-        #    acc_result = pearson(score, data['label'], acc_result)
-        #else:
-        acc_result = acc(score, data['label'], acc_result)
+            #NLI
+            print(tokenizer.convert_ids_to_tokens([10932])) #['yes']
+            print(tokenizer.convert_ids_to_tokens([12516])) #['neutral']
+            print(tokenizer.convert_ids_to_tokens([2362])) #['no']
+
+            #paraphrase
+            print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
+            print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
+
+            print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
+            print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
+
+            '''
+
+            #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
+            score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1),mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1)], dim=1)
+
+            '''
+            if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
+                #sentiment
+                #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
+                score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB":
+                #sentiment
+                #mo_dict={"positive":22173,"negative":33407}
+                score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:,22173].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "MNLI":
+                #NLI
+                #mo_dict={"yes":10932,"neutral":12516,"no":2362}
+                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "RTE":
+                #NLI
+                #mo_dict={"yes":10932,"no":2362}
+                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "WNLI":
+                #NLI
+                #mo_dict={"yes":10932,"no":2362}
+                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "QNLI":
+                #NLI
+                #mo_dict={"yes":10932,"no":2362}
+                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "MRPC":
+                #paraphrase
+                #mo_dict={"true":29225,"false":22303}
+                score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "QQP":
+                #paraphrase
+                #mo_dict={"true":29225,"false":22303}
+                score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
+            elif config.get("data", "train_dataset_type") == "STSB":
+                score = mask_logits[:, 10932]
+            else:
+                #Other
+                #mask_logits:torch.Size([16, 50265])
+                #mo_dict={"yes":10932,"no":2362}
+                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
+            '''
+
+            loss = self.criterion(score, data["label"])
+            #if config.get("data", "train_dataset_type") == "STSB":
+            #    acc_result = pearson(score, data['label'], acc_result)
+            #else:
+            acc_result = acc(score, data['label'], acc_result)
+
 
         if prompt_emb_output == True:
             return {'loss': loss, 'acc_result': acc_result}, prompt_emb, data['label']
         else:
             return {'loss': loss, 'acc_result': acc_result}
+
+
+
+def acc_mlm(score, label, acc_result):
+    if acc_result is None:
+        acc_result = {'total': 0, 'right': 0}
+
+    predict = torch.max(score, dim = 2)[1]
+
+    NOT_MASK = [label!=-100]
+    predict = predict[NOT_MASK]
+    label = label[NOT_MASK]
+
+    acc_result['total'] += int(label.shape[0])
+    acc_result['right'] += int((predict == label).int().sum())
+
+    return acc_result
 
 
 def acc(score, label, acc_result):
