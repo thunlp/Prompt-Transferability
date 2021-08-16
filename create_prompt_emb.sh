@@ -13,7 +13,7 @@ else
     echo "Do not rewrite"
     #exit
 fi
-'''
+
 
 #CUDA_VISIBLE_DEVICES=$gpus
 ############
@@ -42,10 +42,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.
     --checkpoint model/laptopPromptRoberta/15.pkl \
     --mode extract_prompt
 
-exit
 
 
-'''
 #SST
 rm -rf task_prompt_emb/SST2PromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.config \
@@ -399,6 +397,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
 ######################
 ######################
 #Extract prompt mlm
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptRoberta_s1.config \
     --gpu $gpus \
     --checkpoint model/agnewsPromptRoberta_mlm_s1/15.pkl \
@@ -478,5 +477,92 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta_s1
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta_s2.config \
     --gpu $gpus \
     --checkpoint model/SST2PromptRoberta_mlm_s2/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+'''
+
+
+
+
+#Berta mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptBert_s1.config \
+    --gpu $gpus \
+    --checkpoint model/agnewsPromptBert_mlm_s1/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptBert_s2.config \
+    --gpu $gpus \
+    --checkpoint model/agnewsPromptBert_mlm_s2/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/cs_wikiPromptBert_s1.config \
+    --gpu $gpus \
+    --checkpoint model/cs_wikiPromptBert_mlm_s1/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/cs_wikiPromptBert_s2.config \
+    --gpu $gpus \
+    --checkpoint model/cs_wikiPromptBert_mlm_s2/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptBert_s1.config \
+    --gpu $gpus \
+    --checkpoint model/IMDBPromptBert_mlm_s1/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptBert_s2.config \
+    --gpu $gpus \
+    --checkpoint model/IMDBPromptBert_mlm_s2/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/sciercPromptBert_s1.config \
+    --gpu $gpus \
+    --checkpoint model/sciercPromptBert_mlm_s1/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/sciercPromptBert_s2.config \
+    --gpu $gpus \
+    --checkpoint model/sciercPromptBert_mlm_s2/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptBert_s1.config \
+    --gpu $gpus \
+    --checkpoint model/SST2PromptBert_mlm_s1/15.pkl \
+    --mode extract_prompt \
+    --pre_train_mlm
+
+#Extract prompt mlm
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptBert_s2.config \
+    --gpu $gpus \
+    --checkpoint model/SST2PromptBert_mlm_s2/15.pkl \
     --mode extract_prompt \
     --pre_train_mlm

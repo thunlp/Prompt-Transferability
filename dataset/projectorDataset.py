@@ -99,6 +99,10 @@ class projectorDataset(Dataset):
             self.min_length = sum(self.all_length)
         #self.min_length = min([self.laptop_length, self.imdb_length])
 
+        self.all_dataset = list(set(self.all_dataset))
+        self.all_dataset.sort()
+        self.dataset_map_id = {name:id for id, name in enumerate(self.all_dataset)}
+
 
         #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
         #self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
@@ -123,7 +127,7 @@ class projectorDataset(Dataset):
 
 
     def __getitem__(self, item):
-        return self.all[item]
+        return self.all[item], self.dataset_map_id
 
     def __len__(self):
         #return len(self.data)

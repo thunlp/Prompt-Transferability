@@ -33,16 +33,21 @@ class projectorPromptRobertaFormatter(BasicFormatter):
         max_len = self.max_len + 3 + self.prompt_num#+ self.prompt_len * 1 + 4
 
         #print("DATSET MAP:")
-        l = list(set([l["dataset"] for l in data]))
-        l.sort()
-        DATSSET_MAP = {name:id for id, name in enumerate(l)}
+        #l = list(set([l["dataset"] for l in data]))
+        #l.sort()
+        #DATSSET_MAP = {name:id for id, name in enumerate(l)}
 
         #print(DATSSET_MAP)
         #exit()
         #{0: 'imdb', 1: 'laptop', 2: 'mrp', 3: 'qqp', 4: 'restaurant', 5: 'sst2', 6: 'wnli'}
 
         task_name_list=[]
-        for ins in data:
+        for ins_map in data:
+
+            ###
+            ins, DATSSET_MAP = data
+            ###
+
             task_name_list.append(DATSSET_MAP[ins["dataset"]])
             sent1 = self.tokenizer.encode(ins["sent1"], add_special_tokens = False)
             try:

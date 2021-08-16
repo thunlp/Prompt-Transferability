@@ -22,11 +22,20 @@ def load_task_prompt(model_prompt, config):
     #print(choosed_tasks)
     #exit()
 
+
     #choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
 
     #use prompt: Bert, Roberta
     model_prompt = str.title(model_prompt.strip().split("-")[0])
+
+    if model_prompt == "Bert":
+        model_prompt_not_in = "Roberta"
+    elif model_prompt == "Roberta":
+        model_prompt_not_in = "Bert"
+
+    #print("====")
     #print(model_prompt)
+    #print("====")
     #exit()
 
     name_list = list()
@@ -39,22 +48,26 @@ def load_task_prompt(model_prompt, config):
     for file in files:
 
 
+        #if "_s1" in file or "_s2" in file and model_prompt in file and model_prompt_not_in not in file:
         if "_s1" in file or "_s2" in file:
-            task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-            #name = str(file.strip().split("P")[0]).lower()
-            #if name=="mr" or name=="qq":
-            #    name+="p"
-            #if name not in choosed_tasks:
-            #    continue
-            name_list.append(file)
-            task_prompt_dict[file] = task_prompt_emb
+            if model_prompt in file and model_prompt_not_in not in file:
+                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+                #name = str(file.strip().split("P")[0]).lower()
+                #if name=="mr" or name=="qq":
+                #    name+="p"
+                #if name not in choosed_tasks:
+                #    continue
+                name_list.append(file)
+                task_prompt_dict[file] = task_prompt_emb
+            else:
+                continue
 
         else:
             if "proj" in file or model_prompt not in file:
                 continue
             task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
             name = str(file.strip().split("P")[0]).lower()
-            print(name)
+            #print(name)
             if name=="mr" or name=="qq":
                 name+="p"
             if name not in choosed_tasks:
@@ -64,12 +77,14 @@ def load_task_prompt(model_prompt, config):
             task_prompt_dict[name] = task_prompt_emb
 
     name_list.sort()
+
     print("-------")
     print(name_list)
     print("-------")
-
+    print(choosed_tasks)
+    print(model_prompt)
     #print(name_dict)
-    #exit()
+    exit()
 
     #for id, name in name_dict.items():
     for id, name in enumerate(name_list):

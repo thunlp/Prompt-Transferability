@@ -156,7 +156,7 @@ class crossDataset(Dataset):
 
         show_dataset = list(set(show_dataset))
         show_dataset.sort()
-        self.dataset_map_id = {name:id, for id, name in enumerate(show_dataset)}
+        self.dataset_map_id = {name:id for id, name in enumerate(show_dataset)}
         #print("==========")
         #print(show_dataset)
         #print("==========")

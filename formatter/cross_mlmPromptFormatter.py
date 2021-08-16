@@ -37,6 +37,13 @@ class cross_mlmPromptFormatter(BasicFormatter):
 
     def convert_example_to_features(self, data):
 
+        #print(data_map)
+        #print("======")
+        #data, data_map_id = data_map
+        #data = data_map[0]
+        #data_map_id = data_map[-1]
+        #print(data_map_id)
+        #exit()
 
         inputx = []
         mask = []
@@ -51,23 +58,23 @@ class cross_mlmPromptFormatter(BasicFormatter):
         #print("!!!!")
         #exit()
 
-        print(data)
-        exit()
-
-        l = list(set([l["dataset"] for l in data]))
-        l.sort()
-        DATSSET_MAP = {name:id for id, name in enumerate(l)}
-        print(DATSSET_MAP)
-        print("!!!!!!!!!!!")
-        print(len(data))
-        print("!!!!!!!!!!!")
-        print("!!!!!!!!!!!")
-        exit()
+        #l = list(set([l["dataset"] for l in data]))
+        #l.sort()
+        #DATSSET_MAP = {name:id for id, name in enumerate(l)}
+        #print(DATSSET_MAP)
+        #print("!!!!!!!!!!!")
+        #print(len(data))
+        #print("!!!!!!!!!!!")
+        #print("!!!!!!!!!!!")
+        #exit()
 
         task_name_list=[]
         #input_ids, lm_label_ids, input_mask,
-        for d in data:
-            task_name_list.append(DATSSET_MAP[ins["dataset"]])
+        for d_map in data:
+            d, data_map_id = d_map
+
+            #task_name_list.append(DATSSET_MAP[ins["dataset"]])
+            task_name_list.append(data_map_id[ins["dataset"]])
 
             #tokens = self.tokenizer.encode(d["sent"], add_special_tokens = False)
             if "sent1" in d and "sent2" in d:

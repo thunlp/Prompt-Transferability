@@ -176,10 +176,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
         step = -1
 
         #task_prompt = load_task_prompt()
-        print("bbbbbbbbbb")
         for step, data in enumerate(dataset):
-            print("aaaaaaaaa")
-            exit()
             for key in data.keys():
                 if isinstance(data[key], torch.Tensor):
                     if len(gpu_list) > 0:
