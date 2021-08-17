@@ -102,6 +102,8 @@ model/sciercPromptBert_mlm_s2*
 model/SST2PromptBert_mlm_s1*
 model/SST2PromptBert_mlm_s2*
 
+model/crossPromptRoberta_only_IMDB_laptop*
+model/cross_mlmPromptRoberta*
 
 
 /result_mlm

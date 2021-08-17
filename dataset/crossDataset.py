@@ -157,9 +157,9 @@ class crossDataset(Dataset):
         show_dataset = list(set(show_dataset))
         show_dataset.sort()
         self.dataset_map_id = {name:id for id, name in enumerate(show_dataset)}
-        #print("==========")
-        #print(show_dataset)
-        #print("==========")
+        print("==========")
+        print(show_dataset)
+        print("==========")
         #exit()
 
         #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
@@ -326,11 +326,20 @@ def pre_data_rte(mode):
 
 
 def pre_data_qnli(mode):
-    '''
     data = load_dataset('glue', 'qnli')
     train_data = data['train']
     validation_data = data['validation']
     test_data = data['test']
+
+    dict_={0:1,1:0}
+
+    if mode == "test":
+        data = [{"sent1": ins['question'], "sent2": ins['sentence'], "dataset":"qnli"} for ins in test_data]
+    elif mode == 'valid':
+        data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in validation_data]
+    else:
+        data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in train_data]
+
     '''
     tsv_file = open("data/QNLI/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
@@ -342,8 +351,8 @@ def pre_data_qnli(mode):
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
 
-    dict_={0:1,1:0}
-    #dict_={"not_entailment":0,"entailment":1}
+    #dict_={0:1,1:0}
+    dict_={"not_entailment":0,"entailment":1}
 
     #data=[]
     if mode == "test":
@@ -352,6 +361,7 @@ def pre_data_qnli(mode):
         data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in validation_data]
     else:
         data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in train_data]
+    '''
 
     print("Done")
     print(mode, "the number of data", len(data))
@@ -386,13 +396,13 @@ def pre_data_re(mode):
 
 
 def pre_data_stsb(mode):
-    '''
     data = load_dataset('glue', 'stsb')
     train_data = data['train']
     validation_data = data['validation']
     test_data = data['test']
-    '''
 
+
+    '''
     tsv_file = open("data/STS-B/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
@@ -401,6 +411,7 @@ def pre_data_stsb(mode):
 
     tsv_file = open("data/STS-B/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
+    '''
 
 
     if mode == "test":
