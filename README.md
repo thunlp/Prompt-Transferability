@@ -283,6 +283,13 @@ Model:
 ### Projector
 - Can work 
 
+|   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Non_Proj | 50.4 | 25.8 | 32.7 | 67.5 | 50.6 | 36.8 | 61.0 | 52.3 | 48.8 |  | 42.2 |
+| Proj (trained with mlm) | 49.6 | 10.0 | 32.8 | 69.3 |  | 36.8 | 1.7 | 48.4 | 48.7 |  | 53.1 |
+| Proj (trained with task) |  |  |  |  |  |  |  |  |  |  |  |
+
+
 
 
 
