@@ -308,6 +308,7 @@ Model:
 * Measure MLM prompt similiarty with other tasks
 * Bert mlm promt: haven't trained del_sst2_lm
 * MLM task: using prompt and without prompt
+* Fine-tuned model transfer
 
 
 
