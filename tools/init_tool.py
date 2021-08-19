@@ -18,7 +18,11 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     if "Bert" in load_model:
         all_model_dir = os.listdir("model/crossPromptBert")
         path = "model/crossPromptBert/"
+        '''
+        all_model_dir = os.listdir("model/crossPromptRoberta")
+        path = "model/crossPromptRoberta/"
         print(all_model_dir)
+        '''
     elif "Roberta" in load_model:
         all_model_dir = os.listdir("model/crossPromptRoberta")
         path = "model/crossPromptRoberta/"

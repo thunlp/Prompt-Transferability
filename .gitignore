@@ -103,6 +103,8 @@ model/SST2PromptBert_mlm_s1*
 model/SST2PromptBert_mlm_s2*
 
 model/crossPromptRoberta_only_IMDB_laptop*
+model/crossPromptRoberta_IMDB,laptop*
+model/crossPromptRoberta_IMDB,laptop,MNLI,MRPC,QNLI,QQP,restaurant,RTE,SST2,STSB,WNLI
 model/cross_mlmPromptRoberta*
 
 
