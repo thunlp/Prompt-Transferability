@@ -15,14 +15,13 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     ##################
     #######AE trained#
     ##################
-    '''
     if "Bert" in load_model:
-        all_model_dir = os.listdir("model/crossPromptRoberta")
-        path = "model/crossPromptRoberta/"
+        all_model_dir = os.listdir("model/crossPromptBert")
+        path = "model/crossPromptBert/"
         print(all_model_dir)
     elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/crossPromptBert")
-        path = "model/crosstPromptBert/"
+        all_model_dir = os.listdir("model/crossPromptRoberta")
+        path = "model/crossPromptRoberta/"
         print(all_model_dir)
     '''
     if "Bert" in load_model:
@@ -37,6 +36,7 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
         print(all_model_dir)
     else:
         print("Error in init_tool.py/recover_model_transfer_prompt")
+    '''
 
 
     max_epoch_model=0
