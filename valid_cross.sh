@@ -19,8 +19,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 
 
 
-
-
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
@@ -38,7 +36,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.co
     --model_transfer_projector
 
 
-'''
 #53%
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptBert.config \
@@ -46,7 +43,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptBert.confi
     --checkpoint model/IMDBPromptBert/15.pkl \
     --replacing_prompt IMDBPromptRoberta \
     --model_transfer_projector
-'''
 
 
 
@@ -57,6 +53,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.co
     --checkpoint model/SST2PromptRoberta/15.pkl \
     --replacing_prompt SST2PromptBert \
     --model_transfer_projector
+
 
 
 ############

@@ -148,7 +148,7 @@ class crossDataset(Dataset):
 
 
 
-        if mode == "train":
+        if mode == "train" or mode == "valid":
             self.min_length = min(self.min_length)
         else:
             self.min_length = sum(self.min_length)
@@ -578,6 +578,7 @@ def pre_data_mnli(mode):
     validation_mismatched_data = data['validation_mismatched']
     test_matched_data = data['test_matched']
     test_mismatched_data = data['test_mismatched']
+
     '''
     tsv_file = open("data/MNLI/train.tsv")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
@@ -587,6 +588,8 @@ def pre_data_mnli(mode):
 
     tsv_file = open("data/MNLI/dev_matched.tsv")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
+
+    _dict={"contradiction":0, "neutral":3, "entailment":1}
     '''
 
 

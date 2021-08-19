@@ -451,13 +451,13 @@ def pre_data_mrpc(mode):
 
 
 def pre_data_mnli(mode):
-    '''
     data = load_dataset('glue', 'mnli')
     train_data = data['train']
     validation_matched_data = data['validation_matched']
     validation_mismatched_data = data['validation_mismatched']
     test_matched_data = data['test_matched']
     test_mismatched_data = data['test_mismatched']
+
     '''
     tsv_file = open("data/MNLI/train.tsv")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
@@ -467,54 +467,65 @@ def pre_data_mnli(mode):
 
     tsv_file = open("data/MNLI/dev_matched.tsv")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
+    '''
 
 
     #no, neutral, yes
     #_dict={2:0,1:1,0:2}
-    #_dict={2:0,1:3,0:1}
-    _dict={"contradiction":0,"neutral":3,"entailment":1}
+    _dict={2:0,1:3,0:1}
+    #_dict={"contradiction":0,"neutral":3,"entailment":1}
 
     data = list()
     if mode == "test_matched":
-        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_matched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_matched_data]
+        '''
         for ins in test_matched_data:
             try:
                 d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'], "dataset":"mnli"}
                 data.append(d)
             except:
                 pass
+        '''
     elif mode == "test_mismatched":
-        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_mismatched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"mnli"} for ins in test_mismatched_data]
+        '''
         for ins in test_mismatched_data:
             try:
                 d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence1'], "dataset":"mnli"}
                 data.append(d)
             except:
                 pass
+        '''
     elif mode == "valid_matched":
-        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_matched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_matched_data]
+        '''
         for ins in validation_matched_data:
             try:
                 d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label1": _dict[ins['label']], "dataset":"mnli"}
                 data.append(d)
             except:
                 pass
+        '''
     elif mode == "valid_mismatched":
-        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_mismatched_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in validation_mismatched_data]
+        '''
         for ins in validation_mismatched_data:
             try:
                 d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": _dict[ins['label1']], "dataset":"mnli"}
                 data.append(d)
             except:
                 pass
+        '''
     else:
-        #data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in train_data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']], "dataset":"mnli"} for ins in train_data]
+        '''
         for ins in train_data:
             try:
                 d = {"sent1": ins['sentence1'].strip(), "sent2": ins['sentence2'].strip(), "label": _dict[ins['label1']], "dataset":"mnli"}
                 data.append(d)
             except:
                 pass
+        '''
 
     #org: [1, 0, 0, 0, 1, 0, 1, 0, 2, 2]
     #print([l['label'] for l in data][:10])
