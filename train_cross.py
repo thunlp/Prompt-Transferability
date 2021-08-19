@@ -23,6 +23,7 @@ def set_random_seed(seed):
         torch.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', '-c', help="specific config file", default='config/STSBPromptRoberta.config')

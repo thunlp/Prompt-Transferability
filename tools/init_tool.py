@@ -26,12 +26,14 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
         print(all_model_dir)
     '''
     if "Bert" in load_model:
-        all_model_dir = os.listdir("model/crossPromptRoberta")
-        path = "model/cross_mlmPromptRoberta/"
+        #all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
+        all_model_dir = os.listdir("model/cross_mlmPromptBert")
+        path = "model/cross_mlmPromptBert/"
         print(all_model_dir)
     elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/cross_mlmPromptBert")
-        path = "model/cross_mlmtPromptBert/"
+        #all_model_dir = os.listdir("model/cross_mlmPromptBert")
+        all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
+        path = "model/cross_mlmPromptRoberta/"
         print(all_model_dir)
     else:
         print("Error in init_tool.py/recover_model_transfer_prompt")

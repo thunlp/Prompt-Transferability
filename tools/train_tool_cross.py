@@ -70,7 +70,7 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, m
     #print(filename)
     #print("=====")
     filename = filename.strip().replace(".pkl","")
-    filename = filename+"_model_corss.pkl"
+    filename = filename+"_model_cross.pkl"
     #print(filename)
     #exit()
     try:

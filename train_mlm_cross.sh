@@ -7,6 +7,8 @@ gpus=7
 
 model_prompt="bert-base"
 
+# model --> roberta
+# promt --> projector(bert prompt) --> for Roberta prompt
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/cross_mlmPromptRoberta.config \
     --gpu $gpus \
