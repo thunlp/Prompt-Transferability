@@ -26,62 +26,74 @@ class projectorDataset(Dataset):
             self.re, self.re_length = pre_data_re(mode)
             self.all_length.append(self.re_length)
             self.all_dataset.append(self.re)
+            show_dataset.append("re")
             print("re",self.re_length) #del
         if "stsb" in self.choose_dataset:
             self.stsb, self.stsb_length = pre_data_stsb(mode)
             self.all_length.append(self.stsb_length)
             self.all_dataset.append(self.stsb)
+            show_dataset.append("stsb")
             print("stsb",self.stsb_length) #del
             #print("======")
         if "sst2" in self.choose_dataset:
             self.sst2, self.sst2_length = pre_data_sst2(mode)
             self.all_length.append(self.sst2_length)
             self.all_dataset.append(self.sst2)
+            show_dataset.append("sst2")
             print("sst2",self.sst2_length)
         if "restaurant" in self.choose_dataset:
             self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
             self.all_length.append(self.restaurant_length)
             self.all_dataset.append(self.restaurant)
+            show_dataset.append("restaurant")
             print("restaurant",self.restaurant_length)
         if "qnli" in self.choose_dataset:
             self.qnli, self.qnli_length = pre_data_qnli(mode)
             self.all_length.append(self.qnli_length)
             self.all_dataset.append(self.qnli)
+            show_dataset.append("qnli")
             print("qnli",self.qnli_length) #del
         if "qqp" in self.choose_dataset:
             self.qqp, self.qqp_length = pre_data_qqp(mode)
             self.all_length.append(self.qqp_length)
             self.all_dataset.append(self.qqp)
+            show_dataset.append("qqp")
             print("qqp",self.qqp_length)
         if "mrpc" in self.choose_dataset:
             self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
             self.all_length.append(self.mrpc_length)
             self.all_dataset.append(self.mrpc)
+            show_dataset.append("mrpc")
             print("mrpc",self.mrpc_length)
         if "wnli" in self.choose_dataset:
             self.wnli, self.wnli_length = pre_data_wnli(mode)
             self.all_length.append(self.wnli_length)
             self.all_dataset.append(self.wnli)
+            show_dataset.append("wnli")
             print("wnli",self.wnli_length)
         if "rte" in self.choose_dataset:
             self.rte, self.rte_length = pre_data_rte(mode)
             self.all_length.append(self.rte_length)
             self.all_dataset.append(self.rte)
+            show_dataset.append("rte")
             print("rte",self.rte_length) #
         if "mnli" in self.choose_dataset:
             self.mnli, self.mnli_length = pre_data_mnli(mode)
             self.all_length.append(self.mnli_length)
             self.all_dataset.append(self.mnli)
+            show_dataset.append("mnli")
             print("mnli",self.mnli_length) #
         if "laptop" in self.choose_dataset:
             self.laptop, self.laptop_length = pre_data_laptop(mode)
             self.all_length.append(self.laptop_length)
             self.all_dataset.append(self.laptop)
+            show_dataset.append("laptop")
             print("laptop",self.laptop_length)
         if "imdb" in self.choose_dataset:
             self.imdb, self.imdb_length = pre_data_imdb(mode)
             self.all_length.append(self.imdb_length)
             self.all_dataset.append(self.imdb)
+            show_dataset.append("imdb")
             print("imdb",self.imdb_length)
             #print("======")
             #print("Done")
@@ -247,6 +259,7 @@ def pre_data_qnli(mode):
     test_data = data['test']
     dict_={0:1,1:0}
 
+    '''
     tsv_file = open("data/QNLI/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
@@ -256,8 +269,9 @@ def pre_data_qnli(mode):
     tsv_file = open("data/QNLI/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
-    '''
     dict_={"not_entailment":0,"entailment":1}
+    '''
+
 
     #data=[]
     if mode == "test":
@@ -266,7 +280,6 @@ def pre_data_qnli(mode):
         data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in validation_data]
     else:
         data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in train_data]
-    '''
 
     print("Done")
     print(mode, "the number of data", len(data))
