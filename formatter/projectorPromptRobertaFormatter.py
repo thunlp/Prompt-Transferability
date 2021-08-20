@@ -45,7 +45,7 @@ class projectorPromptRobertaFormatter(BasicFormatter):
         for ins_map in data:
 
             ###
-            ins, DATSSET_MAP = data
+            ins, DATSSET_MAP = ins_map
             ###
 
             task_name_list.append(DATSSET_MAP[ins["dataset"]])
