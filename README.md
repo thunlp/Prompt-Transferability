@@ -286,8 +286,8 @@ Model:
 |   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Non_Proj | 50.4 | 15.2 | 35.5 | 69.3 | 49.3 | 36.8 | 2.8 | 50.4 | 51.2 | | 53.1 |
-| Proj (trained with mlm) | 50.3 | 2.5 | 36.7 | 68.0 | 50.6 | 36.8 | 1.3 | 55.5 | 50.7 | | 53.1 |
-| Proj (trained with task) | 50.3 | 25.9 | 33.0 | 65.9 | 69.9 | 37.0 | 17.1 | 52.3 | 51.0 |  | 39.1 |
+| Proj (trained with mlm) | 50.3 | 2.5 | 36.7 | 68.0 | 50.6 | 36.8 | 1.3 | 55.5 | 50.7 |  | 53.1 |
+| Proj (trained with task (no STSB)) | 50.4 | 30.5 | 33.0 | 67.7 | 69.9 | 37.0 | 39.2 | 52.3 | 51.4 |  | 39.1 |
 | Proj (trained with imdb,laptop) | 86.8 | 70.9 |  |  |  |  | 75.8 |  | 88.5 |  |  |
 
 
@@ -298,9 +298,11 @@ Model:
 * re-train all task prompt : mlm, all task (restaurant, laptop: done)
 * re-train all transfer matrix
 
+
 * mlm_cross, cross, project --> didn't match the key
 * cross, project --> didn't match roberta or bert prompt
 * Re-train transfer-matric (task, model, mlm[Done])
+
 
 - To do:
 * Measure MLM prompt similiarty with other tasks

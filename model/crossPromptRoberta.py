@@ -46,8 +46,6 @@ def load_task_prompt(model_prompt, config):
 
 
     for file in files:
-
-
         #if "_s1" in file or "_s2" in file and model_prompt in file and model_prompt_not_in not in file:
         if "_s1" in file or "_s2" in file:
             if model_prompt in file and model_prompt_not_in not in file and "mlm" in file:
@@ -135,7 +133,6 @@ class crossPromptRoberta(nn.Module):
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
         #print(self.init_model_path)
-        #exit()
         if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
             self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:
@@ -248,7 +245,7 @@ class crossPromptRoberta(nn.Module):
             '''
 
             #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
-            score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1),mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1)], dim=1)
+            score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1)], dim=1)
 
             '''
             if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
@@ -291,6 +288,15 @@ class crossPromptRoberta(nn.Module):
                 #mo_dict={"yes":10932,"no":2362}
                 score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
             '''
+
+            print("========")
+            print(score)
+            print(score.shape)
+            print("--------")
+            print(data["label"])
+            print(data["label"].shape)
+            print("========")
+            exit()
 
             loss = self.criterion(score, data["label"])
             #if config.get("data", "train_dataset_type") == "STSB":

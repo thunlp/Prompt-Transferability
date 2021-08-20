@@ -19,6 +19,7 @@ class projectorDataset(Dataset):
         self.all_dataset = []
 
         print(self.choose_dataset)
+        show_dataset = list()
 
         #####
         if "re" in self.choose_dataset:
@@ -99,9 +100,15 @@ class projectorDataset(Dataset):
             self.min_length = sum(self.all_length)
         #self.min_length = min([self.laptop_length, self.imdb_length])
 
-        self.all_dataset = list(set(self.all_dataset))
-        self.all_dataset.sort()
-        self.dataset_map_id = {name:id for id, name in enumerate(self.all_dataset)}
+        self.all_dataset = self.all_dataset
+
+        show_dataset = list(set(show_dataset))
+        show_dataset.sort()
+        #self.all_dataset.sort()
+        self.dataset_map_id = {name:id for id, name in enumerate(show_dataset)}
+        print("===========")
+        print(show_dataset)
+        print("===========")
 
 
         #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
@@ -234,13 +241,12 @@ def pre_data_rte(mode):
 
 #data preprocess problem
 def pre_data_qnli(mode):
-    '''
     data = load_dataset('glue', 'qnli')
     train_data = data['train']
     validation_data = data['validation']
     test_data = data['test']
     dict_={0:1,1:0}
-    '''
+
     tsv_file = open("data/QNLI/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
@@ -250,6 +256,7 @@ def pre_data_qnli(mode):
     tsv_file = open("data/QNLI/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
 
+    '''
     dict_={"not_entailment":0,"entailment":1}
 
     #data=[]
@@ -259,6 +266,7 @@ def pre_data_qnli(mode):
         data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in validation_data]
     else:
         data = [{"sent1": ins['question'], "sent2": ins['sentence'], "label": dict_[ins['label']] , "dataset":"qnli"} for ins in train_data]
+    '''
 
     print("Done")
     print(mode, "the number of data", len(data))
@@ -293,13 +301,12 @@ def pre_data_re(mode):
 
 
 def pre_data_stsb(mode):
-    '''
     data = load_dataset('glue', 'stsb')
     train_data = data['train']
     validation_data = data['validation']
     test_data = data['test']
-    '''
 
+    '''
     tsv_file = open("data/STS-B/train.tsv",encoding="utf-8-sig")
     train_data = csv.DictReader(tsv_file, delimiter="\t")
 
@@ -308,6 +315,7 @@ def pre_data_stsb(mode):
 
     tsv_file = open("data/STS-B/test.tsv",encoding="utf-8-sig")
     test_data = csv.DictReader(tsv_file, delimiter="\t")
+    '''
 
 
     if mode == "test":

@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 
+
 class AE(nn.Module):
     def __init__(self, **kwargs):
         super(AE, self).__init__()
@@ -36,12 +37,13 @@ class AE(nn.Module):
     def decoding(self, features):
         return self.decoder(features)
 
-
     def forward(self, features):
         encoded_emb = self.encoding(features)
         encoded_emb = torch.relu(encoded_emb)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+
+
 
 
 

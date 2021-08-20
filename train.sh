@@ -1,5 +1,5 @@
 mkdir RobertaForMaskedLM
-gpus=6
+gpus=4
 
 
 ################################
@@ -9,7 +9,6 @@ gpus=6
 ############
 #Sentiment
 ############
-
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
@@ -30,7 +29,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
     #--comment \
     #--seed
 
-exit
 
 
 
@@ -81,6 +79,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRoberta.co
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
+
 
 
 ############
