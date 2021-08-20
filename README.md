@@ -297,6 +297,8 @@ Model:
 * replace predict token with the [mask] for Roberta, Bert
 * re-train all task prompt : mlm, all task (restaurant, laptop: done)
 * re-train all transfer matrix
+* Editing : crossPromptRoberta    --> keep going
+* Editing : projectorPromptRoberta --> add show.append()
 
 
 * mlm_cross, cross, project --> didn't match the key

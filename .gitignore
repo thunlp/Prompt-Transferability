@@ -108,6 +108,8 @@ model/crossPromptRoberta_IMDB,laptop,MNLI,MRPC,QNLI,QQP,restaurant,RTE,SST2,STSB
 model/cross_mlmPromptRoberta*
 
 
+model/projectPromptRoberta_wnli,sst2,restaurant,qqp,mnli,laptop,imdb,rte
+
 /result_mlm
 
 
