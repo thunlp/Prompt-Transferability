@@ -13,13 +13,22 @@ tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 #{0: 'imdb', 1: 'laptop', 2: 'mnli', 3: 'mrp', 4: 'qnli', 5: 'qqp', 6: 're', 7: 'restaurant', 8: 'rte', 9: 'sst2', 10: 'stsb', 11: 'wnli'}
 
-def load_task_prompt(model_prompt, config):
+def load_task_prompt(model_prompt, config_name, config):
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
 
     #print("=======")
+    #print(config_name)
+    config_name = config_name.split("/")[1].replace(".config","")
+    #print(config_name)
+    #exit()
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
     #print(choosed_tasks)
+    #exit()
+
+    #print("=====")
+    #print(config.get("data","train_formatter_type"))
+    #print("=====")
     #exit()
 
 
@@ -28,14 +37,17 @@ def load_task_prompt(model_prompt, config):
     #use prompt: Bert, Roberta
     model_prompt = str.title(model_prompt.strip().split("-")[0])
 
+
     if model_prompt == "Bert":
         model_prompt_not_in = "Roberta"
     elif model_prompt == "Roberta":
         model_prompt_not_in = "Bert"
 
-    #print("====")
-    #print(model_prompt)
-    #print("====")
+    print("====")
+    print(model_prompt)
+    print("---")
+    print(model_prompt_not_in)
+    print("====")
     #exit()
 
     name_list = list()
@@ -46,6 +58,63 @@ def load_task_prompt(model_prompt, config):
 
 
     for file in files:
+        #cross_mlmPromptRoberta
+        if "mlm" in config_name:
+            if model_prompt not in file:
+                continue
+            if "mlm" not in file:
+                continue
+            if "_s1" in file or "_s2" in file:
+
+                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+                name = str(file.strip().split("P")[0]).lower()
+                if name=="mr":
+                    name+="pc"
+                elif name=="qq":
+                    name+="p"
+
+                if "_s1" in file:
+                    name += "_s1"
+                elif "_s2" in file:
+                    name += "_s2"
+
+                if name not in choosed_tasks and "sst" not in name:
+                    continue
+
+                #if name not in choosed_tasks:
+                #    continue
+                #print(1)
+                print(file)
+                name_list.append(name)
+                task_prompt_dict[name] = task_prompt_emb
+            else:
+                continue
+
+        #crossPromptRoberta
+        else:
+            if "proj" not in file and model_prompt in file and "mlm" not in file:
+                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+                name = str(file.strip().split("P")[0]).lower()
+                if name=="mr":
+                    name+="pc"
+                elif name=="qq":
+                    name+="p"
+
+                if name not in choosed_tasks:
+                    continue
+
+                #print(2)
+                print(file)
+                name_list.append(name)
+                task_prompt_dict[name] = task_prompt_emb
+            else:
+                continue
+
+
+
+    '''
+    for file in files:
+
         #if "_s1" in file or "_s2" in file and model_prompt in file and model_prompt_not_in not in file:
         if "_s1" in file or "_s2" in file:
             if model_prompt in file and model_prompt_not_in not in file and "mlm" in file:
@@ -60,6 +129,10 @@ def load_task_prompt(model_prompt, config):
                     name += "_s1"
                 elif "_s2" in file:
                     name += "_s2"
+
+                if name not in choosed_tasks:
+                    continue
+
                 #if name not in choosed_tasks:
                 #    continue
                 name_list.append(name)
@@ -68,25 +141,30 @@ def load_task_prompt(model_prompt, config):
                 continue
 
         else:
-            if "proj" in file or model_prompt not in file:
+            if "proj" in file or model_prompt in file and model_prompt_not_in not in file:
                 continue
             task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
             name = str(file.strip().split("P")[0]).lower()
-            #print(name)
-            if name=="mr" or name=="qq":
+            if name=="mr":
+                name+="pc"
+            elif name=="qq":
                 name+="p"
+
             if name not in choosed_tasks:
                 continue
 
+            print(file)
             name_list.append(name)
             task_prompt_dict[name] = task_prompt_emb
+    '''
 
     name_list.sort()
 
-    print("-------")
-    print(name_list)
-    print("-------")
-    print(choosed_tasks)
+    #print("-------")
+    #print(name_list)
+    #print("-------")
+    #print(choosed_tasks)
+    #exit()
     #print(model_prompt)
     #print(name_dict)
     #exit()
@@ -97,6 +175,7 @@ def load_task_prompt(model_prompt, config):
     task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
 
     return task_prompt_ten
+
 
 
 class crossPromptRoberta(nn.Module):
@@ -122,7 +201,8 @@ class crossPromptRoberta(nn.Module):
             self.hidden_size = 768
 
 
-        self.task_specific_prompt_emb = load_task_prompt(params["model_prompt"], config).to('cuda')
+
+        self.task_specific_prompt_emb = load_task_prompt(params["model_prompt"],params["args"].config,config).to('cuda')
 
         self.plmconfig = AutoConfig.from_pretrained(model)
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]
@@ -291,14 +371,6 @@ class crossPromptRoberta(nn.Module):
                 score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
             '''
 
-            print("========")
-            print(score)
-            print(score.shape)
-            print("--------")
-            print(data["label"])
-            print(data["label"].shape)
-            print("========")
-            exit()
 
             loss = self.criterion(score, data["label"])
             #if config.get("data", "train_dataset_type") == "STSB":

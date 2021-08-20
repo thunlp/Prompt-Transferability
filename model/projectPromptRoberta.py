@@ -18,6 +18,14 @@ def load_task_prompt(config):
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
 
     #choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
+
+    if "bert" in config.get("model","model_base").lower():
+        model_prompt = "Bert"
+    elif "roberta" in config.get("model","model_base").lower():
+        model_prompt = "Roberta"
+
+
+
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
 
     name_list = list()
@@ -35,12 +43,13 @@ def load_task_prompt(config):
             name+="pc"
         elif name=="qq":
             name+="p"
-        if name not in choosed_tasks or "Bert" in file:
+        if name not in choosed_tasks or model_prompt in file:
             continue
         #print(name,file)
 
         #print(task_prompt_emb.shape)
         #print(name)
+        print(file)
         name_list.append(name)
         task_prompt_dict[name] = task_prompt_emb
     #print(name_list)
@@ -52,6 +61,7 @@ def load_task_prompt(config):
     print("======")
     print("map:",name_list)
     print("======")
+    #exit()
 
     #for id, name in name_dict.items():
     for id, name in enumerate(name_list):

@@ -43,6 +43,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+
     configFilePath = args.config
 
     config = create_config(configFilePath)
