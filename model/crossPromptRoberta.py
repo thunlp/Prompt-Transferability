@@ -51,7 +51,9 @@ def load_task_prompt(model_prompt, config):
             if model_prompt in file and model_prompt_not_in not in file and "mlm" in file:
                 task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
                 name = str(file.strip().split("P")[0]).lower()
-                if name=="mr" or name=="qq":
+                if name=="mr":
+                    name+="pc"
+                elif name=="qq":
                     name+="p"
 
                 if "_s1" in file:

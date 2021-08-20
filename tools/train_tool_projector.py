@@ -17,7 +17,6 @@ import torch.optim as optim
 logger = logging.getLogger(__name__)
 
 
-'''
 class AE(nn.Module):
     def __init__(self, **kwargs):
         #super().__init__()
@@ -48,10 +47,10 @@ class AE(nn.Module):
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+
+
+
 '''
-
-
-
 class AE(nn.Module):
     def __init__(self, **kwargs):
         super(AE, self).__init__()
@@ -95,6 +94,7 @@ class AE(nn.Module):
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+'''
 
 
 
