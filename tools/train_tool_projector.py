@@ -16,7 +16,8 @@ import torch.optim as optim
 
 logger = logging.getLogger(__name__)
 
-
+#/64
+#--> only use dim 3
 class AE(nn.Module):
     def __init__(self, **kwargs):
         #super().__init__()
