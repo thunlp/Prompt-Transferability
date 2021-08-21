@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=5
+gpus=3
 
 #MODEL_PROMPT="Roberta-base"
 MODEL_PROMPT="Bert-base"
@@ -16,6 +16,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --replacing_prompt restaurantPromptBert \
     --model_transfer_projector
+
 
 
 
@@ -36,7 +37,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.co
     --replacing_prompt IMDBPromptBert \
     --model_transfer_projector
 
-exit
 
 
 #53%
@@ -142,6 +142,11 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
 
 
 '''
+
+####################
+########Bert########
+####################
+
 ############
 #Sentiment
 ############
