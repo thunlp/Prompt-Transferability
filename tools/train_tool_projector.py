@@ -16,8 +16,8 @@ import torch.optim as optim
 
 logger = logging.getLogger(__name__)
 
-#/64
-#--> only use dim 3
+
+'''
 class AE(nn.Module):
     def __init__(self, **kwargs):
         #super().__init__()
@@ -26,15 +26,13 @@ class AE(nn.Module):
             in_features=kwargs["input_dim"], out_features=int(kwargs["input_dim"]/64)
         )
         self.encoder_1 = nn.Linear(
-            #in_features=int(kwargs["input_dim"]/64), out_features=kwargs["compress_dim"]
-            in_features=int(3), out_features=kwargs["compress_dim"]
+            in_features=int(kwargs["input_dim"]/64), out_features=kwargs["compress_dim"]
         )
         self.decoder = nn.Linear(
             in_features=kwargs["compress_dim"], out_features=int(kwargs["input_dim"]/64)
         )
         self.decoder_1 = nn.Linear(
-            #in_features=int(kwargs["input_dim"]/64), out_features=kwargs["input_dim"]
-            in_features=int(3), out_features=kwargs["input_dim"]
+            in_features=int(kwargs["input_dim"]/64), out_features=kwargs["input_dim"]
         )
         self.criterion = nn.CrossEntropyLoss()
 
@@ -50,6 +48,34 @@ class AE(nn.Module):
         encoded_emb = self.encoding(features)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+'''
+
+
+#3 training
+#768
+class AE(nn.Module):
+    def __init__(self, **kwargs):
+        #super().__init__()
+        super(AE, self).__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["input_dim"], out_features=int(3)
+        )
+        self.decoder = nn.Linear(
+            in_features=int(3), out_features=int(kwargs["input_dim"])
+        )
+        self.criterion = nn.CrossEntropyLoss()
+
+    def encoding(self, features):
+        encoding = self.encoder(features)
+        return encoding
+    def decoding(self, features):
+        decoding = self.decoder(features)
+        return decoding
+    def forward(self, features):
+        encoded_emb = self.encoding(features)
+        decoded_emb = self.decoding(encoded_emb)
+        return decoded_emb
+
 
 
 
