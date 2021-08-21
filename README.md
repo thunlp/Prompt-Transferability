@@ -283,13 +283,13 @@ Model:
 - Didn't work
 
 ### Projector
-- Can work: change AE in init_tool.py 
+- Can work: Need to change AE in init_tool.py for different setting 
 
 |   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Non_Proj | 50.4 | 15.2 | 35.5 | 69.3 | 49.3 | 36.8 | 2.8 | 50.4 | 51.2 | | 53.1 |
-| Proj (trained with mlm) | 50.3 | 2.5 | 36.7 | 68.0 | 50.6 | 36.8 | 1.3 | 55.5 | 50.7 |  | 53.1 |
-| Proj (trained with task (no STSB)) | 88.8 | 73.3 | 52.7 | 90.9 | 80.9 | 70.5 | 79.5 |  50.8 | 92.2 |  | 15.6 |
+| Proj (trained with mlm) | 58.4 | 49.4 | 35.5 | 31.0 | 50.5 | 63.2 | 63.1 | 47.3 | 54.1 |  | 48.4 |
+| Proj (trained with task (no STSB)) | 87.5 | 73.3 | 52.7 | 90.9 | 80.9 | 70.5 | 79.5 | 50.8 | 92.2 |  | 15.6 |
 | Proj (trained with imdb,laptop) | 86.8 | 70.9 |  |  |  |  | 75.8 |  | 88.5 |  |  |
 
 
