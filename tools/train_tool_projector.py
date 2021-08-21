@@ -26,13 +26,15 @@ class AE(nn.Module):
             in_features=kwargs["input_dim"], out_features=int(kwargs["input_dim"]/64)
         )
         self.encoder_1 = nn.Linear(
-            in_features=int(kwargs["input_dim"]/64), out_features=kwargs["compress_dim"]
+            #in_features=int(kwargs["input_dim"]/64), out_features=kwargs["compress_dim"]
+            in_features=int(3), out_features=kwargs["compress_dim"]
         )
         self.decoder = nn.Linear(
             in_features=kwargs["compress_dim"], out_features=int(kwargs["input_dim"]/64)
         )
         self.decoder_1 = nn.Linear(
-            in_features=int(kwargs["input_dim"]/64), out_features=kwargs["input_dim"]
+            #in_features=int(kwargs["input_dim"]/64), out_features=kwargs["input_dim"]
+            in_features=int(3), out_features=kwargs["input_dim"]
         )
         self.criterion = nn.CrossEntropyLoss()
 
