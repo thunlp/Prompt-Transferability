@@ -285,7 +285,7 @@ Model:
 ### Projector
 - Can work: Need to change AE in init_tool.py for different setting 
 
-|   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
+|   | IMDB(2)| laptop(4)| MNLI(3)| MRPC(2)| QNLI(2)| QQP(2)| restaurant(4)| RTE(2)| SST2(2)| STSB | WNLI(2)|
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Non_Proj | 50.4 | 15.2 | 35.5 | 69.3 | 49.3 | 36.8 | 2.8 | 50.4 | 51.2 | | 53.1 |
 | Proj (trained with mlm) | 58.4 | 49.4 | 35.5 | 31.0 | 50.5 | 63.2 | 63.1 | 47.3 | 54.1 |  | 48.4 |
