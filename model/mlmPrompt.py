@@ -24,11 +24,11 @@ class mlmPrompt(nn.Module):
                     ckp = "RobertaLargeForMaskedLM"
                     self.hidden_size = 1024
                 else:
-                    model = "roberta-base-uncased"
+                    model = "roberta-base"
                     ckp = "RobertaForMaskedLM"
                     self.hidden_size = 768
             except:
-                model = "roberta-base-uncased"
+                model = "roberta-base"
                 ckp = "RobertaForMaskedLM"
                 self.hidden_size = 768
         elif "Bert" in config.get("model","model_base"):
@@ -52,7 +52,7 @@ class mlmPrompt(nn.Module):
             print("MLM")
             exit()
             print("Replace with Roberta")
-            model = "roberta-base-uncased"
+            model = "roberta-base"
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
 
@@ -63,11 +63,11 @@ class mlmPrompt(nn.Module):
                 ckp = "RobertaLargeForMaskedLM"
                 self.hidden_size = 1024
             else:
-                model = "roberta-base-uncased"
+                model = "roberta-base"
                 ckp = "RobertaForMaskedLM"
                 self.hidden_size = 768
         except:
-            model = "roberta-base-uncased"
+            model = "roberta-base"
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
         '''

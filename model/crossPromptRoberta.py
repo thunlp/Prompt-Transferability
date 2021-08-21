@@ -114,7 +114,6 @@ def load_task_prompt(model_prompt, config_name, config):
 
     '''
     for file in files:
-
         #if "_s1" in file or "_s2" in file and model_prompt in file and model_prompt_not_in not in file:
         if "_s1" in file or "_s2" in file:
             if model_prompt in file and model_prompt_not_in not in file and "mlm" in file:
@@ -124,22 +123,18 @@ def load_task_prompt(model_prompt, config_name, config):
                     name+="pc"
                 elif name=="qq":
                     name+="p"
-
                 if "_s1" in file:
                     name += "_s1"
                 elif "_s2" in file:
                     name += "_s2"
-
                 if name not in choosed_tasks:
                     continue
-
                 #if name not in choosed_tasks:
                 #    continue
                 name_list.append(name)
                 task_prompt_dict[name] = task_prompt_emb
             else:
                 continue
-
         else:
             if "proj" in file or model_prompt in file and model_prompt_not_in not in file:
                 continue
@@ -149,10 +144,8 @@ def load_task_prompt(model_prompt, config_name, config):
                 name+="pc"
             elif name=="qq":
                 name+="p"
-
             if name not in choosed_tasks:
                 continue
-
             print(file)
             name_list.append(name)
             task_prompt_dict[name] = task_prompt_emb
@@ -303,7 +296,6 @@ class crossPromptRoberta(nn.Module):
             '''
             print("==============")
             print("==============")
-
             #sentiment
             #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
             print(tokenizer.encode("positive",add_special_tokens=False)) #22173
@@ -311,19 +303,15 @@ class crossPromptRoberta(nn.Module):
             print(tokenizer.encode("moderate",add_special_tokens=False)) #19397
             print(tokenizer.encode("negative",add_special_tokens=False)) #33407
             print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
-
             #NLI
             print(tokenizer.convert_ids_to_tokens([10932])) #['yes']
             print(tokenizer.convert_ids_to_tokens([12516])) #['neutral']
             print(tokenizer.convert_ids_to_tokens([2362])) #['no']
-
             #paraphrase
             print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
             print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
-
             print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
             print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
-
             '''
 
             #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
@@ -430,3 +418,4 @@ def cal_pearson(score, label):
     pearson_result = numerator / denominator
     tmp_result['pearson'] = pearson_result.item()
     return tmp_result
+

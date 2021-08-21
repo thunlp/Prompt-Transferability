@@ -313,6 +313,15 @@ Model:
 * MLM task: using prompt and without prompt
 * Fine-tuned model transfer
 
+* Re-training: 
+1. task prompt
+2. mlm prompt
+3. extract task prompt
+4. projector_task
+5. projector_mlm
+6. cross_task
+7. cross_mlm
+
 
 
 ---
