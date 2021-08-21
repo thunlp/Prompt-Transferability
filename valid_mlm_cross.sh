@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=5
+gpus=7
 
 #MODEL_PROMPT="Roberta-base"
 MODEL_PROMPT="Bert-base"

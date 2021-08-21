@@ -283,7 +283,7 @@ Model:
 - Didn't work
 
 ### Projector
-- Can work 
+- Can work: change AE in init_tool.py 
 
 |   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
