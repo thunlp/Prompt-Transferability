@@ -146,24 +146,24 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 
 - Domain similiarty (Acc result single): draw_cuda_mlmprompt_by_acc.py 
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_3D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_3D.jpg)-->
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_2D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_2D.jpg)-->
 
 
 
 - Domain similiarty (Acc result): draw_cuda_mlmprompt_by_acc.py 
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_3D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_3D.jpg)-->
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_2D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_2D.jpg)-->
 
 
 - Domain similiarty (PCA) 
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_PCA_3D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_PCA_3D.jpg)-->
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_PCA_2D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_PCA_2D.jpg)-->
 
 ---
 ### Task Similarity
@@ -224,19 +224,19 @@ Task:
 
 - Task similiarty (Replace prompt with various task-specific prompts and account acc.): draw_cuda_taskprompt_by_acc.py
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_3D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_3D.jpg)-->
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_2D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_2D.jpg)-->
 
 - Task similiarty (AE) 
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_AE.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_AE.jpg)-->
 
 - Task similiarty (PCA) 
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_3D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_3D.jpg)-->
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_2D.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_2D.jpg)-->
 
 
 - Bert
@@ -345,26 +345,26 @@ Imagine:
 
 - Task base: (AE)
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)-->
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)-->
 ---
 
 
 - Domain base: (AE)
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)-->
 ---
 
 
 - Demo random combination: (AE)
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)-->
 ---
 
 
 - Model transfer
 
-![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)-->
 ---
 
 
@@ -375,7 +375,7 @@ Imagine:
 
 
 - output figure
-![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)
+<!--![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)-->
 
 
 ---
