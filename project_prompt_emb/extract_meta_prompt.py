@@ -9,6 +9,7 @@ print('Argument List:', sys.argv[1:])
 filter_tokens = sys.argv[1:]
 
 dir = "../task_prompt_emb"
+#dir = "../task_prompt_emb_onlyMLMEpoch15Prompt"
 files = os.listdir(dir)
 
 project_files = list()
