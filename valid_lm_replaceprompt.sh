@@ -21,6 +21,7 @@ do
                     --checkpoint model/$MODEL"_mlm_"$S_1/15.pkl \
                     --replacing_prompt $PROMPT"_mlm_"$S_2 \
                     --pre_train_mlm
+
             done
         done
     done
