@@ -324,6 +324,10 @@ Model:
 7. cross_mlm
 
 
+* Add dataset
+1. snli
+2. anli
+
 
 ---
 ---
