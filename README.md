@@ -142,6 +142,7 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 | agnews_s1 | 54.9 | 55.6 | 69.0 | 68.9 | 46.8 | 47.1 | 51.1 | 50.7 | 74.5 | 74.5 |
 | agnews_s2 | 54.6 | 56.1 | 68.9 | 68.9 | 47.1 | 46.2 | 49.6 | 51.3 | 74.0 | 74.5 |
 
+* Draw: mlm prompt can be split clearly by the boundary (Bert and Roberta) --> Learn a mapping: can work!
 
 - Domain similiarty (Acc result single): draw_cuda_mlmprompt_by_acc.py 
 
@@ -305,7 +306,7 @@ Model:
 * mlm_cross, cross, project --> didn't match the key
 * cross, project --> didn't match roberta or bert prompt
 * Re-train transfer-matric (task, model, mlm[Done])
-
+* mlm need to train till 32 epoch
 
 - To do:
 * Measure MLM prompt similiarty with other tasks
