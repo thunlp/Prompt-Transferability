@@ -313,6 +313,8 @@ Model:
 * Bert mlm promt: haven't trained del_sst2_lm
 * MLM task: using prompt and without prompt
 * Fine-tuned model transfer
+* Change training code: only save prompt emb instead of whole model
+
 
 * Re-training: 
 1. task prompt
@@ -327,6 +329,9 @@ Model:
 * Add dataset
 1. snli
 2. anli
+3. recast
+4. yelp_polarity (Alter to smaller epoches)
+5. pragmeval
 
 
 ---
