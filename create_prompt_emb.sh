@@ -265,6 +265,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptBert.confi
     --mode extract_prompt
 
 
+exit
 
 
 '''
