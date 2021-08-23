@@ -130,6 +130,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     global_step = 0
 
 
+    '''
     if len(gpu_list) > 0:
         if params['local_rank'] < 0:
             model = model.cuda()
@@ -153,19 +154,9 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             ###
         except Exception as e:
             logger.warning("No init_multi_gpu implemented in the model, use single gpu instead.")
+    '''
 
 
-    '''
-    if config.getboolean("prompt", "prompt_tune") and config.get("model", "model_name") == "SQuADPromptRoberta":
-        tokenizer = AutoTokenizer.from_pretrained("roberta-base")
-        init_ids = [] #tokenizer.encode("the relation between the first sentence and the second sentence is")
-        pad_num = config.getint("prompt", "prompt_num") - len(init_ids)
-        init_ids.extend([tokenizer.mask_token_id] * pad_num)
-        if hasattr(model, 'module'):
-            model.module.init_prompt_emb(init_ids)
-        else:
-            model.init_prompt_emb(init_ids)
-    '''
 
 
     #########
@@ -325,6 +316,32 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         else:
             logger.warning(information)
     '''
+
+    ############
+    if len(gpu_list) > 0:
+        if params['local_rank'] < 0:
+            model = model.cuda()
+        else:
+            ###
+            #muti machines
+            model = model.to(gpu_list[params['local_rank']])
+
+            #single machine
+            #model = model.to(params['local_rank'])
+            ###
+
+        try:
+            ###
+            #muti machines
+            model = nn.parallel.DistributedDataParallel(model, device_ids=[params['local_rank']], output_device=params['local_rank'], find_unused_parameters = True)
+
+            #single machine
+            #model = nn.parallel.DistributedDataParallel(model, device_ids=gpu_list)
+            #model = nn.parallel.DistributedDataParallel(model)
+            ###
+        except Exception as e:
+            logger.warning("No init_multi_gpu implemented in the model, use single gpu instead.")
+    ############
 
 
 

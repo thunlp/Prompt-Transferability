@@ -26,6 +26,9 @@ from .mlmPromptFormatter import mlmPromptFormatter
 from .cross_mlmPromptFormatter import cross_mlmPromptFormatter
 from .snliPromptRobertaFormatter import snliPromptRobertaFormatter
 from .anliPromptRobertaFormatter import anliPromptRobertaFormatter
+from .recastfactualityPromptRobertaFormatter import recastfactualityPromptRobertaFormatter
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -57,6 +60,7 @@ formatter_list = {
     "cross_mlmPrompt": cross_mlmPromptFormatter,
     "snliPromptRoberta": snliPromptRobertaFormatter,
     "anliPromptRoberta": snliPromptRobertaFormatter,
+    "recastfactualityPromptRoberta": recastfactualityPromptRobertaFormatter,
 }
 
 

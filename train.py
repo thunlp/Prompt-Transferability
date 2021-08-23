@@ -68,18 +68,25 @@ if __name__ == "__main__":
 
 
     os.system("clear")
+    #print(args.local_rank)
+    #args.local_rank = torch.distributed.get_rank()
     config.set('distributed', 'local_rank', args.local_rank)
     #############################
     ###muti machine and muti pgus
-    if config.getboolean("distributed", "use"):
-        torch.cuda.set_device(gpu_list[args.local_rank])
+    #if config.getboolean("distributed", "use"):
+    if config.getboolean("distributed", "use") and len(gpu_list) > 1:
         torch.distributed.init_process_group(backend=config.get("distributed", "backend"))
+        torch.cuda.set_device(gpu_list[args.local_rank])
+        logger.info("initialize {} th GPU Done!".format(gpu_list[args.local_rank]))
         config.set('distributed', 'gpu_num', len(gpu_list))
+    else:
+        config.set("distributed", "use", False)
 
     ### one machine muti gpus
-    if len(gpu_list) > 1:
-        torch.distributed.init_process_group(backend="nccl")
+    #if len(gpu_list) > 1:
+    #    torch.distributed.init_process_group(backend="nccl")
     #############################
+
 
 
 

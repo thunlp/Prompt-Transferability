@@ -13,6 +13,7 @@ else
     echo "Do not rewrite"
     #exit
 fi
+'''
 
 
 #CUDA_VISIBLE_DEVICES=$gpus
@@ -135,13 +136,11 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta/15.pkl \
     --mode extract_prompt
-'''
 
 
 
 
 
-'''
 ####################################
 ############Bert####################
 ####################################
@@ -264,7 +263,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptBert.confi
     --gpu $gpus \
     --checkpoint model/STSBPromptBert/15.pkl \
     --mode extract_prompt
-'''
 
 
 
@@ -397,6 +395,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
 ######################
 ######################
 #Extract prompt _s1 _s2 mlm
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptRoberta_s1.config \
     --gpu $gpus \
     --checkpoint model/agnewsPromptRoberta_mlm_s1/31.pkl \
@@ -564,3 +563,4 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptBert_s2.co
     --checkpoint model/SST2PromptBert_mlm_s2/31.pkl \
     --mode extract_prompt \
     --pre_train_mlm
+'''

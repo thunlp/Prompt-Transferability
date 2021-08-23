@@ -1,4 +1,4 @@
-gpus=4
+gpus=3
 
 
 for MODEL in agnewsPromptRoberta cs_wikiPromptRoberta IMDBPromptRoberta sciercPromptRoberta SST2PromptRoberta

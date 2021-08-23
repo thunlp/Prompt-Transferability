@@ -339,10 +339,11 @@ Model:
 1. snli
 2. anli (r_3)
 3. recast_factuality
-4. recast_verbcorner
-5. recast_sentiment
 
 - Sentiment
+1. tweeteval/sentiment
+2. rotten_tomatoes/default
+3. movie_rationales/default
 
 
 ---
