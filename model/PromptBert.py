@@ -138,44 +138,40 @@ class PromptBert(nn.Module):
             #mo_dict={"positive":22173,"negative":33407}
             score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1)], dim=1)
         '''
-        if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
+        if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant":
             #sentiment
-            #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
             #mo_dict={"positive":3893,"moderate":8777,"negative":4997,"conflict":4736}
             score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:, 8777].unsqueeze(1), mask_logits[:, 3893].unsqueeze(1), mask_logits[:,4736].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB":
+        elif config.get("data", "train_dataset_type") == "tweetevalsentiment":
+            #mo_dict={"positive":3893,"moderate":8777,"negative":4997}
+            score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:, 8777].unsqueeze(1), mask_logits[:, 3893].unsqueeze(1), dim=1)
+
+        elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB" or config.get("data", "train_dataset_type") == "movierationales":
             #sentiment
-            #mo_dict={"positive":22173,"negative":33407}
             #mo_dict={"positive":3893,"negative":4997}
             score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:,3893].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli" or config.get("data","train_dataset_type") == "anli":
+        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli" or config.get("data","train_dataset_type") == "anli" or config.get("data", "train_dataset_type") == "recastfactuality":
             #NLI
-            #mo_dict={"yes":10932,"neutral":12516,"no":2362}
             #mo_dict={"yes":2748,"neutral":8699,"no":2053}
             score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 8699].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "RTE":
             #NLI
-            #mo_dict={"yes":10932,"no":2362}
             #mo_dict={"yes":2748,"no":2053}
             score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "WNLI":
             #NLI
-            #mo_dict={"yes":10932,"no":2362}
             #mo_dict={"yes":2748,"no":2053}
             score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "QNLI":
             #NLI
-            #mo_dict={"yes":10932,"no":2362}
             #mo_dict={"yes":2748,"no":2053}
             score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "MRPC":
             #paraphrase
-            #mo_dict={"true":29225,"false":22303}
             #mo_dict={"true":2995,"false":6270}
             score = torch.cat([mask_logits[:, 6270].unsqueeze(1), mask_logits[:,2995].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "QQP":
             #paraphrase
-            #mo_dict={"true":29225,"false":22303}
             #mo_dict={"true":2995,"false":6270}
             score = torch.cat([mask_logits[:, 6270].unsqueeze(1), mask_logits[:,2995].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "STSB":

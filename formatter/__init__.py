@@ -27,6 +27,15 @@ from .cross_mlmPromptFormatter import cross_mlmPromptFormatter
 from .snliPromptRobertaFormatter import snliPromptRobertaFormatter
 from .anliPromptRobertaFormatter import anliPromptRobertaFormatter
 from .recastfactualityPromptRobertaFormatter import recastfactualityPromptRobertaFormatter
+from .tweetevalsentimentPromptRobertaFormatter import tweetevalsentimentPromptRobertaFormatter
+from .movierationalesPromptRobertaFormatter import movierationalesiPromptRobertaFormatter
+from .emobankarousalPromptRobertaFormatter import emobankarousaliPromptRobertaFormatter
+from .persuasivenessrelevancePromptRobertaFormatter import persuasivenessrelevancePromptRobertaFormatter
+from .persuasivenessspecificityPromptRobertaFormatter import persuasivenessspecificityPromptRobertaFormatter
+from .emobankdominancePromptRobertaFormatter import emobankdominancePromptRobertaFormatter
+from .squinkyimplicaturePromptRobertaFormatter import squinkyimplicaturePromptRobertaFormatter
+from .squinkyformalityPromptRobertaFormatter import squinkyformalityPromptRobertaFormatter
+
 
 
 logger = logging.getLogger(__name__)
@@ -61,6 +70,14 @@ formatter_list = {
     "snliPromptRoberta": snliPromptRobertaFormatter,
     "anliPromptRoberta": snliPromptRobertaFormatter,
     "recastfactualityPromptRoberta": recastfactualityPromptRobertaFormatter,
+    "tweetevalsentimentPromptRoberta": tweetevalsentimentPromptRobertaFormatter,
+    "movierationalesPromptRoberta": movierationalesPromptRobertaFormatter,
+    "emobankarousalPromptRoberta": emobankarousalPromptRobertaFormatter,
+    "persuasivenessrelevancePromptRoberta": persuasivenessrelevancePromptRobertaFormatter,
+    "persuasivenessspecificityPromptRoberta": persuasivenessspecificityPromptRobertaFormatter,
+    "emobankdominancePromptRoberta": emobankdominancePromptRobertaFormatter,
+    "squinkyimplicaturePromptRoberta": squinkyimplicaturePromptRobertaFormatter,
+    "squinkyformalityPromptRoberta": squinkyformalityPromptRobertaFormatter,
 }
 
 

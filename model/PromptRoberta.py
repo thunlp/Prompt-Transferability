@@ -141,15 +141,21 @@ class PromptRoberta(nn.Module):
             #mo_dict={"positive":22173,"negative":33407}
             score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1)], dim=1)
         '''
-        if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
+        if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant":
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
             score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB":
+
+        elif config.get("data", "train_dataset_type") == "tweetevalsentiment":
+            #sentiment
+            #mo_dict={"positive":22173,"moderate":19397,"negative":33407}
+            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1), dim=1)
+
+        elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB" or config.get("data", "train_dataset_type") == "movierationales":
             #sentiment
             #mo_dict={"positive":22173,"negative":33407}
             score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:,22173].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli":
+        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli" or config.get("data", "train_dataset_type") == "anli" or config.get("data", "train_dataset_type") == "recastfactuality":
             #NLI
             #mo_dict={"yes":10932,"neutral":12516,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)

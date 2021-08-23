@@ -342,8 +342,15 @@ Model:
 
 - Sentiment
 1. tweeteval/sentiment
-2. rotten_tomatoes/default
 3. movie_rationales/default
+
+- Discourse
+1. pragmeval/emobank-arousal, emobankarousal
+2. pragmeval/persuasiveness-relevance, persuasivenessrelevance
+3. pragmeval/persuasiveness-specificity, persuasivenessspecificity
+4. pragmeval/emobank-dominance, emobankdominance
+5. pragmeval/squinky-implicature, squinkyimplicature
+6. pragmeval/squinky-formality, squinkyformality
 
 
 ---
@@ -463,7 +470,7 @@ Extra dataset:
 - MLM
 1. Movie review: SST-2_s1, SST-2_s2, IMDB_s1, IMDB_s2
 2. CS: cs_wiki_s1, cs_wiki_s2, scierc 
-3. News: agnews_s1, agnews_s2 
+3. News: agnews_s1, agnews_s2 ([World, Sports, Business, Sci/Tech]) 
 ---
 - Sentimentation Classification (Remove label bias: remove the min label and blance the negative and postive sample)
 ---

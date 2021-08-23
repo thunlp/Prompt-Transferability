@@ -22,6 +22,15 @@ from .sciercDataset import sciercDataset
 from .snliDataset import snliDataset
 from .anliDataset import anliDataset
 from .recastfactualityDataset import recastfactualityDataset
+from .tweetevalsentimentDataset import tweetevalsentimentDataset
+from .movierationalesDataset import movierationalesDataset
+from .emobankarousalDataset import emobankarousalDataset
+from .persuasivenessrelevanceDataset import persuasivenessrelevanceDataset
+from .persuasivenessspecificityDataset import persuasivenessspecificityDataset
+from .emobankdominanceDataset import emobankdominanceDataset
+from .squinkyimplicatureDataset import squinkyimplicatureDataset
+from squinkyformalityDataset import squinkyformalityDataset
+
 
 dataset_list = {
     "JsonFromFiles": JsonFromFilesDataset,
@@ -48,4 +57,12 @@ dataset_list = {
     "snli": snliDataset,
     "anli": anliDataset,
     "recastfactuality": recastfactualityDataset,
+    "tweetevalsentiment": tweetevalsentimentDataset,
+    "movierationales": movierationalesDataset,
+    "emobankarousal": emobankarousalDataset,
+    "persuasivenessrelevance": persuasivenessrelevanceDataset,
+    "persuasivenessspecificity": persuasivenessspecificityDataset,
+    "persuasivenessrelevance": emobankdominanceDataset,
+    "squinkyimplicature": squinkyimplicatureDataset,
+    "squinkyformality": squinkyformalityDataset,
 }
