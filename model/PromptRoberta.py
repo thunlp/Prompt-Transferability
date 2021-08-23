@@ -149,7 +149,7 @@ class PromptRoberta(nn.Module):
             #sentiment
             #mo_dict={"positive":22173,"negative":33407}
             score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:,22173].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "MNLI":
+        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli":
             #NLI
             #mo_dict={"yes":10932,"neutral":12516,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)

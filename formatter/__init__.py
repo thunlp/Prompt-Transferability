@@ -24,6 +24,8 @@ from .mutiGPU_STSBPromptRobertaFormatter import mutiGPU_STSBPromptRobertaFormatt
 from .crossPromptRobertaFormatter import crossPromptRobertaFormatter
 from .mlmPromptFormatter import mlmPromptFormatter
 from .cross_mlmPromptFormatter import cross_mlmPromptFormatter
+from .snliPromptRobertaFormatter import snliPromptRobertaFormatter
+from .anliPromptRobertaFormatter import anliPromptRobertaFormatter
 logger = logging.getLogger(__name__)
 
 
@@ -53,6 +55,8 @@ formatter_list = {
     "crossPromptRoberta": crossPromptRobertaFormatter,
     "mlmPrompt": mlmPromptFormatter,
     "cross_mlmPrompt": cross_mlmPromptFormatter,
+    "snliPromptRoberta": snliPromptRobertaFormatter,
+    "anliPromptRoberta": snliPromptRobertaFormatter,
 }
 
 

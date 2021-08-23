@@ -148,7 +148,7 @@ class PromptBert(nn.Module):
             #mo_dict={"positive":22173,"negative":33407}
             #mo_dict={"positive":3893,"negative":4997}
             score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:,3893].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "MNLI":
+        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli" or config.get("data","train_dataset_type") == "anli":
             #NLI
             #mo_dict={"yes":10932,"neutral":12516,"no":2362}
             #mo_dict={"yes":2748,"neutral":8699,"no":2053}

@@ -334,6 +334,16 @@ Model:
 4. yelp_polarity (Alter to smaller epoches)
 5. pragmeval
 
+* Ready to train
+- NLI
+1. snli
+2. anli (r_3)
+3. recast_factuality
+4. recast_verbcorner
+5. recast_sentiment
+
+- Sentiment
+
 
 ---
 ---

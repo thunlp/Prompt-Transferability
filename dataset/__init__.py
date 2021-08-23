@@ -19,6 +19,8 @@ from .mutiGPU_STSBDataset import mutiGPU_STSBDataset
 from .agnewsDataset import agnewsDataset
 from .cs_wikiDataset import cs_wikiDataset
 from .sciercDataset import sciercDataset
+from .snliDataset import snliDataset
+from .anliDataset import anliDataset
 dataset_list = {
     "JsonFromFiles": JsonFromFilesDataset,
     "RTE": RTEDataset,
@@ -41,4 +43,6 @@ dataset_list = {
     "agnews": agnewsDataset,
     "cs_wiki": cs_wikiDataset,
     "scierc": sciercDataset,
+    "snli": snliDataset,
+    "anli": anliDataset,
 }
