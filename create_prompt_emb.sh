@@ -494,7 +494,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptBert_s1.
 #Extract prompt mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptBert_s2.config \
     --gpu $gpus \
-    --checkpoint model/agnewsPromptBert_mlm_s2/4.pkl \
+    --checkpoint model/agnewsPromptBert_mlm_s2/31.pkl \
     --mode extract_prompt \
     --pre_train_mlm
 

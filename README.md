@@ -314,6 +314,7 @@ Model:
 * MLM task: using prompt and without prompt
 * Fine-tuned model transfer
 * Change training code: only save prompt emb instead of whole model
+-Emergency: 1. mlm prompt transfer 2. mlm prompt for cross model
 
 
 * Re-training: 
