@@ -14,10 +14,12 @@ class persuasivenessrelevanceDataset(Dataset):
         _map = {"low":0, "high":1}
 
         data = [row for row in fin]
+
+
         if mode == "test":
-            self.data = [{"sent": ins[0].strip()} for ins in data[1:]]
+            self.data = [{"sent1":ins[0].strip(), "sent2":ins[1].strip()} for ins in data[1:]]
         else:
-            self.data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+            self.data = [{"sent1":ins[0].strip(), "sent2":ins[1].strip(), "label": _map[ins[2].strip()]} for ins in data[1:]]
         print(self.mode, "the number of data", len(self.data))
         # from IPython import embed; embed()
 

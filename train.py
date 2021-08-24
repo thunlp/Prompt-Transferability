@@ -48,11 +48,15 @@ if __name__ == "__main__":
 
     config = create_config(configFilePath)
 
+
+
     #print("=====")
     #print(configFilePath)
+    #print(args)
     #print(config.get("data","train_formatter_type"))
     #print("=====")
     #exit()
+
 
     use_gpu = True
     gpu_list = []

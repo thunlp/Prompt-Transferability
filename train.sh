@@ -1,11 +1,11 @@
 mkdir RobertaForMaskedLM
-gpus=4
+gpus=0
 
 
 ################################
 ###########Roberta##############
 ################################
-
+'''
 ############
 #Sentiment
 ############
@@ -103,17 +103,72 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.co
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
+'''
+
+
+###
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/emobankarousalPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/persuasivenessrelevancePromptRoberta.config \
+    --gpu $gpus
 
 
 
-################################
-###########BERT#################
-################################
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/persuasivenessspecificityPromptRoberta.config \
+    --gpu $gpus
+
+
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/emobankdominancePromptRoberta.config \
+    --gpu $gpus
+
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/squinkyimplicaturePromptRoberta.config \
+    --gpu $gpus
+
+
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/squinkyformalityPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromptRoberta.config \
+    --gpu $gpus
+
+##
+'''
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/snliPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/anliPromptRoberta.config \
+    --gpu $gpus
+
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastfactualityPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/tweetevalsentimentPromptRoberta.config \
+    --gpu $gpus
+'''
+
+
+
+##########################################################
+###########BERT###########################################
+##########################################################
 
 ############
 #Sentiment
 ############
-
+'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
@@ -211,4 +266,55 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptBert.confi
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptBert.config \
     --gpu $gpus \
+'''
 
+
+###
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/emobankarousalPromptBert.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/persuasivenessrelevancePromptBert.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/persuasivenessspecificityPromptBert.config \
+    --gpu $gpus
+
+
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/emobankdominancePromptBert.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/squinkyimplicaturePromptBert.config \
+    --gpu $gpus
+
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/squinkyformalityPromptBert.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromptBert.config \
+    --gpu $gpus
+
+###
+'''
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/snliPromptBert.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/anliPromptBert.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastfactualityPromptBert.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/tweetevalsentimentPromptBert.config \
+    --gpu $gpus
+
+'''

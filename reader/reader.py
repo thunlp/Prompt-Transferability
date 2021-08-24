@@ -124,11 +124,6 @@ def init_one_dataset(config, mode, *args, **params):
     else:
         which = config.get("data", "%s_dataset_type" % temp_mode)
 
-    #print("=========")
-    #print(which)
-    #print("=========")
-    #print(dataset_list)
-    #exit()
 
     if which in dataset_list:
         if mode in ["valid", "test"] and "MNLI" in which:
@@ -138,6 +133,10 @@ def init_one_dataset(config, mode, *args, **params):
                 mode = mode + "_mismatched"
 
         dataset = dataset_list[which](config, mode, *args, **params)
+        #print("=====")
+        #print(dataset)
+        #print(len(dataset))
+        #print("=====")
 
 
         if "matched" in mode:

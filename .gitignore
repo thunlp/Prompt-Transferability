@@ -22,6 +22,18 @@ model/projectPromptRoberta_1layer*
 model/projectorPromptRoberta*
 model/crossPromptRoberta*
 
+model/anliPromptRoberta*
+model/emobankarousalPromptRoberta*
+model/emobankdominancePromptRoberta*
+model/movierationalesPromptRoberta*
+model/persuasivenessrelevancePromptRoberta*
+model/persuasivenessspecificityPromptRoberta*
+model/recastfactualityPromptRoberta*
+model/snliPromptRoberta*
+model/squinkyformalityPromptRoberta*
+model/squinkyimplicaturePromptRoberta*
+model/tweetevalsentimentPromptRoberta*
+
 model/RTE_BERT_mlm*
 model/SST2PromptRoberta_mlm*
 model/REPrompt_mlm*
@@ -39,6 +51,23 @@ model/WikiREDPromptRoberta_mlm*
 model/projectPromptRoberta_mlm*
 model/projectorPromptRoberta_mlm*
 model/crossPromptRoberta_mlm*
+
+
+model/agnewsPromptRoberta_mlm_s1*
+model/agnewsPromptRoberta_mlm_s2*
+model/cs_wikiPromptRoberta_mlm_s1*
+model/cs_wikiPromptRoberta_mlm_s2*
+model/IMDBPromptRoberta_mlm_s1*
+model/IMDBPromptRoberta_mlm_s2*
+model/sciercPromptRoberta_mlm_s1*
+model/sciercPromptRoberta_mlm_s2*
+model/SST2PromptRoberta_mlm_s1*
+model/SST2PromptRoberta_mlm_s2*
+
+
+
+
+
 
 
 
@@ -62,6 +91,19 @@ model/projectPromptBert_1layer*
 mode/projectorPromptBert*
 model/crossPromptBert*
 
+model/anliPromptBert*
+model/emobankarousalPromptBert*
+model/emobankdominancePromptBert*
+model/movierationalesPromptBert*
+model/persuasivenessrelevancePromptBert*
+model/persuasivenessspecificityPromptBert*
+model/recastfactualityPromptBert*
+model/snliPromptBert*
+model/squinkyformalityPromptBert*
+model/squinkyimplicaturePromptBert*
+model/tweetevalsentimentPromptBert*
+
+
 model/SST2PromptBert_mlm*
 model/REPrompt_mlm*
 model/MNLIPromptBert_mlm*
@@ -80,17 +122,6 @@ model/projectPromptBert_mlm_1layer*
 mode/projectorPromptBert_mlm*
 model/crossPromptBert_mlm*
 
-model/agnewsPromptRoberta_mlm_s1*
-model/agnewsPromptRoberta_mlm_s2*
-model/cs_wikiPromptRoberta_mlm_s1*
-model/cs_wikiPromptRoberta_mlm_s2*
-model/IMDBPromptRoberta_mlm_s1*
-model/IMDBPromptRoberta_mlm_s2*
-model/sciercPromptRoberta_mlm_s1*
-model/sciercPromptRoberta_mlm_s2*
-model/SST2PromptRoberta_mlm_s1*
-model/SST2PromptRoberta_mlm_s2*
-
 model/agnewsPromptBert_mlm_s1*
 model/agnewsPromptBert_mlm_s2*
 model/cs_wikiPromptBert_mlm_s1*
@@ -101,6 +132,8 @@ model/sciercPromptBert_mlm_s1*
 model/sciercPromptBert_mlm_s2*
 model/SST2PromptBert_mlm_s1*
 model/SST2PromptBert_mlm_s2*
+
+
 
 model/crossPromptRoberta_only_IMDB_laptop*
 model/crossPromptRoberta_IMDB,laptop*

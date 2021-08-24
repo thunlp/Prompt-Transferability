@@ -66,6 +66,11 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
     if total_len < 10000:
         more = "\t"
 
+
+    #print("========")
+    #print(len(dataset))
+    #print("========")
+
     for step, data in enumerate(dataset):
         for key in data.keys():
             if isinstance(data[key], torch.Tensor):

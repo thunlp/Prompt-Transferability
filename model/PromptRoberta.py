@@ -130,6 +130,10 @@ class PromptRoberta(nn.Module):
         print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
         print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
 
+        #Discourse
+        #(["high”]):  3530
+        #(["low”]): 5481
+
         print("==============")
         print("==============")
         exit()
@@ -149,7 +153,7 @@ class PromptRoberta(nn.Module):
         elif config.get("data", "train_dataset_type") == "tweetevalsentiment":
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407}
-            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1), dim=1)
+            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1)], dim=1)
 
         elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB" or config.get("data", "train_dataset_type") == "movierationales":
             #sentiment
@@ -181,8 +185,11 @@ class PromptRoberta(nn.Module):
             score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "STSB":
             score = mask_logits[:, 10932]
+        elif config.get("data", "train_dataset_type") == "emobankarousal" or config.get("data", "train_dataset_type") == "persuasivenessrelevance" or config.get("data", "train_dataset_type") == "persuasivenessspecificity" or config.get("data", "train_dataset_type") == "emobankdominance" or config.get("data", "train_dataset_type") == "squinkyimplicature" or config.get("data", "train_dataset_type") == "squinkyformality":
+            score = torch.cat([mask_logits[:,5481].unsqueeze(1), mask_logits[:,3530].unsqueeze(1)], dim=1)
         else:
             #Other
+            print("PromptBert: What is this task?")
             #mask_logits:torch.Size([16, 50265])
             #mo_dict={"yes":10932,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)

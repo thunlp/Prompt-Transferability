@@ -69,6 +69,12 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
     global_step = parameters["global_step"]
     output_function = parameters["output_function"]
 
+    #print("========")
+    #print(parameters["valid_dataset"])
+    #print(len(parameters["valid_dataset"]))
+    #print("========")
+    #exit()
+
     if do_test:
         init_formatter(config, ["test"])
         test_dataset = init_test_dataset(config)

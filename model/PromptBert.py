@@ -127,6 +127,10 @@ class PromptBert(nn.Module):
         print(tokenizer.encode("right",add_special_tokens=False)) #[2157]
         print(tokenizer.encode("wrong",add_special_tokens=False)) #[3308]
 
+        #Discourse
+        print(tokenizer.encode("low",add_special_tokens=False)) #[2659]
+        print(tokenizer.encode("high",add_special_tokens=False)) #[2152]
+
         print("==============")
         print("==============")
         exit()
@@ -144,7 +148,7 @@ class PromptBert(nn.Module):
             score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:, 8777].unsqueeze(1), mask_logits[:, 3893].unsqueeze(1), mask_logits[:,4736].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "tweetevalsentiment":
             #mo_dict={"positive":3893,"moderate":8777,"negative":4997}
-            score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:, 8777].unsqueeze(1), mask_logits[:, 3893].unsqueeze(1), dim=1)
+            score = torch.cat([mask_logits[:, 4997].unsqueeze(1), mask_logits[:, 8777].unsqueeze(1), mask_logits[:, 3893].unsqueeze(1)], dim=1)
 
         elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB" or config.get("data", "train_dataset_type") == "movierationales":
             #sentiment
@@ -176,7 +180,12 @@ class PromptBert(nn.Module):
             score = torch.cat([mask_logits[:, 6270].unsqueeze(1), mask_logits[:,2995].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "STSB":
             score = mask_logits[:, 10932]
+        elif config.get("data", "train_dataset_type") == "emobankarousal" or config.get("data", "train_dataset_type") == "persuasivenessrelevance" or config.get("data", "train_dataset_type") == "persuasivenessspecificity" or config.get("data", "train_dataset_type") == "emobankdominance" or config.get("data", "train_dataset_type") == "squinkyimplicature" or config.get("data", "train_dataset_type") == "squinkyformality":
+            #"low" [2659]
+            #"high" [2152]
+            score = torch.cat([mask_logits[:, 2659].unsqueeze(1), mask_logits[:, 2152].unsqueeze(1)], dim=1)
         else:
+            print("PromptBert: What is this task?")
             #Other
             #mask_logits:torch.Size([16, 50265])
             #mo_dict={"yes":10932,"no":2362}

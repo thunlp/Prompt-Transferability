@@ -17,7 +17,7 @@ class recastfactualityDataset(Dataset):
         self.test_mismatched_data = self.data['test_mismatched']
         '''
         self.data_path = config.get("data", "%s_data_path" % mode)
-        data = json.load(open(self.data_path), "r")
+        data = json.load(open(self.data_path))
 
         #org: [not-entailed, entailed]
         _dict = {"not-entailed":0,"entailed":1}

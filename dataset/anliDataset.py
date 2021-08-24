@@ -17,7 +17,7 @@ class anliDataset(Dataset):
         self.test_mismatched_data = self.data['test_mismatched']
         '''
         self.data_path = config.get("data", "%s_data_path" % mode)
-        data = json.load(open(self.data_path), "r")
+        data = json.load(open(self.data_path))
 
 
         #org_dict = {"contradiction":2,"neutral":1,"entailment":0}
@@ -27,7 +27,7 @@ class anliDataset(Dataset):
         if mode == "test":
             self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
         else:
-            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[ins['label']]} for ins in data]
+            self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data]
         print(self.mode, "the number of data", len(self.data))
         # from IPython import embed; embed()
 

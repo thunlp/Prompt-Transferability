@@ -29,7 +29,7 @@ from .persuasivenessrelevanceDataset import persuasivenessrelevanceDataset
 from .persuasivenessspecificityDataset import persuasivenessspecificityDataset
 from .emobankdominanceDataset import emobankdominanceDataset
 from .squinkyimplicatureDataset import squinkyimplicatureDataset
-from squinkyformalityDataset import squinkyformalityDataset
+from .squinkyformalityDataset import squinkyformalityDataset
 
 
 dataset_list = {
@@ -62,7 +62,7 @@ dataset_list = {
     "emobankarousal": emobankarousalDataset,
     "persuasivenessrelevance": persuasivenessrelevanceDataset,
     "persuasivenessspecificity": persuasivenessspecificityDataset,
-    "persuasivenessrelevance": emobankdominanceDataset,
+    "emobankdominance": emobankdominanceDataset,
     "squinkyimplicature": squinkyimplicatureDataset,
     "squinkyformality": squinkyformalityDataset,
 }
