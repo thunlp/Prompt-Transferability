@@ -131,7 +131,7 @@ class PromptRoberta(nn.Module):
         print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
 
         #Discourse
-        #(["high”]):  3530
+        #(["high”]): 3530
         #(["low”]): 5481
 
         print("==============")

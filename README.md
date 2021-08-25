@@ -103,7 +103,7 @@ Comment out text in markdown: https://stackoverflow.com/questions/16525877/how-d
 ## Domain and Task Transferability
 
 ---
-### Domain Similarity
+### Domain Similarity [DONE]
 - Top 5000 token
 - 20000 instances for Each dataset
 
@@ -125,7 +125,7 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 
 
 
-### Domain Prompt Transferability
+### Domain Prompt Transferability [DONE]
 
 | : Filename(dataset) ; __ : prompt_emb
 
@@ -316,6 +316,7 @@ Model:
 * Fine-tuned model transfer
 * Change training code: only save prompt emb instead of whole model
 -Emergency: 1. mlm prompt transfer 2. mlm prompt for cross model
+-Retriver: Retrieve similiar prompt emb at high dimension space
 
 
 * Re-training: 

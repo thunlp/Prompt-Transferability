@@ -106,6 +106,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.co
 '''
 
 
+'''
 ###
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/emobankarousalPromptRoberta.config \
     --gpu $gpus
@@ -141,7 +142,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromp
     --gpu $gpus
 
 ##
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/snliPromptRoberta.config \
     --gpu $gpus
 
@@ -269,6 +269,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptBert.confi
 '''
 
 
+'''
 ###
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/emobankarousalPromptBert.config \
     --gpu $gpus
@@ -280,7 +281,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/persuasivenessreleva
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/persuasivenessspecificityPromptBert.config \
     --gpu $gpus
-
 
 
 
@@ -301,7 +301,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromp
     --gpu $gpus
 
 ###
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/snliPromptBert.config \
     --gpu $gpus
 
