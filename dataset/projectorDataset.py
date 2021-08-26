@@ -693,11 +693,11 @@ def pre_data_snli(mode):
 
 def pre_data_anli(mode):
     if mode == "train":
-        data = json.load(open("./data/anli/train_r1.json"))
+        data = json.load(open("./data/anli/train.json"))
     elif mode == "valid":
-        data = json.load(open("./data/anli/dev_1.json"))
+        data = json.load(open("./data/anli/dev.json"))
     else:
-        data = json.load(open("./data/anli/test_1.json"))
+        data = json.load(open("./data/anli/test.json"))
     #org_dict = {"contradiction":2,"neutral":1,"entailment":0}
     #after_dict = {"no":0,"neutral":3,"yes":1}
     _dict = {2:0,1:3,0:1}

@@ -70,6 +70,8 @@ if __name__ == "__main__":
         torch.distributed.init_process_group(backend=config.get("distributed", "backend"))
         torch.cuda.set_device(gpu_list[args.local_rank])
         config.set('distributed', 'gpu_num', len(gpu_list))
+    else:
+        config.set('distributed', 'use', False)
 
     cuda = torch.cuda.is_available()
     logger.info("CUDA available: %s" % str(cuda))
