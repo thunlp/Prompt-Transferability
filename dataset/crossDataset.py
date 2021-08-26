@@ -88,6 +88,74 @@ class crossDataset(Dataset):
             self.all_dataset.append(self.imdb)
             show_dataset.append("imdb")
             #print("imdb")
+        ##
+        if "snli" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_snli(mode)
+            self.min_length.append(self.snli_length)
+            self.all_dataset.append(self.snli)
+            show_dataset.append("snli")
+            #print("snli")
+        if "anli" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_anli(mode)
+            self.min_length.append(self.anli_length)
+            self.all_dataset.append(self.anli)
+            show_dataset.append("anli")
+            #print("anli")
+        if "recastfactuality" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_recastfactuality(mode)
+            self.min_length.append(self.recastfactuality_length)
+            self.all_dataset.append(self.recastfactuality)
+            show_dataset.append("recastfactuality")
+            #print("recastfactuality")
+        if "tweetevalsentiment" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_tweetevalsentiment(mode)
+            self.min_length.append(self.tweetevalsentiment_length)
+            self.all_dataset.append(self.tweetevalsentiment)
+            show_dataset.append("tweetevalsentiment")
+            #print("tweetevalsentiment")
+        if "movierationales" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_movierationales(mode)
+            self.min_length.append(self.movierationales_length)
+            self.all_dataset.append(self.movierationales)
+            show_dataset.append("movierationales")
+            #print("movierationales")
+        if "emobankarousal" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_emobankarousal(mode)
+            self.min_length.append(self.emobankarousal_length)
+            self.all_dataset.append(self.emobankarousal)
+            show_dataset.append("emobankarousal")
+            #print("emobankarousal")
+        if "persuasivenessrelevance" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_persuasivenessrelevance(mode)
+            self.min_length.append(self.persuasivenessrelevance_length)
+            self.all_dataset.append(self.persuasivenessrelevance)
+            show_dataset.append("persuasivenessrelevance")
+            #print("persuasivenessrelevance")
+        if "persuasivenessspecificity" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_persuasivenessspecificity(mode)
+            self.min_length.append(self.persuasivenessspecificity_length)
+            self.all_dataset.append(self.persuasivenessspecificity)
+            show_dataset.append("persuasivenessspecificity")
+            #print("persuasivenessspecificity")
+        if "emobankdominance" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_emobankdominance(mode)
+            self.min_length.append(self.emobankdominance_length)
+            self.all_dataset.append(self.emobankdominance)
+            show_dataset.append("emobankdominance")
+            #print("emobankdominance")
+        if "squinkyimplicature" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_squinkyimplicature(mode)
+            self.min_length.append(self.squinkyimplicature_length)
+            self.all_dataset.append(self.squinkyimplicature)
+            show_dataset.append("squinkyimplicature")
+            #print("squinkyimplicature")
+        if "squinkyformality" in self.dataset_list:
+            self.imdb, self.imdb_length = pre_data_squinkyformality(mode)
+            self.min_length.append(self.squinkyformality_length)
+            self.all_dataset.append(self.squinkyformality)
+            show_dataset.append("squinkyformality")
+            #print("squinkyformality")
+
         ###
 
         ###
@@ -677,5 +745,52 @@ def pre_data_imdb(mode,data_name=None):
         else:
             data = [{"sent1": ins[0].strip(), "label":label_map[ins[1].strip()], "dataset":data_name.lower()} for ins in data]
 
-
     return data, len(data)
+
+
+##############
+##############
+
+def pre_data_snli(mode):
+
+    if mode == "train":
+        data = json.load(open("./data/snli/train.json"))
+    elif mode == "valid":
+        data = json.load(open("./data/snli/dev.json"))
+    else:
+        data = json.load(open("./data/snli/test.json"))
+
+
+    #org_dict = {"contradiction":2,"neutral":1,"entailment":0}
+    #after_dict = {"no":0,"neutral":3,"yes":1}
+    _dict = {2:0,1:3,0:1}
+
+    if mode == "test":
+        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
+    else:
+        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
+    print(self.mode, "the number of data", len(self.data))
+    # from IPython import embed; embed()
+
+
+def pre_data_anli(mode):
+
+    if mode == "train":
+        data = json.load(open("./data/anli/train_r1.json"))
+    elif mode == "valid":
+        data = json.load(open("./data/anli/dev_1.json"))
+    else:
+        data = json.load(open("./data/anli/test_1.json"))
+
+
+    #org_dict = {"contradiction":2,"neutral":1,"entailment":0}
+    #after_dict = {"no":0,"neutral":3,"yes":1}
+    _dict = {2:0,1:3,0:1}
+
+    if mode == "test":
+        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
+    else:
+        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
+    print(self.mode, "the number of data", len(self.data))
+    # from IPython import embed; embed()
+

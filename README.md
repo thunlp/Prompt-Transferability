@@ -292,6 +292,7 @@ Model:
 | Non_Proj | 50.4 | 15.2 | 35.5 | 69.3 | 49.3 | 36.8 | 2.8 | 50.4 | 51.2 | | 53.1 |
 | Proj (trained with mlm) | 58.4 | 49.4 | 35.5 | 31.0 | 50.5 | 63.2 | 63.1 | 47.3 | 54.1 |  | 48.4 |
 | Proj (trained with task (no STSB)) | 87.5 | 73.3 | 52.7 | 90.9 | 80.9 | 70.5 | 79.5 | 50.8 | 92.2 |  | 15.6 |
+| Roberta | 89.0 | 74.0 | 82.9 | 76.5 | 89.9 | 74.5 | 78.9 | 53.3 | 93.5 |  | 42.2 |
 | Proj (trained with imdb,laptop) | 86.8 | 70.9 |  |  |  |  | 75.8 |  | 88.5 |  |  |
 
 
@@ -330,18 +331,20 @@ Model:
 7. cross_mlm
 
 
-* Add dataset
-1. snli
-2. anli
-3. recast
-4. yelp_polarity (Alter to smaller epoches)
-5. pragmeval
 
 * Ready to train
 - NLI
 1. snli
 2. anli (r_3)
 3. recast_factuality
+
+
+* Add dataset
+1. snli
+2. anli
+3. recast
+4. yelp_polarity (Alter to smaller epoches)
+5. pragmeval
 
 - Sentiment
 1. tweeteval/sentiment
