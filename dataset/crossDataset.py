@@ -752,45 +752,183 @@ def pre_data_imdb(mode,data_name=None):
 ##############
 
 def pre_data_snli(mode):
-
     if mode == "train":
         data = json.load(open("./data/snli/train.json"))
     elif mode == "valid":
         data = json.load(open("./data/snli/dev.json"))
     else:
         data = json.load(open("./data/snli/test.json"))
-
-
     #org_dict = {"contradiction":2,"neutral":1,"entailment":0}
     #after_dict = {"no":0,"neutral":3,"yes":1}
     _dict = {2:0,1:3,0:1}
-
     if mode == "test":
-        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
     else:
-        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
-    print(self.mode, "the number of data", len(self.data))
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
     # from IPython import embed; embed()
+    return data, len(data)
 
 
 def pre_data_anli(mode):
-
     if mode == "train":
         data = json.load(open("./data/anli/train_r1.json"))
     elif mode == "valid":
         data = json.load(open("./data/anli/dev_1.json"))
     else:
         data = json.load(open("./data/anli/test_1.json"))
-
-
     #org_dict = {"contradiction":2,"neutral":1,"entailment":0}
     #after_dict = {"no":0,"neutral":3,"yes":1}
     _dict = {2:0,1:3,0:1}
-
     if mode == "test":
-        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
     else:
-        self.data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
-    print(self.mode, "the number of data", len(self.data))
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
     # from IPython import embed; embed()
+    return data, len(data)
 
+
+def pre_data_recastfactuality(mode):
+    if mode == "train":
+        data = json.load(open("./data/recast/train/recast_factuality_data.json"))
+    elif mode == "valid":
+        data = json.load(open("./data/recast/dev/recast_factuality_data.json"))
+    else:
+        data = json.load(open("./data/recast/test/recast_factuality_data.json"))
+    #org: [not-entailed, entailed]
+    _dict = {"not-entailed":0,"entailed":1}
+    if mode == "test":
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context']} for ins in data]
+    else:
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context'].strip(), "label": _dict[ins['label']]} for ins in data]
+    return data, len(data)
+
+
+def pre_data_tweetevalsentiment(mode):
+    if mode == "train":
+        data = json.load(open("./data/tweeteval/sentiment/train.json"))
+    elif mode == "valid":
+        data = json.load(open("./data/tweeteval/sentiment/dev.json"))
+    else:
+        data = json.load(open("./data/tweeteval/sentiment/test.json"))
+    #emo_dict={"positive":2,"neutral":1,"negative":0,}
+    emo_dict={"positive":7,"neutral":3,"negative":5}
+    if mode == "test":
+        data = [{"sent": ins['sentence'].strip()} for ins in data]
+    elif mode == 'valid':
+        data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['label']]} for ins in data]
+    else:
+        data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['label']]} for ins in data]
+    return data, len(data)
+
+
+def pre_data_movierationales(mode):
+    if mode == "train":
+        data = json.load(open("./data/movie-rationales/train.json"))
+    elif mode == "valid":
+        data = json.load(open("./data/movie-rationales/dev.json"))
+    else:
+        data = json.load(open("./data/movie-rationales/test.json"))
+    #original: {"positive":1,"negative":0}
+    emo_dict={0:5,1:7}
+    if mode == "test":
+        data = [{"sent": ins['review'].strip()} for ins in data]
+    elif mode == 'valid':
+        data = [{"sent": ins['review'].strip(), "label": emo_dict[int(ins['label'])]} for ins in data]
+    else:
+        data = [{"sent": ins['review'].strip(), "label": emo_dict[int(ins['label'])]} for ins in data]
+    return data, len(data)
+
+
+def pre_data_emobankarousal(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/pragmeval/emobank-arousal/train.tsv"))
+    elif mode == "valid":
+        data = csv.reader(open("./data/pragmeval/emobank-arousal/dev.tsv"))
+    else:
+        data = csv.reader(open("./data/pragmeval/emobank-arousal/test.tsv"))
+    _map = {"low":9, "high":10}
+    data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+    else:
+        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+    return data, len(data)
+
+
+def pre_data_persuasivenessrelevance(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/pragmeval/persuasiveness-relevance/train.tsv"))
+    elif mode == "valid":
+        data = csv.reader(open("./data/pragmeval/persuasiveness-relevance/dev.tsv"))
+    else:
+        data = csv.reader(open("./data/pragmeval/persuasiveness-relevance/test.tsv"))
+    _map = {"low":9, "high":10}
+    data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+    else:
+        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+    return data, len(data)
+
+def pre_data_persuasivenessspecificity(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/pragmeval/persuasiveness-specificity/train.tsv"))
+    elif mode == "valid":
+        data = csv.reader(open("./data/pragmeval/persuasiveness-specificity/dev.tsv"))
+    else:
+        data = csv.reader(open("./data/pragmeval/persuasiveness-specificity/test.tsv"))
+    _map = {"low":9, "high":10}
+    data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+    else:
+        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+    return data, len(data)
+
+
+def pre_data_emobankdominance(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/pragmeval/emobank-dominance/train.tsv"))
+    elif mode == "valid":
+        data = csv.reader(open("./data/pragmeval/emobank-dominance/dev.tsv"))
+    else:
+        data = csv.reader(open("./data/pragmeval/emobank-dominance/test.tsv"))
+    _map = {"low":9, "high":10}
+    data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+    else:
+        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+    return data, len(data)
+
+
+def pre_data_squinkyimplicature(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/pragmeval/squinky-implicature/train.tsv"))
+    elif mode == "valid":
+        data = csv.reader(open("./data/pragmeval/squinky-implicature/dev.tsv"))
+    else:
+        data = csv.reader(open("./data/pragmeval/squinky-implicature/test.tsv"))
+    _map = {"low":9, "high":10}
+    data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+    else:
+        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+    return data, len(data)
+
+
+def pre_data_squinkyformality(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/pragmeval/squinky-formality/train.tsv"))
+    elif mode == "valid":
+        data = csv.reader(open("./data/pragmeval/squinky-formality/dev.tsv"))
+    else:
+        data = csv.reader(open("./data/pragmeval/squinky-formality/test.tsv"))
+    _map = {"low":9, "high":10}
+    data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+    else:
+        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+    return data, len(data)
