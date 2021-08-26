@@ -1,6 +1,6 @@
 #rm -rf task_prompt_emb/*
 
-gpus=6
+gpus=2
 
 '''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
@@ -139,6 +139,86 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
 
 
 
+###
+rm -rf task_prompt_emb/emobankarousalPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/emobankarousalPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/emobankarousalPromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/persuasivenessrelevancePromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/persuasivenessrelevancePromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/persuasivenessrelevancePromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/persuasivenessspecificityPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/persuasivenessspecificityPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/persuasivenessspecificityPromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/emobankdominancePromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/emobankdominancePromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/emobankdominancePromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/squinkyimplicaturePromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/squinkyimplicaturePromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/squinkyimplicaturePromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/squinkyformalityPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/squinkyformalityPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/squinkyformalityPromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/movierationalesPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/movierationalesPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/movierationalesPromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/snliPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/snliPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/snliPromptRoberta/2.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/anliPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/anliPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/anliPromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/recastfactualityPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/recastfactualityPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/recastfactualityPromptRoberta/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/tweetevalsentimentPromptRoberta
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/tweetevalsentimentPromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/tweetevalsentimentPromptRoberta/15.pkl \
+    --mode extract_prompt
+###
+
+
+
 
 
 ####################################
@@ -244,8 +324,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
 
 
 
-
-
 ############
 #Other
 ############
@@ -265,14 +343,92 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptBert.confi
     --mode extract_prompt
 
 
-exit
+
+###
+rm -rf task_prompt_emb/emobankarousalPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/emobankarousalPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/emobankarousalPromptBert/15.pkl \
+    --mode extract_prompt
 
 
-'''
+rm -rf task_prompt_emb/persuasivenessrelevancePromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/persuasivenessrelevancePromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/persuasivenessrelevancePromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/persuasivenessspecificityPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/persuasivenessspecificityPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/persuasivenessspecificityPromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/emobankdominancePromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/emobankdominancePromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/emobankdominancePromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/squinkyimplicaturePromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/squinkyimplicaturePromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/squinkyimplicaturePromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/squinkyformalityPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/squinkyformalityPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/squinkyformalityPromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/movierationalesPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/movierationalesPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/movierationalesPromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/snliPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/snliPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/snliPromptBert/10.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/anliPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/anliPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/anliPromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/recastfactualityPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/recastfactualityPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/recastfactualityPromptBert/15.pkl \
+    --mode extract_prompt
+
+
+rm -rf task_prompt_emb/tweetevalsentimentPromptBert
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/tweetevalsentimentPromptBert.config \
+    --gpu $gpus \
+    --checkpoint model/tweetevalsentimentPromptBert/15.pkl \
+    --mode extract_prompt
+###
+
+
+
+#Do not need to do
 ################
 ######MLM
 ################
-
+'''
 #IMDB
 rm -rf task_prompt_emb/IMDBPromptRoberta_mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.config \
@@ -388,14 +544,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta_mlm/15.pkl \
     --mode extract_prompt
-
-
 '''
 
 ######################
 ######################
 ######################
-#Extract prompt _s1 _s2 mlm
+#Extract prompt _s1 _s2 mlm (Already Done)
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/agnewsPromptRoberta_s1.config \
     --gpu $gpus \

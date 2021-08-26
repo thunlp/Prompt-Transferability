@@ -317,7 +317,8 @@ Model:
 * Change training code: only save prompt emb instead of whole model
 -Emergency: 1. mlm prompt transfer 2. mlm prompt for cross model
 -Retriver: Retrieve similiar prompt emb at high dimension space
-
+- Try fine-tuned model transfer (ability)
+- Mutitask prompt (prompt task prompt to a single promt: model, task level)
 
 * Re-training: 
 1. task prompt
@@ -452,6 +453,7 @@ clear distribution (dataset): https://arxiv.org/pdf/2106.04489.pdf
 10. MUST merge model/--Prompt--.py. Prompt_mlm is the optimal.
 11. prompt_emt: using m-way-k-shot training
 12. -Use trained AE (task_transfer) for restaurantPromptRoberta
+
 ---
 Extra dataset:
 --

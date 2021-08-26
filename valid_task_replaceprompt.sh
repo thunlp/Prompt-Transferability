@@ -1,7 +1,7 @@
 gpus=6
 
 
-
+'''
 #Roberta prompt replaces with mlm-prompt
 for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta
 do
@@ -9,28 +9,27 @@ do
     do
             echo "==========================="
             echo config/$MODEL.config
-            echo model/$MODEL/15.pkl
+            echo model/$MODEL/1.pkl
             echo "replace with: " $PROMPT " prompt"
             echo "==========================="
 
             #Eval mlm
             CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                 --gpu $gpus \
-                --checkpoint model/$MODEL/15.pkl \
+                --checkpoint model/$MODEL/1.pkl \
                 --replacing_prompt $PROMPT
     done
 done
+'''
 
 
-exit
 
 
 
 #Bert
-'''
-for MODEL in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert
+for MODEL in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert anliPromptBert emobankarousalPromptBert emobankdominancePromptBert movierationalesPromptBert MRPCPromptBert persuasivenessrelevancePromptBert persuasivenessspecificityPromptBert snliPromptBert squinkyformalityPromptBert squinkyimplicaturePromptBert
 do
-    for PROMPT in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert
+    for PROMPT in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert anliPromptBert emobankarousalPromptBert emobankdominancePromptBert movierationalesPromptBert MRPCPromptBert persuasivenessrelevancePromptBert persuasivenessspecificityPromptBert snliPromptBert squinkyformalityPromptBert squinkyimplicaturePromptBert
     do
             echo "==========================="
             echo config/$MODEL.config
@@ -38,14 +37,29 @@ do
             echo $PROMPT
             echo "==========================="
 
-            #Eval mlm
-            CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                --gpu $gpus \
-                --checkpoint model/$MODEL/15.pkl \
-                --replacing_prompt $PROMPT
+            if [ $MODEL == anliPromptBert ]
+            then
+                #Eval mlm
+                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                    --gpu $gpus \
+                    --checkpoint model/$MODEL/1.pkl \
+                    --replacing_prompt $PROMPT
+            elif [ $MODEL == snliPromptBert ]
+            then
+                #Eval mlm
+                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                    --gpu $gpus \
+                    --checkpoint model/$MODEL/1.pkl \
+                    --replacing_prompt $PROMPT
+            else
+                #Eval mlm
+                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                    --gpu $gpus \
+                    --checkpoint model/$MODEL/15.pkl \
+                    --replacing_prompt $PROMPT
+            fi
     done
 done
-'''
 
 
 
@@ -53,10 +67,9 @@ done
 
 
 #Roberta
-'''
-for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta anliPromptRoberta emobankarousalPromptRoberta emobankdominancePromptRoberta movierationalesPromptRoberta MRPCPromptRoberta persuasivenessrelevancePromptRoberta persuasivenessspecificityPromptRoberta snliPromptRoberta squinkyformalityPromptRoberta squinkyimplicaturePromptRoberta
 do
-    for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta
+    for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta anliPromptRoberta emobankarousalPromptRoberta emobankdominancePromptRoberta movierationalesPromptRoberta MRPCPromptRoberta persuasivenessrelevancePromptRoberta persuasivenessspecificityPromptRoberta snliPromptRoberta squinkyformalityPromptRoberta squinkyimplicaturePromptRoberta
     do
             echo "==========================="
             echo config/$MODEL.config
@@ -65,10 +78,25 @@ do
             echo "==========================="
 
             #Eval mlm
-            CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                --gpu $gpus \
-                --checkpoint model/$MODEL/15.pkl \
-                --replacing_prompt $PROMPT
+            if [ $MODEL == anliPromptRoberta ]
+            then
+                #Eval mlm
+                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                    --gpu $gpus \
+                    --checkpoint model/$MODEL/1.pkl \
+                    --replacing_prompt $PROMPT
+            elif [$MODEL == snliPromptRoberta ]
+            then
+                #Eval mlm
+                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                    --gpu $gpus \
+                    --checkpoint model/$MODEL/1.pkl \
+                    --replacing_prompt $PROMPT
+            else
+                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                    --gpu $gpus \
+                    --checkpoint model/$MODEL/15.pkl \
+                    --replacing_prompt $PROMPT
+            fi
     done
 done
-'''

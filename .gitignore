@@ -149,7 +149,7 @@ model/projectPromptRoberta__all_but_no_STSB__76800_to_1200
 
 /RobertaForMaskedLM
 /RobertaLargeForMaskedLM
-/task_prompt_emb
+#/task_prompt_emb
 /tensorboard
 
 /bert-base-uncased
