@@ -155,6 +155,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
             loss, acc_result = results["loss"], results["acc_result"]
 
             total_loss += float(loss)
+            total_loss = total_loss
 
             loss.backward()
             optimizer.step()

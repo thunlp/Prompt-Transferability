@@ -175,10 +175,17 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     #parameters = torch.load(checkpoint, map_location=lambda storage, loc: storage)
     if params["args"].checkpoint != None:
         parameters = torch.load(params["args"].checkpoint, map_location=lambda storage, loc: storage)
+
         if hasattr(model, 'module'):
             model.module.load_state_dict(parameters["model"])
         else:
             model.load_state_dict(parameters["model"])
+
+        if torch.cuda.is_available():
+            model.cuda()
+        else:
+            pass
+
     else:
         pass
 
