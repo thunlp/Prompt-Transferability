@@ -5,10 +5,12 @@ gpus=2
 #Paraphrase
 ############
 
+'''
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
     --pre_train_mlm True
+'''
 
 
 
@@ -24,11 +26,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QQPPromptRoberta.
 #NLI
 ############
 
+'''
 #RTE
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
     --pre_train_mlm True
+'''
 
 
 
@@ -47,11 +51,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/WNLIPromptRoberta
 ############
 #RE
 ############
-
+'''
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/WikiREDPromptRoberta.config \
     --gpu $gpus \
     --pre_train_mlm True
+'''
 
 
 ############

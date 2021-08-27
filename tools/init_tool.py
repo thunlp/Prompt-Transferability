@@ -181,12 +181,10 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         else:
             model.load_state_dict(parameters["model"])
 
-        '''
         if torch.cuda.is_available() and mode=="train":
             model.cuda()
         else:
             pass
-        '''
 
     else:
         pass
