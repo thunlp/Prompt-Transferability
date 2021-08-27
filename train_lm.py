@@ -64,6 +64,7 @@ if __name__ == "__main__":
 
     os.system("clear")
     config.set('distributed', 'local_rank', args.local_rank)
+    config.set('eval', 'batch_size', 32)
     #############################
     ###muti machine and muti pgus
     if config.getboolean("distributed", "use") and len(gpu_list)>1:

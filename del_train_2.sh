@@ -1,11 +1,10 @@
-gpus=4
+gpus=2
 
 
 ############
 #Paraphrase
 ############
 
-'''
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
@@ -13,10 +12,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/MRPCPromptRoberta
 
 
 
+'''
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
     --pre_train_mlm True
+'''
 
 
 ############
@@ -63,7 +64,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/WikiREDPromptRobe
 CUDA_VISIBLE_DEVICES=$gpus python3 train_lm.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
     --pre_train_mlm True
-'''
 
 
 
