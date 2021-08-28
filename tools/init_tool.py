@@ -16,12 +16,26 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     #######AE trained#
     ##################
     if "Bert" in load_model:
+        all_model_dir = os.listdir("model/cross_PromptBert_reconstructionLoss_(no.STSB)")
+        path = "model/cross_PromptBert_reconstructionLoss_(no.STSB)/"
+    elif "Roberta" in load_model:
+        all_model_dir = os.listdir("model/cross_PromptRoberta_reconstructionLoss_(no.STSB)")
+        path = "model/cross_PromptRoberta_reconstructionLoss_(no.STSB)/"
+        print(all_model_dir)
+
+
+
+    '''
+    if "Bert" in load_model:
         all_model_dir = os.listdir("model/crossPromptBert")
         path = "model/crossPromptBert/"
     elif "Roberta" in load_model:
         all_model_dir = os.listdir("model/crossPromptRoberta")
         path = "model/crossPromptRoberta/"
         print(all_model_dir)
+    '''
+
+
     '''
     if "Bert" in load_model:
         #all_model_dir = os.listdir("model/cross_mlmPromptRoberta")

@@ -144,6 +144,7 @@ model/cross_mlmPromptRoberta*
 model/projectPromptRoberta_wnli,sst2,restaurant,qqp,mnli,laptop,imdb,rte
 model/projectPromptRoberta__all_but_no_STSB__76800_to_1200
 model/train_task_projection_reconstructionLoss
+model/cross_PromptBert_reconstructionLoss_(no.STSB)
 
 /result_mlm
 

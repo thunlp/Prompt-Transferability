@@ -47,10 +47,20 @@ if __name__ == "__main__":
     configFilePath = args.config
     config = create_config(configFilePath)
 
+    ####
+    output = "model/cross_PromptBert_reconstructionLoss_(no.STSB)"
+    if os.path.isdir(output):
+        pass
+    else:
+        os.mkdir(output)
+    ####
 
     all_dir = os.listdir("task_prompt_emb")
     all_dir = [dir for dir in all_dir if "_mlm_" not in dir]
+    #print("---")
     #print(all_dir)
+    #print("---")
+    #exit()
 
     given_task = config.get("dataset","dataset").split(",")
 
@@ -101,8 +111,7 @@ if __name__ == "__main__":
             optimizer_AE.step()
 
         print("Epoch:",epoch,"iter:",iter,"loss:",loss)
-
-        torch.save(model_AE, "model/train_task_projection_reconstructionLoss/"+str(epoch)+"_loss:"+str("{:.2f}".format(float(loss.data)))+"_model")
+        torch.save(model_AE, output+"/"+str(epoch)+"_loss:"+str("{:.2f}".format(float(loss.data)))+"_model")
 
 
 
