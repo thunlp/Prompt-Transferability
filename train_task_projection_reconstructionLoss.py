@@ -48,7 +48,7 @@ if __name__ == "__main__":
     config = create_config(configFilePath)
 
     ####
-    output = "model/cross_PromptBert_reconstructionLoss_(no.STSB)"
+    output = "model/cross_PromptBert_reconstructionLoss_no_STSB"
     if os.path.isdir(output):
         pass
     else:
