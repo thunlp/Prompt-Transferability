@@ -5,33 +5,7 @@ import argparse
 import random
 from config_parser import create_config
 from torch import optim
-
-
-
-class AE(nn.Module):
-    def __init__(self, **kwargs):
-        super(AE, self).__init__()
-        self.encoder = nn.Linear(
-            in_features=kwargs["input_dim"], out_features=int(kwargs["compress_dim"])
-        )
-        self.decoder = nn.Linear(
-            in_features=int(kwargs["compress_dim"]), out_features=kwargs["input_dim"]
-        )
-
-        # mean-squared error loss
-        self.criterion = nn.CrossEntropyLoss()
-
-    def encoding(self, features):
-        return self.encoder(features)
-    def decoding(self, features):
-        return self.decoder(features)
-
-    def forward(self, features):
-        encoded_emb = self.encoding(features)
-        encoded_emb = torch.relu(encoded_emb)
-        decoded_emb = self.decoding(encoded_emb)
-        return decoded_emb
-
+from tools.projector import AE_1_layer as AE
 
 
 
@@ -48,7 +22,7 @@ if __name__ == "__main__":
     config = create_config(configFilePath)
 
     ####
-    output = "model/cross_PromptBert_reconstructionLoss_no_STSB"
+    output = "model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop"
     if os.path.isdir(output):
         pass
     else:
@@ -75,7 +49,8 @@ if __name__ == "__main__":
 
     ####
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model_AE = AE(input_dim=76800,compress_dim=3).to(device)
+    #model_AE = AE(input_dim=76800,compress_dim=3).to(device)
+    model_AE = AE(input_dim=76800,compress_dim=768).to(device)
     optimizer_AE = optim.Adam(model_AE.parameters(), lr=1e-5)
     loss_fun = nn.MSELoss()
     model_AE.train()
@@ -111,7 +86,8 @@ if __name__ == "__main__":
             optimizer_AE.step()
 
         print("Epoch:",epoch,"iter:",iter,"loss:",loss)
-        torch.save(model_AE, output+"/"+str(epoch)+"_loss:"+str("{:.2f}".format(float(loss.data)))+"_model")
+        #print(model_AE.state_dict())
+        torch.save(model_AE.state_dict(), str(output+"/"+str(epoch)+"_loss:"+str("{:.3f}".format(float(loss.data)))+"_model.pkl"))
 
 
 

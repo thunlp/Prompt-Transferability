@@ -286,14 +286,22 @@ Model:
 
 ### Projector
 - Can work: Need to change AE in init_tool.py for different setting 
+Project: 76800_768_76800
 
 |   | IMDB(2)| laptop(4)| MNLI(3)| MRPC(2)| QNLI(2)| QQP(2)| restaurant(4)| RTE(2)| SST2(2)| STSB | WNLI(2)|
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Non_Proj | 50.4 | 15.2 | 35.5 | 69.3 | 49.3 | 36.8 | 2.8 | 50.4 | 51.2 | | 53.1 |
-| Proj (trained with mlm) | 58.4 | 49.4 | 35.5 | 31.0 | 50.5 | 63.2 | 63.1 | 47.3 | 54.1 |  | 48.4 |
-| Proj (trained with task (no STSB)) | 87.5 | 73.3 | 52.7 | 90.9 | 80.9 | 70.5 | 79.5 | 50.8 | 92.2 |  | 15.6 |
+| Proj trained mlm | 58.4 | 49.4 | 35.5 | 31.0 | 50.5 | 63.2 | 63.1 | 47.3 | 54.1 |  | 48.4 |
+| Proj trained without_STSB | 87.5 | 73.3 | 52.7 | 90.9 | 80.9 | 70.5 | 79.5 | 50.8 | 92.2 |  | 15.6 |
+| Proj trained with imdb,laptop | 89.0 | 68.0 | 34.8 | 57.0 | 51.5 | 42.8 | 74.3 | 52.3 | 79.6 |  | 42.2 |
 | Roberta | 89.0 | 74.0 | 82.9 | 76.5 | 89.9 | 74.5 | 78.9 | 53.3 | 93.5 |  | 42.2 |
-| Proj (trained with imdb,laptop) | 89.0 | 68.0 | 34.8 | 57.0 | 51.5 | 42.8 | 74.3 | 52.3 | 79.6 |  | 42.2 |
+| Proj trained without STSB | 89.3 | 66.9 | 82.1 | 67.2 | 89.5 | 74.7 | 80.6 | 51.6 | 93.3 |  | 45.3 |
+| Proj trained with imdb,laptop | |  |  |  |  |  |  |  |  |  |  |
+
+
+
+
+
 
 
 

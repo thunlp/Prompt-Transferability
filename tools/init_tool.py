@@ -8,6 +8,7 @@ from torch import nn
 from transformers import AutoTokenizer
 import string
 import os
+from tools.projector import AE_0_layer, AE_1_layer
 
 logger = logging.getLogger(__name__)
 
@@ -15,16 +16,6 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     ##################
     #######AE trained#
     ##################
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/cross_PromptBert_reconstructionLoss_no_STSB")
-        path = "model/cross_PromptBert_reconstructionLoss_(no.STSB)/"
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/cross_PromptRoberta_reconstructionLoss_no_STSB")
-        path = "model/cross_PromptRoberta_reconstructionLoss_no_STSB/"
-        print(all_model_dir)
-
-
-
     '''
     if "Bert" in load_model:
         all_model_dir = os.listdir("model/crossPromptBert")
@@ -52,18 +43,48 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     '''
 
 
+    '''
+    if "Bert" in load_model:
+        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB")
+        path = "model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB/"
+        print(all_model_dir)
+    elif "Roberta" in load_model:
+        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB")
+        path = "model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB/"
+        print(all_model_dir)
+    '''
+
+
+    if "Bert" in load_model:
+        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop")
+        path = "model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop/"
+        print(all_model_dir)
+    elif "Roberta" in load_model:
+        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop")
+        path = "model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop/"
+        print(all_model_dir)
+
+    #######################
+    #######################
     max_epoch_model=0
     for model in all_model_dir:
         present_epoch_model = int(model.split("_")[0])
         if present_epoch_model > max_epoch_model:
             max_epoch_model = present_epoch_model
             PATH=path+str(model)
+    print("===")
     print("Applied Model:",PATH)
-    ###
-    #PATH="model/projectPromptRoberta/99_model_AE.pkl"
-    ###
-    model = torch.load(PATH).to("cuda")
+    #model = torch.load(PATH).to("cuda")
+    model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
+    model.load_state_dict(torch.load(PATH))
+    print(model)
+    print("===")
+    #exit()
     model.eval()
+    #######################
+    #######################
+
+
 
     #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
     prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))

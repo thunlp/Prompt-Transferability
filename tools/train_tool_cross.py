@@ -13,12 +13,14 @@ from tools.init_tool import init_test_dataset, init_formatter
 from reader.reader import init_dataset, init_formatter, init_test_dataset
 import torch.nn as nn
 import torch.optim as optim
+from tools.projector import AE_0_layer, AE_1_layer
 
 logger = logging.getLogger(__name__)
 
 
 
 
+'''
 class AE(nn.Module):
     def __init__(self, **kwargs):
         super(AE, self).__init__()
@@ -42,6 +44,7 @@ class AE(nn.Module):
         encoded_emb = torch.relu(encoded_emb)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+'''
 
 
 
@@ -76,7 +79,8 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, m
     #print(filename)
     #exit()
     try:
-        torch.save(model_AE, filename)
+        #torch.save(model_AE, filename)
+        torch.save(model_AE.state_dict(), filename)
     except Exception as e:
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
 
@@ -131,7 +135,8 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
     ###########AE
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model_AE = AE(input_dim=76800,compress_dim=3).to(device)
+    #model_AE = AE(input_dim=76800,compress_dim=3).to(device)
+    model_AE = AE_1_layer(input_dim=76800,compress_dim=768).to(device)
     # create an optimizer object
     # Adam optimizer with learning rate 1e-3
     optimizer_AE = optim.Adam(model_AE.parameters(), lr=1e-3)

@@ -7,6 +7,7 @@ from .output_init import init_output_function
 from torch import nn
 from transformers import AutoTokenizer
 import string
+from tools.projector import AE_0_layer, AE_1_layer
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ def trained_AE(load_task_prompt_dir=None):
     return prompt_emb
 
 
+'''
 class AE(nn.Module):
     def __init__(self, **kwargs):
         super(AE, self).__init__()
@@ -55,6 +57,7 @@ class AE(nn.Module):
         encoded_emb = torch.relu(encoded_emb)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb
+'''
 
 
 
