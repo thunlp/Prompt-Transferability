@@ -1,6 +1,6 @@
 #rm -rf task_prompt_emb/*
 
-gpus=2
+gpus=1
 
 '''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
@@ -192,14 +192,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/movierationalesPromp
 rm -rf task_prompt_emb/snliPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/snliPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/snliPromptRoberta/2.pkl \
+    --checkpoint model/snliPromptRoberta/15.pkl \
     --mode extract_prompt
 
 
 rm -rf task_prompt_emb/anliPromptRoberta
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/anliPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/anliPromptRoberta/15.pkl \
+    --checkpoint model/anliPromptRoberta/31.pkl \
     --mode extract_prompt
 
 
@@ -397,14 +397,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/movierationalesPromp
 rm -rf task_prompt_emb/snliPromptBert
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/snliPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/snliPromptBert/10.pkl \
+    --checkpoint model/snliPromptBert/15.pkl \
     --mode extract_prompt
 
 
 rm -rf task_prompt_emb/anliPromptBert
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/anliPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/anliPromptBert/15.pkl \
+    --checkpoint model/anliPromptBert/31.pkl \
     --mode extract_prompt
 
 

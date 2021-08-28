@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
         print("Epoch:",epoch,"iter:",iter,"loss:",loss)
 
-        torch.save(model_AE, "model_"+str(epoch)+"_"+str(loss))
+        torch.save(model_AE, "model/train_task_projection_reconstructionLoss/"+str(epoch)+"_loss:"+str("{:.2f}".format(float(loss.data)))+"_model")
 
 
 
