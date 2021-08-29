@@ -587,11 +587,11 @@ def pre_data_qqp(mode):
     '''
 
     if mode == "test":
-        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'], "dataset":"qqp"} for ins in test_data]
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question2'], "dataset":"qqp"} for ins in test_data]
     elif mode == 'valid':
         data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[int(ins['is_duplicate'])], "dataset":"qqp"} for ins in validation_data]
     else:
-        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": _map[int(ins['is_duplicate'])], "dataset":"qqp"} for ins in
+        data = [{"sent1": ins['question1'].strip(), "sent2": ins['question2'].strip(), "label": _map[int(ins['is_duplicate'])], "dataset":"qqp"} for ins in
                      train_data]
 
     #print(mode, "the number of data", len(data))

@@ -17,11 +17,11 @@ class QQPDataset(Dataset):
         #0: false, 1:true
 
         if mode == "test":
-            self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1']} for ins in self.test_data]
+            self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question2']} for ins in self.test_data]
         elif mode == 'valid':
-            self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": ins['label']} for ins in self.validation_data]
+            self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question2'].strip(), "label": ins['label']} for ins in self.validation_data]
         else:
-            self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question1'].strip(), "label": ins['label']} for ins in
+            self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question2'].strip(), "label": ins['label']} for ins in
                          self.train_data]
         print(self.mode, "the number of data", len(self.data))
         # from IPython import embed; embed()

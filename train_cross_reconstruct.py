@@ -70,6 +70,8 @@ if __name__ == "__main__":
 
     for epoch in range(int(config.get("train","epoch"))):
         for iter in range(500):
+            #print(iter)
+
             try:
                 choosed_dataset = random.sample(dataset,k=int(config.get("train","batch_size")))
             except:
@@ -77,11 +79,24 @@ if __name__ == "__main__":
                 choosed_dataset += random.choices(dataset,k=int(config.get("train","batch_size"))-len(dataset))
 
 
+            target_dataset = list()
+            if args.mlm:
+                for d in choosed_dataset:
+                    if "Roberta" in d:
+                        target_dataset.append(d.replace("Roberta","Bert"))
+                    else:
+                        target_dataset.append(d.replace("Bert","Roberta"))
+
+
+
+
             if args.target_model == "Roberta":
                 if args.mlm:
                     input_ten = torch.stack([prompt_dataset_model[dataset] for dataset in choosed_dataset]).to(device)
                     input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
-                    target_ten = torch.stack([prompt_dataset_model[dataset] for dataset in choosed_dataset]).to(device)
+
+
+                    target_ten = torch.stack([prompt_dataset_model[dataset] for dataset in target_dataset]).to(device)
                     target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
                 else:
                     input_ten = torch.stack([prompt_dataset_model[dataset+"PromptBert"] for dataset in choosed_dataset]).to(device)
@@ -92,7 +107,7 @@ if __name__ == "__main__":
                 if args.mlm:
                     input_ten = torch.stack([prompt_dataset_model[dataset] for dataset in choosed_dataset]).to(device)
                     input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
-                    target_ten = torch.stack([prompt_dataset_model[dataset] for dataset in choosed_dataset]).to(device)
+                    target_ten = torch.stack([prompt_dataset_model[dataset] for dataset in target_dataset]).to(device)
                     target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
                 else:
                     input_ten = torch.stack([prompt_dataset_model[dataset+"PromptRoberta"] for dataset in choosed_dataset]).to(device)
