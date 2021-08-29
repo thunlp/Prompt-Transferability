@@ -147,24 +147,9 @@ Code: split_dataset.py, train_lm_s.sh, draw_cuda_mlmprompt_split.sh, valid_lm_re
 
 - Domain similiarty (Acc result single): draw_cuda_mlmprompt_by_acc.py 
 
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_3D.jpg)-->
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_single_PCA_2D.jpg)-->
-
-
-
-- Domain similiarty (Acc result): draw_cuda_mlmprompt_by_acc.py 
 
 <!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_3D.jpg)-->
 
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_acc_PCA_2D.jpg)-->
-
-
-- Domain similiarty (PCA) 
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_PCA_3D.jpg)-->
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain_sim_PCA_2D.jpg)-->
 
 ---
 ### Task Similarity
@@ -225,19 +210,7 @@ Task:
 
 - Task similiarty (Replace prompt with various task-specific prompts and account acc.): draw_cuda_taskprompt_by_acc.py
 
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_3D.jpg)-->
 
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_acc_sim_2D.jpg)-->
-
-- Task similiarty (AE) 
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_AE.jpg)-->
-
-- Task similiarty (PCA) 
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_3D.jpg)-->
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/task_sim_PCA_2D.jpg)-->
 
 
 - Bert
@@ -323,7 +296,6 @@ Project: 76800_768_76800
 - To do:
 * Measure MLM prompt similiarty with other tasks
 * Bert mlm promt: haven't trained del_sst2_lm
-* MLM task: using prompt and without prompt
 * Fine-tuned model transfer
 * Change training code: only save prompt emb instead of whole model
 -Emergency: 1. mlm prompt transfer 2. mlm prompt for cross model
@@ -331,14 +303,14 @@ Project: 76800_768_76800
 - Try fine-tuned model transfer (ability)
 - Mutitask prompt (prompt task prompt to a single promt: model, task level)
 
+* Other experiment:
+mutitask prompt --> prompt --> do task
+
 * Re-training: 
-1. task prompt
-2. mlm prompt
-3. extract task prompt
-4. projector_task
-5. projector_mlm
-6. cross_task
-7. cross_mlm
+1. QQP (fix dataset bugs) 
+2. WNLI (epoch 96)
+3. RTE (epoch 96)
+
 
 
 
@@ -373,125 +345,11 @@ Project: 76800_768_76800
 
 ---
 ---
----
----
----
----
----
----
----
----
----
----
----
----
----
----
-Imagine:
-
-- Task base: (AE)
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/SENTIMENT.jpg)-->
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/NLI.jpg)-->
----
-
-
-- Domain base: (AE)
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/domain.jpg)-->
----
-
-
-- Demo random combination: (AE)
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/all_task.jpg)-->
----
-
-
-- Model transfer
-
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/exp_results/roberta_bert_prompt.jpg)-->
----
-
-
-- MLM task
-
-<!-- ![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg) -->
----
-
-
-- output figure
-<!--![](https://github.com/yushengsu-thu/prompt/blob/main/output.jpg)-->
-
-
----
-Finding:
-- 1. [exp_results/exp_optimize_prompt_to_task_direction.txt]: Prompt emb can be seperated by prompt tuning. (Observe epochs from 1 to 15)
-- 2. [exp_results/exp_task_radomseed.txt]: Prompt emb in different random seed 
-
-- Conclusion: Apply EuclideanDistances to measures similiarty is more obvious. 
-
----
-Performance:
-- laptop: 64.5%
-- restaurant: 69.7% 
-- SST2: 93.0%
-- QQP: 74%
-
----
-- Similiarty:
-
-Table:
-
----
-To-Do:
-- Read dataset:
-Same task, same domain: split a dataset into two parts.
-Same task, Different domain: https://arxiv.org/pdf/2102.12206.pdf
-Different Task, Same Domain:
-
-clear distribution (dataset): https://arxiv.org/pdf/2106.04489.pdf
-
-!!!!!!!!! Re-range the order of the tensor: (and the corresponding to dots on the figures )
-
-1. Try latest trained Projector
-2. project bert prompt and roberta prompt
-3. use bert prompt for roberta model (transfer)
-4. Observe: the similiar tasks have the common cluster (the task should be far different)
-5. Fix projector_prompt.py --> I can just change prompt emb in the init_tool.py. (Think: how to not use prompt_output parameter)
-6. create.py (extract prompt....think better methods)
-7. Fix code (valid_projector_prompt.py) like (valid_roberta-bert_prompt.py)
-8. To-Do: merge Bert and Roberta in Model and Formatter
-9. Merge: (train.py, train_lm.py), (valid.py, valid_lm.py), (mlmPrompt, PromptRoberta, PromptBert)
-10. MUST merge model/--Prompt--.py. Prompt_mlm is the optimal.
-11. prompt_emt: using m-way-k-shot training
-12. -Use trained AE (task_transfer) for restaurantPromptRoberta
-
----
-Extra dataset:
---
-- https://arxiv.org/pdf/2102.12206.pdf
-
-- https://arxiv.org/pdf/2106.04489.pdf
-
-- https://arxiv.org/pdf/2004.10964.pdf
-
-- CS-wiki: git@github.com:pmernyei/wiki-cs-dataset.git
-
-1. Same task same domain: split dataset into two parts
-2. Same task differnt domain: mlm, don't stop pre-training (general task), some glue task 
-3. Smae domain different task: mlm, don't stop pre-training (general task)
-3'. domain: only do mlm on differet domain datasets
-4. task transfer: matrix task-task
-5. model transfer: matrix bert-roberta
----
 - Same Domain different Task:
 - MLM
 1. Movie review: SST-2_s1, SST-2_s2, IMDB_s1, IMDB_s2
 2. CS: cs_wiki_s1, cs_wiki_s2, scierc 
 3. News: agnews_s1, agnews_s2 ([World, Sports, Business, Sci/Tech]) 
----
-- Sentimentation Classification (Remove label bias: remove the min label and blance the negative and postive sample)
 ---
 - Task and Domain and label: split all dataset into two parts: D_s1 and D_s2
 ---
