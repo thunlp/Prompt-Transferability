@@ -3,8 +3,10 @@
 gpus=3
 
 #MODEL_PROMPT="Roberta-base"
-MODEL_PROMPT="Bert-base"
+#MODEL_PROMPT="Bert-base"
 #MODEL_PROMPT="Random"
+#PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss"
+PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768"
 
 
 ############
@@ -15,7 +17,10 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta/15.pkl \
     --replacing_prompt restaurantPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
+
+exit
 
 
 
@@ -28,7 +33,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.
     --gpu $gpus \
     --checkpoint model/laptopPromptRoberta/15.pkl \
     --replacing_prompt laptopPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 
 #89%
@@ -37,7 +43,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/IMDBPromptRoberta/15.pkl \
     --replacing_prompt IMDBPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 
 
@@ -49,7 +56,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.co
     --gpu $gpus \
     --checkpoint model/SST2PromptRoberta/15.pkl \
     --replacing_prompt SST2PromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 
 
@@ -62,14 +70,16 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MRPCPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/MRPCPromptRoberta/15.pkl \
     --replacing_prompt MRPCPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/QQPPromptRoberta/15.pkl \
     --replacing_prompt QQPPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 
 ############
@@ -82,14 +92,16 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/RTEPromptRoberta.con
     --gpu $gpus \
     --checkpoint model/RTEPromptRoberta/15.pkl \
     --replacing_prompt RTEPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/MNLIPromptRoberta/15.pkl \
     --replacing_prompt MNLIPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 
 
@@ -98,7 +110,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/WNLIPromptRoberta/15.pkl \
     --replacing_prompt WNLIPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 
 
@@ -111,7 +124,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
     --gpu $gpus \
     --checkpoint model/REPrompt/15.pkl \
     --replacing_prompt \
-    --task_transfer_projector
+    --task_transfer_projector \
 '''
 ###########
 #Other
@@ -123,7 +136,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/QNLIPromptRoberta/15.pkl \
     --replacing_prompt QNLIPromptBert \
-    --model_transfer_projector
+    --model_transfer_projector \
+    --projector $PROJECTOR
 
 
 '''

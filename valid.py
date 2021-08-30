@@ -45,6 +45,7 @@ if __name__ == "__main__":
     parser.add_argument("--task_transfer_projector", default=False, action='store_true')
     parser.add_argument("--model_transfer_projector", default=False, action='store_true')
     parser.add_argument("--mode", type=str, default="valid")
+    parser.add_argument("--projector", type=str, default=None)
     #parser.add_argument("--return_and_save_prompt", default=False, action='store_true')
 
 

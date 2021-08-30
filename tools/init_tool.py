@@ -12,92 +12,97 @@ from tools.projector import AE_0_layer, AE_1_layer
 
 logger = logging.getLogger(__name__)
 
-def recover_model_transfer_prompt(prompt_emb,load_model):
+def recover_model_transfer_prompt(prompt_emb,load_model,projector):
     ##################
     #######AE trained#
     ##################
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/crossPromptBert")
-        path = "model/crossPromptBert/"
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/crossPromptRoberta")
-        path = "model/crossPromptRoberta/"
-        print(all_model_dir)
+    if projector == None:
+        if "Bert" in load_model:
+            all_model_dir = os.listdir("model/crossPromptBert")
+            path = "model/crossPromptBert/"
+        elif "Roberta" in load_model:
+            all_model_dir = os.listdir("model/crossPromptRoberta")
+            path = "model/crossPromptRoberta/"
+            print(all_model_dir)
 
 
-    '''
-    if "Bert" in load_model:
-        #all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
-        all_model_dir = os.listdir("model/cross_mlmPromptBert")
-        path = "model/cross_mlmPromptBert/"
-        print(all_model_dir)
-    elif "Roberta" in load_model:
-        #all_model_dir = os.listdir("model/cross_mlmPromptBert")
-        all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
-        path = "model/cross_mlmPromptRoberta/"
-        print(all_model_dir)
+        '''
+        if "Bert" in load_model:
+            #all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
+            all_model_dir = os.listdir("model/cross_mlmPromptBert")
+            path = "model/cross_mlmPromptBert/"
+            print(all_model_dir)
+        elif "Roberta" in load_model:
+            #all_model_dir = os.listdir("model/cross_mlmPromptBert")
+            all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
+            path = "model/cross_mlmPromptRoberta/"
+            print(all_model_dir)
+        else:
+            print("Error in init_tool.py/recover_model_transfer_prompt")
+            exit()
+        '''
+
+
+        '''
+        if "Bert" in load_model:
+            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB")
+            path = "model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB/"
+            print(all_model_dir)
+        elif "Roberta" in load_model:
+            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB")
+            path = "model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB/"
+            print(all_model_dir)
+        '''
+
+
+        '''
+        if "Bert" in load_model:
+            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop")
+            path = "model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop/"
+            print(all_model_dir)
+        elif "Roberta" in load_model:
+            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop")
+            path = "model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop/"
+            print(all_model_dir)
+        '''
+
+        '''
+        if "Bert" in load_model:
+            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_mlm")
+            path = "model/cross_Roberta_to_Bert_reconstructionLoss_mlm/"
+            print(all_model_dir)
+        elif "Roberta" in load_model:
+            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_mlm")
+            path = "model/cross_Bert_to_Roberta_reconstructionLoss_mlm/"
+            print(all_model_dir)
+        '''
+
+
+        '''
+        if "Bert" in load_model:
+            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task")
+            path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task/"
+            print(all_model_dir)
+        elif "Roberta" in load_model:
+            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task")
+            path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task/"
+            print(all_model_dir)
+        '''
+
+        '''
+        if "Bert" in load_model:
+            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768")
+            path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768/"
+            print(all_model_dir)
+        elif "Roberta" in load_model:
+            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768")
+            path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768/"
+            print(all_model_dir)
+        '''
     else:
-        print("Error in init_tool.py/recover_model_transfer_prompt")
-        exit()
-    '''
-
-
-    '''
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB")
-        path = "model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB/"
+        all_model_dir = os.listdir(projector)
         print(all_model_dir)
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB")
-        path = "model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB/"
-        print(all_model_dir)
-    '''
-
-
-    '''
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop")
-        path = "model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop/"
-        print(all_model_dir)
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop")
-        path = "model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop/"
-        print(all_model_dir)
-    '''
-
-    '''
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_mlm")
-        path = "model/cross_Roberta_to_Bert_reconstructionLoss_mlm/"
-        print(all_model_dir)
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_mlm")
-        path = "model/cross_Bert_to_Roberta_reconstructionLoss_mlm/"
-        print(all_model_dir)
-    '''
-
-
-    '''
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task")
-        path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task/"
-        print(all_model_dir)
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task")
-        path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task/"
-        print(all_model_dir)
-    '''
-
-    '''
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768")
-        path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768/"
-        print(all_model_dir)
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768")
-        path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768/"
-        print(all_model_dir)
-    '''
+        path = projector+"/"
 
 
     #######################
@@ -144,20 +149,25 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
 
 
 
-def recover_task_transfer_prompt(prompt_emb,load_model):
+def recover_task_transfer_prompt(prompt_emb,load_model,projector):
     ##################
     #######AE trained#
     ##################
-    if "Bert" in load_model:
-        all_model_dir = os.listdir("model/projectPromptBert")
-        path = "model/projectPromptBert/"
-        print(all_model_dir)
-    elif "Roberta" in load_model:
-        all_model_dir = os.listdir("model/projectPromptRoberta")
-        path = "model/projectPromptRoberta/"
-        print(all_model_dir)
+    if projector == None:
+        if "Bert" in load_model:
+            all_model_dir = os.listdir("model/projectPromptBert")
+            path = "model/projectPromptBert/"
+            print(all_model_dir)
+        elif "Roberta" in load_model:
+            all_model_dir = os.listdir("model/projectPromptRoberta")
+            path = "model/projectPromptRoberta/"
+            print(all_model_dir)
+        else:
+            print("Error in init_tool.py/recover_task_transfer_prompt")
     else:
-        print("Error in init_tool.py/recover_task_transfer_prompt")
+        all_model_dir = os.listdir(projector)
+        print(all_model_dir)
+        path = projector+"/"
 
     #all_model_dir = os.listdir("model/projectPromptRoberta")
     #print(all_model_dir)
@@ -317,7 +327,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             prompt_emb = recover_task_transfer_prompt(prompt_emb,load_model)
         elif params["args"].model_transfer_projector:
             load_model = params["args"].checkpoint.strip().split("/")[1]
-            prompt_emb = recover_model_transfer_prompt(prompt_emb,load_model)
+            prompt_emb = recover_model_transfer_prompt(prompt_emb,load_model,params["args"].projector)
         elif params["args"].model_transfer_projector and params["args"].task_transfer_projector:
             print("init_tool.py: Cannot choose both task_project and model_project")
         else:

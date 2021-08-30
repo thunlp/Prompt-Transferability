@@ -280,8 +280,15 @@ Project: 76800_768_76800
 
 
 
-
-
+- To do:
+* Try fine-tuned model transfer (ability)
+* Mutitask prompt (prompt task prompt to a single promt: model, task level)
+----------
+- To do
+* Only save prompt for each training 
+* Only save projection for each training
+* Debug: load model aftertrained with muti-gpu 
+* Debug: Training Large Model
 
 
 
@@ -298,15 +305,6 @@ Project: 76800_768_76800
 * Re-train transfer-matric (task, model, mlm[Done])
 * mlm need to train till 32 epoch
 
-- To do:
-* Measure MLM prompt similiarty with other tasks
-* Bert mlm promt: haven't trained del_sst2_lm
-* Fine-tuned model transfer
-* Change training code: only save prompt emb instead of whole model
--Emergency: 1. mlm prompt transfer 2. mlm prompt for cross model
--Retriver: Retrieve similiar prompt emb at high dimension space
-- Try fine-tuned model transfer (ability)
-- Mutitask prompt (prompt task prompt to a single promt: model, task level)
 
 * Other experiment:
 mutitask prompt --> prompt --> do task
