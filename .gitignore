@@ -146,6 +146,7 @@ model/cross_Bert_to_Roberta_reconstructionLoss_mlm*
 
 model/projectPromptRoberta_wnli,sst2,restaurant,qqp,mnli,laptop,imdb,rte*
 model/projectPromptRoberta__all_but_no_STSB__76800_to_1200*
+model/cross_Bert_to_Roberta_reconstructionLoss_mlm_768_768*
 
 /result_mlm
 
