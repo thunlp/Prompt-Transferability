@@ -325,6 +325,11 @@ mutitask prompt --> prompt --> do task
 2. anli (r_3)
 3. recast_factuality
 
+* Training
+1. muti-task all task training 
+2. reconstruct all task training [Done] --> validing
+
+
 
 * Add dataset
 1. snli

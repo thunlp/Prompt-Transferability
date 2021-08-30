@@ -26,7 +26,7 @@ if __name__ == "__main__":
     if args.mlm:
         output = "model/cross_Bert_to_Roberta_reconstructionLoss_mlm"
     else:
-        output = "model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop"
+        output = "model/cross_Bert_to_Roberta_reconstructionLoss"
 
 
     if os.path.isdir(output):
