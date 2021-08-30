@@ -12,7 +12,7 @@ gpus=3
 ############
 #restaurant
 # Refer to config/restaurantPromptRoberta_large.config
-CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobertai_large.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta_large.config \
     --gpu $gpus \
     --checkpoint RobertaLargeForMaskedLM/cross_mlmPrompt/pytorch_model.bin \
     --replacing_prompt restaurantPromptRoberta \
