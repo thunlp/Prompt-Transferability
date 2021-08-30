@@ -6,7 +6,7 @@ gpus=3
 #MODEL_PROMPT="Bert-base"
 #MODEL_PROMPT="Random"
 #PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss"
-PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768"
+PROJECTOR="model/crossPromptRoberta"
 
 
 ############
@@ -20,7 +20,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --model_transfer_projector \
     --projector $PROJECTOR
 
-exit
 
 
 
