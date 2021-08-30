@@ -328,6 +328,7 @@ mutitask prompt --> prompt --> do task
 * Training
 1. muti-task all task training 
 2. reconstruct all task training [Done] --> validing
+3. create_mlm_prompt and then valid_domain prompt (using epoch 31)
 
 
 
