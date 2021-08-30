@@ -310,6 +310,9 @@ mutitask prompt --> prompt --> do task
 1. QQP (fix dataset bugs) 
 2. WNLI (epoch 96)
 3. RTE (epoch 96)
+4. All mlm prompt
+5. Re-create prompt emb
+4. Re-evaluate: mlm (prompt) tasks
 
 
 
