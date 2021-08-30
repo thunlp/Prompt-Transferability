@@ -1,4 +1,4 @@
-gpus=1
+gpus=3
 MODEL=Roberta
 
 '''

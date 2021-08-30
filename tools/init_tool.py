@@ -26,7 +26,7 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
         print(all_model_dir)
     '''
 
-
+    '''
     if "Bert" in load_model:
         #all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
         all_model_dir = os.listdir("model/cross_mlmPromptBert")
@@ -40,6 +40,7 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     else:
         print("Error in init_tool.py/recover_model_transfer_prompt")
         exit()
+    '''
 
 
     '''
@@ -65,7 +66,7 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
         print(all_model_dir)
     '''
 
-    '''
+
     if "Bert" in load_model:
         all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_mlm")
         path = "model/cross_Roberta_to_Bert_reconstructionLoss_mlm/"
@@ -74,7 +75,7 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
         all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_mlm")
         path = "model/cross_Bert_to_Roberta_reconstructionLoss_mlm/"
         print(all_model_dir)
-    '''
+
 
     #######################
     #######################
@@ -87,7 +88,8 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     print("===")
     print("Applied Model:",PATH)
     #model = torch.load(PATH).to("cuda")
-    model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
+    #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
+    model = AE_0_layer(input_dim=768,compress_dim=768).to("cuda")
     model.load_state_dict(torch.load(PATH))
     print(model)
     print("===")
@@ -97,12 +99,20 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     #######################
 
 
+    #new
+    #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
+    #prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
+    #prompt_emb_ = torch.nn.Parameter(prompt_emb_)
+    prompt_emb_ = model(prompt_emb.to("cuda"))
+    #prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1])).data
 
+    '''
     #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
     prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
     prompt_emb_ = torch.nn.Parameter(prompt_emb_)
     prompt_emb_ = model(prompt_emb_.to("cuda"))
     prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1])).data
+    '''
 
     return prompt_emb_
 
