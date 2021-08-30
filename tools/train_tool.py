@@ -15,6 +15,8 @@ from reader.reader import init_dataset
 logger = logging.getLogger(__name__)
 
 
+
+
 def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
     model_to_save = model.module if hasattr(model, 'module') else model
     save_params = {

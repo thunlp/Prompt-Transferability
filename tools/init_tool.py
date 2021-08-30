@@ -16,7 +16,6 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     ##################
     #######AE trained#
     ##################
-    '''
     if "Bert" in load_model:
         all_model_dir = os.listdir("model/crossPromptBert")
         path = "model/crossPromptBert/"
@@ -24,7 +23,7 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
         all_model_dir = os.listdir("model/crossPromptRoberta")
         path = "model/crossPromptRoberta/"
         print(all_model_dir)
-    '''
+
 
     '''
     if "Bert" in load_model:
@@ -78,6 +77,7 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     '''
 
 
+    '''
     if "Bert" in load_model:
         all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task")
         path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task/"
@@ -86,6 +86,18 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
         all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task")
         path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task/"
         print(all_model_dir)
+    '''
+
+    '''
+    if "Bert" in load_model:
+        all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768")
+        path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768/"
+        print(all_model_dir)
+    elif "Roberta" in load_model:
+        all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768")
+        path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768/"
+        print(all_model_dir)
+    '''
 
 
     #######################
@@ -99,10 +111,11 @@ def recover_model_transfer_prompt(prompt_emb,load_model):
     print("===")
     print("Applied Model:",PATH)
     #model = torch.load(PATH).to("cuda")
+    #model = torch.load(PATH)
     #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
     model = AE_0_layer(input_dim=768,compress_dim=768).to("cuda")
     model.load_state_dict(torch.load(PATH))
-    print(model)
+    #print(model)
     print("===")
     #exit()
     model.eval()

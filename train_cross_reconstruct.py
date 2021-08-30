@@ -67,8 +67,8 @@ if __name__ == "__main__":
 
     ####
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    #model_AE = AE_1_layer(input_dim=76800,compress_dim=768).to(device)
-    model_AE = AE_0_layer(input_dim=768,compress_dim=768).to(device)
+    model_AE = AE_1_layer(input_dim=76800,compress_dim=768).to(device)
+    #model_AE = AE_0_layer(input_dim=768,compress_dim=768).to(device)
     optimizer_AE = optim.Adam(model_AE.parameters(), lr=1e-4)
     loss_fun = nn.MSELoss()
     model_AE.train()
@@ -87,9 +87,12 @@ if __name__ == "__main__":
                 choosed_dataset += random.choices(dataset,k=int(config.get("train","batch_size"))-len(dataset))
 
 
+
+
             target_dataset = list()
             if args.mlm:
                 for d in choosed_dataset:
+                    d = d.deepcopy()
                     if "Roberta" in d:
                         target_dataset.append(d.replace("Roberta","Bert"))
                     else:
@@ -101,27 +104,27 @@ if __name__ == "__main__":
             if args.target_model == "Roberta":
                 if args.mlm:
                     input_ten = torch.stack([prompt_dataset_model[dataset] for dataset in choosed_dataset]).to(device)
-                    #input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
+                    input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
 
 
                     target_ten = torch.stack([prompt_dataset_model[dataset] for dataset in target_dataset]).to(device)
-                    #target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
+                    target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
                 else:
                     input_ten = torch.stack([prompt_dataset_model[dataset+"PromptBert"] for dataset in choosed_dataset]).to(device)
-                    #input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
+                    input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
                     target_ten = torch.stack([prompt_dataset_model[dataset+"PromptRoberta"] for dataset in choosed_dataset]).to(device)
-                    #target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
+                    target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
             else:
                 if args.mlm:
                     input_ten = torch.stack([prompt_dataset_model[dataset] for dataset in choosed_dataset]).to(device)
-                    #input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
+                    input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
                     target_ten = torch.stack([prompt_dataset_model[dataset] for dataset in target_dataset]).to(device)
-                    #target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
+                    target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
                 else:
                     input_ten = torch.stack([prompt_dataset_model[dataset+"PromptRoberta"] for dataset in choosed_dataset]).to(device)
-                    #input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
+                    input_ten = input_ten.reshape(input_ten.shape[0],int(input_ten.shape[1])*int(input_ten.shape[2])).to(device)
                     target_ten = torch.stack([prompt_dataset_model[dataset+"PromptBert"] for dataset in choosed_dataset])
-                    #target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
+                    target_ten = target_ten.reshape(target_ten.shape[0],int(target_ten.shape[1])*int(target_ten.shape[2])).to(device)
 
 
             optimizer_AE.zero_grad()
