@@ -167,17 +167,6 @@ Task:
 
 |   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| IMDB | | | | | | | | | | | |
-| laptop | | | | | | | | | | | |
-| MNLI | | | | | | | | | | | |
-| MRPC | | | | | | | | | | | |
-| QNLI | | | | | | | | | | | |
-| QQP | | | | | | | | | | | |
-| restaurant | | | | | | | | | | | |
-| RTE | | | | | | | | | | | |
-| SST2 | | | | | | | | | | | |
-| STSB | | | | | | | | | | | |
-| WNLI | | | | | | | | | | | |
 
 ### Task Prompt Transferability
 
@@ -217,17 +206,6 @@ Task:
 
 |   | IMDB | laptop | MNLI | MRPC | QNLI | QQP | restaurant | RTE | SST2 | STSB | WNLI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| IMDB | | | | | | | | | | | |
-| laptop | | | | | | | | | | | |
-| MNLI | | | | | | | | | | | |
-| MRPC | | | | | | | | | | | |
-| QNLI | | | | | | | | | | | |
-| QQP | | | | | | | | | | | |
-| restaurant | | | | | | | | | | | |
-| RTE | | | | | | | | | | | |
-| SST2 | | | | | | | | | | | |
-| STSB | | | | | | | | | | | |
-| WNLI | | | | | | | | | | | |
 
 
 ### Projector
