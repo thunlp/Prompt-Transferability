@@ -264,7 +264,7 @@ Project: 76800_768_76800
 ----------
 - To do
 * Only save prompt for each training 
-* Only save projection for each training
+* Only save projection for each training  !!!
 * Debug: load model aftertrained with muti-gpu 
 * Debug: Training Large Model
 

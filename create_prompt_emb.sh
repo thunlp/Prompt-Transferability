@@ -1,6 +1,6 @@
 #rm -rf task_prompt_emb/*
 
-gpus=1
+gpus=7
 
 '''
 echo Do you wanna rewrite task emb in the task_prompt_emb y/n ?
@@ -16,7 +16,6 @@ fi
 '''
 
 
-'''
 #CUDA_VISIBLE_DEVICES=$gpus
 ############
 #Sentiment Classification
@@ -218,7 +217,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/tweetevalsentimentPr
     --mode extract_prompt
 ###
 
-'''
 
 
 
@@ -227,7 +225,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/tweetevalsentimentPr
 ############Bert####################
 ####################################
 
-'''
 #CUDA_VISIBLE_DEVICES=$gpus
 ############
 #Sentiment Classification
@@ -424,7 +421,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/tweetevalsentimentPr
     --checkpoint model/tweetevalsentimentPromptBert/15.pkl \
     --mode extract_prompt
 ###
-'''
 
 
 
