@@ -9,6 +9,7 @@ from transformers import AutoTokenizer
 import string
 import os
 from tools.projector import AE_0_layer, AE_1_layer
+from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 
 logger = logging.getLogger(__name__)
 
@@ -261,12 +262,82 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
     #########
-    #try:
     ##########
-    #parameters = torch.load(checkpoint, map_location=lambda storage, loc: storage)
     if params["args"].checkpoint != None:
-        parameters = torch.load(params["args"].checkpoint, map_location=lambda storage, loc: storage)
 
+        ###################
+        model_type = params["args"].checkpoint.split("Prompt")[-1]
+        if model_type == "Bert":
+            load_dir = "BertForMaskedLM/PromptBert_init_params/pytorch_model.bin"
+            if os.path.exists(load_dir):
+                parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
+            else:
+                print("Not exist:",load_dir)
+                exit()
+        elif model_type == "Roberta":
+            load_dir = "RobertaForMaskedLM/PromptRoberta_init_params/pytorch_model.bin"
+            if os.path.exists(load_dir):
+                parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
+            else:
+                print("Not exist:",load_dir)
+                exit()
+        elif model_type == "RobertLarge":
+            load_dir = "RobertaLargeForMaskedLM/PromptRobertaLarge_init_params/pytorch_model.bin"
+            if os.path.exists(load_dir):
+                parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
+            else:
+                print("Not exist:",load_dir)
+                exit()
+
+
+        if hasattr(model, 'module'):
+            model.module.load_state_dict(parameters)
+        else:
+            model.load_state_dict(parameters)
+
+
+
+
+        load_checkpoint = params["args"].checkpoint
+        files = os.listdir(load_checkpoint)
+        max_epoch = 0
+        for file in files:
+            present_epoch = int(file.split(".")[0])
+            if present_epoch > max_epoch:
+                max_epoch = present_epoch
+                PATH=load_dir+"/"+str(max_epoch)+".pkl"
+
+        print(1111111111)
+        print(1111111111)
+
+        print(PATH)
+        prompt_parameters = torch.load(PATH)
+        print(prompt_parameters)
+        exit()
+
+
+
+
+        if model_type == "Bert":
+            model.encoder.bert.embeddings.prompt_embeddings.weight.data
+        elif model_type == "Robert":
+            model.encoder.roberta.embeddings.prompt_embeddings.weight.data
+        elif model_type == "RobertLarge":
+            model.encoder.roberta_large.embeddings.prompt_embeddings.weight.data
+            print("check roberta large")
+            exit()
+
+
+
+        if torch.cuda.is_available() and mode=="train":
+            model.cuda()
+        else:
+            pass
+
+
+        ###################
+        '''
+        parameters = torch.load(params["args"].checkpoint, map_location=lambda storage, loc: storage)
         if hasattr(model, 'module'):
             model.module.load_state_dict(parameters["model"])
         else:
@@ -276,9 +347,15 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             model.cuda()
         else:
             pass
+        '''
+        ###################
 
     else:
         pass
+
+
+
+
 
 
     ########################
