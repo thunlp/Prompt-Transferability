@@ -16,7 +16,7 @@ gpus=6
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta_mlm/15.pkl \
+    --checkpoint model/restaurantPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -24,7 +24,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/laptopPromptRoberta_mlm/15.pkl \
+    --checkpoint model/laptopPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -33,7 +33,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptRoberta_mlm/15.pkl \
+    --checkpoint model/IMDBPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -41,7 +41,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.co
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptRoberta_mlm/15.pkl \
+    --checkpoint model/SST2PromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -55,13 +55,13 @@ exit
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MRPCPromptRoberta_mlm/15.pkl \
+    --checkpoint model/MRPCPromptRoberta_mlm \
     --pre_train_mlm
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptRoberta_mlm/15.pkl \
+    --checkpoint model/QQPPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -73,13 +73,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptRoberta.con
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/RTEPromptRoberta_mlm/15.pkl \
+    --checkpoint model/RTEPromptRoberta_mlm \
     --pre_train_mlm
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptRoberta_mlm/15.pkl \
+    --checkpoint model/MNLIPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -87,7 +87,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MNLIPromptRoberta.co
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/WNLIPromptRoberta_mlm/15.pkl \
+    --checkpoint model/WNLIPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -98,7 +98,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WikiREDPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/REPromptRoberta_mlm/15.pkl \
+    --checkpoint model/REPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -110,13 +110,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WikiREDPromptRoberta
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QNLIPromptRoberta_mlm/15.pkl \
+    --checkpoint model/QNLIPromptRoberta_mlm \
     --pre_train_mlm
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/STSBPromptRoberta_mlm/15.pkl \
+    --checkpoint model/STSBPromptRoberta_mlm \
     --pre_train_mlm
 
 
@@ -135,7 +135,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptBert_mlm/15.pkl \
+    --checkpoint model/restaurantPromptBert_mlm \
     --pre_train_mlm
 
 
@@ -144,7 +144,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/laptopPromptBert_mlm/15.pkl \
+    --checkpoint model/laptopPromptBert_mlm \
     --pre_train_mlm
 
 
@@ -153,14 +153,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptBert.con
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptBert_mlm/15.pkl \
+    --checkpoint model/IMDBPromptBert_mlm \
     --pre_train_mlm
 
 
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptBert.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptBert_mlm/15.pkl \
+    --checkpoint model/SST2PromptBert_mlm \
     --pre_train_mlm
 
 
@@ -172,13 +172,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptBert.confi
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MRPCPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/MRPCPromptBert_mlm/15.pkl \
+    --checkpoint model/MRPCPromptBert_mlm \
     --pre_train_mlm
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptBert_mlm/15.pkl \
+    --checkpoint model/QQPPromptBert_mlm \
     --pre_train_mlm
 
 
@@ -190,13 +190,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptBert.config
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/RTEPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/RTEPromptBert_mlm/15.pkl \
+    --checkpoint model/RTEPromptBert_mlm \
     --pre_train_mlm
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MNLIPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptBert_mlm/15.pkl \
+    --checkpoint model/MNLIPromptBert_mlm \
     --pre_train_mlm
 
 
@@ -204,7 +204,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MNLIPromptBert.confi
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/WNLIPromptBert_mlm/15.pkl \
+    --checkpoint model/WNLIPromptBert_mlm \
     --pre_train_mlm
 
 
@@ -215,7 +215,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptBert.confi
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WikiREDPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/REPromptBert_mlm/15.pkl \
+    --checkpoint model/REPromptBert_mlm \
     --pre_train_mlm
 
 
@@ -227,13 +227,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WikiREDPromptBert.co
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/QNLIPromptBert_mlm/15.pkl \
+    --checkpoint model/QNLIPromptBert_mlm \
     --pre_train_mlm
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/STSBPromptBert_mlm/15.pkl \
+    --checkpoint model/STSBPromptBert_mlm \
     --pre_train_mlm
 '''
 

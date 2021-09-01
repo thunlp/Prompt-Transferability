@@ -6,13 +6,13 @@ for MODEL in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIP
 do
     echo "==========================="
     echo config/$MODEL.config
-    echo model/$MODEL/15.pkl
+    echo model/$MODEL
     echo "==========================="
 
     #Eval mlm
     CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
         --gpu $gpus \
-        --checkpoint model/$MODEL/15.pkl \
+        --checkpoint model/$MODEL \
         --task_transfer_projector
 done
 '''
@@ -27,12 +27,12 @@ for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptR
 do
     echo "==========================="
     echo config/$MODEL.config
-    echo model/$MODEL/15.pkl
+    echo model/$MODEL
     echo "==========================="
 
     #Eval mlm
     CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
         --gpu $gpus \
-        --checkpoint model/$MODEL/15.pkl \
+        --checkpoint model/$MODEL \
         --task_transfer_projector
 done

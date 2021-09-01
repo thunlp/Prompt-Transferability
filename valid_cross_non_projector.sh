@@ -3,7 +3,7 @@
 gpus=3
 
 #MODEL_PROMPT="Roberta-base"
-MODEL_PROMPT="Bert-base"
+#MODEL_PROMPT="Bert-base"
 #MODEL_PROMPT="Random"
 
 
@@ -13,8 +13,8 @@ MODEL_PROMPT="Bert-base"
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta/15.pkl \
-    --replacing_prompt restaurantPromptBert
+    --checkpoint model/restaurantPromptRoberta \
+    --replacing_prompt model/restaurantPromptBert
 
 
 
@@ -23,16 +23,16 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/laptopPromptRoberta/15.pkl \
-    --replacing_prompt laptopPromptBert
+    --checkpoint model/laptopPromptRoberta \
+    --replacing_prompt model/laptopPromptBert
 
 
 #89%
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptRoberta/15.pkl \
-    --replacing_prompt IMDBPromptBert
+    --checkpoint model/IMDBPromptRoberta \
+    --replacing_prompt model/IMDBPromptBert
 
 
 
@@ -41,8 +41,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.co
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptRoberta/15.pkl \
-    --replacing_prompt SST2PromptBert
+    --checkpoint model/SST2PromptRoberta \
+    --replacing_prompt model/SST2PromptBert
 
 
 
@@ -53,14 +53,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.co
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MRPCPromptRoberta/15.pkl \
-    --replacing_prompt MRPCPromptBert
+    --checkpoint model/MRPCPromptRoberta \
+    --replacing_prompt model/MRPCPromptBert
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptRoberta/15.pkl \
-    --replacing_prompt QQPPromptBert
+    --checkpoint model/QQPPromptRoberta \
+    --replacing_prompt model/QQPPromptBert
 
 
 ############
@@ -71,22 +71,22 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QQPPromptRoberta.con
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/RTEPromptRoberta/15.pkl \
-    --replacing_prompt RTEPromptBert
+    --checkpoint model/RTEPromptRoberta \
+    --replacing_prompt model/RTEPromptBert
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptRoberta/15.pkl \
-    --replacing_prompt MNLIPromptBert
+    --checkpoint model/MNLIPromptRoberta \
+    --replacing_prompt model/MNLIPromptBert
 
 
 
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/WNLIPromptRoberta/15.pkl \
-    --replacing_prompt WNLIPromptBert
+    --checkpoint model/WNLIPromptRoberta \
+    --replacing_prompt model/WNLIPromptBert
 
 
 
@@ -97,7 +97,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
     --gpu $gpus \
-    --checkpoint model/REPrompt/15.pkl \
+    --checkpoint model/REPrompt \
     --replacing_prompt \
     --task_transfer_projector
 '''
@@ -109,15 +109,15 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QNLIPromptRoberta/15.pkl \
-    --replacing_prompt QNLIPromptBert
+    --checkpoint model/QNLIPromptRoberta \
+    --replacing_prompt model/QNLIPromptBert
 
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/STSBPromptRoberta/15.pkl \
-    --replacing_prompt STSBPromptBert
+    --checkpoint model/STSBPromptRoberta \
+    --replacing_prompt model/STSBPromptBert
 
 
 
@@ -133,7 +133,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta/15.pkl \
+    --checkpoint model/restaurantPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
@@ -141,7 +141,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/restaurantProm
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/laptopPromptRoberta/15.pkl \
+    --checkpoint model/laptopPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
@@ -149,14 +149,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/laptopPromptRo
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptRoberta/15.pkl \
+    --checkpoint model/IMDBPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptRoberta/15.pkl \
+    --checkpoint model/SST2PromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
@@ -167,13 +167,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptRobe
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MRPCPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MRPCPromptRoberta/15.pkl \
+    --checkpoint model/MRPCPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptRoberta/15.pkl \
+    --checkpoint model/QQPPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
@@ -185,13 +185,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptRober
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/RTEPromptRoberta/15.pkl \
+    --checkpoint model/RTEPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptRoberta/15.pkl \
+    --checkpoint model/MNLIPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
@@ -199,7 +199,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptRobe
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/WNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/WNLIPromptRoberta/15.pkl \
+    --checkpoint model/WNLIPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
@@ -210,7 +210,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/WNLIPromptRobe
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/REPrompt.config \
     --gpu $gpus \
-    --checkpoint model/REPrompt/15.pkl \
+    --checkpoint model/REPrompt \
     --model_prompt $MODEL_PROMPT
 
 
@@ -222,13 +222,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/REPrompt.confi
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/QNLIPromptRoberta/15.pkl \
+    --checkpoint model/QNLIPromptRoberta \
     --model_prompt $MODEL_PROMPT
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/STSBPromptRoberta/15.pkl \
+    --checkpoint model/STSBPromptRoberta \
     --model_prompt $MODEL_PROMPT
 '''
 
@@ -245,7 +245,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/STSBPromptRobe
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptBert/15.pkl \
+    --checkpoint model/restaurantPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
@@ -253,7 +253,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/restaurantProm
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/laptopPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/laptopPromptBert/15.pkl \
+    --checkpoint model/laptopPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
@@ -262,7 +262,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/laptopPromptBe
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/IMDBPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptBert/15.pkl \
+    --checkpoint model/IMDBPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
@@ -271,7 +271,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/IMDBPromptBert
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptBert.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptBert/15.pkl \
+    --checkpoint model/SST2PromptBert \
     --model_prompt $MODEL_PROMPT
 
 
@@ -284,14 +284,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/SST2PromptBert
 #MRPC
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MRPCPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/MRPCPromptBert/15.pkl \
+    --checkpoint model/MRPCPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptBert/15.pkl \
+    --checkpoint model/QQPPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
@@ -303,14 +303,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QQPPromptBert.
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/RTEPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/RTEPromptBert/15.pkl \
+    --checkpoint model/RTEPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptBert/15.pkl \
+    --checkpoint model/MNLIPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
@@ -319,7 +319,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/MNLIPromptBert
 #WNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/WNLIPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/WNLIPromptBert/15.pkl \
+    --checkpoint model/WNLIPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
@@ -331,7 +331,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/WNLIPromptBert
 #RE
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/REPrompt.config \
     --gpu $gpus \
-    --checkpoint model/REPrompt/15.pkl \
+    --checkpoint model/REPrompt \
 
 
 ############
@@ -342,14 +342,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/REPrompt.confi
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/QNLIPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/QNLIPromptBert/15.pkl \
+    --checkpoint model/QNLIPromptBert \
     --model_prompt $MODEL_PROMPT
 
 
 
 CUDA_VISIBLE_DEVICES=$gpus python3 valid_cross.py --config config/STSBPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/STSBPromptBert/15.pkl \
+    --checkpoint model/STSBPromptBert \
     --model_prompt $MODEL_PROMPT
 '''
 

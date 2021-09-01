@@ -14,12 +14,11 @@ gpus=0
 #Sentiment
 ############
 
-'''
 #restaurant
 #Normal
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta/15.pkl \
+    --checkpoint model/restaurantPromptRoberta
 
 
 
@@ -28,8 +27,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 #Task transfer, proj:False
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta/15.pkl \
-    --replacing_prompt restaurantPromptRoberta
+    --checkpoint model/restaurantPromptRoberta \
+    --replacing_prompt model/restaurantPromptRoberta
 
 
 
@@ -37,17 +36,16 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 #Task transfer, proj:True
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta/15.pkl \
-    --replacing_prompt restaurantPromptRoberta \
+    --checkpoint model/restaurantPromptRoberta \
+    --replacing_prompt model/restaurantPromptRoberta
     --task_transfer_projector
 
-'''
 
 #Model transfer, proj:False
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptBert/15.pkl \
-    --replacing_prompt restaurantPromptRoberta \
+    --checkpoint model/restaurantPromptBert \
+    --replacing_prompt model/restaurantPromptRoberta \
     --mode valid
 
 
@@ -55,8 +53,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert
 #Model transfer, proj:True
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptBert/15.pkl \
-    --replacing_prompt restaurantPromptRoberta \
+    --checkpoint model/restaurantPromptBert \
+    --replacing_prompt model/restaurantPromptRoberta \
     --model_transfer_projector
 
 
@@ -64,7 +62,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptBert
 #Extract prompt
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta/15.pkl \
+    --checkpoint model/restaurantPromptRoberta \
     --mode extract_prompt
 
 
@@ -73,7 +71,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 #Extract prompt mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta_mlm/15.pkl \
+    --checkpoint model/restaurantPromptRoberta_mlm \
     --mode extract_prompt \
     --pre_train_mlm
 
@@ -83,5 +81,5 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
 #Eval mlm
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus \
-    --checkpoint model/restaurantPromptRoberta_mlm/15.pkl \
+    --checkpoint model/restaurantPromptRoberta_mlm \
     --pre_train_mlm

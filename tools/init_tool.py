@@ -412,7 +412,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("=========================")
             print("Replace", params["args"].checkpoint.split("/")[1], "with", params["args"].replacing_prompt)
             print("=========================")
-            load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
+            #load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
+            load_task_prompt_dir = "model/"+params["args"].replacing_prompt+"/task_prompt"
             prompt_emb = torch.load(load_task_prompt_dir, map_location=lambda storage, loc: storage)
         ###
 
