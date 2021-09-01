@@ -19,6 +19,8 @@ logger = logging.getLogger(__name__)
 
 def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
     model_to_save = model.module if hasattr(model, 'module') else model
+    ###
+    '''
     save_params = {
         "model": model_to_save.state_dict(),
         "optimizer_name": config.get("train", "optimizer"),
@@ -26,9 +28,33 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
         "trained_epoch": trained_epoch,
         "global_step": global_step
     }
+    '''
+
+
+    model_to_save = model_to_save.state_dict()
+
+    for key in model_to_save.keys():
+        if "embeddings.prompt_embeddings.weight" in key:
+            if "roberta" in key:
+                prompt_emb = model_to_save["encoder.roberta.embeddings.prompt_embeddings.weight"]
+            elif "roberta-large" in key:
+                print("roberta-large")
+                print("check")
+                print("train.tool.py Line:43")
+                exit()
+            elif "bert" in key:
+                prompt_emb = model_to_save["encoder.bert.embeddings.prompt_embeddings.weight"]
+    ###
 
     try:
-        torch.save(save_params, filename)
+        ###
+        #torch.save(save_params, filename)
+        filename = filename.replace(".pkl","_task_prompt_emb.pkl")
+        print("====")
+        print(filename)
+        print("====")
+        torch.save(prompt_emb, filename)
+        ###
     except Exception as e:
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
 

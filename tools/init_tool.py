@@ -290,6 +290,16 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 exit()
 
 
+
+        for key in list(parameters):
+            parameters["encoder."+key] = parameters.pop(key)
+
+
+        #print(type(parameters))
+        #print(parameters.state_dict())
+        #exit()
+
+
         if hasattr(model, 'module'):
             model.module.load_state_dict(parameters)
         else:
@@ -297,33 +307,41 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
 
-
         load_checkpoint = params["args"].checkpoint
         files = os.listdir(load_checkpoint)
-        max_epoch = 0
-        for file in files:
-            present_epoch = int(file.split(".")[0])
-            if present_epoch > max_epoch:
-                max_epoch = present_epoch
-                PATH=load_dir+"/"+str(max_epoch)+".pkl"
 
-        print(1111111111)
-        print(1111111111)
-
-        print(PATH)
-        prompt_parameters = torch.load(PATH)
-        print(prompt_parameters)
-        exit()
+        if "task_prompt_emb" in files:
+            PATH = load_checkpoint+"/task_prompt_emb"
+        else:
+            max_epoch = 0
+            for file in files:
+                present_epoch = int(file.split(".")[0])
+                if present_epoch > max_epoch:
+                    max_epoch = present_epoch
+                    PATH=load_checkpoint+"/"+str(max_epoch)+".pkl"
+            prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)
+            torch.save(prompt_parameters, load_checkpoint+"/task_prompt_emb")
 
 
+
+        prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)
+
+        #model
+        #optimizer_name
+        #optimizer
+        #trained_epoch
+        #global_step
+
+
+        #encoder.roberta.embeddings.prompt_embeddings.weight
 
 
         if model_type == "Bert":
-            model.encoder.bert.embeddings.prompt_embeddings.weight.data
+            model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters
         elif model_type == "Robert":
-            model.encoder.roberta.embeddings.prompt_embeddings.weight.data
+            model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_parameters
         elif model_type == "RobertLarge":
-            model.encoder.roberta_large.embeddings.prompt_embeddings.weight.data
+            model.encoder.roberta_large.embeddings.prompt_embeddings.weight.data = prompt_parameters
             print("check roberta large")
             exit()
 
@@ -395,7 +413,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("Replace", params["args"].checkpoint.split("/")[1], "with", params["args"].replacing_prompt)
             print("=========================")
             load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
-            prompt_emb = torch.load(load_task_prompt_dir)
+            prompt_emb = torch.load(load_task_prompt_dir, map_location=lambda storage, loc: storage)
         ###
 
         ###Using Project or not

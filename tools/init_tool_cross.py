@@ -16,8 +16,6 @@ def trained_AE(load_task_prompt_dir=None):
     load_model = torch.load(PATH).to("cuda")
     load_model.eval()
 
-    #print(load_model)
-    #exit()
 
     ####
     #prompt_emb=torch.rand(100,768).to("cuda")

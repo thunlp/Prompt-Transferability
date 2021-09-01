@@ -1,3 +1,0 @@
-crossPromptRoberta_only_IMDB_laptop
-
-crossPromptRoberta
