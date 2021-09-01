@@ -177,7 +177,7 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                 with open(dir_save+"/"+"result_task_transfer.json", "w") as f:
                     json.dump(output_info, f)
             else:
-                with open(dir_save+"/"+"result_task_transfer_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                with open(dir_save+"/"+"result_task_transfer_"+str(kwargs.replacing_prompt.split("/")[-1])+".json", "w") as f:
                     json.dump(output_info, f)
 
         elif kwargs.model_transfer_projector:
@@ -185,14 +185,14 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                 with open(dir_save+"/"+"result_model_transfer.json", "w") as f:
                     json.dump(output_info, f)
             else:
-                with open(dir_save+"/"+"result_model_transfer_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                with open(dir_save+"/"+"result_model_transfer_"+str(kwargs.replacing_prompt.split("/")[-1])+".json", "w") as f:
                     json.dump(output_info, f)
         elif kwargs.pre_train_mlm:
             if kwargs.replacing_prompt == None:
                 with open(dir_save+"/"+"result.json", "w") as f:
                     json.dump(output_info, f)
             else:
-                with open(dir_save+"/"+"result_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                with open(dir_save+"/"+"result_"+str(kwargs.replacing_prompt.split("/")[-1])+".json", "w") as f:
                     json.dump(output_info, f)
         else:
             if kwargs.replacing_prompt == None:

@@ -13,10 +13,12 @@ from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 
 logger = logging.getLogger(__name__)
 
-def recover_model_transfer_prompt(prompt_emb,load_model,projector):
+#def recover_model_transfer_prompt(prompt_emb,load_model,projector):
+def recover_model_transfer_prompt(prompt_emb,projector):
     ##################
     #######AE trained#
     ##################
+    '''
     if projector == None:
         if "Bert" in load_model:
             all_model_dir = os.listdir("model/crossPromptBert")
@@ -26,84 +28,15 @@ def recover_model_transfer_prompt(prompt_emb,load_model,projector):
             path = "model/crossPromptRoberta/"
             print(all_model_dir)
 
-
-        '''
-        if "Bert" in load_model:
-            #all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
-            all_model_dir = os.listdir("model/cross_mlmPromptBert")
-            path = "model/cross_mlmPromptBert/"
-            print(all_model_dir)
-        elif "Roberta" in load_model:
-            #all_model_dir = os.listdir("model/cross_mlmPromptBert")
-            all_model_dir = os.listdir("model/cross_mlmPromptRoberta")
-            path = "model/cross_mlmPromptRoberta/"
-            print(all_model_dir)
-        else:
-            print("Error in init_tool.py/recover_model_transfer_prompt")
-            exit()
-        '''
-
-
-        '''
-        if "Bert" in load_model:
-            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB")
-            path = "model/cross_Roberta_to_Bert_reconstructionLoss_no_STSB/"
-            print(all_model_dir)
-        elif "Roberta" in load_model:
-            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB")
-            path = "model/cross_Bert_to_Roberta_reconstructionLoss_no_STSB/"
-            print(all_model_dir)
-        '''
-
-
-        '''
-        if "Bert" in load_model:
-            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop")
-            path = "model/cross_Roberta_to_Bert_reconstructionLoss_only_imdb_laptop/"
-            print(all_model_dir)
-        elif "Roberta" in load_model:
-            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop")
-            path = "model/cross_Bert_to_Roberta_reconstructionLoss_only_imdb_laptop/"
-            print(all_model_dir)
-        '''
-
-        '''
-        if "Bert" in load_model:
-            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_mlm")
-            path = "model/cross_Roberta_to_Bert_reconstructionLoss_mlm/"
-            print(all_model_dir)
-        elif "Roberta" in load_model:
-            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_mlm")
-            path = "model/cross_Bert_to_Roberta_reconstructionLoss_mlm/"
-            print(all_model_dir)
-        '''
-
-
-        '''
-        if "Bert" in load_model:
-            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task")
-            path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task/"
-            print(all_model_dir)
-        elif "Roberta" in load_model:
-            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task")
-            path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task/"
-            print(all_model_dir)
-        '''
-
-        '''
-        if "Bert" in load_model:
-            all_model_dir = os.listdir("model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768")
-            path = "model/cross_Roberta_to_Bert_reconstructionLoss_all_task_76800_768/"
-            print(all_model_dir)
-        elif "Roberta" in load_model:
-            all_model_dir = os.listdir("model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768")
-            path = "model/cross_Bert_to_Roberta_reconstructionLoss_all_task_76800_768/"
-            print(all_model_dir)
-        '''
     else:
         all_model_dir = os.listdir(projector)
         print(all_model_dir)
         path = projector+"/"
+    '''
+
+    all_model_dir = os.listdir(projector)
+    print(all_model_dir)
+    path = projector+"/"
 
 
     #######################
@@ -150,10 +83,12 @@ def recover_model_transfer_prompt(prompt_emb,load_model,projector):
 
 
 
-def recover_task_transfer_prompt(prompt_emb,load_model,projector):
+#def recover_task_transfer_prompt(prompt_emb,load_model,projector):
+def recover_task_transfer_prompt(prompt_emb,projector):
     ##################
     #######AE trained#
     ##################
+    '''
     if projector == None:
         if "Bert" in load_model:
             all_model_dir = os.listdir("model/projectPromptBert")
@@ -169,6 +104,11 @@ def recover_task_transfer_prompt(prompt_emb,load_model,projector):
         all_model_dir = os.listdir(projector)
         print(all_model_dir)
         path = projector+"/"
+    '''
+
+    all_model_dir = os.listdir(projector)
+    print(all_model_dir)
+    path = projector+"/"
 
     #all_model_dir = os.listdir("model/projectPromptRoberta")
     #print(all_model_dir)
@@ -231,32 +171,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     trained_epoch = 0
     global_step = 0
 
-
-    '''
-    if len(gpu_list) > 0:
-        if params['local_rank'] < 0:
-            model = model.cuda()
-        else:
-            ###
-            #muti machines
-            #model = model.to(gpu_list[params['local_rank']])
-
-            #single machine
-            model = model.to(params['local_rank'])
-            ###
-
-        try:
-            ###
-            #muti machines
-            model = nn.parallel.DistributedDataParallel(model, device_ids=[params['local_rank']], output_device=params['local_rank'], find_unused_parameters = True)
-
-            #single machine
-            #model = nn.parallel.DistributedDataParallel(model, device_ids=gpu_list)
-            #model = nn.parallel.DistributedDataParallel(model)
-            ###
-        except Exception as e:
-            logger.warning("No init_multi_gpu implemented in the model, use single gpu instead.")
-    '''
 
 
 
@@ -336,14 +250,16 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         #encoder.roberta.embeddings.prompt_embeddings.weight
 
 
-        if model_type == "Bert":
-            model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters
-        elif model_type == "Robert":
+        if model_type == "Robert" or model_type == "RobertaLarge":
             model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_parameters
+        elif model_type == "Bert" or model_type == "BertLarge":
+            model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters
+        '''
         elif model_type == "RobertLarge":
             model.encoder.roberta_large.embeddings.prompt_embeddings.weight.data = prompt_parameters
             print("check roberta large")
             exit()
+        '''
 
 
 
@@ -395,9 +311,9 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             prompt_name = params["args"].config.split("/")[1].split(".")[0]
             #load_task_prompt_dir = "task_prompt_emb/"+prompt_name+"/task_prompt"
             #prompt_emb = torch.load(load_task_prompt_dir)
-            if "Roberta" in prompt_name:
+            if "Roberta" in prompt_name or "RobertaLarge" in prompt_name:
                 prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
-            elif "Bert" in prompt_name:
+            elif "Bert" in prompt_name or "BertLarge" in prompt_name:
                 prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
             else:
                 print("Warning: Use original prompt emb")
@@ -407,23 +323,29 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("Using random prompt emb")
             print("=========================")
             #prompt_emb = torch.nn.Parameter(torch.rand(100,768)).to("cuda")
-            prompt_emb = torch.rand(100,768).to("cuda")
+            prompt_name = params["args"].config.split("/")[1].split(".")[0]
+            if "Large" in prompt_name:
+                prompt_emb = torch.rand(config.getint("prompt","prompt_num"),1024).to("cuda")
+            else:
+                prompt_emb = torch.rand(config.getint("prompt","prompt_num"),768).to("cuda")
         else:
             print("=========================")
             print("Replace", params["args"].checkpoint.split("/")[1], "with", params["args"].replacing_prompt)
             print("=========================")
             #load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
-            load_task_prompt_dir = "model/"+params["args"].replacing_prompt+"/task_prompt"
+            load_task_prompt_dir = params["args"].replacing_prompt+"/task_prompt_emb"
             prompt_emb = torch.load(load_task_prompt_dir, map_location=lambda storage, loc: storage)
         ###
 
         ###Using Project or not
         if params["args"].task_transfer_projector:
-            load_model = params["args"].checkpoint.strip().split("/")[1]
-            prompt_emb = recover_task_transfer_prompt(prompt_emb,load_model)
+            #load_model = params["args"].checkpoint.strip().split("/")[1]
+            #prompt_emb = recover_task_transfer_prompt(prompt_emb,load_model)
+            prompt_emb = recover_task_transfer_prompt(prompt_emb,params["args"].projector)
         elif params["args"].model_transfer_projector:
-            load_model = params["args"].checkpoint.strip().split("/")[1]
-            prompt_emb = recover_model_transfer_prompt(prompt_emb,load_model,params["args"].projector)
+            #load_model = params["args"].checkpoint.strip().split("/")[1]
+            #prompt_emb = recover_model_transfer_prompt(prompt_emb,load_model,params["args"].projector)
+            prompt_emb = recover_model_transfer_prompt(prompt_emb,params["args"].projector)
         elif params["args"].model_transfer_projector and params["args"].task_transfer_projector:
             print("init_tool.py: Cannot choose both task_project and model_project")
         else:

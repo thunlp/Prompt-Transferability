@@ -9,6 +9,9 @@ gpus=3
 PROJECTOR="model/crossPromptRoberta"
 
 
+
+
+
 ############
 #Sentiment
 ############
@@ -20,7 +23,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --model_transfer_projector \
     --projector $PROJECTOR
 
-
+exit
 
 
 
