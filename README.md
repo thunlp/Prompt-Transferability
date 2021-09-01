@@ -267,6 +267,7 @@ Project: 76800_768_76800
 * Only save projection for each training  !!!
 * Debug: load model aftertrained with muti-gpu 
 * Debug: Training Large Model
+* Bebug: PromptRoberta, PromptBert (Editing: fix omly to load prompt)
 
 
 
