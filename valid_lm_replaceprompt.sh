@@ -19,7 +19,7 @@ do
                 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL"_"$S_1".config" \
                     --gpu $gpus \
                     --checkpoint "model/"$MODEL"_mlm_"$S_1 \
-                    --replacing_prompt "model/"$PROMPT"_mlm_"$S_2 \
+                    --replacing_prompt "task_prompt_emb/"$PROMPT"_mlm_"$S_2 \
                     --pre_train_mlm
 
             done

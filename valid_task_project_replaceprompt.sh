@@ -27,12 +27,12 @@ for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptR
 do
     echo "==========================="
     echo config/$MODEL.config
-    echo model/$MODEL
+    echo task_prompt_emb/$MODEL
     echo "==========================="
 
     #Eval mlm
     CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
         --gpu $gpus \
-        --checkpoint model/$MODEL \
+        --checkpoint task_prompt_emb/$MODEL \
         --task_transfer_projector
 done

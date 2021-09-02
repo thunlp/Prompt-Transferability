@@ -49,7 +49,7 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
     try:
         ###
         #torch.save(save_params, filename)
-        filename = filename.replace(".pkl","_task_prompt_emb.pkl")
+        filename = filename.replace(".pkl","_task_prompt.pkl")
         print("====")
         print(filename)
         print("====")

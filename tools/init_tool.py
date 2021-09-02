@@ -221,6 +221,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
 
+        '''
         load_checkpoint = params["args"].checkpoint
         files = os.listdir(load_checkpoint)
 
@@ -235,10 +236,11 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                     PATH=load_checkpoint+"/"+str(max_epoch)+".pkl"
             prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)
             torch.save(prompt_parameters, load_checkpoint+"/task_prompt_emb")
+        '''
 
 
 
-        prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)
+        prompt_parameters = torch.load(params["args"].replacing_prompt+"/"+"task_prompt", map_location=lambda storage, loc: storage)
 
         #model
         #optimizer_name
@@ -333,7 +335,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("Replace", params["args"].checkpoint.split("/")[1], "with", params["args"].replacing_prompt)
             print("=========================")
             #load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
-            load_task_prompt_dir = params["args"].replacing_prompt+"/task_prompt_emb"
+            load_task_prompt_dir = params["args"].replacing_prompt+"/task_prompt"
             prompt_emb = torch.load(load_task_prompt_dir, map_location=lambda storage, loc: storage)
         ###
 

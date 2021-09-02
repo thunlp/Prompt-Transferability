@@ -34,7 +34,7 @@ do
             echo "==========================="
             echo config/$MODEL.config
             echo model/$MODEL
-            echo $PROMPT
+            echo task_prompt_emb/$PROMPT
             echo "==========================="
 
             if [ $MODEL == anliPromptBert ]
@@ -43,20 +43,20 @@ do
                 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                     --gpu $gpus \
                     --checkpoint model/$MODEL \
-                    --replacing_prompt model/$PROMPT
+                    --replacing_prompt task_prompt_emb/$PROMPT
             elif [ $MODEL == snliPromptBert ]
             then
                 #Eval mlm
                 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                     --gpu $gpus \
                     --checkpoint model/$MODEL \
-                    --replacing_prompt model/$PROMPT
+                    --replacing_prompt task_prompt_emb/$PROMPT
             else
                 #Eval mlm
                 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                     --gpu $gpus \
                     --checkpoint model/$MODEL \
-                    --replacing_prompt model/$PROMPT
+                    --replacing_prompt task_prompt_emb/$PROMPT
             fi
     done
 done
@@ -74,7 +74,7 @@ do
             echo "==========================="
             echo config/$MODEL.config
             echo model/$MODEL/
-            echo $PROMPT
+            echo task_prompt_emb/$PROMPT
             echo "==========================="
 
             #Eval mlm
@@ -84,19 +84,19 @@ do
                 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                     --gpu $gpus \
                     --checkpoint model/$MODEL \
-                    --replacing_prompt model/$PROMPT
+                    --replacing_prompt task_prompt_emb/$PROMPT
             elif [$MODEL == snliPromptRoberta ]
             then
                 #Eval mlm
                 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                     --gpu $gpus \
                     --checkpoint model/$MODEL \
-                    --replacing_prompt model/$PROMPT
+                    --replacing_prompt task_prompt_emb/$PROMPT
             else
                 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                     --gpu $gpus \
                     --checkpoint model/$MODEL \
-                    --replacing_prompt model/$PROMPT
+                    --replacing_prompt task_prompt_emb/$PROMPT
             fi
     done
 done

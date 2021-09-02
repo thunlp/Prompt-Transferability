@@ -36,5 +36,5 @@ for file in files:
                 print("check")
                 exit()
 
-    torch.save(prompt_emb, file+"/task_prompt_emb")
+    torch.save(prompt_emb, file+"/task_prompt")
 

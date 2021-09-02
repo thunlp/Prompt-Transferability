@@ -2,6 +2,10 @@ mkdir RobertaForMaskedLM
 gpus=0
 
 
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobertaLarge.config \
+    --gpu $gpus
+exit
+
 ################################
 ###########Roberta##############
 ################################
@@ -17,7 +21,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobe
     #--comment \
     #--seed
 
-exit
 
 '''
 
