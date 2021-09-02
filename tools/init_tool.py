@@ -54,7 +54,7 @@ def recover_model_transfer_prompt(prompt_emb,projector):
     #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
     #model = AE_0_layer(input_dim=768,compress_dim=768).to("cuda")
     model = AE_auto_layer(dim_0=768,dim_1=768,dim3=1024).to("cuda")
-    model.load_state_dict(torch.load(PATH))
+    model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
     #print(model)
     print("===")
     #exit()
@@ -124,7 +124,7 @@ def recover_task_transfer_prompt(prompt_emb,projector):
     ###
     #PATH="model/projectPromptRoberta/99_model_AE.pkl"
     ###
-    model = torch.load(PATH).to("cuda")
+    model = torch.load(PATH, map_location=lambda storage, loc: storage).to("cuda")
     model.eval()
 
     #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
