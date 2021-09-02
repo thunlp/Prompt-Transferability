@@ -8,7 +8,7 @@ from torch import nn
 from transformers import AutoTokenizer
 import string
 import os
-from tools.projector import AE_0_layer, AE_1_layer
+from tools.projector import AE_0_layer, AE_1_layer, AE_auto_layer
 from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 
 logger = logging.getLogger(__name__)
@@ -52,7 +52,8 @@ def recover_model_transfer_prompt(prompt_emb,projector):
     #model = torch.load(PATH).to("cuda")
     #model = torch.load(PATH)
     #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
-    model = AE_0_layer(input_dim=768,compress_dim=768).to("cuda")
+    #model = AE_0_layer(input_dim=768,compress_dim=768).to("cuda")
+    model = AE_auto_layer(dim_0=768,dim_1=768,dim3=1024).to("cuda")
     model.load_state_dict(torch.load(PATH))
     #print(model)
     print("===")
