@@ -44,9 +44,9 @@ def load_task_prompt(model_prompt, config_name, config):
         model_prompt_not_in = "Bert"
 
     print("====")
-    print(model_prompt)
+    print("Include prompt type:",model_prompt)
     print("---")
-    print(model_prompt_not_in)
+    print("Not include prompt type:",model_prompt_not_in)
     print("====")
     #exit()
 
