@@ -205,7 +205,10 @@ class crossPromptRoberta(nn.Module):
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
-        self.init_model_path = str(ckp)+"/PromptRobertaLarge_init_params"
+        if config.get("model","model_size")=="large":
+            self.init_model_path = str(ckp)+"/"+"PromptRobertaLarge_init_params"
+        else:
+            self.init_model_path = str(ckp)+"/PromptRoberta_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it

@@ -37,6 +37,9 @@ class PromptBert(nn.Module):
         #bert_name = roberta_name.replace("Roberta","Bert")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
         #self.init_model_path = str(ckp)+"/"+bert_name
+        if config.get("model","model_size")=="large":
+            self.init_model_path = str(ckp)+"/"+"PromptBertaLarge_init_params"
+        else:
         self.init_model_path = str(ckp)+"/PromptBert_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
