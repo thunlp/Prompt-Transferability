@@ -33,10 +33,11 @@ class PromptBert(nn.Module):
         self.plmconfig = AutoConfig.from_pretrained(model)
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
-        roberta_name = config.get("data","train_formatter_type")
-        bert_name = roberta_name.replace("Roberta","Bert")
+        #roberta_name = config.get("data","train_formatter_type")
+        #bert_name = roberta_name.replace("Roberta","Bert")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
-        self.init_model_path = str(ckp)+"/"+bert_name
+        #self.init_model_path = str(ckp)+"/"+bert_name
+        self.init_model_path = str(ckp)+"/PromptBert_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
@@ -47,13 +48,14 @@ class PromptBert(nn.Module):
         else:
             #self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 
-            from distutils.dir_util import copy_tree
-            copy_tree(str(str(ckp)+"/restaurantPromptBert"), self.init_model_path)
-            os.remove(self.init_model_path+"/pytorch_model.bin")
+            #from distutils.dir_util import copy_tree
+            #copy_tree(str(str(ckp)+"/restaurantPromptBert"), self.init_model_path)
+            #os.remove(self.init_model_path+"/pytorch_model.bin")
 
             self.encoder = BertForMaskedLM.from_pretrained(model, config=self.plmconfig)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
+            self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 
         ##############
 

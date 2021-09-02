@@ -193,7 +193,8 @@ class BertEmbeddings(nn.Module):
             config.max_position_embeddings, config.hidden_size, padding_idx=self.padding_idx
         )
         ####
-        self.prompt_embeddings = nn.Embedding(100, 768)
+        #self.prompt_embeddings = nn.Embedding(100, 768)
+        self.prompt_embeddings = nn.Embedding(int(config.prompt_num), int(config.hidden_size))
 
     def init_prompt_emb(self, init_ids):
         prompt_weights = self.word_embeddings(init_ids).detach()
