@@ -203,7 +203,8 @@ class crossPromptRoberta(nn.Module):
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
-        self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
+        #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
+        self.init_model_path = str(ckp)+"/PromptRobertaLarge_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
@@ -211,15 +212,17 @@ class crossPromptRoberta(nn.Module):
         if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
             self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:
-            from distutils.dir_util import copy_tree
+            #from distutils.dir_util import copy_tree
             #copy_tree("RobertaForMaskedLM/SST2PromptRoberta", self.init_model_path)
-            copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
-            os.remove(self.init_model_path+"/pytorch_model.bin")
+            #copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
+            #os.remove(self.init_model_path+"/pytorch_model.bin")
 
             self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
+            os.mkdir(self.init_model_path)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             #torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
+            self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 
         ##############
         #self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)

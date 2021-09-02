@@ -38,7 +38,7 @@ class PromptRoberta(nn.Module):
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
-        self.init_model_path = str(ckp)+"/PromptRoberta_init_params"
+        self.init_model_path = str(ckp)+"/"+"PromptRoberta_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
@@ -63,6 +63,7 @@ class PromptRoberta(nn.Module):
             self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
             #exit()
             #print(self.encoder.state_dict().keys())
+            os.mkdir(self.init_model_path)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
             self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)

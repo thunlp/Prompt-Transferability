@@ -53,6 +53,7 @@ class PromptBert(nn.Module):
             #os.remove(self.init_model_path+"/pytorch_model.bin")
 
             self.encoder = BertForMaskedLM.from_pretrained(model, config=self.plmconfig)
+            os.mkdir(self.init_model_path)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
             self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)

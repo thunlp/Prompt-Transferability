@@ -153,10 +153,10 @@ model/cross_Bert_to_Roberta_reconstructionLoss_all_task*
 /result_mlm
 
 
-/RobertaForMaskedLM
-/RobertaLargeForMaskedLM
+/RobertaForMaskedLM*
+/RobertaLargeForMaskedLM*
 #/task_prompt_emb
-/tensorboard
+/tensorboard*
 
 /bert-base-uncased
 /BertForMaskedLM

@@ -79,7 +79,11 @@ class mlmPrompt(nn.Module):
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
-        self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")+str(model.split("-")[0].capitalize())
+        #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")+str(model.split("-")[0].capitalize())
+        if config.get("model","model_size")=="large":
+            self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"Large"+"_init_params"
+        else:
+            self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"_init_params"
         #print(self.init_model_path)
         #exit()
         ##############
@@ -98,22 +102,36 @@ class mlmPrompt(nn.Module):
                 print("Wrong")
                 exit()
         else:
-            print(self.init_model_path+"/pytorch_model.bin")
+            #print(self.init_model_path+"/pytorch_model.bin")
 
-            from distutils.dir_util import copy_tree
+            #from distutils.dir_util import copy_tree
 
             if "Roberta" in config.get("model","model_base"):
-                copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
+                #copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
+                from .modelling_roberta import RobertaForMaskedLM
+                self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+                os.mkdir(self.init_model_path)
+                torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
+                print("Save Done")
+                self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
             elif "Bert" in config.get("model","model_base"):
-                copy_tree(str(str(ckp)+"/SST2_PromptBert"), self.init_model_path)
+                #copy_tree(str(str(ckp)+"/SST2_PromptBert"), self.init_model_path)
+                from .modelling_bert import BertForMaskedLM
+                self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+                os.mkdir(self.init_model_path)
+                torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
+                print("Save Done")
+                self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
             else:
-                print("Wrong!!!!!")
-                copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
+                print("Wrong")
                 exit()
+                #print("Wrong!!!!!")
+                #copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
+                #exit()
             #copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
-            os.remove(self.init_model_path+"/pytorch_model.bin")
+            #os.remove(self.init_model_path+"/pytorch_model.bin")
 
-
+            '''
             if "Roberta" in config.get("model","model_base"):
                 from .modelling_roberta import RobertaForMaskedLM
                 self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
@@ -123,6 +141,7 @@ class mlmPrompt(nn.Module):
                 self.encoder = BertForMaskedLM.from_pretrained(model, config=self.plmconfig)
                 torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
+            '''
 
         ##############
         #self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)

@@ -37,11 +37,6 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
         if "embeddings.prompt_embeddings.weight" in key:
             if "roberta" in key:
                 prompt_emb = model_to_save["encoder.roberta.embeddings.prompt_embeddings.weight"]
-            elif "roberta-large" in key:
-                print("roberta-large")
-                print("check")
-                print("train.tool.py Line:43")
-                exit()
             elif "bert" in key:
                 prompt_emb = model_to_save["encoder.bert.embeddings.prompt_embeddings.weight"]
     ###
