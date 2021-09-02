@@ -296,7 +296,8 @@ mutitask prompt --> prompt --> do task
 5. Re-create prompt emb
 4. Re-evaluate: mlm (prompt) tasks
 
-
+* Re-construct code:
+1. Dynamic AE for various dim
 
 
 * Ready to train
