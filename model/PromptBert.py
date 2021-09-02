@@ -40,7 +40,7 @@ class PromptBert(nn.Module):
         if config.get("model","model_size")=="large":
             self.init_model_path = str(ckp)+"/"+"PromptBertaLarge_init_params"
         else:
-        self.init_model_path = str(ckp)+"/PromptBert_init_params"
+            self.init_model_path = str(ckp)+"/PromptBert_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
