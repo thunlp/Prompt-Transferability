@@ -3,6 +3,8 @@
 
 result_mlm*
 
+g.sh
+
 model/RTE_BERT*
 model/SST2PromptRoberta*
 model/REPrompt*
