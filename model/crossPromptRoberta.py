@@ -66,7 +66,8 @@ def load_task_prompt(model_prompt, config_name, config):
                 continue
             if "_s1" in file or "_s2" in file:
 
-                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+                #task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
                 name = str(file.strip().split("P")[0]).lower()
                 if name=="mr":
                     name+="pc"
@@ -93,7 +94,7 @@ def load_task_prompt(model_prompt, config_name, config):
         #crossPromptRoberta
         else:
             if "proj" not in file and model_prompt in file and "mlm" not in file:
-                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
                 name = str(file.strip().split("P")[0]).lower()
                 if name=="mr":
                     name+="pc"
