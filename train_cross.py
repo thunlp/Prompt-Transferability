@@ -4,7 +4,7 @@ import torch
 import logging
 import random
 import numpy as np
-from tools.init_tool_cross import init_all
+from tools.init_tool import init_all
 from config_parser import create_config
 from tools.train_tool_cross import train
 
