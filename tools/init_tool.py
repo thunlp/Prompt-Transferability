@@ -196,13 +196,14 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             else:
                 print("Not exist:",load_dir)
                 exit()
-        elif model_type == "RobertLarge":
+        elif model_type == "RobertaLarge":
             load_dir = "RobertaLargeForMaskedLM/PromptRobertaLarge_init_params/pytorch_model.bin"
             if os.path.exists(load_dir):
                 parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
             else:
                 print("Not exist:",load_dir)
                 exit()
+
 
 
 
