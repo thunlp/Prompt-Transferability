@@ -271,6 +271,7 @@ Project: 76800_768_76800
 
 - Re-do experiemnt:
 * restaurant, laptop => Re-do the exp with re-trained prompt
+* copt prompt from server103 , except for restaurant and IMDB
 
 
 - Revised:

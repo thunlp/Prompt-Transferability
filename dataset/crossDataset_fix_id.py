@@ -28,6 +28,7 @@ class crossDataset(Dataset):
 
         show_dataset = list(set(show_dataset))
         show_dataset.sort()
+        '''
         if mode == "train":
             self.dataset_map_id = {name:id for id, name in enumerate(show_dataset)}
         elif mode == "valid":
@@ -37,8 +38,8 @@ class crossDataset(Dataset):
             self.dataset_map_id = {name:id for id, name in enumerate(dataset_list)}
         else:
             print("No this mode")
-
-        #self.dataset_map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrpc':3, 'qnli':4, 'qqp':5, 'restaurant':6, 'rte':7, 'sst2':8, 'wnli':9}
+        '''
+        self.dataset_map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrpc':3, 'qnli':4, 'qqp':5, 'restaurant':6, 'rte':7, 'sst2':8, 'wnli':9}
 
         print("==========")
         print("Mode", mode, show_dataset)

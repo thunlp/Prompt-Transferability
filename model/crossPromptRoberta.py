@@ -17,6 +17,8 @@ def load_task_prompt(model_prompt, config_name, config):
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
 
+
+
     config_name = config_name.split("/")[1].replace(".config","")
 
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
@@ -89,8 +91,10 @@ def load_task_prompt(model_prompt, config_name, config):
                 elif name=="qq":
                     name+="p"
 
+                '''
                 if name not in choosed_tasks:
                     continue
+                '''
 
                 #print(2)
                 print(file)
@@ -102,10 +106,20 @@ def load_task_prompt(model_prompt, config_name, config):
 
     name_list.sort()
 
+    map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrp':3, 'qnli':4, 'qqp':5, 're':6, 'restaurant':7, 'rte':8, 'sst2':9, 'wnli':10}
+
     #for id, name in name_dict.items():
+    '''
     for id, name in enumerate(name_list):
         task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
     task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
+    '''
+    for name, id in map_id:
+        task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
+    task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
+    print(task_prompt_ten.shape)
+    exit()
+
 
     return task_prompt_ten
 

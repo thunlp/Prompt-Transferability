@@ -17,19 +17,18 @@ PROJECTOR="model/crossPromptRoberta"
 #Sentiment
 ############
 #restaurant
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobertaLarge.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRobertaLarge \
     --replacing_prompt task_prompt_emb/restaurantPromptRoberta \
     --model_transfer_projector \
     --projector $PROJECTOR
+
+
+
+
+
 '''
-
-
-
-
-
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRobertaLarge.config \
     --gpu $gpus \
@@ -40,7 +39,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRobertaL
 
 
 
-'''
 #89%
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRobertaLarge.config \
@@ -52,22 +50,22 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRobertaLar
 '''
 
 
-exit
 
 
 
 
-'''
 #SST-2
-CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRobertaLarge.config \
     --gpu $gpus \
-    --checkpoint model/SST2PromptRoberta \
-    --replacing_prompt task_prompt_emb/SST2PromptBert \
+    --checkpoint model/SST2PromptRobertaLarge \
+    --replacing_prompt task_prompt_emb/SST2PromptRoberta \
     --model_transfer_projector \
     --projector $PROJECTOR
 
+exit
 
 
+'''
 ############
 #Paraphrase
 ############

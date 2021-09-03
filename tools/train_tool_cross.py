@@ -106,6 +106,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
     ###########AE
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     #model_AE = AE_1_layer(dim_0=768,dim_1=768,dim_2=1024).to(device)
     # create an optimizer object
