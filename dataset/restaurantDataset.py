@@ -37,11 +37,11 @@ class restaurantDataset(Dataset):
         #emo_dict={"positive":0,"neutral":1,"negative":2}
 
         if mode == "test":
-            self.data = [{"sent": ins['sentence'].strip()} for ins in data]
+            self.data = [{"sent": ins['sentence'].strip() + " " + ins["aspect"].strip()} for ins in data]
         elif mode == 'valid':
-            self.data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+            self.data = [{"sent": ins['sentence'].strip() + " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
         else:
-            self.data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+            self.data = [{"sent": ins['sentence'].strip() + " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
         print(self.mode, "the number of data", len(self.data))
 
 

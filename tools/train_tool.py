@@ -41,14 +41,25 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
                 prompt_emb = model_to_save["encoder.bert.embeddings.prompt_embeddings.weight"]
     ###
 
+
+    save_params = {
+        "model": prompt_emb,
+        "optimizer_name": config.get("train", "optimizer"),
+        "optimizer": optimizer.state_dict(),
+        "trained_epoch": trained_epoch,
+        "global_step": global_step
+    }
+
+
     try:
         ###
         #torch.save(save_params, filename)
         filename = filename.replace(".pkl","_task_prompt.pkl")
-        print("====")
-        print(filename)
-        print("====")
-        torch.save(prompt_emb, filename)
+        #print("====")
+        #print(filename)
+        #print("====")
+        #torch.save(prompt_emb, filename)
+        torch.save(save_params, filename)
         ###
     except Exception as e:
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))

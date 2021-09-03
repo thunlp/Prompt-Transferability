@@ -1,11 +1,12 @@
 mkdir RobertaForMaskedLM
 mkdir RobertaLargeForMaskedLM
-gpus=7
+gpus=1
 
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobertaLarge.config \
     --gpu $gpus
-exit
+'''
 
 ################################
 ###########Roberta##############
@@ -23,7 +24,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobe
     #--seed
 
 
-'''
 
 
 #laptop
@@ -36,7 +36,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
     #--seed
 
 
-
+'''
 
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.config \
@@ -174,7 +174,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/tweetevalsentimentPr
 ############
 #Sentiment
 ############
-'''
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
@@ -195,6 +194,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptBert.con
     #--seed
 
 
+'''
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptBert.config \
     --gpu $gpus \

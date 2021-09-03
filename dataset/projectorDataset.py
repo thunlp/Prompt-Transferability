@@ -446,11 +446,11 @@ def pre_data_restaurant(mode):
     #emo_dict={"positive":0,"neutral":1,"negative":2}
 
     if mode == "test":
-        data = [{"sent1": ins['sentence'].strip(), "dataset":"restaurant"} for ins in data]
+        data = [{"sent1": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "dataset":"restaurant"} for ins in data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"restaurant"} for ins in data]
+        data = [{"sent1": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']], "dataset":"restaurant"} for ins in data]
     else:
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"restaurant"} for ins in data]
+        data = [{"sent1": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']], "dataset":"restaurant"} for ins in data]
     #print(mode, "the number of data", len(data))
     return data, len(data)
 
@@ -636,11 +636,11 @@ def pre_data_laptop(mode):
     emo_dict={"positive":7,"neutral":6,"negative":5,"conflict":8}
 
     if mode == "test":
-        data = [{"sent1": ins['sentence'].strip(), "dataset":"laptop"} for ins in data]
+        data = [{"sent1": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "dataset":"laptop"} for ins in data]
     elif mode == 'valid':
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"laptop"} for ins in data]
+        data = [{"sent1": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']], "dataset":"laptop"} for ins in data]
     else:
-        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']], "dataset":"laptop"} for ins in data]
+        data = [{"sent1": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']], "dataset":"laptop"} for ins in data]
     #print(mode, "the number of data", len(data))
 
 

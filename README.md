@@ -269,7 +269,8 @@ Project: 76800_768_76800
 * Debug: Training Large Model
 * Bebug: PromptRoberta, PromptBert (Editing: fix only to load prompt)
 
-
+- Re-do experiemnt:
+* restaurant, laptop => Re-do the exp with re-trained prompt
 
 
 - Revised:

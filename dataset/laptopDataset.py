@@ -28,11 +28,11 @@ class laptopDataset(Dataset):
         emo_dict={"positive":2,"neutral":1,"negative":0,"conflict":3}
 
         if mode == "test":
-            self.data = [{"sent": ins['sentence'].strip()} for ins in data]
+            self.data = [{"sent": ins['sentence'].strip()+ " " + ins["aspect"].strip()} for ins in data]
         elif mode == 'valid':
-            self.data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+            self.data = [{"sent": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
         else:
-            self.data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
+            self.data = [{"sent": ins['sentence'].strip()+ " " + ins["aspect"].strip(), "label": emo_dict[ins['sentiment']]} for ins in data]
         print(self.mode, "the number of data", len(self.data))
 
 

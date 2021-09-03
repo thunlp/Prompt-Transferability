@@ -20,12 +20,6 @@ logger = logging.getLogger(__name__)
 
 
 
-
-
-
-
-
-
 def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, model_AE, **kwargs):
 
     ####Original_model#####
@@ -59,6 +53,7 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step, m
         torch.save(model_AE.state_dict(), filename)
     except Exception as e:
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
+
 
 
 def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
