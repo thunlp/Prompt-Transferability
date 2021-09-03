@@ -8,7 +8,8 @@ import shutil
 from timeit import default_timer as timer
 import random
 import numpy as np
-from tools.eval_tool_projector import valid, gen_time_str, output_value
+#from tools.eval_tool_projector import valid, gen_time_str, output_value
+from tools.eval_tool import valid, gen_time_str, output_value
 from tools.init_tool import init_test_dataset, init_formatter
 from reader.reader import init_dataset, init_formatter, init_test_dataset
 import torch.nn as nn
@@ -110,7 +111,8 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
     ###########AE
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model_AE = AE_0_layer(input_dim=768,compress_dim=768).to(device)
+    #model_AE = AE_0_layer(input_dim=768,compress_dim=768).to(device)
+    model_AE = AE_0_layer(input_dim=768,compress_dim=1024).to(device)
     #model_AE = AE(input_dim=76800,compress_dim=3).to(device)
     #model_AE = AE_1_layer(input_dim=76800,compress_dim=768).to(device)
     # create an optimizer object

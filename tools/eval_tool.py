@@ -46,6 +46,8 @@ def output_value(epoch, mode, step, time, loss, info, end, config):
 
 
 def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode="valid", **kwargs):
+
+
     if "args" in kwargs:
         kwargs = kwargs["args"]
 
@@ -67,10 +69,6 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
         more = "\t"
 
 
-    #print("========")
-    #print(len(dataset))
-    #print("========")
-
     for step, data in enumerate(dataset):
         for key in data.keys():
             if isinstance(data[key], torch.Tensor):
@@ -79,7 +77,10 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
                 else:
                     data[key] = Variable(data[key])
 
-        results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
+        if "AE" in kwargs:
+            results = model(data, config, gpu_list, acc_result, "valid", AE=kwargs["AE"])
+        else:
+            results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
 
         loss, acc_result = results["loss"], results["acc_result"]
         total_loss += float(loss)

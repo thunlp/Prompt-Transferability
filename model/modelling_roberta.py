@@ -956,8 +956,6 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
 
         self.roberta = RobertaModel(config, add_pooling_layer=False)
         self.lm_head = RobertaLMHead(config)
-        #print(config)
-        #exit()
 
         self.init_weights()
 

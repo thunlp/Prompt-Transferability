@@ -17,24 +17,10 @@ def load_task_prompt(model_prompt, config_name, config):
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
     #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
 
-    #print("=======")
-    #print(config_name)
     config_name = config_name.split("/")[1].replace(".config","")
-    #print(config_name)
-    #exit()
+
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
-    #print(choosed_tasks)
-    #exit()
 
-    #print("=====")
-    #print(config.get("data","train_formatter_type"))
-    #print("=====")
-    #exit()
-
-
-    #choosed_tasks=['imdb','laptop','mrp','qqp','restaurant','sst2','wnli']
-
-    #use prompt: Bert, Roberta
     model_prompt = str.title(model_prompt.strip().split("-")[0])
 
 
@@ -47,6 +33,8 @@ def load_task_prompt(model_prompt, config_name, config):
     print("Include prompt type:",model_prompt)
     print("---")
     print("Not include prompt type:",model_prompt_not_in)
+    print("---")
+    print("Trained prompt:", model_prompt)
     print("====")
     #exit()
 
@@ -112,56 +100,7 @@ def load_task_prompt(model_prompt, config_name, config):
                 continue
 
 
-
-    '''
-    for file in files:
-        #if "_s1" in file or "_s2" in file and model_prompt in file and model_prompt_not_in not in file:
-        if "_s1" in file or "_s2" in file:
-            if model_prompt in file and model_prompt_not_in not in file and "mlm" in file:
-                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-                name = str(file.strip().split("P")[0]).lower()
-                if name=="mr":
-                    name+="pc"
-                elif name=="qq":
-                    name+="p"
-                if "_s1" in file:
-                    name += "_s1"
-                elif "_s2" in file:
-                    name += "_s2"
-                if name not in choosed_tasks:
-                    continue
-                #if name not in choosed_tasks:
-                #    continue
-                name_list.append(name)
-                task_prompt_dict[name] = task_prompt_emb
-            else:
-                continue
-        else:
-            if "proj" in file or model_prompt in file and model_prompt_not_in not in file:
-                continue
-            task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-            name = str(file.strip().split("P")[0]).lower()
-            if name=="mr":
-                name+="pc"
-            elif name=="qq":
-                name+="p"
-            if name not in choosed_tasks:
-                continue
-            print(file)
-            name_list.append(name)
-            task_prompt_dict[name] = task_prompt_emb
-    '''
-
     name_list.sort()
-
-    #print("-------")
-    #print(name_list)
-    #print("-------")
-    #print(choosed_tasks)
-    #exit()
-    #print(model_prompt)
-    #print(name_dict)
-    #exit()
 
     #for id, name in name_dict.items():
     for id, name in enumerate(name_list):
@@ -193,7 +132,6 @@ class crossPromptRoberta(nn.Module):
             model = "roberta-base"
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
-
 
 
         self.task_specific_prompt_emb = load_task_prompt(params["model_prompt"],params["args"].config,config).to('cuda')

@@ -10,240 +10,38 @@ class crossDataset(Dataset):
         self.config = config
         self.mode = mode
 
-        self.dataset_list = self.config.get("data","train_dataset_type").lower().split(",")
+        if mode == "train":
+            self.dataset_list = self.config.get("data","train_dataset_type").lower().split(",")
+        elif mode == "valid":
+            self.dataset_list = self.config.get("data","valid_dataset_type").lower().split(",")
 
-        self.min_length = []
-        self.all_dataset = []
-        show_dataset = list()
-        #####
-        if "re" in self.dataset_list:
-            self.re, self.re_length = pre_data_re(mode)
-            self.min_length.append(self.re_length)
-            self.all_dataset.append(self.re)
-            show_dataset.append("re")
-            #print("re")
-        if "stsb" in self.dataset_list:
-            self.stsb, self.stsb_length = pre_data_stsb(mode)
-            self.min_length.append(self.stsb_length)
-            self.all_dataset.append(self.stsb)
-            show_dataset.append("stsb")
-            #print("stsb")
-        if "sst2" in self.dataset_list:
-            self.sst2, self.sst2_length = pre_data_sst2(mode)
-            self.min_length.append(self.sst2_length)
-            self.all_dataset.append(self.sst2)
-            show_dataset.append("sst2")
-            #print("sst2")
-        if "restaurant" in self.dataset_list:
-            self.restaurant, self.restaurant_length = pre_data_restaurant(mode)
-            self.min_length.append(self.restaurant_length)
-            self.all_dataset.append(self.restaurant)
-            show_dataset.append("restaurant")
-            #print("restaurant")
-        if "qnli" in self.dataset_list:
-            self.qnli, self.qnli_length = pre_data_qnli(mode)
-            self.min_length.append(self.qnli_length)
-            self.all_dataset.append(self.qnli)
-            show_dataset.append("qnli")
-            #print("qnli")
-        if "qqp" in self.dataset_list:
-            self.qqp, self.qqp_length = pre_data_qqp(mode)
-            self.min_length.append(self.qqp_length)
-            self.all_dataset.append(self.qqp)
-            show_dataset.append("qqp")
-            #print("qqp")
-        if "mrpc" in self.dataset_list:
-            self.mrpc, self.mrpc_length = pre_data_mrpc(mode)
-            self.min_length.append(self.mrpc_length)
-            self.all_dataset.append(self.mrpc)
-            show_dataset.append("mrpc")
-            #print("mrpc")
-        if "wnli" in self.dataset_list:
-            self.wnli, self.wnli_length = pre_data_wnli(mode)
-            self.min_length.append(self.wnli_length)
-            self.all_dataset.append(self.wnli)
-            show_dataset.append("wnli")
-            #print("wnli")
-        if "rte" in self.dataset_list:
-            self.rte, self.rte_length = pre_data_rte(mode)
-            self.min_length.append(self.rte_length)
-            self.all_dataset.append(self.rte)
-            show_dataset.append("rte")
-            #print("rte")
-        if "mnli" in self.dataset_list:
-            self.mnli, self.mnli_length = pre_data_mnli(mode)
-            self.min_length.append(self.mnli_length)
-            self.all_dataset.append(self.mnli)
-            show_dataset.append("mnli")
-            #print("mnli")
-        if "laptop" in self.dataset_list:
-            self.laptop, self.laptop_length = pre_data_laptop(mode)
-            self.min_length.append(self.laptop_length)
-            self.all_dataset.append(self.laptop)
-            show_dataset.append("laptop")
-            #print("laptop")
-        if "imdb" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_imdb(mode)
-            self.min_length.append(self.imdb_length)
-            self.all_dataset.append(self.imdb)
-            show_dataset.append("imdb")
-            #print("imdb")
-        ##
-        if "snli" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_snli(mode)
-            self.min_length.append(self.snli_length)
-            self.all_dataset.append(self.snli)
-            show_dataset.append("snli")
-            #print("snli")
-        if "anli" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_anli(mode)
-            self.min_length.append(self.anli_length)
-            self.all_dataset.append(self.anli)
-            show_dataset.append("anli")
-            #print("anli")
-        if "recastfactuality" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_recastfactuality(mode)
-            self.min_length.append(self.recastfactuality_length)
-            self.all_dataset.append(self.recastfactuality)
-            show_dataset.append("recastfactuality")
-            #print("recastfactuality")
-        if "tweetevalsentiment" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_tweetevalsentiment(mode)
-            self.min_length.append(self.tweetevalsentiment_length)
-            self.all_dataset.append(self.tweetevalsentiment)
-            show_dataset.append("tweetevalsentiment")
-            #print("tweetevalsentiment")
-        if "movierationales" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_movierationales(mode)
-            self.min_length.append(self.movierationales_length)
-            self.all_dataset.append(self.movierationales)
-            show_dataset.append("movierationales")
-            #print("movierationales")
-        if "emobankarousal" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_emobankarousal(mode)
-            self.min_length.append(self.emobankarousal_length)
-            self.all_dataset.append(self.emobankarousal)
-            show_dataset.append("emobankarousal")
-            #print("emobankarousal")
-        if "persuasivenessrelevance" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_persuasivenessrelevance(mode)
-            self.min_length.append(self.persuasivenessrelevance_length)
-            self.all_dataset.append(self.persuasivenessrelevance)
-            show_dataset.append("persuasivenessrelevance")
-            #print("persuasivenessrelevance")
-        if "persuasivenessspecificity" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_persuasivenessspecificity(mode)
-            self.min_length.append(self.persuasivenessspecificity_length)
-            self.all_dataset.append(self.persuasivenessspecificity)
-            show_dataset.append("persuasivenessspecificity")
-            #print("persuasivenessspecificity")
-        if "emobankdominance" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_emobankdominance(mode)
-            self.min_length.append(self.emobankdominance_length)
-            self.all_dataset.append(self.emobankdominance)
-            show_dataset.append("emobankdominance")
-            #print("emobankdominance")
-        if "squinkyimplicature" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_squinkyimplicature(mode)
-            self.min_length.append(self.squinkyimplicature_length)
-            self.all_dataset.append(self.squinkyimplicature)
-            show_dataset.append("squinkyimplicature")
-            #print("squinkyimplicature")
-        if "squinkyformality" in self.dataset_list:
-            self.imdb, self.imdb_length = pre_data_squinkyformality(mode)
-            self.min_length.append(self.squinkyformality_length)
-            self.all_dataset.append(self.squinkyformality)
-            show_dataset.append("squinkyformality")
-            #print("squinkyformality")
 
-        ###
-
-        ###
-        if "agnews_s1" in self.dataset_list:
-            self.agnews_mlm_1, self.agnews_mlm_1_length = pre_data_mlm("agnews_s1",mode)
-            self.min_length.append(self.agnews_mlm_1_length)
-            self.all_dataset.append(self.agnews_mlm_1)
-            show_dataset.append("agnews_s1")
-        if "agnews_s2" in self.dataset_list:
-            self.agnews_mlm_2, self.agnews_mlm_2_length = pre_data_mlm("agnews_s2",mode)
-            self.min_length.append(self.agnews_mlm_2_length)
-            self.all_dataset.append(self.agnews_mlm_2)
-            show_dataset.append("agnews_s2")
-            #print("imdb")
-        if "cs_wiki_s1" in self.dataset_list:
-            self.cs_wiki_mlm_1, self.cs_wiki_mlm_1_length = pre_data_mlm("cs_wiki_s1",mode)
-            self.min_length.append(self.cs_wiki_mlm_1_length)
-            self.all_dataset.append(self.cs_wiki_mlm_1)
-            show_dataset.append("cs_wiki_s1")
-        if "cs_wiki_s2" in self.dataset_list:
-            self.cs_wiki_mlm_2, self.cs_wiki_mlm_2_length = pre_data_mlm("cs_wiki_s2",mode)
-            self.min_length.append(self.cs_wiki_mlm_2_length)
-            self.all_dataset.append(self.cs_wiki_mlm_2)
-            show_dataset.append("cs_wiki_s2")
-            #print("cs_wiki_mlm")
-        if "scierc_s1" in self.dataset_list:
-            self.scierc_mlm_1, self.scierc_mlm_1_length = pre_data_mlm("scierc_s1",mode)
-            self.min_length.append(self.scierc_mlm_1_length)
-            self.all_dataset.append(self.scierc_mlm_1)
-            show_dataset.append("scierc_s1")
-        if "scierc_s2" in self.dataset_list:
-            self.scierc_mlm_2, self.scierc_mlm_2_length = pre_data_mlm("scierc_s2",mode)
-            self.min_length.append(self.scierc_mlm_2_length)
-            self.all_dataset.append(self.scierc_mlm_2)
-            show_dataset.append("scierc_s2")
-            #print("scierc_mlm")
-        if "sst-2_s1" in self.dataset_list:
-            self.sst2_mlm_1, self.sst2_mlm_1_length = pre_data_sst2(mode,"SST-2_s1")
-            self.min_length.append(self.sst2_mlm_1_length)
-            self.all_dataset.append(self.sst2_mlm_1)
-            show_dataset.append("sst-2_s1")
-        if "sst-2_s2" in self.dataset_list:
-            self.sst2_mlm_2, self.sst2_mlm_2_length = pre_data_sst2(mode,"SST-2_s2")
-            self.min_length.append(self.sst2_mlm_2_length)
-            self.all_dataset.append(self.sst2_mlm_2)
-            show_dataset.append("sst-2_s2")
-        if "imdb_s1" in self.dataset_list:
-            self.imdb_mlm_1, self.imdb_mlm_1_length = pre_data_imdb(mode,"IMDB_s1")
-            self.min_length.append(self.imdb_mlm_1_length)
-            self.all_dataset.append(self.imdb_mlm_1)
-            show_dataset.append("imdb_s1")
-        if "imdb_s2" in self.dataset_list:
-            self.imdb_mlm_2, self.imdb_mlm_2_length = pre_data_imdb(mode,"IMDB_s1")
-            self.min_length.append(self.imdb_mlm_2_length)
-            self.all_dataset.append(self.imdb_mlm_2)
-            show_dataset.append("imdb_s2")
-        ###
-
+        self.min_length, self.all_dataset, show_dataset = pre_processing(self.dataset_list, mode)
 
 
         if mode == "train" or mode == "valid":
             self.min_length = min(self.min_length)
         else:
             self.min_length = sum(self.min_length)
-        self.all_dataset = self.all_dataset
+        #self.all_dataset = self.all_dataset
+
 
         show_dataset = list(set(show_dataset))
         show_dataset.sort()
-        self.dataset_map_id = {name:id for id, name in enumerate(show_dataset)}
+        if mode == "train":
+            self.dataset_map_id = {name:id for id, name in enumerate(show_dataset)}
+        elif mode == "valid":
+            dataset_list = self.config.get("data","train_dataset_type").lower().split(",")
+            dataset_list = list(set(dataset_list))
+            dataset_list.sort()
+            self.dataset_map_id = {name:id for id, name in enumerate(dataset_list)}
+        else:
+            print("No this mode")
+
         print("==========")
-        print(show_dataset)
+        print("Mode", mode, show_dataset)
+        print("dataset_map_id", self.dataset_map_id)
         print("==========")
-        #exit()
-
-        #self.min_length = min([self.wnli_length, self.re_length, self.stsb_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.imdb_length])
-        #self.min_length = min([self.wnli_length, self.sst2_length, self.rte_length, self.restaurant_length, self.qqp_length, self.qnli_length, self.mrpc_length, self.mnli_length, self.laptop_length, self.imdb_length])
-        '''
-        self.min_length = min([self.wnli_length, self.sst2_length, self.restaurant_length, self.qqp_length, self.mrpc_length, self.laptop_length, self.imdb_length])
-        '''
-        #self.min_length = min([self.laptop_length, self.imdb_length])
-
-
-        #self.all_dataset = [self.wnli, self.re, self.stsb, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-        #self.all_dataset = [self.wnli, self.sst2, self.rte, self.restaurant, self.qqp, self.qnli, self.mrpc, self.mnli, self.laptop, self.imdb]
-        '''
-        self.all_dataset = [self.wnli, self.sst2, self.restaurant, self.qqp, self.mrpc, self.laptop, self.imdb]
-        '''
-        #self.all_dataset = [self.laptop, self.imdb]
 
 
         self.all = self.sample_choose()
@@ -271,6 +69,220 @@ class crossDataset(Dataset):
     def __len__(self):
         #return len(self.data)
         return len(self.all)
+
+
+
+def pre_processing(dataset_list, mode):
+
+        min_length = []
+        all_dataset = []
+        show_dataset = list()
+
+        #####
+        if "re" in dataset_list:
+            re, re_length = pre_data_re(mode)
+            min_length.append(re_length)
+            all_dataset.append(re)
+            show_dataset.append("re")
+            #print("re")
+        if "stsb" in dataset_list:
+            stsb, stsb_length = pre_data_stsb(mode)
+            min_length.append(stsb_length)
+            all_dataset.append(stsb)
+            show_dataset.append("stsb")
+            #print("stsb")
+        if "sst2" in dataset_list:
+            sst2, sst2_length = pre_data_sst2(mode)
+            min_length.append(sst2_length)
+            all_dataset.append(sst2)
+            show_dataset.append("sst2")
+            #print("sst2")
+        if "restaurant" in dataset_list:
+            restaurant, restaurant_length = pre_data_restaurant(mode)
+            min_length.append(restaurant_length)
+            all_dataset.append(restaurant)
+            show_dataset.append("restaurant")
+            #print("restaurant")
+        if "qnli" in dataset_list:
+            qnli, qnli_length = pre_data_qnli(mode)
+            min_length.append(qnli_length)
+            all_dataset.append(qnli)
+            show_dataset.append("qnli")
+            #print("qnli")
+        if "qqp" in dataset_list:
+            qqp, qqp_length = pre_data_qqp(mode)
+            min_length.append(qqp_length)
+            all_dataset.append(qqp)
+            show_dataset.append("qqp")
+            #print("qqp")
+        if "mrpc" in dataset_list:
+            mrpc, mrpc_length = pre_data_mrpc(mode)
+            min_length.append(mrpc_length)
+            all_dataset.append(mrpc)
+            show_dataset.append("mrpc")
+            #print("mrpc")
+        if "wnli" in dataset_list:
+            wnli, wnli_length = pre_data_wnli(mode)
+            min_length.append(wnli_length)
+            all_dataset.append(wnli)
+            show_dataset.append("wnli")
+            #print("wnli")
+        if "rte" in dataset_list:
+            rte, rte_length = pre_data_rte(mode)
+            min_length.append(rte_length)
+            all_dataset.append(rte)
+            show_dataset.append("rte")
+            #print("rte")
+        if "mnli" in dataset_list:
+            mnli, mnli_length = pre_data_mnli(mode)
+            min_length.append(mnli_length)
+            all_dataset.append(mnli)
+            show_dataset.append("mnli")
+            #print("mnli")
+        if "laptop" in dataset_list:
+            laptop, laptop_length = pre_data_laptop(mode)
+            min_length.append(laptop_length)
+            all_dataset.append(laptop)
+            show_dataset.append("laptop")
+            #print("laptop")
+        if "imdb" in dataset_list:
+            imdb, imdb_length = pre_data_imdb(mode)
+            min_length.append(imdb_length)
+            all_dataset.append(imdb)
+            show_dataset.append("imdb")
+            #print("imdb")
+        ##
+        if "snli" in dataset_list:
+            imdb, imdb_length = pre_data_snli(mode)
+            min_length.append(snli_length)
+            all_dataset.append(snli)
+            show_dataset.append("snli")
+            #print("snli")
+        if "anli" in dataset_list:
+            imdb, imdb_length = pre_data_anli(mode)
+            min_length.append(anli_length)
+            all_dataset.append(anli)
+            show_dataset.append("anli")
+            #print("anli")
+        if "recastfactuality" in dataset_list:
+            imdb, imdb_length = pre_data_recastfactuality(mode)
+            min_length.append(recastfactuality_length)
+            all_dataset.append(recastfactuality)
+            show_dataset.append("recastfactuality")
+            #print("recastfactuality")
+        if "tweetevalsentiment" in dataset_list:
+            imdb, imdb_length = pre_data_tweetevalsentiment(mode)
+            min_length.append(tweetevalsentiment_length)
+            all_dataset.append(tweetevalsentiment)
+            show_dataset.append("tweetevalsentiment")
+            #print("tweetevalsentiment")
+        if "movierationales" in dataset_list:
+            imdb, imdb_length = pre_data_movierationales(mode)
+            min_length.append(movierationales_length)
+            all_dataset.append(movierationales)
+            show_dataset.append("movierationales")
+            #print("movierationales")
+        if "emobankarousal" in dataset_list:
+            imdb, imdb_length = pre_data_emobankarousal(mode)
+            min_length.append(emobankarousal_length)
+            all_dataset.append(emobankarousal)
+            show_dataset.append("emobankarousal")
+            #print("emobankarousal")
+        if "persuasivenessrelevance" in dataset_list:
+            imdb, imdb_length = pre_data_persuasivenessrelevance(mode)
+            min_length.append(persuasivenessrelevance_length)
+            all_dataset.append(persuasivenessrelevance)
+            show_dataset.append("persuasivenessrelevance")
+            #print("persuasivenessrelevance")
+        if "persuasivenessspecificity" in dataset_list:
+            imdb, imdb_length = pre_data_persuasivenessspecificity(mode)
+            min_length.append(persuasivenessspecificity_length)
+            all_dataset.append(persuasivenessspecificity)
+            show_dataset.append("persuasivenessspecificity")
+            #print("persuasivenessspecificity")
+        if "emobankdominance" in dataset_list:
+            imdb, imdb_length = pre_data_emobankdominance(mode)
+            min_length.append(emobankdominance_length)
+            all_dataset.append(emobankdominance)
+            show_dataset.append("emobankdominance")
+            #print("emobankdominance")
+        if "squinkyimplicature" in dataset_list:
+            imdb, imdb_length = pre_data_squinkyimplicature(mode)
+            min_length.append(squinkyimplicature_length)
+            all_dataset.append(squinkyimplicature)
+            show_dataset.append("squinkyimplicature")
+            #print("squinkyimplicature")
+        if "squinkyformality" in dataset_list:
+            imdb, imdb_length = pre_data_squinkyformality(mode)
+            min_length.append(squinkyformality_length)
+            all_dataset.append(squinkyformality)
+            show_dataset.append("squinkyformality")
+            #print("squinkyformality")
+
+        ###
+
+        ###
+        if "agnews_s1" in dataset_list:
+            agnews_mlm_1, agnews_mlm_1_length = pre_data_mlm("agnews_s1",mode)
+            min_length.append(agnews_mlm_1_length)
+            all_dataset.append(agnews_mlm_1)
+            show_dataset.append("agnews_s1")
+        if "agnews_s2" in dataset_list:
+            agnews_mlm_2, agnews_mlm_2_length = pre_data_mlm("agnews_s2",mode)
+            min_length.append(agnews_mlm_2_length)
+            all_dataset.append(agnews_mlm_2)
+            show_dataset.append("agnews_s2")
+            #print("imdb")
+        if "cs_wiki_s1" in dataset_list:
+            cs_wiki_mlm_1, cs_wiki_mlm_1_length = pre_data_mlm("cs_wiki_s1",mode)
+            min_length.append(cs_wiki_mlm_1_length)
+            all_dataset.append(cs_wiki_mlm_1)
+            show_dataset.append("cs_wiki_s1")
+        if "cs_wiki_s2" in dataset_list:
+            cs_wiki_mlm_2, cs_wiki_mlm_2_length = pre_data_mlm("cs_wiki_s2",mode)
+            min_length.append(cs_wiki_mlm_2_length)
+            all_dataset.append(cs_wiki_mlm_2)
+            show_dataset.append("cs_wiki_s2")
+            #print("cs_wiki_mlm")
+        if "scierc_s1" in dataset_list:
+            scierc_mlm_1, scierc_mlm_1_length = pre_data_mlm("scierc_s1",mode)
+            min_length.append(scierc_mlm_1_length)
+            all_dataset.append(scierc_mlm_1)
+            show_dataset.append("scierc_s1")
+        if "scierc_s2" in dataset_list:
+            scierc_mlm_2, scierc_mlm_2_length = pre_data_mlm("scierc_s2",mode)
+            min_length.append(scierc_mlm_2_length)
+            all_dataset.append(scierc_mlm_2)
+            show_dataset.append("scierc_s2")
+            #print("scierc_mlm")
+        if "sst-2_s1" in dataset_list:
+            sst2_mlm_1, sst2_mlm_1_length = pre_data_sst2(mode,"SST-2_s1")
+            min_length.append(sst2_mlm_1_length)
+            all_dataset.append(sst2_mlm_1)
+            show_dataset.append("sst-2_s1")
+        if "sst-2_s2" in dataset_list:
+            sst2_mlm_2, sst2_mlm_2_length = pre_data_sst2(mode,"SST-2_s2")
+            min_length.append(sst2_mlm_2_length)
+            all_dataset.append(sst2_mlm_2)
+            show_dataset.append("sst-2_s2")
+        if "imdb_s1" in dataset_list:
+            imdb_mlm_1, imdb_mlm_1_length = pre_data_imdb(mode,"IMDB_s1")
+            min_length.append(imdb_mlm_1_length)
+            all_dataset.append(imdb_mlm_1)
+            show_dataset.append("imdb_s1")
+        if "imdb_s2" in dataset_list:
+            imdb_mlm_2, imdb_mlm_2_length = pre_data_imdb(mode,"IMDB_s1")
+            min_length.append(imdb_mlm_2_length)
+            all_dataset.append(imdb_mlm_2)
+            show_dataset.append("imdb_s2")
+        ###
+
+
+        return min_length, all_dataset, show_dataset
+
+
+
+
 
 
 #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:negative, conflict}
