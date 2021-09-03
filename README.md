@@ -385,7 +385,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRobertaL
     --projector $PROJECTOR
 ```
 
-#Note:
+# Note:
 ```
 tools/train_tool_cross.py  Line:108 - 114:
 Alter AE_1_layer to AE_0_layer
