@@ -57,6 +57,7 @@ exit
 
 
 
+'''
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
@@ -125,13 +126,11 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
 #RE
 ############
 #RE
-'''
-CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
-    --gpu $gpus \
-    --checkpoint model/REPrompt \
-    --replacing_prompt \
-    --task_transfer_projector \
-'''
+#CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
+#    --gpu $gpus \
+#    --checkpoint model/REPrompt \
+#    --replacing_prompt \
+#    --task_transfer_projector \
 ###########
 #Other
 ############
@@ -146,16 +145,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.co
     --projector $PROJECTOR
 
 
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta \
     --replacing_prompt task_prompt_emb/STSBPromptBert \
     --model_transfer_projector
-'''
 
 
-exit
 
 
 '''

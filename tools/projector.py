@@ -40,7 +40,7 @@ class AE_0_layer(nn.Module):
     def __init__(self, **kwargs):
         super(AE_0_layer, self).__init__()
         self.encoder = nn.Linear(
-            in_features=kwargs["input_dim"], out_features=kwargs["compress_dim"]
+            in_features=kwargs["dim_0"], out_features=kwargs["dim_1"]
         )
 
         # mean-squared error loss
@@ -59,10 +59,10 @@ class AE_1_layer(nn.Module):
     def __init__(self, **kwargs):
         super(AE_1_layer, self).__init__()
         self.encoder = nn.Linear(
-            in_features=kwargs["input_dim"], out_features=int(kwargs["compress_dim"])
+            in_features=kwargs["dim_0"], out_features=int(kwargs["dim_1"])
         )
         self.decoder = nn.Linear(
-            in_features=int(kwargs["compress_dim"]), out_features=kwargs["input_dim"]
+            in_features=int(kwargs["dim_1"]), out_features=kwargs["dim_2"]
         )
 
         # mean-squared error loss

@@ -14,8 +14,5 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/crossPromptRob
     --gpu $gpus \
     --model_prompt $model_prompt
     #--checkpoint roberta-base \
-    #--local_rank \
-    #--do_test \
-    #--comment \
     #--seed
 

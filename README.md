@@ -346,3 +346,52 @@ mutitask prompt --> prompt --> do task
 ---
 - Task and Domain and label: split all dataset into two parts: D_s1 and D_s2
 ---
+
+
+
+
+---
+---
+---
+=============
+# Train (roberta-based prompt projects to roberta-large)
+```
+vim config/crossPromptRobertaLarge.config
+bash train_cross_large.sh
+```
+```
+gpus=7
+model_prompt="roberta-base"
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/crossPromptRobertaLarge.config \
+    --gpu $gpus \
+    --model_prompt $model_prompt
+```
+
+
+# Valid
+```
+vim config/laptopPromptRobertaLarge.config
+bash valid_cross_task_projector_large.sh
+```
+```
+gpus=7
+
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRobertaLarge.config \
+    --gpu $gpus \
+    --checkpoint model/laptopPromptRobertaLarge \
+    --replacing_prompt task_prompt_emb/laptopPromptRoberta \
+    --model_transfer_projector \
+    --projector $PROJECTOR
+```
+
+#Note:
+```
+tools/train_tool_cross.py  Line:108 - 114:
+Alter AE_1_layer to AE_0_layer
+```
+
+```
+tools/init_tool.py Line 56 - 57:
+Alter to the corresponding AE
+```
