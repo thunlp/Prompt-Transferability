@@ -97,7 +97,7 @@ def load_task_prompt(model_prompt, config_name, config):
                 '''
 
                 #print(2)
-                print(file)
+                #print(file)
                 name_list.append(name)
                 task_prompt_dict[name] = task_prompt_emb
             else:
@@ -106,10 +106,9 @@ def load_task_prompt(model_prompt, config_name, config):
 
     name_list.sort()
 
-    map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrp':3, 'qnli':4, 'qqp':5, 're':6, 'restaurant':7, 'rte':8, 'sst2':9, 'wnli':10}
+    #map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrp':3, 'qnli':4, 'qqp':5, 're':6, 'restaurant':7, 'rte':8, 'sst2':9, 'wnli':10}
 
     #for id, name in name_dict.items():
-    '''
     for id, name in enumerate(name_list):
         task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
     task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
@@ -119,6 +118,7 @@ def load_task_prompt(model_prompt, config_name, config):
     task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
     print(task_prompt_ten.shape)
     exit()
+    '''
 
 
     return task_prompt_ten
