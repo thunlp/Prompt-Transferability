@@ -321,15 +321,12 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("=========================")
             print("Using",prompt_name,"prompt emb")
             print("=========================")
-<<<<<<< HEAD
             '''
             if "Roberta" in prompt_name or "RobertaLarge" in prompt_name:
-=======
             config_name = params["args"].config.split("/")[1].split(".")[0]
             #load_task_prompt_dir = "task_prompt_emb/"+config_name+"/task_prompt"
             #prompt_emb = torch.load(load_task_prompt_dir)
             if "Roberta" in config_name or "RobertaLarge" in config_name:
->>>>>>> origin/main
                 prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
             elif "Bert" in config_name or "BertLarge" in config_name:
                 prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
