@@ -14,7 +14,7 @@ from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 logger = logging.getLogger(__name__)
 
 #def recover_model_transfer_prompt(prompt_emb,load_model,projector):
-def recover_model_transfer_prompt(prompt_emb,projector):
+def recover_model_transfer_prompt(prompt_emb,projector,config):
     ##################
     #######AE trained#
     ##################
@@ -53,7 +53,10 @@ def recover_model_transfer_prompt(prompt_emb,projector):
     #model = torch.load(PATH)
     #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
     #model = AE_auto_layer(dim_0=768,dim_1=768,dim3=1024).to("cuda")
-    model = AE_0_layer(dim_0=768,dim_1=1024).to("cuda")
+    if config.get("model","model_size") == "large":
+        model = AE_0_layer(dim_0=768,dim_1=1024).to("cuda")
+    elif config.get("model","model_size") == "base":
+        model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
     #model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
     #model = AE_1_layer(dim_0=768,dim_1=int(768/2),dim_2=1024).to("cuda")
     model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
@@ -144,6 +147,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
     result = {}
 
+
     logger.info("Begin to initialize dataset and formatter...")
     if mode=="test":
         # init_formatter(config, ["test"], *args, **params)
@@ -180,7 +184,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
     #########
     ##########
-    if params["args"].checkpoint != None:
+    if params["args"].checkpoint != None and mode=="train":
 
         ###################
         model_type = params["args"].checkpoint.split("Prompt")[-1]
@@ -311,26 +315,35 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         print("=========================")
         ###Replace or not
         if params["args"].replacing_prompt == None:
-            print("=========================")
-            print("Using original prompt emb")
-            print("=========================")
             prompt_name = params["args"].config.split("/")[1].split(".")[0]
-            #load_task_prompt_dir = "task_prompt_emb/"+prompt_name+"/task_prompt"
-            #prompt_emb = torch.load(load_task_prompt_dir)
+            load_task_prompt_dir = "task_prompt_emb/"+prompt_name+"/task_prompt"
+            prompt_emb = torch.load(load_task_prompt_dir, map_location=lambda storage, loc: storage)
+            print("=========================")
+            print("Using",prompt_name,"prompt emb")
+            print("=========================")
+<<<<<<< HEAD
+            '''
             if "Roberta" in prompt_name or "RobertaLarge" in prompt_name:
+=======
+            config_name = params["args"].config.split("/")[1].split(".")[0]
+            #load_task_prompt_dir = "task_prompt_emb/"+config_name+"/task_prompt"
+            #prompt_emb = torch.load(load_task_prompt_dir)
+            if "Roberta" in config_name or "RobertaLarge" in config_name:
+>>>>>>> origin/main
                 prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
-            elif "Bert" in prompt_name or "BertLarge" in prompt_name:
+            elif "Bert" in config_name or "BertLarge" in config_name:
                 prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
             else:
                 print("Warning: Use original prompt emb")
+            '''
 
         elif params["args"].replacing_prompt == "Random" or params["args"].replacing_prompt == "random":
             print("=========================")
             print("Using random prompt emb")
             print("=========================")
             #prompt_emb = torch.nn.Parameter(torch.rand(100,768)).to("cuda")
-            prompt_name = params["args"].config.split("/")[1].split(".")[0]
-            if "Large" in prompt_name:
+            config_name = params["args"].config.split("/")[1].split(".")[0]
+            if "Large" in config_name:
                 prompt_emb = torch.rand(config.getint("prompt","prompt_num"),1024).to("cuda")
             else:
                 prompt_emb = torch.rand(config.getint("prompt","prompt_num"),768).to("cuda")
@@ -351,7 +364,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         elif params["args"].model_transfer_projector:
             #load_model = params["args"].checkpoint.strip().split("/")[1]
             #prompt_emb = recover_model_transfer_prompt(prompt_emb,load_model,params["args"].projector)
-            prompt_emb = recover_model_transfer_prompt(prompt_emb,params["args"].projector)
+            prompt_emb = recover_model_transfer_prompt(prompt_emb,params["args"].projector,config)
         elif params["args"].model_transfer_projector and params["args"].task_transfer_projector:
             print("init_tool.py: Cannot choose both task_project and model_project")
         else:
