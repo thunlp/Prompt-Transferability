@@ -346,7 +346,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 prompt_emb = torch.rand(config.getint("prompt","prompt_num"),768).to("cuda")
         else:
             print("=========================")
-            print("Replace", params["args"].checkpoint.split("/")[1], "with", params["args"].replacing_prompt)
+            print("Replace", params["args"].config.split("/")[1].split(".")[0], "with", params["args"].replacing_prompt)
             print("=========================")
             #load_task_prompt_dir = "task_prompt_emb/"+params["args"].replacing_prompt+"/task_prompt"
             load_task_prompt_dir = params["args"].replacing_prompt+"/task_prompt"
@@ -373,9 +373,9 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             prompt_emb = torch.nn.Parameter(prompt_emb).to("cuda")
 
             ##Put prompt emb back to model
-            if "Roberta" in params["args"].checkpoint:
+            if "Roberta" in params["args"].config:
                 model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_emb
-            elif "Bert" in params["args"].checkpoint:
+            elif "Bert" in params["args"].config:
                 model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
             else:
                 print("Wrong!!!")
@@ -386,7 +386,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("=========================")
             pass
 
-    ########################
+    ########################Can be deleted
     #Return and Save prompt#
     ########################
     elif mode=="extract_prompt":

@@ -95,6 +95,7 @@ if __name__ == "__main__":
     parser.add_argument("--pre_train_mlm", default=False, action='store_true')
     parser.add_argument("--task_transfer_projector", default=False, action='store_true')
     parser.add_argument("--model_transfer_projector", default=False, action='store_true')
+    parser.add_argument("--activate_neuron", default=True, action='store_true')
     parser.add_argument("--mode", type=str, default="valid")
     parser.add_argument("--projector", type=str, default=None)
 
@@ -133,6 +134,17 @@ if __name__ == "__main__":
         logger.error("CUDA is not available but specific gpu id")
         raise NotImplementedError
     set_random_seed(args.seed)
+
+
+    ########
+    '''
+    formatter = "mlmPrompt"
+    config.set("data","train_formatter_type",formatter)
+    config.set("data","valid_formatter_type",formatter)
+    config.set("data","test_formatter_type",formatter)
+    config.set("model","model_name","mlmPrompt")
+    '''
+    ########
 
 
 
@@ -220,11 +232,11 @@ if __name__ == "__main__":
 
     #Activated neuron for a task-specific prompt
     outputs = torch.stack(outputs)
-    print(outputs.shape)
 
 
 
-    save_name = configFilePath.strip().split("/")[-1].split(".")[0]
+
+    save_name = args.replacing_prompt.strip().split("/")[-1].split(".")[0]
     dir = "task_activated_neuron"
     if os.path.isdir(dir):
         save_dir = dir+"/"+save_name
@@ -240,6 +252,10 @@ if __name__ == "__main__":
         torch.save(outputs,save_dir+"/task_activated_neuron")
 
 
+    print("==Prompt emb==")
+    print(outputs.shape)
+    print("Save Done")
+    print("==============")
 
 
     '''

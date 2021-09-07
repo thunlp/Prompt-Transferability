@@ -35,6 +35,7 @@ from .persuasivenessspecificityPromptRobertaFormatter import persuasivenessspeci
 from .emobankdominancePromptRobertaFormatter import emobankdominancePromptRobertaFormatter
 from .squinkyimplicaturePromptRobertaFormatter import squinkyimplicaturePromptRobertaFormatter
 from .squinkyformalityPromptRobertaFormatter import squinkyformalityPromptRobertaFormatter
+from .activate_neuronPromptRobertaFormatter import activate_neuronPromptRobertaFormatter
 
 
 
@@ -78,6 +79,7 @@ formatter_list = {
     "emobankdominancePromptRoberta": emobankdominancePromptRobertaFormatter,
     "squinkyimplicaturePromptRoberta": squinkyimplicaturePromptRobertaFormatter,
     "squinkyformalityPromptRoberta": squinkyformalityPromptRobertaFormatter,
+    "activate_neuronPromptRoberta": activate_neuronPromptRobertaFormatter,
 }
 
 

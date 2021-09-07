@@ -147,8 +147,12 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                 json.dump(output_info, f)
         '''
 
+        if kwargs.activate_neuron == True:
+            return
+
         try:
-            dataset_name = kwargs.checkpoint.split("/")[1]
+            dataset_name = kwargs.config.split("/")[1].split(".")[0]
+            #dataset_name = kwargs.checkpoint.split("/")[1]
             #dataset_name = config.get("output","model_name")
             dir_save = "result/"+str(dataset_name)
             os.mkdir(dir_save)
