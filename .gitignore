@@ -152,6 +152,8 @@ model/cross_Bert_to_Roberta_reconstructionLoss_mlm_768_768*
 model/cross_Bert_to_Roberta_reconstructionLoss_mlm*
 model/cross_Bert_to_Roberta_reconstructionLoss_all_task*
 
+model/task_activated_neuron*
+
 /result_mlm
 
 
