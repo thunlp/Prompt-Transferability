@@ -404,7 +404,7 @@ Alter to the corresponding AE
 # 2021.09.09
 
 ### Train bert-medium task prompt
-Need to add datasetname to train_bert_medium_sample.sh and create data-specific config files.
+- Need to add datasetname to train_bert_medium_sample.sh and create data-specific config files.
 ```
 bash train_bert_medium_sample.sh
 ```
@@ -416,7 +416,7 @@ python3 copy_prompt_to_taskpromptdir_medium.py
 
 
 ### Train task projector (with Task prompt)
-Edit crossPromptBertMedium.config
+- Edit crossPromptBertMedium.config
 ```
 bash train_bert_cross_medium.sh
 ```
@@ -428,7 +428,7 @@ bash train_bert_cross_medium.sh
 
 
 ### Train bert-medium mlm prompt
-Need to add datasetname to train_lm_s_bert_medium.sh and create data-specific config files.
+- Need to add datasetname to train_lm_s_bert_medium.sh and create data-specific config files.
 ```
 bash train_lm_s_bert_medium.sh
 ```
@@ -440,7 +440,7 @@ python3 copy_prompt_to_taskpromptdir_medium.py
 ```
 
 ### Train mlm projector (with mlm prompt)
-Edit cross_mlmPromptBertMedium.config
+- Edit cross_mlmPromptBertMedium.config
 ```
 bash train_mlm_medium_cross.sh
 ```
