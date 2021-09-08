@@ -37,10 +37,14 @@ class mlmPrompt(nn.Module):
                     model = "bert-large"
                     ckp = "BertLargeForMaskedLM"
                     self.hidden_size = 1024
-                else:
+                elif config.get("model","model_size")=="base":
                     model = "bert-base-uncased"
                     ckp = "BertForMaskedLM"
                     self.hidden_size = 768
+                elif config.get("model","model_size")=="medium":
+                    model = "prajjwal1/bert-medium"
+                    ckp = "BertMediumForMaskedLM"
+                    self.hidden_size = 512
             except:
                 model = "bert-base-uncased"
                 ckp = "BertForMaskedLM"
@@ -82,6 +86,8 @@ class mlmPrompt(nn.Module):
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")+str(model.split("-")[0].capitalize())
         if config.get("model","model_size")=="large":
             self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"Large"+"_init_params"
+        elif config.get("model","model_size")=="medium":
+            self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"Medium"+"_init_params"
         else:
             self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"_init_params"
         #print(self.init_model_path)

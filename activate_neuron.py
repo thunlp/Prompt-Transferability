@@ -202,6 +202,7 @@ if __name__ == "__main__":
         #outputs[k] = relu(np.concatenate(outputs[k]))
         outputs[k] = torch.relu(torch.cat(outputs[k]))
 
+
     '''
     print(len(outputs)) #12
     print(len(outputs[0])) #17 epoch
@@ -232,6 +233,13 @@ if __name__ == "__main__":
 
     #Activated neuron for a task-specific prompt
     outputs = torch.stack(outputs)
+    outputs = outputs[11:,:,:1,:]
+    #outputs = outputs[11:,:,:100,:]
+    #outputs = outputs[:,:,:1,:]
+
+    #print(outputs.shape)
+    # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
+    #exit()
 
 
 
@@ -256,6 +264,14 @@ if __name__ == "__main__":
     print(outputs.shape)
     print("Save Done")
     print("==============")
+
+
+
+
+
+
+
+
 
 
     '''

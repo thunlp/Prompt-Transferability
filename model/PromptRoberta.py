@@ -15,6 +15,12 @@ class PromptRoberta(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
         super(PromptRoberta, self).__init__()
 
+        #Roberta variant sizes model: https://huggingface.co/readerbench/RoBERT-small
+        #Model	Weights	L	H	A	MLM accuracy	NSP accuracy
+        #RoBERT-small	19M	12	256	8	0.5363	0.9687
+        #RoBERT-base	114M	12	768	12	0.6511	0.9802
+        #RoBERT-large	341M	24	1024	24	0.6929	0.9843
+
 
         try:
             if config.get("model","model_size")=="large":
@@ -208,7 +214,7 @@ class PromptRoberta(nn.Module):
             score = torch.cat([mask_logits[:,5481].unsqueeze(1), mask_logits[:,3530].unsqueeze(1)], dim=1)
         else:
             #Other
-            print("PromptBert: What is this task?")
+            print("PromptRoberta: What is this task?")
             #mask_logits:torch.Size([16, 50265])
             #mo_dict={"yes":10932,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)

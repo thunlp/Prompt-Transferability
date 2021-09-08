@@ -93,6 +93,11 @@ model/projectPromptBert_1layer*
 mode/projectorPromptBert*
 model/crossPromptBert*
 
+
+model/restaurantPromptBertMedium*
+
+
+
 model/anliPromptBert*
 model/emobankarousalPromptBert*
 model/emobankdominancePromptBert*
@@ -165,6 +170,7 @@ task_activated_neuron*
 
 /bert-base-uncased
 /BertForMaskedLM
+/BertMediumForMaskedLM
 /BertLargeForMaskedLM
 
 ../CSS-LM

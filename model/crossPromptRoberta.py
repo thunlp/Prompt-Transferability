@@ -133,6 +133,46 @@ class crossPromptRoberta(nn.Module):
         super(crossPromptRoberta, self).__init__()
 
 
+        if "Roberta" in config.get("model","model_base"):
+            try:
+                if config.get("model","model_size")=="large":
+                    model = "roberta-large"
+                    ckp = "RobertaLargeForMaskedLM"
+                    self.hidden_size = 1024
+                else:
+                    model = "roberta-base"
+                    ckp = "RobertaForMaskedLM"
+                    self.hidden_size = 768
+            except:
+                model = "roberta-base"
+                ckp = "RobertaForMaskedLM"
+                self.hidden_size = 768
+        elif "Bert" in config.get("model","model_base"):
+            try:
+                if config.get("model","model_size")=="large":
+                    model = "bert-large"
+                    ckp = "BertLargeForMaskedLM"
+                    self.hidden_size = 1024
+                elif config.get("model","model_size")=="base":
+                    model = "bert-base-uncased"
+                    ckp = "BertForMaskedLM"
+                    self.hidden_size = 768
+                elif config.get("model","model_size")=="medium":
+                    model = "prajjwal1/bert-medium"
+                    ckp = "BertMediumForMaskedLM"
+                    self.hidden_size = 512
+            except:
+                model = "bert-base-uncased"
+                ckp = "BertForMaskedLM"
+                self.hidden_size = 768
+        else:
+            print("Wrong!!!")
+            print("Wrong!!!")
+            print("Wrong!!!")
+            print("crossPromptRoberta.py Error")
+            exit()
+
+        '''
         try:
             if config.get("model","model_size")=="large":
                 model = "roberta-large"
@@ -146,6 +186,7 @@ class crossPromptRoberta(nn.Module):
             model = "roberta-base"
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
+        '''
 
 
         self.task_specific_prompt_emb = load_task_prompt(params["model_prompt"],params["args"].config,config).to('cuda')
@@ -157,14 +198,29 @@ class crossPromptRoberta(nn.Module):
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
+        '''
         if config.get("model","model_size")=="large":
             self.init_model_path = str(ckp)+"/"+"PromptRobertaLarge_init_params"
+        if config.get("model","model_size")=="medium":
+            self.init_model_path = str(ckp)+"/"+"PromptRobertaMedium_init_params"
         else:
             self.init_model_path = str(ckp)+"/PromptRoberta_init_params"
+        '''
+
+        if "bert-medium" in model:
+            model = "bert-medium"
+
+        if config.get("model","model_size")=="large":
+            self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"Large"+"_init_params"
+        elif config.get("model","model_size")=="medium":
+            self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"Medium"+"_init_params"
+        else:
+            self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
         #print(self.init_model_path)
+        '''
         if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
             self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
         else:
@@ -179,7 +235,39 @@ class crossPromptRoberta(nn.Module):
             #torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
             print("Save Done")
             self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+        '''
 
+
+        if os.path.exists(self.init_model_path+"/pytorch_model.bin"):
+            if "Roberta" in config.get("model","model_base"):
+                from .modelling_roberta import RobertaForMaskedLM
+                self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+            elif "Bert" in config.get("model","model_base"):
+                from .modelling_bert import BertForMaskedLM
+                self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+            else:
+                print("Wrong")
+                exit()
+        else:
+            if "Roberta" in config.get("model","model_base"):
+                #copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
+                from .modelling_roberta import RobertaForMaskedLM
+                self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+                os.mkdir(self.init_model_path)
+                torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
+                print("Save Done")
+                self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+            elif "Bert" in config.get("model","model_base"):
+                #copy_tree(str(str(ckp)+"/SST2_PromptBert"), self.init_model_path)
+                from .modelling_bert import BertForMaskedLM
+                self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+                os.mkdir(self.init_model_path)
+                torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
+                print("Save Done")
+                self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+            else:
+                print("Wrong")
+                exit()
         ##############
         #self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
 

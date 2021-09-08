@@ -2,6 +2,7 @@ gpus=2
 
 #STSBPromptRoberta
 
+#for MODEL in WNLIPromptRoberta
 #CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron.py
 for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta
 do
@@ -18,6 +19,9 @@ do
 done
 
 
+
+#--replacing_prompt task_prompt_emb/$MODEL \
+#--replacing_prompt random \
 #--checkpoint model/$MODEL \
 
 
@@ -27,5 +31,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron.py \
     --gpu $gpus \
     --checkpoint model/restaurantPromptRoberta
 '''
+
+python3 activate_neuron_sim.py
 
 

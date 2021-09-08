@@ -15,12 +15,21 @@ class PromptBert(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
         super(PromptBert, self).__init__()
 
+        #bert from huggieface: https://huggingface.co/prajjwal1/bert-medium
+        #prajjwal1/bert-tiny (L=2, H=128)
+        #prajjwal1/bert-mini (L=4, H=256)
+        #prajjwal1/bert-small (L=4, H=512)
+        #prajjwal1/bert-medium (L=8, H=512)
 
         try:
             if config.get("model","model_size")=="large":
                 model = "bert-large-uncased"
                 ckp = "BertLargeForMaskedLM"
                 self.hidden_size = 1024
+            elif config.get("model","model_size")=="medium":
+                model = "prajjwal1/bert-medium"
+                ckp = "BertMediumForMaskedLM"
+                self.hidden_size = 512
             else:
                 model = "bert-base-uncased"
                 ckp = "BertForMaskedLM"
@@ -33,14 +42,19 @@ class PromptBert(nn.Module):
         self.plmconfig = AutoConfig.from_pretrained(model)
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
+
         #roberta_name = config.get("data","train_formatter_type")
         #bert_name = roberta_name.replace("Roberta","Bert")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
         #self.init_model_path = str(ckp)+"/"+bert_name
         if config.get("model","model_size")=="large":
-            self.init_model_path = str(ckp)+"/"+"PromptBertaLarge_init_params"
-        else:
+            self.init_model_path = str(ckp)+"/"+"PromptBertLarge_init_params"
+        elif config.get("model","model_size")=="base":
             self.init_model_path = str(ckp)+"/PromptBert_init_params"
+        elif config.get("model","model_size")=="medium":
+            self.init_model_path = str(ckp)+"/"+"PromptBertMedium_init_params"
+        else:
+            print("In PromptBert.py: no this kind of size model")
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
