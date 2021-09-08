@@ -60,11 +60,15 @@ model/agnewsPromptRoberta_mlm_s2*
 model/cs_wikiPromptRoberta_mlm_s1*
 model/cs_wikiPromptRoberta_mlm_s2*
 model/IMDBPromptRoberta_mlm_s1*
+model/IMDBPromptRobertaMedium_mlm_s1*
+model/IMDBPromptBertMedium_mlm_s1*
 model/IMDBPromptRoberta_mlm_s2*
 model/sciercPromptRoberta_mlm_s1*
 model/sciercPromptRoberta_mlm_s2*
 model/SST2PromptRoberta_mlm_s1*
 model/SST2PromptRoberta_mlm_s2*
+
+
 
 
 

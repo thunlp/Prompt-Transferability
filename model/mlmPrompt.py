@@ -84,6 +84,10 @@ class mlmPrompt(nn.Module):
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")+str(model.split("-")[0].capitalize())
+
+        if "bert-medium" in model:
+            model = "bert-medium"
+
         if config.get("model","model_size")=="large":
             self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"Large"+"_init_params"
         elif config.get("model","model_size")=="medium":

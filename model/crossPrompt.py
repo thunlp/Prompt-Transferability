@@ -22,7 +22,7 @@ def load_task_prompt(model_prompt, config_name, config):
     config_name = config_name.split("/")[1].replace(".config","")
 
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
-
+    model_size = str.title(model_prompt.strip().split("-")[-1])
     model_prompt = str.title(model_prompt.strip().split("-")[0])
 
 
@@ -30,13 +30,14 @@ def load_task_prompt(model_prompt, config_name, config):
         model_prompt_not_in = "Roberta"
     elif model_prompt == "Roberta":
         model_prompt_not_in = "Bert"
-
     print("====")
     print("Include prompt type:",model_prompt)
     print("---")
     print("Not include prompt type:",model_prompt_not_in)
     print("---")
     print("Trained prompt:", model_prompt)
+    print("---")
+    print("Model size:", model_size)
     print("====")
     #exit()
 
@@ -48,8 +49,13 @@ def load_task_prompt(model_prompt, config_name, config):
 
 
     for file in files:
+
         #cross_mlmPromptRoberta
         if "mlm" in config_name:
+
+            if model_size not in file:
+                continue
+
             if model_prompt not in file:
                 continue
             if "mlm" not in file:
@@ -83,6 +89,9 @@ def load_task_prompt(model_prompt, config_name, config):
 
         #crossPromptRoberta
         else:
+            if model_size not in file:
+                continue
+
             if "proj" not in file and model_prompt in file and "mlm" not in file:
                 task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
                 name = str(file.strip().split("P")[0]).lower()
@@ -110,8 +119,9 @@ def load_task_prompt(model_prompt, config_name, config):
 
     #for id, name in name_dict.items():
     for id, name in enumerate(name_list):
-        task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
-    task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
+        #task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
+        task_prompt_ten.append(task_prompt_dict[name])
+    task_prompt_ten = torch.stack(task_prompt_ten)
     '''
     for name, id in map_id:
         task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
@@ -125,12 +135,14 @@ def load_task_prompt(model_prompt, config_name, config):
 
 
 
-class crossPromptRoberta(nn.Module):
+#class crossPromptRoberta(nn.Module):
+class crossPrompt(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
 
         #super(PromptRoberta, self).__init__()
         #super(projectPromptRoberta, self).__init__()
-        super(crossPromptRoberta, self).__init__()
+        #super(crossPromptRoberta, self).__init__()
+        super(crossPrompt, self).__init__()
 
 
         if "Roberta" in config.get("model","model_base"):
@@ -207,6 +219,7 @@ class crossPromptRoberta(nn.Module):
             self.init_model_path = str(ckp)+"/PromptRoberta_init_params"
         '''
 
+
         if "bert-medium" in model:
             model = "bert-medium"
 
@@ -216,6 +229,9 @@ class crossPromptRoberta(nn.Module):
             self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"Medium"+"_init_params"
         else:
             self.init_model_path = str(ckp)+"/"+"Prompt"+str(model.split("-")[0].capitalize())+"_init_params"
+
+
+
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
@@ -310,6 +326,7 @@ class crossPromptRoberta(nn.Module):
             task_specific_prompt_emb = model_AE(task_specific_prompt_emb)
             ###
 
+
             '''
             task_specific_prompt_emb_ = task_specific_prompt_emb.reshape( int(task_specific_prompt_emb.shape[0]), int(task_specific_prompt_emb.shape[1])*int(task_specific_prompt_emb.shape[2]))
             task_specific_prompt_emb_ = model_AE(task_specific_prompt_emb_)
@@ -345,80 +362,21 @@ class crossPromptRoberta(nn.Module):
         else:
 
             mask_logits = logits[:, 0] # batch, vocab_size #torch.Size([16, 50265])
-            '''
-            print("==============")
-            print("==============")
-            #sentiment
-            #mo_dict={"positive":0,"neutral":1,"negative":2,"conflict":3}
-            print(tokenizer.encode("positive",add_special_tokens=False)) #22173
-            #print(tokenizer.encode("neutral",add_special_tokens=False)) #12516
-            print(tokenizer.encode("moderate",add_special_tokens=False)) #19397
-            print(tokenizer.encode("negative",add_special_tokens=False)) #33407
-            print(tokenizer.encode("conflict",add_special_tokens=False)) #'conf':17075,, 'lict':
-            #NLI
-            print(tokenizer.convert_ids_to_tokens([10932])) #['yes']
-            print(tokenizer.convert_ids_to_tokens([12516])) #['neutral']
-            print(tokenizer.convert_ids_to_tokens([2362])) #['no']
-            #paraphrase
-            print(tokenizer.encode("true",add_special_tokens=False)) #[29225]
-            print(tokenizer.encode("false",add_special_tokens=False)) #[22303]
-            print(tokenizer.encode("right",add_special_tokens=False)) #[4070]
-            print(tokenizer.encode("wrong",add_special_tokens=False)) #[35621]
-            '''
 
-            #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict}
-            #score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1)], dim=1)
+            if config.get("model","model_base") == "Roberta":
+                #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict, 9:low, 10:high}
+                score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1), mask_logits[:,5481].unsqueeze(1), mask_logits[:,3530].unsqueeze(1)], dim=1)
 
-            #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict, 9:low, 10:high}
-            score = torch.cat([mask_logits[:,2362].unsqueeze(1), mask_logits[:,10932].unsqueeze(1), mask_logits[:,22303].unsqueeze(1), mask_logits[:,12516].unsqueeze(1),mask_logits[:,29225].unsqueeze(1),mask_logits[:,33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1),mask_logits[:,22173].unsqueeze(1),mask_logits[:,17075].unsqueeze(1), mask_logits[:,5481].unsqueeze(1), mask_logits[:,3530].unsqueeze(1)], dim=1)
+            elif config.get("model","model_base") == "Bert":
+                #label_map={0:no, 1:yes, 2:False, 3:neutral, 4:True, 5:negative, 6:moderate, 7:postive, 8:conflict, 9:low, 10:high}
+                score = torch.cat([mask_logits[:,2053].unsqueeze(1), mask_logits[:,2748].unsqueeze(1), mask_logits[:,6270].unsqueeze(1), mask_logits[:,8699].unsqueeze(1),mask_logits[:,2995].unsqueeze(1),mask_logits[:,4997].unsqueeze(1), mask_logits[:,8777].unsqueeze(1),mask_logits[:,3893].unsqueeze(1),mask_logits[:,4736].unsqueeze(1), mask_logits[:,2659].unsqueeze(1), mask_logits[:,2152].unsqueeze(1)], dim=1)
 
-            '''
-            if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant" :
-                #sentiment
-                #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
-                score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 19397].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1), mask_logits[:,17075].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "SST2" or config.get("data", "train_dataset_type") == "IMDB":
-                #sentiment
-                #mo_dict={"positive":22173,"negative":33407}
-                score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:,22173].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "MNLI":
-                #NLI
-                #mo_dict={"yes":10932,"neutral":12516,"no":2362}
-                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "RTE":
-                #NLI
-                #mo_dict={"yes":10932,"no":2362}
-                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "WNLI":
-                #NLI
-                #mo_dict={"yes":10932,"no":2362}
-                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "QNLI":
-                #NLI
-                #mo_dict={"yes":10932,"no":2362}
-                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "MRPC":
-                #paraphrase
-                #mo_dict={"true":29225,"false":22303}
-                score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "QQP":
-                #paraphrase
-                #mo_dict={"true":29225,"false":22303}
-                score = torch.cat([mask_logits[:, 22303].unsqueeze(1), mask_logits[:,29225].unsqueeze(1)], dim=1)
-            elif config.get("data", "train_dataset_type") == "STSB":
-                score = mask_logits[:, 10932]
             else:
-                #Other
-                #mask_logits:torch.Size([16, 50265])
-                #mo_dict={"yes":10932,"no":2362}
-                score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-            '''
+                print("Cannot access. model/crossPrompt.py Line:373")
+                exit()
 
 
             loss = self.criterion(score, data["label"])
-            #if config.get("data", "train_dataset_type") == "STSB":
-            #    acc_result = pearson(score, data['label'], acc_result)
-            #else:
             acc_result = acc(score, data['label'], acc_result)
 
 

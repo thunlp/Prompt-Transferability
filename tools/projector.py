@@ -19,6 +19,7 @@ class AE_auto_layer(nn.Module):
 
         # mean-squared error loss
         self.criterion = nn.CrossEntropyLoss()
+        self.activation = nn.LeakyReLU()
 
     #def encoding(self, features):
     #    return self.encoder(features)
@@ -31,7 +32,7 @@ class AE_auto_layer(nn.Module):
         '''
         for encoder in self.encoders:
             features = encoder(features)
-            features = torch.relu(features)
+            features = self.activation(features)
         return features
 
 
@@ -45,13 +46,14 @@ class AE_0_layer(nn.Module):
 
         # mean-squared error loss
         self.criterion = nn.CrossEntropyLoss()
+        self.activation = nn.LeakyReLU()
 
     def encoding(self, features):
         return self.encoder(features)
 
     def forward(self, features):
         encoded_emb = self.encoding(features)
-        encoded_emb = torch.relu(encoded_emb)
+        encoded_emb = self.activation(encoded_emb)
         return encoded_emb
 
 
@@ -67,6 +69,7 @@ class AE_1_layer(nn.Module):
 
         # mean-squared error loss
         self.criterion = nn.CrossEntropyLoss()
+        self.activation = nn.LeakyReLU()
 
     def encoding(self, features):
         return self.encoder(features)
@@ -75,6 +78,6 @@ class AE_1_layer(nn.Module):
 
     def forward(self, features):
         encoded_emb = self.encoding(features)
-        encoded_emb = torch.relu(encoded_emb)
+        encoded_emb = self.activation(encoded_emb)
         decoded_emb = self.decoding(encoded_emb)
         return decoded_emb

@@ -238,12 +238,15 @@ class BertEmbeddings(nn.Module):
 
         if inputs_embeds is None:
             word_embeds = self.word_embeddings(input_ids * (input_ids >= 0).int()) * (input_ids >= 0).int().unsqueeze(2)
+
+
             prompt_ids = - (input_ids + 1)
 
             if "prompt_emb_output" in kwargs:
                 if kwargs['prompt_emb_output']=="replace_task_specific_prompt_emb":
                     prompt_emb = kwargs['task_specific_prompt_emb']
                     zeros_p = torch.zeros(int(word_embeds.shape[0]),int(word_embeds.shape[1])-int(prompt_emb.shape[1]),int(word_embeds.shape[2])).cuda()
+                    #zeros_p = torch.zeros(int(word_embeds.shape[0]),int(word_embeds.shape[1])-int(prompt_emb.shape[1]),int(prompt_emb.shape[-1])).cuda()
                     prompt_emb = torch.cat((prompt_emb,zeros_p), 1)
                 else:
                     prompt_emb = self.prompt_embeddings(prompt_ids * (prompt_ids >= 0).int()) * (prompt_ids >= 0).int().unsqueeze(2)

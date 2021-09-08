@@ -108,10 +108,12 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     #model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
-    if config.get("model","model_size") == "large":
-        model_AE = AE_0_layer(dim_0=768,dim_1=1024).to("cuda")
-    elif config.get("model","model_size") == "base":
-        model_AE = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
+    if config.get("model","model_size") == "large" and "medium" in params["args"].model_prompt:
+        model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
+    elif config.get("model","model_size") == "base" and "base" in params["args"].model_prompt:
+        model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
+    elif config.get("model","model_size") == "base" and "medium" in params["args"].model_prompt:
+        model_AE = AE_0_layer(dim_0=512,dim_1=768).to(device)
     #model_AE = AE_1_layer(dim_0=768,dim_1=768,dim_2=1024).to(device)
     # create an optimizer object
     # Adam optimizer with learning rate 1e-3

@@ -21,7 +21,7 @@ from .restaurantPromptRobertaFormatter import restaurantPromptRobertaFormatter
 from .IMDBPromptRobertaFormatter import IMDBPromptRobertaFormatter
 from .projectorPromptRobertaFormatter import projectorPromptRobertaFormatter
 from .mutiGPU_STSBPromptRobertaFormatter import mutiGPU_STSBPromptRobertaFormatter
-from .crossPromptRobertaFormatter import crossPromptRobertaFormatter
+from .crossPromptFormatter import crossPromptFormatter
 from .mlmPromptFormatter import mlmPromptFormatter
 from .cross_mlmPromptFormatter import cross_mlmPromptFormatter
 from .snliPromptRobertaFormatter import snliPromptRobertaFormatter
@@ -65,7 +65,7 @@ formatter_list = {
     "IMDBPromptRoberta": IMDBPromptRobertaFormatter,
     "projectorPromptRoberta": projectorPromptRobertaFormatter,
     "mutiGPU_STSBPromptRoberta": mutiGPU_STSBPromptRobertaFormatter,
-    "crossPromptRoberta": crossPromptRobertaFormatter,
+    "crossPrompt": crossPromptFormatter,
     "mlmPrompt": mlmPromptFormatter,
     "cross_mlmPrompt": cross_mlmPromptFormatter,
     "snliPromptRoberta": snliPromptRobertaFormatter,
@@ -95,9 +95,9 @@ def init_formatter(config, mode, *args, **params):
     which = config.get("data", "%s_formatter_type" % temp_mode)
 
 
+
     if which in formatter_list:
         formatter = formatter_list[which](config, mode, *args, **params)
-
         return formatter
     else:
         logger.error("There is no formatter called %s, check your config." % which)

@@ -57,6 +57,8 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
         model = AE_0_layer(dim_0=768,dim_1=1024).to("cuda")
     elif config.get("model","model_size") == "base":
         model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
+    elif config.get("model","model_size") == "medium":
+        model = AE_0_layer(dim_0=512,dim_1=768).to("cuda")
     #model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
     #model = AE_1_layer(dim_0=768,dim_1=int(768/2),dim_2=1024).to("cuda")
     model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
@@ -167,6 +169,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         '''
     else:
         print("Don't need to load data")
+
 
     logger.info("Begin to initialize models...")
 

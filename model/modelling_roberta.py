@@ -161,7 +161,6 @@ class RobertaEmbeddings(nn.Module):
             if "prompt_emb_output" in kwargs:
                 if kwargs['prompt_emb_output']=="replace_task_specific_prompt_emb":
                     prompt_emb = kwargs['task_specific_prompt_emb']
-                    #zeros_p = torch.zeros(int(word_embeds.shape[0]),int(word_embeds.shape[1])-int(prompt_emb.shape[1]),int(word_embeds.shape[2])).cuda()
                     zeros_p = torch.zeros(int(word_embeds.shape[0]),int(word_embeds.shape[1])-int(prompt_emb.shape[1]),int(word_embeds.shape[2])).cuda()
                     prompt_emb = torch.cat((prompt_emb,zeros_p), 1)
                 else:

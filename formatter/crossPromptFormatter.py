@@ -4,7 +4,7 @@ import json
 import numpy as np
 from .Basic import BasicFormatter
 
-class crossPromptRobertaFormatter(BasicFormatter):
+class crossPromptFormatter(BasicFormatter):
     def __init__(self, config, mode, *args, **params):
         self.config = config
         self.mode = mode
@@ -13,13 +13,13 @@ class crossPromptRobertaFormatter(BasicFormatter):
         self.prompt_num = config.getint("prompt", "prompt_num")
         self.mode = mode
         ##########
-        self.model_name = config.get("model","model_name")
+        self.model_name = config.get("model","model_base")
         if "Roberta" in self.model_name:
             self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
         elif "Bert" in self.model_name:
             self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
         else:
-            print("Have no matching in the formatter")
+            print("Have no matching in the formatter: formatter/crossPromptFormatter.py Line:23")
             exit()
         #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
         ##########
