@@ -190,7 +190,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     if params["args"].checkpoint != None and mode=="train":
 
         ###################
-        model_type = params["args"].checkpoint.split("Prompt")[-1]
+        model_type = params["args"].checkpoint.split("Prompt")[-1].replace(".config","")
         if model_type == "Bert":
             load_dir = "BertForMaskedLM/PromptBert_init_params/pytorch_model.bin"
             if os.path.exists(load_dir):
@@ -232,26 +232,27 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
 
-        '''
         load_checkpoint = params["args"].checkpoint
         files = os.listdir(load_checkpoint)
 
-        if "task_prompt_emb" in files:
-            PATH = load_checkpoint+"/task_prompt_emb"
-        else:
-            max_epoch = 0
-            for file in files:
-                present_epoch = int(file.split(".")[0])
-                if present_epoch > max_epoch:
-                    max_epoch = present_epoch
-                    PATH=load_checkpoint+"/"+str(max_epoch)+".pkl"
-            prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)
-            torch.save(prompt_parameters, load_checkpoint+"/task_prompt_emb")
+        #if "task_prompt_emb" in files:
+        #    PATH = load_checkpoint+"/task_prompt"
+        #else:
+        max_epoch = 0
+        for file in files:
+            present_epoch = int(file.split("_")[0])
+            if present_epoch > max_epoch:
+                max_epoch = present_epoch
+                PATH=load_checkpoint+"/"+str(max_epoch)+"_task_prompt.pkl"
+        prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)
+        #torch.save(prompt_parameters, load_checkpoint+"/task_prompt_emb")
+
+
+
+
         '''
-
-
-
-        prompt_parameters = torch.load(params["args"].replacing_prompt+"/"+"task_prompt", map_location=lambda storage, loc: storage)
+        prompt_parameters = torch.load(params["args"].checkpoint+"/"+"task_prompt", map_location=lambda storage, loc: storage)
+        '''
 
         #model
         #optimizer_name
@@ -264,9 +265,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
         if model_type == "Robert" or model_type == "RobertaLarge":
-            model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_parameters
+            model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
         elif model_type == "Bert" or model_type == "BertLarge":
-            model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters
+            model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
+        else:
+            print("No matching checkpoint load")
+            print("init.tool.py Line:273")
+            exit()
         '''
         elif model_type == "RobertLarge":
             model.encoder.roberta_large.embeddings.prompt_embeddings.weight.data = prompt_parameters
@@ -280,6 +285,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             model.cuda()
         else:
             pass
+
+
+
+        optimizer = prompt_parameters["optimizer_name"]
+        trained_epoch = prompt_parameters["trained_epoch"]
+        global_step = prompt_parameters["global_step"]
+
 
 
         ###################

@@ -259,9 +259,9 @@ Project: 76800_768_76800
 
 
 - To do:
-- Check QQP, RTE score
-- Extract QQP, RTE score
-- Measure activated neurons in QQP and RTE 
+- Check QQP(128), RTE(1024), MRPC(1204) score
+- Extract QQP, RTE, MRPC score
+- Measure activated neurons in QQP, RTE, MRPC 
 
 
 - Revised:
@@ -280,16 +280,6 @@ Project: 76800_768_76800
 * Other experiment:
 mutitask prompt --> prompt --> do task
 
-* Re-training: 
-1. QQP (fix dataset bugs) 
-2. WNLI (epoch 96)
-3. RTE (epoch 96)
-4. All mlm prompt
-5. Re-create prompt emb
-4. Re-evaluate: mlm (prompt) tasks
-
-* Re-construct code:
-1. Dynamic AE for various dim
 
 
 * Ready to train
