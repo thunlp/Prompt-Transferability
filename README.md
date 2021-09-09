@@ -259,19 +259,9 @@ Project: 76800_768_76800
 
 
 - To do:
-* Try fine-tuned model transfer (ability)
-* Mutitask prompt (prompt task prompt to a single promt: model, task level)
-----------
-- To do
-* Only save prompt for each training 
-* Only save projection for each training  !!!
-* Debug: load model aftertrained with muti-gpu 
-* Debug: Training Large Model
-* Bebug: PromptRoberta, PromptBert (Editing: fix only to load prompt)
-
-- Re-do experiemnt:
-* restaurant, laptop => Re-do the exp with re-trained prompt
-* copt prompt from server103 , except for restaurant and IMDB
+- Check QQP, RTE score
+- Extract QQP, RTE score
+- Measure activated neurons in QQP and RTE 
 
 
 - Revised:

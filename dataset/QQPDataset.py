@@ -23,6 +23,7 @@ class QQPDataset(Dataset):
         else:
             self.data = [{"sent1": ins['question1'].strip(), "sent2": ins['question2'].strip(), "label": ins['label']} for ins in
                          self.train_data]
+
         print(self.mode, "the number of data", len(self.data))
         # from IPython import embed; embed()
 

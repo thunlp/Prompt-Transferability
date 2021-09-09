@@ -8,6 +8,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobe
     --gpu $gpus
 '''
 
+'''
 ################################
 ###########Roberta##############
 ################################
@@ -36,7 +37,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.
     #--seed
 
 
-'''
 
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.config \
@@ -63,10 +63,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRoberta.co
     --gpu $gpus \
 
 
+'''
 #QQP
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
     --gpu $gpus \
 
+'''
 
 ############
 #NLI
@@ -76,6 +78,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.con
 #Remove prompts between two sentences
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/RTEPromptRoberta.config \
     --gpu $gpus \
+
 
 #MNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRoberta.config \
@@ -167,6 +170,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/tweetevalsentimentPr
 
 
 
+'''
 ##########################################################
 ###########BERT###########################################
 ##########################################################
@@ -194,7 +198,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptBert.con
     #--seed
 
 
-'''
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptBert.config \
     --gpu $gpus \
