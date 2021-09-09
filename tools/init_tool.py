@@ -220,10 +220,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             parameters["encoder."+key] = parameters.pop(key)
 
 
-        #print(type(parameters))
-        #print(parameters.state_dict())
-        #exit()
-
 
         if hasattr(model, 'module'):
             model.module.load_state_dict(parameters)
@@ -254,30 +250,19 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         prompt_parameters = torch.load(params["args"].checkpoint+"/"+"task_prompt", map_location=lambda storage, loc: storage)
         '''
 
-        #model
-        #optimizer_name
-        #optimizer
-        #trained_epoch
-        #global_step
-
 
         #encoder.roberta.embeddings.prompt_embeddings.weight
 
 
-        if model_type == "Robert" or model_type == "RobertaLarge":
+        if model_type == "Roberta" or model_type == "RobertaLarge":
             model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
         elif model_type == "Bert" or model_type == "BertLarge":
             model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
         else:
+            print(model_type)
             print("No matching checkpoint load")
             print("init.tool.py Line:273")
             exit()
-        '''
-        elif model_type == "RobertLarge":
-            model.encoder.roberta_large.embeddings.prompt_embeddings.weight.data = prompt_parameters
-            print("check roberta large")
-            exit()
-        '''
 
 
 
@@ -288,7 +273,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
 
-        optimizer = prompt_parameters["optimizer_name"]
+        if config.get("train", "optimizer") == prompt_parameters["optimizer_name"]:
+            optimizer.load_state_dict(prompt_parameters["optimizer"])
         trained_epoch = prompt_parameters["trained_epoch"]
         global_step = prompt_parameters["global_step"]
 
@@ -447,8 +433,9 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     ########################
 
 
+    '''
     try:
-        if mode == "train" or mode == "valid":
+        if params["args"].checkpoint==None and mode == "train" or mode == "valid":
             trained_epoch = parameters["trained_epoch"]
             if config.get("train", "optimizer") == parameters["optimizer_name"]:
                 optimizer.load_state_dict(parameters["optimizer"])
@@ -459,6 +446,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 global_step = parameters["global_step"]
     except:
         pass
+    '''
 
     ###
 
