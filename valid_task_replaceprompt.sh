@@ -1,4 +1,4 @@
-gpus=5
+gpus=4
 
 
 '''
@@ -25,7 +25,7 @@ done
 
 
 
-
+'''
 #Bert
 for MODEL in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert anliPromptBert emobankarousalPromptBert emobankdominancePromptBert movierationalesPromptBert tweetevalsentimentPromptBert persuasivenessrelevancePromptBert persuasivenessspecificityPromptBert snliPromptBert squinkyformalityPromptBert squinkyimplicaturePromptBert
 do
@@ -60,12 +60,13 @@ do
             fi
     done
 done
+'''
 
 
 
 
 
-
+'''
 #Roberta
 for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta anliPromptRoberta emobankarousalPromptRoberta emobankdominancePromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta persuasivenessrelevancePromptRoberta persuasivenessspecificityPromptRoberta snliPromptRoberta squinkyformalityPromptRoberta squinkyimplicaturePromptRoberta
 do
@@ -98,5 +99,25 @@ do
                     --checkpoint model/$MODEL \
                     --replacing_prompt task_prompt_emb/$PROMPT
             fi
+    done
+done
+'''
+
+
+#Roberta
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta
+do
+    for PROMPT in anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta
+    do
+            echo "==========================="
+            echo config/$MODEL.config
+            echo model/$MODEL/
+            echo task_prompt_emb/$PROMPT
+            echo "==========================="
+
+            CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                --gpu $gpus \
+                --checkpoint model/$MODEL \
+                --replacing_prompt task_prompt_emb/$PROMPT
     done
 done

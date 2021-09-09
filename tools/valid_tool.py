@@ -187,7 +187,7 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                 with open(dir_save+"/"+"result.json", "w") as f:
                     json.dump(output_info, f)
             else:
-                with open(dir_save+"/"+"result_"+str(kwargs.replacing_prompt)+".json", "w") as f:
+                with open(dir_save+"/"+"result_"+str(kwargs.replacing_prompt.split("/")[-1])+".json", "w") as f:
                     json.dump(output_info, f)
 
         #writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)
