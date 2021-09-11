@@ -1,0 +1,19 @@
+#scp -r suyusheng@103.242.175.227:/data/private/suyusheng/prompt/tensorboard .
+
+#tensorboard --logdir tensorboard/IMDBPromptRoberta # training
+#tensorboard --logdir tensorboard/SST2PromptRoberta # training
+#tensorboard --logdir tensorboard/laptopPromptRoberta
+#tensorboard --logdir tensorboard/restaurantPromptRoberta
+#tensorboard --logdir tensorboard/movierationalesPromptRoberta
+#tensorboard --logdir tensorboard/tweetevalsentimentPromptRoberta
+
+#tensorboard --logdir tensorboard/MNLIPromptRoberta # hv trained
+#tensorboard --logdir tensorboard/QNLIPromptRoberta # hv trained
+#tensorboard --logdir tensorboard/WNLIPromptRoberta
+#tensorboard --logdir tensorboard/anliPromptRoberta
+#tensorboard --logdir tensorboard/snliPromptRoberta #training
+#tensorboard --logdir tensorboard/RTEPromptRoberta
+
+
+#tensorboard --logdir tensorboard/QQPPromptRoberta
+#tensorboard --logdir tensorboard/MRPCPromptRoberta

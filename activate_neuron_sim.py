@@ -8,7 +8,8 @@ import torch
 
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
-root_dir = "task_activated_neuron/12layer_1prompt"
+#root_dir = "task_activated_neuron/12layer_1prompt"
+root_dir = "task_activated_neuron"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
