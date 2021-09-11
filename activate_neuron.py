@@ -237,7 +237,7 @@ if __name__ == "__main__":
 
     #outputs = outputs[11:,:,:1,:]
     #outputs = outputs[11:,:,:100,:]
-    outputs = outputs[:,:,:1,:]
+    outputs = outputs[:,:,:1,:] #12 layers, [mask]
     #outputs = outputs[11:,:,:100,:]
 
     print(outputs.shape)

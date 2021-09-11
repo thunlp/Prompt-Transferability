@@ -1,4 +1,4 @@
-gpus=4
+gpus=3
 
 
 '''
@@ -105,9 +105,9 @@ done
 
 
 #Roberta
-for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta
 do
-    for PROMPT in anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta
+    for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta
     do
             echo "==========================="
             echo config/$MODEL.config
