@@ -195,6 +195,19 @@ class BertEmbeddings(nn.Module):
         ####
         #self.prompt_embeddings = nn.Embedding(100, 768)
         self.prompt_embeddings = nn.Embedding(int(config.prompt_num), int(config.hidden_size))
+        self._init_weights(self.prompt_embeddings)
+
+    def _init_weights(self, module):
+        """ Initialize the weights """
+        if isinstance(module, (nn.Linear, nn.Embedding)):
+            # cf https://github.com/pytorch/pytorch/pull/5617
+            module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+        elif isinstance(module, nn.LayerNorm):
+            module.bias.data.zero_()
+            module.weight.data.fill_(1.0)
+        if isinstance(module, nn.Linear) and module.bias is not None:
+            module.bias.data.zero_()
+
 
     def init_prompt_emb(self, init_ids):
         prompt_weights = self.word_embeddings(init_ids).detach()

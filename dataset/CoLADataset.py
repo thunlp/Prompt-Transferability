@@ -9,9 +9,12 @@ class CoLADataset(Dataset):
         self.config = config
         self.mode = mode
         self.data = load_dataset('glue', 'cola')
-        self.train_data = self.data['train']
-        self.validation_data = self.data['validation']
-        self.test_data = self.data['test']
+        if mode == "train":
+            self.data = self.data['train']
+        elif mode == "validation":
+            self.data = self.data['validation']
+        else:
+            self.data = self.data['test']
 
         if mode == "test":
             self.data = [{"sent": ins['sentence'].strip()} for ins in self.test_data]

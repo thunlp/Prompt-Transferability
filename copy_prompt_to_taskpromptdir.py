@@ -53,8 +53,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 1000
 
 
-    elif "PQQPromptRoberta":
-        max_epoch = 74 #training
+    #elif "QQPPromptRoberta":
+        max_epoch = 52 #training
     elif "MRPCPromptRoberta":
         max_epoch = 48
 
