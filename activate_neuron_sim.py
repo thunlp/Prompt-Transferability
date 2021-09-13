@@ -13,7 +13,8 @@ root_dir = "task_activated_neuron"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
-order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "anliPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", anliPromptRoberta, "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
 #dirs = [dir for dir in dirs if ".txt" not in dir and "12layer_1prompt" not in dir]
 dirs = order_list
@@ -21,7 +22,6 @@ dirs = order_list
 data_name = [dir.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","") for dir in dirs]
 
 cos = torch.nn.CosineSimilarity(dim=0)
-
 
 
 
