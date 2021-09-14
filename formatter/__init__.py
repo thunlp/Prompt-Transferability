@@ -27,6 +27,12 @@ from .cross_mlmPromptFormatter import cross_mlmPromptFormatter
 from .snliPromptRobertaFormatter import snliPromptRobertaFormatter
 from .anliPromptRobertaFormatter import anliPromptRobertaFormatter
 from .recastfactualityPromptRobertaFormatter import recastfactualityPromptRobertaFormatter
+from .recastpunsPromptRobertaFormatter import recastpunsPromptRobertaFormatter
+from .recastverbnetPromptRobertaFormatter import recastverbnetPromptRobertaFormatter
+from .recastverbcornerPromptRobertaFormatter import recastverbcornerPromptRobertaFormatter
+from .recastnerPromptRobertaFormatter import recastnerPromptRobertaFormatter
+from .recastsentimentPromptRobertaFormatter import recastsentimentPromptRobertaFormatter
+from .recastmegaveridicalityPromptRobertaFormatter import recastmegaveridicalityPromptRobertaFormatter
 from .tweetevalsentimentPromptRobertaFormatter import tweetevalsentimentPromptRobertaFormatter
 from .movierationalesPromptRobertaFormatter import movierationalesPromptRobertaFormatter
 from .emobankarousalPromptRobertaFormatter import emobankarousalPromptRobertaFormatter
@@ -36,6 +42,10 @@ from .emobankdominancePromptRobertaFormatter import emobankdominancePromptRobert
 from .squinkyimplicaturePromptRobertaFormatter import squinkyimplicaturePromptRobertaFormatter
 from .squinkyformalityPromptRobertaFormatter import squinkyformalityPromptRobertaFormatter
 from .activate_neuronPromptRobertaFormatter import activate_neuronPromptRobertaFormatter
+from .ethicscommonsensePromptRobertaFormatter import ethicscommonsensePromptRobertaFormatter
+from .ethicsdeontologyPromptRobertaFormatter import ethicsdeontologyPromptRobertaFormatter
+from .ethicsjusticePromptRobertaFormatter import ethicsjusticePromptRobertaFormatter
+from .ethicsvirtuePromptRobertaFormatter import ethicsvirtuePromptRobertaFormatter
 
 
 
@@ -71,6 +81,12 @@ formatter_list = {
     "snliPromptRoberta": snliPromptRobertaFormatter,
     "anliPromptRoberta": snliPromptRobertaFormatter,
     "recastfactualityPromptRoberta": recastfactualityPromptRobertaFormatter,
+    "recastpunsPromptRoberta": recastpunsPromptRobertaFormatter,
+    "recastverbnetPromptRoberta": recastverbnetPromptRobertaFormatter,
+    "recastverbcornerPromptRoberta": recastverbcornerPromptRobertaFormatter,
+    "recastnerPromptRoberta": recastnerPromptRobertaFormatter,
+    "recastsentimentPromptRoberta": recastsentimentPromptRobertaFormatter,
+    "recastmegaveridicalityPromptRoberta": recastmegaveridicalityPromptRobertaFormatter,
     "tweetevalsentimentPromptRoberta": tweetevalsentimentPromptRobertaFormatter,
     "movierationalesPromptRoberta": movierationalesPromptRobertaFormatter,
     "emobankarousalPromptRoberta": emobankarousalPromptRobertaFormatter,
@@ -80,6 +96,10 @@ formatter_list = {
     "squinkyimplicaturePromptRoberta": squinkyimplicaturePromptRobertaFormatter,
     "squinkyformalityPromptRoberta": squinkyformalityPromptRobertaFormatter,
     "activate_neuronPromptRoberta": activate_neuronPromptRobertaFormatter,
+    "ethicscommonsensePromptRoberta": ethicscommonsensePromptRobertaFormatter,
+    "ethicsdeontologyPromptRoberta": ethicsdeontologyPromptRobertaFormatter,
+    "ethicsjusticePromptRoberta": ethicsjusticePromptRobertaFormatter,
+    "ethicsvirtuePromptRoberta": ethicsvirtuePromptRobertaFormatter
 }
 
 

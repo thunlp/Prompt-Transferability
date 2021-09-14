@@ -124,6 +124,8 @@ def init_one_dataset(config, mode, *args, **params):
     else:
         which = config.get("data", "%s_dataset_type" % temp_mode)
 
+    #print(which)
+    #exit()
 
     if which in dataset_list:
         if mode in ["valid", "test"] and "MNLI" in which:

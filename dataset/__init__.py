@@ -22,6 +22,12 @@ from .sciercDataset import sciercDataset
 from .snliDataset import snliDataset
 from .anliDataset import anliDataset
 from .recastfactualityDataset import recastfactualityDataset
+from .recastpunsDataset import recastpunsDataset
+from .recastverbnetDataset import recastverbnetDataset
+from .recastverbcornerDataset import recastverbcornerDataset
+from .recastnerDataset import recastnerDataset
+from .recastsentimentDataset import recastsentimentDataset
+from .recastmegaveridicalityDataset import recastmegaveridicalityDataset
 from .tweetevalsentimentDataset import tweetevalsentimentDataset
 from .movierationalesDataset import movierationalesDataset
 from .emobankarousalDataset import emobankarousalDataset
@@ -31,6 +37,10 @@ from .emobankdominanceDataset import emobankdominanceDataset
 from .squinkyimplicatureDataset import squinkyimplicatureDataset
 from .squinkyformalityDataset import squinkyformalityDataset
 from .activate_neuronDataset import activate_neuronDataset
+from .ethicsvirtueDataset import ethicsvirtueDataset
+from .ethicsjusticeDataset import ethicsjusticeDataset
+from .ethicsdeontologyDataset import ethicsdeontologyDataset
+from .ethicscommonsenseDataset import ethicscommonsenseDataset
 
 
 dataset_list = {
@@ -58,6 +68,12 @@ dataset_list = {
     "snli": snliDataset,
     "anli": anliDataset,
     "recastfactuality": recastfactualityDataset,
+    "recastpuns": recastpunsDataset,
+    "recastverbnet": recastverbnetDataset,
+    "recastverbcorner": recastverbcornerDataset,
+    "recastner": recastnerDataset,
+    "recastsentiment": recastsentimentDataset,
+    "recastmegaveridicality": recastmegaveridicalityDataset,
     "tweetevalsentiment": tweetevalsentimentDataset,
     "movierationales": movierationalesDataset,
     "emobankarousal": emobankarousalDataset,
@@ -67,4 +83,8 @@ dataset_list = {
     "squinkyimplicature": squinkyimplicatureDataset,
     "squinkyformality": squinkyformalityDataset,
     "activate_neuron": activate_neuronDataset,
+    "ethicsvirtue": ethicsvirtueDataset,
+    "ethicsjustice": ethicsjusticeDataset,
+    "ethicsdeontology": ethicsdeontologyDataset,
+    "ethicscommonsense": ethicscommonsenseDataset,
 }

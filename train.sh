@@ -160,11 +160,53 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/anliPromptRoberta.co
 
 
 
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/tweetevalsentimentPromptRoberta.config \
+    --gpu $gpus
+
+
+#####Add tasks
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastfactualityPromptRoberta.config \
     --gpu $gpus
 
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/tweetevalsentimentPromptRoberta.config \
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastpunsPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastverbnetPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastverbcornerPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastnerPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastsentimentPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/recastmegaveridicalityPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicscommonsensePromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsdeontologyPromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsjusticePromptRoberta.config \
+    --gpu $gpus
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsvirtuePromptRoberta.config \
     --gpu $gpus
 '''
 

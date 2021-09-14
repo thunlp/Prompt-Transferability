@@ -164,12 +164,6 @@ class PromptRoberta(nn.Module):
         exit()
         '''
 
-        '''
-        if config.get("data", "train_dataset_type") == "IMDB":
-            #sentiment
-            #mo_dict={"positive":22173,"negative":33407}
-            score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:, 22173].unsqueeze(1)], dim=1)
-        '''
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant":
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
@@ -184,11 +178,11 @@ class PromptRoberta(nn.Module):
             #sentiment
             #mo_dict={"positive":22173,"negative":33407}
             score = torch.cat([mask_logits[:, 33407].unsqueeze(1), mask_logits[:,22173].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli" or config.get("data", "train_dataset_type") == "anli" or config.get("data", "train_dataset_type") == "recastfactuality":
+        elif config.get("data", "train_dataset_type") == "MNLI" or config.get("data", "train_dataset_type") == "snli" or config.get("data", "train_dataset_type") == "anli":
             #NLI
             #mo_dict={"yes":10932,"neutral":12516,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 12516].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "RTE":
+        elif config.get("data", "train_dataset_type") == "RTE" or "recast" in config.get("data", "train_dataset_type"):
             #NLI
             #mo_dict={"yes":10932,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
@@ -212,6 +206,9 @@ class PromptRoberta(nn.Module):
             score = mask_logits[:, 1032]
         elif config.get("data", "train_dataset_type") == "emobankarousal" or config.get("data", "train_dataset_type") == "persuasivenessrelevance" or config.get("data", "train_dataset_type") == "persuasivenessspecificity" or config.get("data", "train_dataset_type") == "emobankdominance" or config.get("data", "train_dataset_type") == "squinkyimplicature" or config.get("data", "train_dataset_type") == "squinkyformality":
             score = torch.cat([mask_logits[:,5481].unsqueeze(1), mask_logits[:,3530].unsqueeze(1)], dim=1)
+        elif "ethics" in config.get("data", "train_dataset_type"):
+            #"acceptable":[32047], "un":[879]
+            score = torch.cat([mask_logits[:, 897].unsqueeze(1), mask_logits[:,32047].unsqueeze(1)], dim=1)
         else:
             #Other
             print("PromptRoberta: What is this task?")
