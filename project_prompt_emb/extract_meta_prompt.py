@@ -5,10 +5,11 @@ import csv
 
 print('Argument List:', sys.argv[1:])
 
+#nli, emotion, sentence_sim
 ###########################
 filter_tokens = sys.argv[1:]
 include_mlm = False
-task_define = {"anli":"nli","emobankarousal":"emotion","emobankdominance":"emotion","IMDB":"emotion","laptop":"emotion","MNLI":"nli","movierationales":"emotion","MRPC":"paraphrase_detection","persuasivenessrelevance":"diseval","persuasivenessspecificity":"diseval","QNLI":"nli","QQP":"acceptability","restaurant":"emotion","RTE":"nli","snli":"nli","squinkyformality":"diseval","squinkyimplicature":"diseval","SST2":"emotion","STSB":"other","tweetevalsentiment":"emotion","WNLI":"nli"}
+task_define = {"anli":"nli","emobankarousal":"emotion","emobankdominance":"emotion","IMDB":"emotion","laptop":"emotion","MNLI":"nli","movierationales":"emotion","MRPC":"sentence_sim","persuasivenessrelevance":"diseval","persuasivenessspecificity":"diseval","QNLI":"nli","QQP":"sentence_sim","restaurant":"emotion","RTE":"nli","snli":"nli","squinkyformality":"diseval","squinkyimplicature":"diseval","SST2":"emotion","STSB":"other","tweetevalsentiment":"emotion","WNLI":"nli","recastfactuality":"nli"}
 ###########################
 
 
@@ -28,13 +29,19 @@ project_emb_roberta = list()
 for file in files:
 
     if include_mlm == False:
-        if "_mlm_" in file:
+        if "_mlm" in file:
             continue
 
-    print(file)
+    '''
+    if file in ["IMDBPromptRoberta", "laptopPromptRoberta", "MNLIPromptRoberta", "MRPCPromptRoberta", "QNLIPromptRoberta QQPPromptRoberta", "restaurantPromptRoberta", "RTEPromptRoberta", "SST2PromptRoberta", "WNLIPromptRoberta", "anliPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "snliPromptRoberta"]:
+        print(file)
+    else:
+        continue
+    '''
 
     for tokens in filter_tokens:
         if tokens in file:
+            print(file)
 
             if "PromptBert" in file:
                 task = file.replace("PromptBert","")
@@ -69,7 +76,7 @@ for file in files:
 print(len(project_files))
 print(len(project_emb))
 
-
+'''
 with open(str(",".join(filter_tokens))+'.tsv', 'w', newline='\n') as f_output:
     tsv_output = csv.writer(f_output, delimiter='\n')
     tsv_output.writerow(["task_prompt"+"\t"+"task_label"+"\t"+"model"])
@@ -80,6 +87,7 @@ with open(str(",".join(filter_tokens))+'_bert.tsv', 'w', newline='\n') as f_outp
     tsv_output = csv.writer(f_output, delimiter='\n')
     tsv_output.writerow(["task_prompt"+"\t"+"task_label"+"\t"+"model"])
     tsv_output.writerow(project_files_bert)
+'''
 
 
 with open(str(",".join(filter_tokens))+'_roberta.tsv', 'w', newline='\n') as f_output:
@@ -93,6 +101,7 @@ with open(str(",".join(filter_tokens))+'_roberta.tsv', 'w', newline='\n') as f_o
 
 
 
+'''
 with open(str(",".join(filter_tokens)+"_prompt_emb")+'.tsv', 'w', newline='\n') as f_output:
     tsv_output = csv.writer(f_output, delimiter='\n')
     tsv_output.writerow(project_emb)
@@ -101,6 +110,7 @@ with open(str(",".join(filter_tokens)+"_prompt_emb")+'.tsv', 'w', newline='\n') 
 with open(str(",".join(filter_tokens)+"_prompt_emb")+'_bert.tsv', 'w', newline='\n') as f_output:
     tsv_output = csv.writer(f_output, delimiter='\n')
     tsv_output.writerow(project_emb_bert)
+'''
 
 
 with open(str(",".join(filter_tokens)+"_prompt_emb")+'_roberta.tsv', 'w', newline='\n') as f_output:

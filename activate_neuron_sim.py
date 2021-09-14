@@ -4,12 +4,14 @@ import argparse
 import os
 import logging
 import torch
+import sys
 
 
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
 #root_dir = "task_activated_neuron/12layer_1prompt"
 root_dir = "task_activated_neuron"
+#root_dir = "task_activated_neuron/lastlayer_100prompt_Prompt"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
@@ -26,6 +28,27 @@ cos = torch.nn.CosineSimilarity(dim=0)
 
 
 
+
+
+
+#topk=100
+topk=100
+
+
+#sys.stdout = open(root_dir+"/"+str(sys.argv[1])+'.txt', 'w')
+#sys.stdout = open(root_dir+"/"+'12layers_1st.txt', 'w')
+#sys.stdout = open(root_dir+"/"+"12layers_1st_top"+str(topk)+".txt", 'w')
+#sys.stdout = open(root_dir+"/"+"12layers_1st_top"+str(topk)+".txt", 'w')
+
+
+#####################################
+#####################################
+#####################################
+
+
+
+
+'''
 ##Title
 #print(end="\t \t")
 print(end="\t")
@@ -61,6 +84,7 @@ for dir_1 in dirs:
         #print("{:.2f}".format(float(sim)), end='\t')
 
     print()
+'''
 
 
 
@@ -182,12 +206,13 @@ for dir_1 in dirs:
 
 
 
-'''
-#Check by each sentence
+
+
+#Check by each layer
 #topk=12*1*3072
 #topk=12*1*3072
 #topk= 12*64*1*3072 - 1
-topk=100
+#topk=100
 
 print("===========================================")
 print("===============Top",topk,"================")
@@ -218,7 +243,8 @@ for dir_1 in dirs:
     print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
     #activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
-    activated_1 = activated_1.reshape(activated_1.shape[1],activated_1.shape[0]*activated_1.shape[2]*activated_1.shape[3])
+    #activated_1 = activated_1.reshape(activated_1.shape[1],activated_1.shape[0]*activated_1.shape[2]*activated_1.shape[3])
+    activated_1 = activated_1.reshape(activated_1.shape[0],activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
 
     #activated_1[activated_1>0] = float(1)
@@ -229,7 +255,8 @@ for dir_1 in dirs:
     for dir_2 in dirs:
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
         #activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
-        activated_2 = activated_2.reshape(activated_2.shape[1],activated_2.shape[0]*activated_2.shape[2]*activated_2.shape[3])
+        #activated_2 = activated_2.reshape(activated_2.shape[1],activated_2.shape[0]*activated_2.shape[2]*activated_2.shape[3])
+        activated_2 = activated_2.reshape(activated_2.shape[0],activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 
         #activated_2[activated_2>0] = float(1)
         #activated_2[activated_2<0] = float(0)
@@ -238,13 +265,16 @@ for dir_1 in dirs:
 
 
         sim = 0
-        for number_sentence in range(int(activated_1.shape[0])):
-            sim += matching(activated_1[number_sentence].topk(topk).indices, activated_2[number_sentence].topk(topk).indices, topk)
+        for number_layer in range(int(activated_1.shape[0])):
+        #for number_layer in [9,10,11]:
+            sim += matching(activated_1[number_layer].topk(topk).indices, activated_2[number_layer].topk(topk).indices, topk)
         sim = sim/int(activated_1.shape[0])
+        #sim = sim/int(3)
         print("{:.2f}".format(float(sim)), end='\t')
 
         #sim = torch.dist(activated_1, activated_2, 2)
         #print("{:.2f}".format(float(sim)), end='\t')
 
     print()
-'''
+
+
