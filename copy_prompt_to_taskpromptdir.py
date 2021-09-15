@@ -10,8 +10,8 @@ all_model_prompt = [dir for dir in all_model_prompt if ".py" not in dir]
 
 for dataset_file in all_model_prompt:
 
-    if dataset_file != "tweetevalsentimentPromptRoberta":
-        continue
+    #if dataset_file != "tweetevalsentimentPromptRoberta":
+    #    continue
 
     #print(file)
 
@@ -25,6 +25,7 @@ for dataset_file in all_model_prompt:
     if len(check_list) == 0:
         continue
 
+    ##:mean do not use
 
     ##Choose epoch
     max_epoch = 0
@@ -50,8 +51,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 67 #hv
     elif dataset_file == "WNLIPromptRoberta":
         max_epoch = 755
-    #elif dataset_file == "anliPromptRoberta":
-    #    max_epoch = 2
+    ##elif dataset_file == "anliPromptRoberta":
+    ##    max_epoch = 2
     elif dataset_file == "snliPromptRoberta":
         max_epoch = 17 #hv
     elif dataset_file =="RTEPromptRoberta":
@@ -62,6 +63,29 @@ for dataset_file in all_model_prompt:
          max_epoch = 26 #training
     elif dataset_file == "MRPCPromptRoberta":
         max_epoch = 30
+
+    elif dataset_file == "recastfactualityPromptRoberta":
+        max_epoch = 21
+    elif dataset_file == "recastpunsPromptRoberta":
+        max_epoch = 36
+    ##elif dataset_file == "recastverbnetPromptRoberta":
+    ##    max_epoch =
+    elif dataset_file == "recastverbcornerPromptRoberta":
+        max_epoch = 35
+    elif dataset_file == "recastnerPromptRoberta":
+        max_epoch = 18
+    elif dataset_file == "recastsentimentPromptRoberta":
+        max_epoch = 58
+    elif dataset_file == "recastmegaveridicalityPromptRoberta":
+        max_epoch = 32
+    elif dataset_file == "ethicscommonsensePromptRoberta":
+        max_epoch = 96
+    elif dataset_file == "ethicsdeontologyPromptRoberta":
+        max_epoch = 77
+    elif dataset_file == "ethicsjusticePromptRoberta":
+        max_epoch = 63
+    ##elif dataset_file == "ethicsvirtuePromptRoberta":
+    ##    max_epoch = 21
 
 
     else:
