@@ -15,7 +15,11 @@ class QNLIPromptRobertaFormatter(BasicFormatter):
         ##########
         self.model_name = config.get("model","model_base")
         if "Roberta" in self.model_name:
-            self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+            #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+            except:
+                self.tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/roberta-base")
         elif "Bert" in self.model_name:
             self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
         else:

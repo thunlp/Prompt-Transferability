@@ -18,7 +18,11 @@ class cross_mlmPromptFormatter(BasicFormatter):
         self.model_base = config.get("model","model_base")
         self.model_name = config.get("output","model_name")
         if "Roberta" in self.model_base:
-            self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+            #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+            except:
+                self.tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/roberta-base")
         elif "Bert" in self.model_base:
             self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
         else:

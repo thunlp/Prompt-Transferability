@@ -4,7 +4,12 @@ import torch.nn.functional as F
 import json
 
 from transformers import AutoModel,AutoModelForMaskedLM,AutoTokenizer
-tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+#tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+try:
+    tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+except:
+    tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/roberta-base")
+
 
 class PromptClsBERT(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
@@ -22,7 +27,7 @@ class PromptClsBERT(nn.Module):
         self.prompt_label.weight.data = self.encoder.lm_head.decoder.weight[[10932, 2362]]
         self.temperature = 2
         print("init the model PromptClsBERT done")
-    
+
     def lower_temp(self, ratio):
         self.temperature *= ratio
 
@@ -33,7 +38,7 @@ class PromptClsBERT(nn.Module):
         init_ids.extend([tokenizer.mask_token_id] * pad_num)
         self.prompt_emb = nn.Embedding(self.prompt_num, self.hidden_size).from_pretrained(self.encoder.get_input_embeddings()(torch.tensor(init_ids, dtype=torch.long)), freeze=False)
         self.class_token_id = torch.tensor([10932, 2362])
-    
+
     def gen_attention_score(self, logits):
         # self.prompt_label: 2, hidden_size
         # self.encoder.lm_head.decoder.weight: vocab_size, hidden_size

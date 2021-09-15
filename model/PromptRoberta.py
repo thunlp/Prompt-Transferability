@@ -9,7 +9,12 @@ import datasets
 
 from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 from .modelling_roberta import RobertaForMaskedLM
-tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+#tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+try:
+    tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+except:
+    tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/roberta-base")
+
 
 class PromptRoberta(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):

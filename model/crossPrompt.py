@@ -9,7 +9,13 @@ import datasets
 
 from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 from .modelling_roberta import RobertaForMaskedLM
-tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+
+#tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+try:
+    tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+except:
+    tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/roberta-base")
+
 
 #{0: 'imdb', 1: 'laptop', 2: 'mnli', 3: 'mrp', 4: 'qnli', 5: 'qqp', 6: 're', 7: 'restaurant', 8: 'rte', 9: 'sst2', 10: 'stsb', 11: 'wnli'}
 

@@ -10,7 +10,7 @@ all_model_prompt = [dir for dir in all_model_prompt if ".py" not in dir]
 
 for dataset_file in all_model_prompt:
 
-    #if dataset_file != "tweetevalsentimentPromptRoberta":
+    #if dataset_file != "ethicscommonsensePromptRoberta":
     #    continue
 
     #print(file)

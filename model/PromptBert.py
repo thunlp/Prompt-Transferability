@@ -9,7 +9,11 @@ import datasets
 
 from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 from .modelling_bert import BertForMaskedLM
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+#tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+try:
+    tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+except:
+    tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/bert-base-uncased")
 
 class PromptBert(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
