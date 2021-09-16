@@ -3,7 +3,7 @@
 
 result_mlm*
 
-g.sh
+#g.sh
 
 model/RTE_BERT*
 model/SST2PromptRoberta*
@@ -178,7 +178,7 @@ task_activated_neuron*
 
 /result_mlm
 
-
+/RobertaSmallForMaskedLM*
 /RobertaForMaskedLM*
 /RobertaLargeForMaskedLM*
 #/task_prompt_emb

@@ -16,7 +16,9 @@ root_dir = "task_activated_neuron"
 dirs = os.listdir(root_dir)
 #dirs = ['random']
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", anliPromptRoberta, "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
-order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+
+order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta", "recastfactualityPromptRoberta", "recastmegaveridicalityPromptRoberta","recastnerPromptRoberta", "recastpunsPromptRoberta","recastsentimentPromptRoberta", "recastverbcornerPromptRoberta","ethicscommonsensePromptRoberta","ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
 #dirs = [dir for dir in dirs if ".txt" not in dir and "12layer_1prompt" not in dir]
 dirs = order_list
@@ -34,6 +36,8 @@ cos = torch.nn.CosineSimilarity(dim=0)
 
 
 sys.stdout = open(root_dir+"/"+str(sys.argv[1])+'.txt', 'w')
+#sys.stdout = open(root_dir+"/"+str("11_12")+'.txt', 'w')
+#sys.stdout = open(root_dir+"/"+str("1_2")+'.txt', 'w')
 
 
 #####################################
@@ -49,13 +53,20 @@ sys.stdout = open(root_dir+"/"+str(sys.argv[1])+'.txt', 'w')
 #print(end="\t \t")
 print(end="\t")
 for name in data_name:
+    name = name.replace("PromptRoberta","").replace("recast","").replace("ethics","")
+    if len(name)>5:
+        name = name[:5]
     print(name, end='\t')
 print()
 
 for dir_1 in dirs:
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
-    print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","")
+    #print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","")
 
+
+    print_name = dir_1.replace("PromptRoberta","").replace("recast","").replace("ethics","")
+    if len(print_name)>5:
+        print_name = print_name[:5]
     #if "random" != dir_1:
     #    continue
 
@@ -63,6 +74,10 @@ for dir_1 in dirs:
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
     ###########
     activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
+    #activated_1 = activated_1[10:12,:,:,:]
+    #activated_1 = activated_1[0:2,:,:,:]
+    #print(activated_1.shape)
+    #exit()
     ###########
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
@@ -73,6 +88,8 @@ for dir_1 in dirs:
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
         ###########
         activated_2 = activated_2[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
+        #activated_2 = activated_2[10:12,:,:,:]
+        #activated_2 = activated_2[0:2,:,:,:]
         ###########
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 

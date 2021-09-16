@@ -189,7 +189,7 @@ def Euclidean(task1_emb, task2_emb):
 
 root = "task_prompt_emb"
 
-task_map = {0:"IMDB",1:"SST2",2:"laptop",3:"rest",4:"movie",5:"tweet",6:"MNLI",7:"QNLI",8:"WNLI",9:"snli",10:"RTE",11:"QQP",12:"MRPC"}
+task_map ={0:"IMDBPromptRoberta",1:"SST2PromptRoberta",2:"laptopPromptRoberta",3:"restaurantPromptRoberta",4:"movierationalesPromptRoberta",5:"tweetevalsentimentPromptRoberta",6:"MNLIPromptRoberta",7:"QNLIPromptRoberta",8:"WNLIPromptRoberta",9:"snliPromptRoberta",10:"recastnerPromptRoberta",11:"RTEPromptRoberta",12:"recastpunsPromptRoberta",13:"recastverbcornerPromptRoberta",14:"recastfactualityPromptRoberta",15:"recastmegaveridicalityPromptRoberta",16:"recastsentimentPromptRoberta",17:"recastverbnetPromptRoberta",18:"ethicscommonsensePromptRoberta",19:"ethicsdeontologyPromptRoberta",20:"ethicsjusticePromptRoberta",21:"ethicsvirtuePromptRoberta",22:"QQPPromptRoberta",23:"MRPCPromptRoberta"}
 
 
 #sys.stdout = open("task_cos_distance.txt", 'w')
@@ -198,7 +198,11 @@ task_map = {0:"IMDB",1:"SST2",2:"laptop",3:"rest",4:"movie",5:"tweet",6:"MNLI",7
 
 print(end="\t")
 for id, name in task_map.items():
-    print(name, end='\t')
+    #print(name, end='\t')
+    name = name.replace("PromptRoberta","").replace("ethics","").replace("recast","")
+    if len(name)>5:
+        name = name[:5]
+    print(name, end="\t")
 print()
 
 
@@ -207,17 +211,22 @@ for id_1, task_1 in task_map.items():
     #    continue
     cos_dict=dict()
     euc_dict=dict()
-    print(task_1, end="\t")
+    '''
     if task_1 == "rest":
         name_1 = "restaurant"
     elif task_1 == "movie":
         name_1 = "movierationales"
     elif task_1 == "tweet":
         name_1 = "tweetevalsentiment"
-    else:
-        name_1 = task_1
-    task_ten_1 = torch.load(root+"/"+name_1+"PromptRoberta/task_prompt", map_location=lambda storage, loc: storage)
+    '''
+    name_1 = task_1
+    task_ten_1 = torch.load(root+"/"+name_1+"/task_prompt", map_location=lambda storage, loc: storage)
     task_ten_1 = task_ten_1.reshape(task_ten_1.shape[0]*task_ten_1.shape[1])
+
+    name_1 = name_1.replace("PromptRoberta","").replace("ethics","").replace("recast","")
+    if len(name_1)>5:
+        name_1 = name_1[:5]
+    print(name_1, end="\t")
     for id_2, task_2 in task_map.items():
         #if id_2 not in show_in_list:
         #    continue
@@ -226,6 +235,7 @@ for id_1, task_1 in task_map.items():
         #else:
         #similiarty:
         #cos:
+        '''
         if task_2 == "rest":
             name_2 = "restaurant"
         elif task_2 == "movie":
@@ -233,8 +243,9 @@ for id_1, task_1 in task_map.items():
         elif task_2 == "tweet":
             name_2 = "tweetevalsentiment"
         else:
-            name_2 = task_2
-        task_ten_2 = torch.load(root+"/"+name_2+"PromptRoberta/task_prompt", map_location=lambda storage, loc: storage)
+        '''
+        name_2 = task_2
+        task_ten_2 = torch.load(root+"/"+name_2+"/task_prompt", map_location=lambda storage, loc: storage)
         task_ten_2 = task_ten_2.reshape(task_ten_2.shape[0]*task_ten_2.shape[1])
 
         #cos_dict[task_2]=float(CosineSimilarity(task_ten_1,task_ten_2))

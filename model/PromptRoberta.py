@@ -210,6 +210,8 @@ class PromptRoberta(nn.Module):
         elif config.get("data", "train_dataset_type") == "STSB":
             score = mask_logits[:, 1032]
         elif config.get("data", "train_dataset_type") == "emobankarousal" or config.get("data", "train_dataset_type") == "persuasivenessrelevance" or config.get("data", "train_dataset_type") == "persuasivenessspecificity" or config.get("data", "train_dataset_type") == "emobankdominance" or config.get("data", "train_dataset_type") == "squinkyimplicature" or config.get("data", "train_dataset_type") == "squinkyformality":
+            #(["high”]): 3530
+            #(["low”]): 5481
             score = torch.cat([mask_logits[:,5481].unsqueeze(1), mask_logits[:,3530].unsqueeze(1)], dim=1)
         elif "ethics" in config.get("data", "train_dataset_type"):
             #"acceptable":[32047], "un":[879]
