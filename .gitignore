@@ -68,6 +68,16 @@ model/sciercPromptRoberta_mlm_s2*
 model/SST2PromptRoberta_mlm_s1*
 model/SST2PromptRoberta_mlm_s2*
 
+model/ethicscommonsensePromptRoberta*
+model/ethicsvirtuePromptRoberta*
+model/ethicsdeontologyPromptRoberta*
+model/ethicsjusticePromptRoberta*
+model/recastmegaveridicalityPromptRoberta*
+model/recastnerPromptRoberta*
+model/recastpunsPromptRoberta*
+model/recastsentimentPromptRoberta*
+model/recastverbcornerPromptRoberta*
+model/recastverbnetPromptRoberta*
 
 
 
@@ -145,6 +155,19 @@ model/SST2PromptBert_mlm_s1*
 model/SST2PromptBert_mlm_s2*
 
 
+model/ethicscommonsensePromptBert*
+model/ethicsvirtuePromptBert*
+model/ethicsdeontologyPromptBert*
+model/ethicsjusticePromptBert*
+model/recastmegaveridicalityPromptBert*
+model/recastnerPromptBert*
+model/recastpunsPromptBert*
+model/recastsentimentPromptBert*
+model/recastverbcornerPromptBert*
+model/recastverbnetPromptBert*
+
+
+
 
 model/crossPromptRoberta_only_IMDB_laptop*
 model/crossPromptRoberta_IMDB,laptop*
@@ -161,16 +184,6 @@ model/cross_Bert_to_Roberta_reconstructionLoss_mlm_768_768*
 model/cross_Bert_to_Roberta_reconstructionLoss_mlm*
 model/cross_Bert_to_Roberta_reconstructionLoss_all_task*
 
-model/ethicscommonsensePromptRoberta*
-model/ethicsvirtuePromptRoberta*
-model/ethicsdeontologyPromptRoberta*
-model/ethicsjusticePromptRoberta*
-model/recastmegaveridicalityPromptRoberta*
-model/recastnerPromptRoberta*
-model/recastpunsPromptRoberta*
-model/recastsentimentPromptRoberta*
-model/recastverbcornerPromptRoberta*
-model/recastverbnetPromptRoberta*
 
 
 

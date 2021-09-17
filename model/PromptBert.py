@@ -208,6 +208,10 @@ class PromptBert(nn.Module):
             #"low" [2659]
             #"high" [2152]
             score = torch.cat([mask_logits[:, 2659].unsqueeze(1), mask_logits[:, 2152].unsqueeze(1)], dim=1)
+        elif "ethics"in config.get("data", "train_dataset_type"):
+            #21873:unacceptable,  11701:acceptable
+
+            score = torch.cat([mask_logits[:, 21873].unsqueeze(1), mask_logits[:, 11701].unsqueeze(1)], dim=1)
         else:
             print("PromptBert: What is this task?")
             #Other
