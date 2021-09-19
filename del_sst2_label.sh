@@ -1,4 +1,4 @@
-gpus=2
+gpus=1
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta_label.config \
     --gpu $gpus \

@@ -191,7 +191,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         if os.path.isdir(params["args"].checkpoint) and len(os.listdir(params["args"].checkpoint))!=0:
 
             ###################
-            model_type = params["args"].checkpoint.split("Prompt")[-1].replace(".config","")
+            model_type = params["args"].checkpoint.split("Prompt")[-1].replace(".config","").replace("_label","")
             if model_type == "Bert":
                 load_dir = "BertForMaskedLM/PromptBert_init_params/pytorch_model.bin"
                 if os.path.exists(load_dir):
