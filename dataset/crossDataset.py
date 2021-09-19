@@ -155,71 +155,88 @@ def pre_processing(dataset_list, mode):
             #print("imdb")
         ##
         if "snli" in dataset_list:
-            imdb, imdb_length = pre_data_snli(mode)
+            snli, snli_length = pre_data_snli(mode)
             min_length.append(snli_length)
             all_dataset.append(snli)
             show_dataset.append("snli")
             #print("snli")
         if "anli" in dataset_list:
-            imdb, imdb_length = pre_data_anli(mode)
+            anli, anli_length = pre_data_anli(mode)
             min_length.append(anli_length)
             all_dataset.append(anli)
             show_dataset.append("anli")
             #print("anli")
         if "recastfactuality" in dataset_list:
-            imdb, imdb_length = pre_data_recastfactuality(mode)
+            recastfactuality, recastfactuality_length = pre_data_recastfactuality(mode)
             min_length.append(recastfactuality_length)
             all_dataset.append(recastfactuality)
             show_dataset.append("recastfactuality")
             #print("recastfactuality")
         if "tweetevalsentiment" in dataset_list:
-            imdb, imdb_length = pre_data_tweetevalsentiment(mode)
+            tweetevalsentiment, tweetevalsentiment_length = pre_data_tweetevalsentiment(mode)
             min_length.append(tweetevalsentiment_length)
             all_dataset.append(tweetevalsentiment)
             show_dataset.append("tweetevalsentiment")
             #print("tweetevalsentiment")
         if "movierationales" in dataset_list:
-            imdb, imdb_length = pre_data_movierationales(mode)
+            movierationales, movierationales_length = pre_data_movierationales(mode)
             min_length.append(movierationales_length)
             all_dataset.append(movierationales)
             show_dataset.append("movierationales")
             #print("movierationales")
         if "emobankarousal" in dataset_list:
-            imdb, imdb_length = pre_data_emobankarousal(mode)
+            emobankarousal, emobankarousal_length = pre_data_emobankarousal(mode)
             min_length.append(emobankarousal_length)
             all_dataset.append(emobankarousal)
             show_dataset.append("emobankarousal")
             #print("emobankarousal")
         if "persuasivenessrelevance" in dataset_list:
-            imdb, imdb_length = pre_data_persuasivenessrelevance(mode)
+            persuasivenessrelevance, persuasivenessrelevance_length = pre_data_persuasivenessrelevance(mode)
             min_length.append(persuasivenessrelevance_length)
             all_dataset.append(persuasivenessrelevance)
             show_dataset.append("persuasivenessrelevance")
             #print("persuasivenessrelevance")
         if "persuasivenessspecificity" in dataset_list:
-            imdb, imdb_length = pre_data_persuasivenessspecificity(mode)
+            persuasivenessspecificity, persuasivenessspecificity_length = pre_data_persuasivenessspecificity(mode)
             min_length.append(persuasivenessspecificity_length)
             all_dataset.append(persuasivenessspecificity)
             show_dataset.append("persuasivenessspecificity")
             #print("persuasivenessspecificity")
         if "emobankdominance" in dataset_list:
-            imdb, imdb_length = pre_data_emobankdominance(mode)
+            emobankdominance, emobankdominance_length = pre_data_emobankdominance(mode)
             min_length.append(emobankdominance_length)
             all_dataset.append(emobankdominance)
             show_dataset.append("emobankdominance")
             #print("emobankdominance")
         if "squinkyimplicature" in dataset_list:
-            imdb, imdb_length = pre_data_squinkyimplicature(mode)
+            squinkyimplicature, squinkyimplicature_length = pre_data_squinkyimplicature(mode)
             min_length.append(squinkyimplicature_length)
             all_dataset.append(squinkyimplicature)
             show_dataset.append("squinkyimplicature")
             #print("squinkyimplicature")
         if "squinkyformality" in dataset_list:
-            imdb, imdb_length = pre_data_squinkyformality(mode)
+            squinkyformality, squinkyformality_length = pre_data_squinkyformality(mode)
             min_length.append(squinkyformality_length)
             all_dataset.append(squinkyformality)
             show_dataset.append("squinkyformality")
             #print("squinkyformality")
+        if "recastner" in dataset_list:
+            recastner, recastner_length = pre_data_recastner(mode)
+            min_length.append(recastner_length)
+            all_dataset.append(recastner)
+            show_dataset.append("recastner")
+        if "ethicsdeontology" in dataset_list:
+            ethicsdeontology, ethicsdeontology_length = pre_data_ethicsdeontology(mode)
+            min_length.append(ethicsdeontology_length)
+            all_dataset.append(ethicsdeontology)
+            show_dataset.append("ethicsdeontology")
+        if "ethicsjustice" in dataset_list:
+            ethicsjustice, ethicsjustice_length = pre_data_ethicsjustice(mode)
+            min_length.append(ethicsjustice_length)
+            all_dataset.append(ethicsjustice)
+            show_dataset.append("ethicsjustice")
+
+
 
         ###
 
@@ -776,9 +793,9 @@ def pre_data_snli(mode):
     #after_dict = {"no":0,"neutral":3,"yes":1}
     _dict = {2:0,1:3,0:1}
     if mode == "test":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"snli"} for ins in data]
     else:
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])], "dataset":"snli"} for ins in data if int(ins["label"])!=-1]
     # from IPython import embed; embed()
     return data, len(data)
 
@@ -794,9 +811,9 @@ def pre_data_anli(mode):
     #after_dict = {"no":0,"neutral":3,"yes":1}
     _dict = {2:0,1:3,0:1}
     if mode == "test":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise']} for ins in data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'], "dataset":"snli"} for ins in data]
     else:
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])]} for ins in data if int(ins["label"])!=-1]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['premise'].strip(), "label": _dict[int(ins['label'])],"dataset":"snli"} for ins in data if int(ins["label"])!=-1]
     # from IPython import embed; embed()
     return data, len(data)
 
@@ -811,9 +828,9 @@ def pre_data_recastfactuality(mode):
     #org: [not-entailed, entailed]
     _dict = {"not-entailed":0,"entailed":1}
     if mode == "test":
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context']} for ins in data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context'],"dataset":"recastfactuality"} for ins in data]
     else:
-        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context'].strip(), "label": _dict[ins['label']]} for ins in data]
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context'].strip(), "label": _dict[ins['label']],"dataset":"recastfactuality"} for ins in data]
     return data, len(data)
 
 
@@ -827,11 +844,11 @@ def pre_data_tweetevalsentiment(mode):
     #emo_dict={"positive":2,"neutral":1,"negative":0,}
     emo_dict={"positive":7,"neutral":3,"negative":5}
     if mode == "test":
-        data = [{"sent": ins['sentence'].strip()} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "dataset":"tweetevalsentiment"} for ins in data]
     elif mode == 'valid':
-        data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['label']]} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['label']], "dataset":"tweetevalsentiment"} for ins in data]
     else:
-        data = [{"sent": ins['sentence'].strip(), "label": emo_dict[ins['label']]} for ins in data]
+        data = [{"sent1": ins['sentence'].strip(), "label": emo_dict[ins['label']], "dataset":"tweetevalsentiment"} for ins in data]
     return data, len(data)
 
 
@@ -845,11 +862,11 @@ def pre_data_movierationales(mode):
     #original: {"positive":1,"negative":0}
     emo_dict={0:5,1:7}
     if mode == "test":
-        data = [{"sent": ins['review'].strip()} for ins in data]
+        data = [{"sent1": ins['review'].strip(), "dataset":"movierationales"} for ins in data]
     elif mode == 'valid':
-        data = [{"sent": ins['review'].strip(), "label": emo_dict[int(ins['label'])]} for ins in data]
+        data = [{"sent1": ins['review'].strip(), "label": emo_dict[int(ins['label'])], "dataset":"movierationales"} for ins in data]
     else:
-        data = [{"sent": ins['review'].strip(), "label": emo_dict[int(ins['label'])]} for ins in data]
+        data = [{"sent1": ins['review'].strip(), "label": emo_dict[int(ins['label'])], "dataset":"movierationales"} for ins in data]
     return data, len(data)
 
 
@@ -863,9 +880,9 @@ def pre_data_emobankarousal(mode):
     _map = {"low":9, "high":10}
     data = [row for row in fin]
     if mode == "test":
-        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "dataset":"emobankarousal"} for ins in data[1:]]
     else:
-        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[ins[1].strip()], "dataset":"emobankarousal"} for ins in data[1:]]
     return data, len(data)
 
 
@@ -879,9 +896,9 @@ def pre_data_persuasivenessrelevance(mode):
     _map = {"low":9, "high":10}
     data = [row for row in fin]
     if mode == "test":
-        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "dataset":"persuasivenessrelevance"} for ins in data[1:]]
     else:
-        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[ins[1].strip()], "dataset":"persuasivenessrelevance"} for ins in data[1:]]
     return data, len(data)
 
 def pre_data_persuasivenessspecificity(mode):
@@ -894,9 +911,9 @@ def pre_data_persuasivenessspecificity(mode):
     _map = {"low":9, "high":10}
     data = [row for row in fin]
     if mode == "test":
-        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "dataset":"persuasivenessspecificity"} for ins in data[1:]]
     else:
-        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[ins[1].strip()], "dataset":"persuasivenessspecificity"} for ins in data[1:]]
     return data, len(data)
 
 
@@ -910,9 +927,9 @@ def pre_data_emobankdominance(mode):
     _map = {"low":9, "high":10}
     data = [row for row in fin]
     if mode == "test":
-        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "dataset":"emobankdominance"} for ins in data[1:]]
     else:
-        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[ins[1].strip()], "dataset":"emobankdominance"} for ins in data[1:]]
     return data, len(data)
 
 
@@ -926,10 +943,13 @@ def pre_data_squinkyimplicature(mode):
     _map = {"low":9, "high":10}
     data = [row for row in fin]
     if mode == "test":
-        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "dataset":"squinkyimplicature"} for ins in data[1:]]
     else:
-        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[ins[1].strip()], "dataset":"squinkyimplicature"} for ins in data[1:]]
     return data, len(data)
+
+
+
 
 
 def pre_data_squinkyformality(mode):
@@ -942,7 +962,68 @@ def pre_data_squinkyformality(mode):
     _map = {"low":9, "high":10}
     data = [row for row in fin]
     if mode == "test":
-        data = [{"sent": ins[0].strip()} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "dataset":"squinkyformality"} for ins in data[1:]]
     else:
-        data = [{"sent": ins[0].strip(), "label": _map[ins[1].strip()]} for ins in data[1:]]
+        data = [{"sent1": ins[0].strip(), "label": _map[ins[1].strip()], "dataset":"squinkyformality"} for ins in data[1:]]
     return data, len(data)
+
+
+
+
+def pre_data_ethicsjustice(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/ethics/justice/justice_train.csv"), delimiter=",")
+    elif mode == "valid":
+        data = csv.reader(open("./data/ethics/justice/justice_test.csv"), delimiter=",")
+    else:
+        data = csv.reader(open("./data/ethics/justice/justice_test.csv"), delimiter=",")
+    #_map = {"low":9, "high":10}
+    data = [row for row in data if row[0]=='1' or row[0]=='0']
+    #data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent1": ins[1].strip(),"dataset":"ethicsjustice"} for ins in data]
+    else:
+        data = [{"sent1": ins[1].strip(), "label": int(ins[0]), "dataset":"ethicsjustice"} for ins in data]
+    return data, len(data)
+
+
+
+def pre_data_ethicsdeontology(mode):
+    if mode == "train":
+        data = csv.reader(open("./data/ethics/deontology/deontology_train.csv"), delimiter=",")
+    elif mode == "valid":
+        data = csv.reader(open("./data/ethics/deontology/deontology_test.csv"), delimiter=",")
+    else:
+        data = csv.reader(open("./data/ethics/deontology/deontology_test.csv"), delimiter=",")
+    #_map = {"low":9, "high":10}
+    data = [row for row in data if row[0]=='1' or row[0]=='0']
+    #data = [row for row in fin]
+    if mode == "test":
+        data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(),"dataset":"ethicsdeontology"} for ins in data]
+    else:
+        data = [{"sent1": ins[1].strip(), "sent2": ins[2].strip(), "label": int(ins[0]),"dataset":"ethicsdeontology"} for ins in data]
+    return data, len(data)
+
+
+
+def pre_data_recastner(mode):
+    if mode == "train":
+        data = json.load(open("./data/recast/train/recast_ner_data_1.json"))
+    elif mode == "valid":
+        data = json.load(open("./data/recast/dev/recast_ner_data.json"))
+    else:
+        data = json.load(open("./data/recast/test/recast_ner_data.json"))
+
+
+    _dict = {"not-entailed":0,"entailed":1}
+
+    if mode == "test":
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context'],"dataset":"recastner"} for ins in data]
+    else:
+        data = [{"sent1": ins['hypothesis'].strip(), "sent2": ins['context'].strip(), "label": _dict[ins['label']],"dataset":"recastner"} for ins in data]
+
+
+    return data, len(data)
+
+
+

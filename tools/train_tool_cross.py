@@ -108,12 +108,20 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     #model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
-    if config.get("model","model_size") == "large" and "medium" in params["args"].model_prompt:
+    if (config.get("model","model_size")).lower() == "large" and "medium" in (params["args"].model_prompt).lower():
         model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
-    elif config.get("model","model_size") == "base" and "base" in params["args"].model_prompt:
+    elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower():
         model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
-    elif config.get("model","model_size") == "base" and "medium" in params["args"].model_prompt:
+    elif (config.get("model","model_size")).lower() == "base" and "medium" in (params["args"].model_prompt).lower():
         model_AE = AE_0_layer(dim_0=512,dim_1=768).to(device)
+    elif (config.get("model","model_size")).lower() == "large":
+        #Default is base
+        print("-----------------------------------")
+        print("Default: base to large, 768 to 1024")
+        print("-----------------------------------")
+        model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
+    else:
+        print("Check tool/train_tool_cross.py Line:118 AE_model")
     #model_AE = AE_1_layer(dim_0=768,dim_1=768,dim_2=1024).to(device)
     # create an optimizer object
     # Adam optimizer with learning rate 1e-3

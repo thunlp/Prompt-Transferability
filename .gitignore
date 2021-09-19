@@ -106,6 +106,7 @@ model/projectPromptBert*
 model/projectPromptBert_1layer*
 mode/projectorPromptBert*
 model/crossPromptBert*
+model/crossPrompt_nli*
 
 
 model/restaurantPromptBertMedium*
@@ -169,6 +170,7 @@ model/recastverbnetPromptBert*
 
 
 
+
 model/crossPromptRoberta_only_IMDB_laptop*
 model/crossPromptRoberta_IMDB,laptop*
 model/crossPromptRoberta_IMDB,laptop,MNLI,MRPC,QNLI,QQP,restaurant,RTE,SST2,STSB,WNLI
@@ -183,6 +185,20 @@ model/projectPromptRoberta__all_but_no_STSB__76800_to_1200*
 model/cross_Bert_to_Roberta_reconstructionLoss_mlm_768_768*
 model/cross_Bert_to_Roberta_reconstructionLoss_mlm*
 model/cross_Bert_to_Roberta_reconstructionLoss_all_task*
+
+
+
+
+
+model/crossPromptRobertaLarge_emotion*
+model/crossPromptRobertaLarge_nli*
+model/crossPromptRoberta_all*  #model/crossPromptRobertaLarge_all
+
+model/crossPromptRoberta_all_base* #model/crossPromptRoberta_all
+model/crossPromptRoberta_emotion*
+model/crossPrompt_nli* #model/crossPromptRoberta_nli
+
+
 
 
 

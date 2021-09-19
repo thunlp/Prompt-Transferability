@@ -190,7 +190,7 @@ class PromptBert(nn.Module):
             #NLI
             #mo_dict={"yes":2748,"no":2053}
             score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)
-        elif config.get("data", "train_dataset_type") == "QNLI":
+        elif config.get("data", "train_dataset_type") == "QNLI" or "recast" in config.get("data", "train_dataset_type"):
             #NLI
             #mo_dict={"yes":2748,"no":2053}
             score = torch.cat([mask_logits[:, 2053].unsqueeze(1), mask_logits[:, 2748].unsqueeze(1)], dim=1)

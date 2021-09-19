@@ -28,6 +28,7 @@ def load_task_prompt(model_prompt, config_name, config):
     config_name = config_name.split("/")[1].replace(".config","")
 
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
+    transfered_model = config.get("model","model_size").lower().split(",")
     model_size = str.title(model_prompt.strip().split("-")[-1])
     model_prompt = str.title(model_prompt.strip().split("-")[0])
 
@@ -41,9 +42,9 @@ def load_task_prompt(model_prompt, config_name, config):
     print("---")
     print("Not include prompt type:",model_prompt_not_in)
     print("---")
-    print("Trained prompt:", model_prompt)
+    print("Trained prompt:", model_prompt, model_size)
     print("---")
-    print("Model size:", model_size)
+    print("Transfered model size:", transfered_model)
     print("====")
     #exit()
 
@@ -95,8 +96,14 @@ def load_task_prompt(model_prompt, config_name, config):
 
         #crossPromptRoberta
         else:
-            if model_size not in file:
+            if model_size == "Base":
+                pass
+            elif model_size not in file:
                 continue
+            else:
+                print("crossPrompt.py: Line 103 - Have wrong model_size")
+                exit()
+
 
             if "proj" not in file and model_prompt in file and "mlm" not in file:
                 task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
@@ -272,17 +279,15 @@ class crossPrompt(nn.Module):
                 exit()
         else:
             if "Roberta" in config.get("model","model_base"):
-                #copy_tree(str(str(ckp)+"/SST2_PromptRoberta"), self.init_model_path)
                 from .modelling_roberta import RobertaForMaskedLM
-                self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+                self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
                 os.mkdir(self.init_model_path)
                 torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
                 print("Save Done")
                 self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
             elif "Bert" in config.get("model","model_base"):
-                #copy_tree(str(str(ckp)+"/SST2_PromptBert"), self.init_model_path)
                 from .modelling_bert import BertForMaskedLM
-                self.encoder = BertForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
+                self.encoder = BertForMaskedLM.from_pretrained(model, config=self.plmconfig)
                 os.mkdir(self.init_model_path)
                 torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
                 print("Save Done")
