@@ -196,7 +196,9 @@ for dataset_file in all_model_prompt:
     ##    max_epoch = 21
 
     else:
+        print("--------------------")
         print("Did not need to genertate this promt_emb:", dataset_file)
+        print("--------------------")
         continue
         '''
         for file in os.listdir(original_dir):

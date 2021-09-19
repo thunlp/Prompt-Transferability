@@ -1,4 +1,4 @@
-gpus=4
+gpus=7
 
 
 '''
@@ -105,11 +105,33 @@ done
 
 
 #Roberta
-for MODEL in QQPPromptRoberta
-#for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
+'''
+#for MODEL in QQPPromptRoberta
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
 do
-    #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
-    for PROMPT in recastnerPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastfactualityPromptRoberta recastmegaveridicalityPromptRoberta recastsentimentPromptRoberta
+    for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
+    #for PROMPT in recastnerPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastfactualityPromptRoberta recastmegaveridicalityPromptRoberta recastsentimentPromptRoberta
+    do
+            echo "==========================="
+            echo config/$MODEL.config
+            echo model/$MODEL/
+            echo task_prompt_emb/$PROMPT
+            echo "==========================="
+
+            CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+                --gpu $gpus \
+                --checkpoint model/$MODEL \
+                --replacing_prompt task_prompt_emb/$PROMPT
+    done
+done
+'''
+
+
+
+#Roberta_label
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
+do
+    for PROMPT in IMDBPromptRoberta_label laptopPromptRoberta_label MNLIPromptRoberta_label QNLIPromptRoberta_label QQPPromptRoberta_label restaurantPromptRoberta_label SST2PromptRoberta_label movierationalesPromptRoberta_label tweetevalsentimentPromptRoberta_label snliPromptRoberta_label recastnerPromptRoberta_label ethicsdeontologyPromptRoberta_label ethicsjusticePromptRoberta_label
     do
             echo "==========================="
             echo config/$MODEL.config
