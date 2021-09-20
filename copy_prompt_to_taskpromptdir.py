@@ -76,14 +76,14 @@ for dataset_file in all_model_prompt:
         max_epoch = 22
 
     elif dataset_file == "MNLIPromptRoberta":
-        max_epoch = 30 #hv
+        max_epoch = 30 #best:105
     elif dataset_file == "MNLIPromptRoberta_label":
         max_epoch = 30
     elif dataset_file == "MNLIPromptBert":
         max_epoch = 29
 
     elif dataset_file == "QNLIPromptRoberta":
-        max_epoch = 67 #hv
+        max_epoch = 67
     elif dataset_file == "QNLIPromptRoberta_label":
         max_epoch = 67
     elif dataset_file == "QNLIPromptBert":
@@ -99,7 +99,7 @@ for dataset_file in all_model_prompt:
     ##    max_epoch = 2
 
     elif dataset_file == "snliPromptRoberta":
-        max_epoch = 17 #hv
+        max_epoch = 17 #replace with 32
     elif dataset_file == "snliPromptRoberta_label":
         max_epoch = 17
     elif dataset_file == "snliPromptBert":
