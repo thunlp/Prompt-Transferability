@@ -177,17 +177,18 @@ class PromptRoberta(nn.Module):
         '''
 
 
+        '''
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant":
             score = torch.cat([mask_logits[:, 288].unsqueeze(1), mask_logits[:, 134].unsqueeze(1), mask_logits[:, 176].unsqueeze(1), mask_logits[:,246].unsqueeze(1)], dim=1)
         elif config.get("data", "train_dataset_type") == "tweetevalsentiment" or config.get("data", "train_dataset_type") == "MNLI" or  config.get("data", "train_dataset_type") == "snli":
             score = torch.cat([mask_logits[:, 288].unsqueeze(1), mask_logits[:, 134].unsqueeze(1), mask_logits[:, 246].unsqueeze(1)], dim=1)
         else:
             score = torch.cat([mask_logits[:, 288].unsqueeze(1), mask_logits[:,246].unsqueeze(1)], dim=1)
-
-
-
-
         '''
+
+
+
+
         if config.get("data", "train_dataset_type") == "laptop" or config.get("data", "train_dataset_type") == "restaurant":
             #sentiment
             #mo_dict={"positive":22173,"moderate":19397,"negative":33407,"conflict":17075}
@@ -241,7 +242,6 @@ class PromptRoberta(nn.Module):
             #mask_logits:torch.Size([16, 50265])
             #mo_dict={"yes":10932,"no":2362}
             score = torch.cat([mask_logits[:, 2362].unsqueeze(1), mask_logits[:, 10932].unsqueeze(1)], dim=1)
-        '''
 
 
 
