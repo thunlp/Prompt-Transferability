@@ -1,18 +1,37 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=3
+gpus=5
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
 #MODEL_PROMPT="Random"
 #PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss"
-PROJECTOR="model/crossPromptRoberta"
+
+FROM_MODEL="Bert"
+TO_MODEL="Roberta"
+#PROJECTOR="model/crossPromptRoberta"
+PROJECTOR="model/crossPromptRoberta_emotion/22_model_cross.pkl"
+
+
+
+for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
+do
+    echo "==========================="
+    echo config/$MODEL.config
+    echo task_prompt_emb/$MODEL
+    echo "==========================="
+
+    CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${MODEL}${TO_MODEL}.config \
+        --gpu $gpus \
+        --checkpoint task_prompt_emb/${MODEL}${FROM_MODEL} \
+        --model_transfer_projector \
+        --projector $PROJECTOR
+done
 
 
 
 
-
-
+'''
 ############
 #Sentiment
 ############
@@ -112,6 +131,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/WNLIPromptRoberta.co
     --replacing_prompt task_prompt_emb/WNLIPromptBert \
     --model_transfer_projector \
     --projector $PROJECTOR
+'''
 
 
 
@@ -131,6 +151,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/REPrompt.config \
 ############
 
 
+'''
 #QNLI
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.config \
     --gpu $gpus \
@@ -140,16 +161,14 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptRoberta.co
     --projector $PROJECTOR
 
 
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta \
     --replacing_prompt task_prompt_emb/STSBPromptBert \
     --model_transfer_projector
+
 '''
 
-
-exit
 
 
 '''

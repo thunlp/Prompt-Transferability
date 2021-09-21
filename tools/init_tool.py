@@ -34,19 +34,27 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
         path = projector+"/"
     '''
 
-    all_model_dir = os.listdir(projector)
-    print(all_model_dir)
-    path = projector+"/"
-
-
     #######################
     #######################
-    max_epoch_model=0
-    for model in all_model_dir:
-        present_epoch_model = int(model.split("_")[0])
-        if present_epoch_model > max_epoch_model:
-            max_epoch_model = present_epoch_model
-            PATH=path+str(model)
+    if ".pkl" in projector:
+        print(projector)
+        PATH = projector
+    else:
+        all_model_dir = os.listdir(projector)
+        print(all_model_dir)
+        path = projector+"/"
+
+        max_epoch_model=0
+        for model in all_model_dir:
+            present_epoch_model = int(model.split("_")[0])
+            if present_epoch_model > max_epoch_model:
+                max_epoch_model = present_epoch_model
+                PATH=path+str(model)
+
+
+
+
+
     print("===")
     print("Applied Model:",PATH)
     #model = torch.load(PATH).to("cuda")
@@ -57,8 +65,10 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
         model = AE_0_layer(dim_0=768,dim_1=1024).to("cuda")
     elif config.get("model","model_size") == "base":
         model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
-    elif config.get("model","model_size") == "medium":
+    '''
+    elif config.get("model","model_size") == "base":
         model = AE_0_layer(dim_0=512,dim_1=768).to("cuda")
+    '''
     #model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
     #model = AE_1_layer(dim_0=768,dim_1=int(768/2),dim_2=1024).to("cuda")
     model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
