@@ -210,7 +210,6 @@ task_activated_neuron*
 /RobertaSmallForMaskedLM*
 /RobertaForMaskedLM*
 /RobertaLargeForMaskedLM*
-#/task_prompt_emb
 /tensorboard*
 
 /bert-base-uncased

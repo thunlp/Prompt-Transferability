@@ -10,18 +10,23 @@ import sys
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
 #root_dir = "task_activated_neuron/12layer_1prompt"
-root_dir = "task_activated_neuron"
+root_dir = "task_activated_neuron/task_activated_neuron_label"
 #root_dir = "task_activated_neuron/lastlayer_100prompt_Prompt"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", anliPromptRoberta, "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
-order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta", "recastfactualityPromptRoberta", "recastmegaveridicalityPromptRoberta","recastnerPromptRoberta", "recastpunsPromptRoberta","recastsentimentPromptRoberta", "recastverbcornerPromptRoberta","ethicscommonsensePromptRoberta","ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta", "recastfactualityPromptRoberta", "recastmegaveridicalityPromptRoberta","recastnerPromptRoberta", "recastpunsPromptRoberta","recastsentimentPromptRoberta", "recastverbcornerPromptRoberta","ethicscommonsensePromptRoberta","ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+
+
+if "_label" in root_dir:
+    order_list = [i+str("_label") for i in order_list]
 
 #dirs = [dir for dir in dirs if ".txt" not in dir and "12layer_1prompt" not in dir]
 dirs = order_list
 
-data_name = [dir.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","") for dir in dirs]
+data_name = [dir.replace("PromptRoberta","").replace("_label","").replace("urant","").replace("evalsentiment","").replace("rationales","") for dir in dirs]
 
 cos = torch.nn.CosineSimilarity(dim=0)
 
