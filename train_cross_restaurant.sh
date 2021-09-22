@@ -1,5 +1,5 @@
 #mkdir RobertaForMaskedLM
-gpus=4
+gpus=0
 
 ############
 #Sentiment
@@ -8,8 +8,7 @@ gpus=4
 model_prompt="bert-base"
 
 #restaurant
-#CUDA_VISIBLE_DEVICES=$gpus python3 train_projector.py --config config/projectorPromptRoberta.config \
-CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/crossPromptRoberta_nli.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/crossPromptRoberta_restaurant.config \
     --gpu $gpus \
     --model_prompt $model_prompt
     #--checkpoint roberta-base \

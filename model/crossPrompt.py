@@ -55,6 +55,7 @@ def load_task_prompt(model_prompt, config_name, config):
     files = os.listdir(path)
 
 
+    print("----")
     for file in files:
 
         #cross_mlmPromptRoberta
@@ -105,7 +106,7 @@ def load_task_prompt(model_prompt, config_name, config):
                 exit()
 
 
-            if "proj" not in file and model_prompt in file and "mlm" not in file:
+            if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "Large" not in file and "Medium" not in file:
                 task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
                 name = str(file.strip().split("P")[0]).lower()
                 if name=="mr":
@@ -113,20 +114,22 @@ def load_task_prompt(model_prompt, config_name, config):
                 elif name=="qq":
                     name+="p"
 
-                '''
                 if name not in choosed_tasks:
                     continue
-                '''
 
-                #print(2)
-                #print(file)
+                print(file, end='\t')
+
+
                 name_list.append(name)
                 task_prompt_dict[name] = task_prompt_emb
             else:
                 continue
 
-
+    print()
+    print("----")
     name_list.sort()
+    print(name_list)
+
 
     #map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrp':3, 'qnli':4, 'qqp':5, 're':6, 'restaurant':7, 'rte':8, 'sst2':9, 'wnli':10}
 
@@ -257,7 +260,6 @@ class crossPrompt(nn.Module):
             #copy_tree("RobertaForMaskedLM/SST2PromptRoberta", self.init_model_path)
             #copy_tree(str(str(ckp)+"/SST2PromptRoberta"), self.init_model_path)
             #os.remove(self.init_model_path+"/pytorch_model.bin")
-
             self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
             os.mkdir(self.init_model_path)
             torch.save(self.encoder.state_dict(), str(self.init_model_path)+"/pytorch_model.bin")
@@ -442,4 +444,3 @@ def cal_pearson(score, label):
     pearson_result = numerator / denominator
     tmp_result['pearson'] = pearson_result.item()
     return tmp_result
-

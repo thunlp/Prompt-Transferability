@@ -17,6 +17,7 @@ model/STSBPromptRoberta*
 model/WNLIPromptRoberta*
 model/laptopPromptRoberta*
 model/restaurantPromptRoberta*
+model/restaurantPromptRoberta_large*
 model/IMDBPromptRoberta*
 model/WikiREDPromptRoberta*
 model/projectPromptRoberta*
