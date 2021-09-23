@@ -33,6 +33,7 @@ model/persuasivenessrelevancePromptRoberta*
 model/persuasivenessspecificityPromptRoberta*
 model/recastfactualityPromptRoberta*
 model/snliPromptRoberta*
+model/snliPromptRobertaLarge*
 model/squinkyformalityPromptRoberta*
 model/squinkyimplicaturePromptRoberta*
 model/tweetevalsentimentPromptRoberta*

@@ -1,4 +1,4 @@
-gpus=7
+gpus=1
 
 
 '''
@@ -128,12 +128,14 @@ done
 
 
 
+
 #Roberta_label
-#for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta MRPCPromptRoberta
-for MODEL in laptopPromptRoberta
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta MRPCPromptRoberta
+#for MODEL in laptopPromptRoberta
 do
     #for PROMPT in IMDBPromptRoberta_label laptopPromptRoberta_label MNLIPromptRoberta_label QNLIPromptRoberta_label QQPPromptRoberta_label restaurantPromptRoberta_label SST2PromptRoberta_label movierationalesPromptRoberta_label tweetevalsentimentPromptRoberta_label snliPromptRoberta_label recastnerPromptRoberta_label ethicsdeontologyPromptRoberta_label ethicsjusticePromptRoberta_label
-    for PROMPT in laptopPromptRoberta_label
+    for PROMPT in random
+    #for PROMPT in laptopPromptRoberta_label
     do
             echo "==========================="
             echo config/$MODEL.config
@@ -144,6 +146,7 @@ do
             CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                 --gpu $gpus \
                 --checkpoint model/$MODEL \
-                --replacing_prompt task_prompt_emb/$PROMPT
+                --replacing_prompt $PROMPT
+                #--replacing_prompt task_prompt_emb/$PROMPT
     done
 done
