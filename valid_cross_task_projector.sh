@@ -7,16 +7,26 @@ gpus=6
 #MODEL_PROMPT="Random"
 #PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss"
 
+
+#emotion
 #FROM_MODEL="Bert"
-FROM_MODEL="Roberta"
-
 #TO_MODEL="Roberta"
-TO_MODEL="RobertaLarge"
-
 #PROJECTOR="model/crossPromptRoberta"
-#PROJECTOR="model/crossPromptRoberta_emotion/22_model_cross.pkl"
 #PROJECTOR="model/crossPromptRoberta_emotion/35_model_cross.pkl"
-PROJECTOR="model/crossPromptRobertaLarge_emotion/76_model_cross.pkl"
+#PROJECTOR="random"
+
+#all
+FROM_MODEL="Bert"
+TO_MODEL="Roberta"
+PROJECTOR="model/crossPromptRoberta_all/99_model_cross.pkl"
+#PROJECTOR="random"
+
+
+#emotion-large
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_emotion/76_model_cross.pkl"
+#PROJECTOR="random"
 
 
 

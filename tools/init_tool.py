@@ -36,7 +36,7 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
 
     #######################
     #######################
-    if ".pkl" in projector:
+    if ".pkl" in projector or "Random" in projector or "random" in projector:
         print(projector)
         PATH = projector
     else:
@@ -71,8 +71,10 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
     '''
     #model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
     #model = AE_1_layer(dim_0=768,dim_1=int(768/2),dim_2=1024).to("cuda")
-    model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
-    #print(model)
+    if projector == "Random" or projector=="random":
+        pass
+    else:
+        model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
     print("===")
     #exit()
     model.eval()
@@ -317,7 +319,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 print("Warning: Use original prompt emb")
             '''
 
-        elif params["args"].replacing_prompt == "Random" or params["args"].replacing_prompt == "random":
+        elif "Random" in params["args"].replacing_prompt or "random" in params["args"].replacing_prompt:
             print("=========================")
             print("Using random prompt emb")
             print("=========================")
