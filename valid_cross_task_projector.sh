@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=6
+gpus=2
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
@@ -15,10 +15,15 @@ gpus=6
 #PROJECTOR="model/crossPromptRoberta_emotion/35_model_cross.pkl"
 #PROJECTOR="random"
 
+#nli
+#FROM_MODEL="Bert"
+#TO_MODEL="Roberta"
+#PROJECTOR="model/crossPromptRoberta_nli/30_model_cross.pkl"
+
 #all
-FROM_MODEL="Bert"
-TO_MODEL="Roberta"
-PROJECTOR="model/crossPromptRoberta_all/99_model_cross.pkl"
+#FROM_MODEL="Bert"
+#TO_MODEL="Roberta"
+#PROJECTOR="model/crossPromptRoberta_all/99_model_cross.pkl"
 #PROJECTOR="random"
 
 
@@ -28,10 +33,21 @@ PROJECTOR="model/crossPromptRoberta_all/99_model_cross.pkl"
 #PROJECTOR="model/crossPromptRobertaLarge_emotion/76_model_cross.pkl"
 #PROJECTOR="random"
 
+#all_large
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_nli/17_model_cross.pkl"
+
+#all_large
+FROM_MODEL="Roberta"
+TO_MODEL="RobertaLarge"
+PROJECTOR="model/crossPromptRobertaLarge_all/219_model_cross.pkl"
+#PROJECTOR="random"
+
 
 
 for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
-#for MODEL in IMDBPrompt laptopPrompt
+#for MODEL in ethicsdeontologyPrompt ethicsjusticePrompt
 do
     echo "==========================="
     echo Model: config/${MODEL}${TO_MODEL}.config
