@@ -37,6 +37,26 @@ class AE_auto_layer(nn.Module):
 
 
 
+class AE_0_layer_76800(nn.Module):
+    def __init__(self, **kwargs):
+        super(AE_0_layer_76800, self).__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["dim_0"], out_features=kwargs["dim_1"]
+        )
+
+        # mean-squared error loss
+        self.criterion = nn.CrossEntropyLoss()
+        self.activation = nn.LeakyReLU()
+
+    def encoding(self, features):
+        return self.encoder(features)
+
+    def forward(self, features):
+        encoded_emb = self.encoding(features)
+        encoded_emb = self.activation(encoded_emb)
+        return encoded_emb
+
+
 class AE_0_layer(nn.Module):
     def __init__(self, **kwargs):
         super(AE_0_layer, self).__init__()
@@ -55,6 +75,34 @@ class AE_0_layer(nn.Module):
         encoded_emb = self.encoding(features)
         encoded_emb = self.activation(encoded_emb)
         return encoded_emb
+
+
+
+class AE_1_layer_76800(nn.Module):
+    def __init__(self, **kwargs):
+        super(AE_1_layer_76800, self).__init__()
+        self.encoder = nn.Linear(
+            in_features=kwargs["dim_0"], out_features=int(kwargs["dim_1"])
+        )
+        self.decoder = nn.Linear(
+            in_features=int(kwargs["dim_1"]), out_features=kwargs["dim_2"]
+        )
+
+        # mean-squared error loss
+        self.criterion = nn.CrossEntropyLoss()
+        self.activation = nn.LeakyReLU()
+
+    def encoding(self, features):
+        return self.encoder(features)
+    def decoding(self, features):
+        return self.decoder(features)
+
+    def forward(self, features):
+        encoded_emb = self.encoding(features)
+        encoded_emb = self.activation(encoded_emb)
+        decoded_emb = self.decoding(encoded_emb)
+        return decoded_emb
+
 
 
 class AE_1_layer(nn.Module):

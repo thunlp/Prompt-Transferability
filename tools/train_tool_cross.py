@@ -14,7 +14,7 @@ from tools.init_tool import init_test_dataset, init_formatter
 from reader.reader import init_dataset, init_formatter, init_test_dataset
 import torch.nn as nn
 import torch.optim as optim
-from tools.projector import AE_0_layer, AE_1_layer
+from tools.projector import AE_0_layer, AE_1_layer_76800, AE_1_layer
 
 logger = logging.getLogger(__name__)
 
@@ -111,7 +111,11 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     if (config.get("model","model_size")).lower() == "large" and "medium" in (params["args"].model_prompt).lower():
         model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower():
-        model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
+        ###
+        #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
+        #model_AE = AE_0_layer_76800(dim_0=76800,dim_1=76800).to(device)
+        model_AE = AE_1_layer_76800(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
+        ###
     elif (config.get("model","model_size")).lower() == "base" and "medium" in (params["args"].model_prompt).lower():
         model_AE = AE_0_layer(dim_0=512,dim_1=768).to(device)
     elif (config.get("model","model_size")).lower() == "large":

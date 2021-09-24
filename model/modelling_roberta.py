@@ -148,6 +148,11 @@ class RobertaEmbeddings(nn.Module):
             if input_ids is not None:
                 # Create the position ids from the input token ids. Any padded tokens remain padded.
                 position_ids = create_position_ids_from_input_ids(input_ids, self.padding_idx).to(input_ids.device)
+                #position_ids = self.create_position_ids_from_inputs_embeds(inputs_embeds)
+                #print("=========")
+                #print(position_ids)
+                #print(position_ids.shape)
+                #exit()
                 # print(position_ids.tolist())
                 # print("==" * 15)
             else:
@@ -197,8 +202,19 @@ class RobertaEmbeddings(nn.Module):
 
             inputs_embeds = word_embeds + prompt_emb
 
-
-        position_embeddings = self.position_embeddings(position_ids)
+        #[  2,   3,   4,  ..., 230, 231,   1] #231
+        ###
+        position_embeddings = self.position_embeddings(position_ids) #[bastch_size,231,768]
+        #print(position_embeddings.shape)
+        #print("---")
+        prompt_zero_position_embeddings = torch.zeros(int(position_embeddings.shape[0]),100,int(position_embeddings.shape[2])).to("cuda")
+        #print(prompt_zero_position_embeddings.shape)
+        #print("---")
+        position_embeddings[:,:100,:] = prompt_zero_position_embeddings
+        #print(position_embeddings)
+        #print("---")
+        #print(position_embeddings.shape)
+        ###
         token_type_embeddings = self.token_type_embeddings(token_type_ids)
 
 

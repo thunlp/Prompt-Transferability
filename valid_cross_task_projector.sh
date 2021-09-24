@@ -1,12 +1,18 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=2
+gpus=4
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
 #MODEL_PROMPT="Random"
 #PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss"
 
+
+#emotion
+FROM_MODEL="Bert"
+TO_MODEL="Roberta"
+PROJECTOR="model/crossPromptRoberta"
+PROJECTOR="model/crossPromptRoberta_emotion_76800/20_model_cross.pkl"
 
 #emotion
 #FROM_MODEL="Bert"
@@ -39,9 +45,9 @@ gpus=2
 #PROJECTOR="model/crossPromptRobertaLarge_nli/17_model_cross.pkl"
 
 #all_large
-FROM_MODEL="Roberta"
-TO_MODEL="RobertaLarge"
-PROJECTOR="model/crossPromptRobertaLarge_all/219_model_cross.pkl"
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_all/219_model_cross.pkl"
 #PROJECTOR="random"
 
 

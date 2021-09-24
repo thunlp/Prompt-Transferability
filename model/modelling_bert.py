@@ -288,6 +288,22 @@ class BertEmbeddings(nn.Module):
             inputs_embeds = word_embeds + prompt_emb
 
 
+        '''
+        #[  2,   3,   4,  ..., 230, 231,   1] #231
+        ###
+        position_embeddings = self.position_embeddings(position_ids) #[bastch_size,231,768]
+        #print(position_embeddings.shape)
+        #print("---")
+        prompt_zero_position_embeddings = torch.zeros(int(position_embeddings.shape[0]),100,int(position_embeddings.shape[2])).to("cuda")
+        #print(prompt_zero_position_embeddings.shape)
+        #print("---")
+        position_embeddings[:,:100,:] = prompt_zero_position_embeddings
+        #print(position_embeddings)
+        #print("---")
+        #print(position_embeddings.shape)
+        ###
+        token_type_embeddings = self.token_type_embeddings(token_type_ids)
+        '''
 
 
 
@@ -295,12 +311,26 @@ class BertEmbeddings(nn.Module):
         if inputs_embeds is None:
             inputs_embeds = self.word_embeddings(input_ids)
         '''
+
+
+        #torch.Size([16, 231, 768])
         token_type_embeddings = self.token_type_embeddings(token_type_ids)
+        ###
+        prompt_zero_embeddings = torch.zeros(int(token_type_embeddings.shape[0]),100,int(token_type_embeddings.shape[2])).to("cuda")
+        token_type_embeddings[:,:100,:] = prompt_zero_embeddings
+        ###
 
         embeddings = inputs_embeds + token_type_embeddings
+
         if self.position_embedding_type == "absolute":
+            #torch.Size([16, 231, 768])
             position_embeddings = self.position_embeddings(position_ids)
+            ###
+            position_embeddings[:,:100,:] = prompt_zero_embeddings
+            ###
+
             embeddings += position_embeddings
+
 
         embeddings = self.LayerNorm(embeddings)
         #embeddings = self.dropout(embeddings)
