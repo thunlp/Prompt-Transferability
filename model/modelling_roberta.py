@@ -205,15 +205,10 @@ class RobertaEmbeddings(nn.Module):
         #[  2,   3,   4,  ..., 230, 231,   1] #231
         ###
         position_embeddings = self.position_embeddings(position_ids) #[bastch_size,231,768]
-        #print(position_embeddings.shape)
-        #print("---")
+        ###position_embeddings to 0
         prompt_zero_position_embeddings = torch.zeros(int(position_embeddings.shape[0]),100,int(position_embeddings.shape[2])).to("cuda")
-        #print(prompt_zero_position_embeddings.shape)
-        #print("---")
         position_embeddings[:,:100,:] = prompt_zero_position_embeddings
-        #print(position_embeddings)
-        #print("---")
-        #print(position_embeddings.shape)
+        ###
         ###
         token_type_embeddings = self.token_type_embeddings(token_type_ids)
 
@@ -1547,7 +1542,13 @@ def create_position_ids_from_input_ids(input_ids, padding_idx):
     :return torch.Tensor:
     """
     # The series of casts and type-conversions here are carefully balanced to both work with ONNX export and XLA.
-    mask = input_ids.ne(padding_idx).int() #* (input_ids >= 0).int()
+    #mask = input_ids.ne(padding_idx).int() #* (input_ids >= 0).int()
+    mask = input_ids.ne(padding_idx).int() * (input_ids >= 0).int()
     incremental_indices = torch.cumsum(mask, dim=1).type_as(mask) * mask
-    return (incremental_indices.long() + padding_idx)# * (input_ids >= 0).int()
+    incremental_indices = incremental_indices.long()
+    #limited_length = int(incremental_indices.shape[1])
+    #pad_zero_tensor = torch.zeros(incremental_indices.shape[0],100).long().to("cuda")
+    #incremental_indices = torch.cat((pad_zero_tensor,incremental_indices),1)[:,:limited_length]
+    #return (incremental_indices.long() + padding_idx)# * (input_ids >= 0).int()
+    return (incremental_indices + padding_idx)
 

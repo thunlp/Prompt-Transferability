@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=4
+gpus=5
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
@@ -66,6 +66,7 @@ do
         --replacing_prompt task_prompt_emb/${MODEL}${FROM_MODEL} \
         --model_transfer_projector \
         --projector $PROJECTOR
+    exit
 done
 
 
