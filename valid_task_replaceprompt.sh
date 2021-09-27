@@ -1,4 +1,4 @@
-gpus=1
+gpus=2
 
 
 '''
@@ -105,12 +105,12 @@ done
 
 
 #Roberta
-'''
 #for MODEL in QQPPromptRoberta
-for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
+#for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
 do
-    for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
-    #for PROMPT in recastnerPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastfactualityPromptRoberta recastmegaveridicalityPromptRoberta recastsentimentPromptRoberta
+    #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
+    for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
     do
             echo "==========================="
             echo config/$MODEL.config
@@ -124,11 +124,10 @@ do
                 --replacing_prompt task_prompt_emb/$PROMPT
     done
 done
+
+
+
 '''
-
-
-
-
 #Roberta_label
 #for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta MRPCPromptRoberta
 for MODEL in IMDBPromptRobertaLarge laptopPromptRobertaLarge MNLIPromptRobertaLarge QNLIPromptRobertaLarge QQPPromptRobertaLarge restaurantPromptRobertaLarge SST2PromptRobertaLarge movierationalesPromptRobertaLarge tweetevalsentimentPromptRobertaLarge snliPromptRobertaLarge recastnerPromptRobertaLarge ethicsdeontologyPromptRobertaLarge ethicsjusticePromptRobertaLarge MRPCPromptRobertaLarge
@@ -151,3 +150,4 @@ do
                 #--replacing_prompt task_prompt_emb/$PROMPT
     done
 done
+'''
