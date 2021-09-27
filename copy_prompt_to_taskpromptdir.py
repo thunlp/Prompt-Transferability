@@ -32,62 +32,62 @@ for dataset_file in all_model_prompt:
 
 
     if dataset_file == "IMDBPromptRoberta":
-        max_epoch = 40
+        max_epoch = 23
     elif dataset_file == "IMDBPromptRoberta_label":
         max_epoch = 40
     elif dataset_file == "IMDBPromptBert":
-        max_epoch = 39
+        max_epoch = 21
 
     elif dataset_file == "SST2PromptRoberta":
-        max_epoch = 18
+        max_epoch = 25
     elif dataset_file == "SST2PromptRoberta_label":
         max_epoch = 18
     elif dataset_file == "SST2PromptBert":
-        max_epoch = 17
+        max_epoch = 18
 
     elif dataset_file  == "laptopPromptRoberta":
         max_epoch = 32
     elif dataset_file  == "laptopPromptRoberta_label":
         max_epoch = 32
     elif dataset_file  == "laptopPromptBert":
-        max_epoch = 31
+        max_epoch = 30
 
     elif dataset_file == "restaurantPromptRoberta":
-        max_epoch = 32
+        max_epoch = 33
     elif dataset_file == "restaurantPromptRoberta_label":
         max_epoch = 32
     elif dataset_file == "restaurantPromptBert":
         max_epoch = 31
 
     elif dataset_file == "movierationalesPromptRoberta":
-        max_epoch = 48
+        max_epoch = 21
     elif dataset_file == "movierationalesPromptRoberta_label":
         max_epoch = 48
     elif dataset_file == "movierationalesPromptBert":
-        max_epoch = 47
+        max_epoch = 24
 
     elif dataset_file == "tweetevalsentimentPromptRoberta":
         #max_epoch = 38
-        max_epoch = 23
+        max_epoch = 28
     elif dataset_file == "tweetevalsentimentPromptRoberta_label":
         max_epoch = 23
     elif dataset_file == "tweetevalsentimentPromptBert":
         #max_epoch = 38
-        max_epoch = 22
+        max_epoch = 21
 
     elif dataset_file == "MNLIPromptRoberta":
-        max_epoch = 30 #best:105
+        max_epoch = 44 #24 #best:105
     elif dataset_file == "MNLIPromptRoberta_label":
         max_epoch = 30
     elif dataset_file == "MNLIPromptBert":
-        max_epoch = 29
+        max_epoch = 34 #29
 
     elif dataset_file == "QNLIPromptRoberta":
-        max_epoch = 67
+        max_epoch = 51 #67
     elif dataset_file == "QNLIPromptRoberta_label":
         max_epoch = 67
     elif dataset_file == "QNLIPromptBert":
-        max_epoch = 66
+        max_epoch = 41 #66
 
     elif dataset_file == "WNLIPromptRoberta":
         max_epoch = 755
@@ -99,11 +99,11 @@ for dataset_file in all_model_prompt:
     ##    max_epoch = 2
 
     elif dataset_file == "snliPromptRoberta":
-        max_epoch = 17 #replace with 32
+        max_epoch = 29 #replace with 32
     elif dataset_file == "snliPromptRoberta_label":
         max_epoch = 17
     elif dataset_file == "snliPromptBert":
-        max_epoch = 16
+        max_epoch = 32 #16
 
 
     elif dataset_file =="RTEPromptRoberta":
@@ -115,18 +115,18 @@ for dataset_file in all_model_prompt:
 
 
     elif dataset_file == "QQPPromptRoberta":
-         max_epoch = 26 #training
+         max_epoch =  22 #26
     elif dataset_file == "QQPPromptRoberta_label":
          max_epoch = 26
     elif dataset_file == "QQPPromptBert":
-         max_epoch = 25
+         max_epoch = 24 #25
 
     elif dataset_file == "MRPCPromptRoberta":
-        max_epoch = 30
+        max_epoch = 34 #30
     elif dataset_file == "MRPCPromptRoberta_label":
         max_epoch = 30
     elif dataset_file == "MRPCPromptBert":
-        max_epoch = 29
+        max_epoch = 27 #29
 
     elif dataset_file == "recastfactualityPromptRoberta":
         max_epoch = 21
@@ -152,11 +152,11 @@ for dataset_file in all_model_prompt:
         max_epoch = 34
 
     elif dataset_file == "recastnerPromptRoberta":
-        max_epoch = 18
+        max_epoch = 30 #19
     elif dataset_file == "recastnerPromptRoberta_label":
         max_epoch = 18
     elif dataset_file == "recastnerPromptBert":
-        max_epoch = 17
+        max_epoch = 20 #14
 
     elif dataset_file == "recastsentimentPromptRoberta":
         max_epoch = 58
@@ -180,18 +180,18 @@ for dataset_file in all_model_prompt:
         max_epoch = 95
 
     elif dataset_file == "ethicsdeontologyPromptRoberta":
-        max_epoch = 77
+        max_epoch = 63
     elif dataset_file == "ethicsdeontologyPromptRoberta_label":
         max_epoch = 77
     elif dataset_file == "ethicsdeontologyPromptBert":
-        max_epoch = 76
+        max_epoch = 14
 
     elif dataset_file == "ethicsjusticePromptRoberta":
-        max_epoch = 63
+        max_epoch = 29
     elif dataset_file == "ethicsjusticePromptRoberta_label":
         max_epoch = 63
     elif dataset_file == "ethicsjusticePromptBert":
-        max_epoch = 62
+        max_epoch = 15
     ##elif dataset_file == "ethicsvirtuePromptRoberta":
     ##    max_epoch = 21
 
