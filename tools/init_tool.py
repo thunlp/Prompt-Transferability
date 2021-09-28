@@ -8,7 +8,7 @@ from torch import nn
 from transformers import AutoTokenizer
 import string
 import os
-from tools.projector import AE_0_layer, AE_1_layer_76800, AE_1_layer, AE_auto_layer
+from tools.projector import AE_0_layer, AE_1_layer_mutiple_100, AE_1_layer, AE_auto_layer
 from transformers import AutoConfig,AutoModelForMaskedLM,AutoTokenizer
 
 logger = logging.getLogger(__name__)
@@ -61,12 +61,19 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
     #model = torch.load(PATH)
     #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
     #model = AE_auto_layer(dim_0=768,dim_1=768,dim3=1024).to("cuda")
-    if config.get("model","model_size") == "large":
-        model = AE_0_layer(dim_0=768,dim_1=1024).to("cuda")
-    elif config.get("model","model_size") == "base":
+    if config.get("model","model_size") == "large" and "100" in config.get("output","model_name"):
+        model = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=102400).to("cuda")
+    elif config.get("model","model_size") == "large":
+        #model = AE_1_layer(dim_0=768,dim_1=1024).to("cuda")
+        model = AE_1_layer(dim_0=768,dim_1=896,dim_2=1024).to("cuda")
+    elif config.get("model","model_size") == "base" and "100" in config.get("output","model_name"):
         #model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
         #model = AE_0_layer_76800(dim_0=76800,dim_1=76800).to("cuda")
-        model = AE_1_layer_76800(dim_0=76800,dim_1=7680,dim_2=76800).to("cuda")
+        model = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to("cuda")
+    elif config.get("model","model_size") == "base" and "100" not in config.get("output","model_name"):
+        #model = AE_1_layer(dim_0=768,dim_1=768,dim_2=768).to("cuda")
+        model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
+
     '''
     elif config.get("model","model_size") == "base":
         model = AE_0_layer(dim_0=512,dim_1=768).to("cuda")
@@ -86,21 +93,19 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
 
     #new
     ####
-    prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
-    prompt_emb_ = model(prompt_emb_.to("cuda"))
-    prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1]))
+    if "100" not in config.get("output","model_name"):
+        prompt_emb_ = model(prompt_emb.to("cuda"))
+
+    elif "100" not in config.get("output","model_name"):
+        prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
+        prompt_emb_ = model(prompt_emb_.to("cuda"))
+        prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1]))
+    else:
+        print("Wrong: init_tool.py Line:102")
 
 
-    #prompt_emb_ = model(prompt_emb.to("cuda"))
     ####
 
-    '''
-    #load_task_prompt_dir = "task_prompt_emb/"+prompt_dir+"/task_prompt"
-    prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
-    prompt_emb_ = torch.nn.Parameter(prompt_emb_)
-    prompt_emb_ = model(prompt_emb_.to("cuda"))
-    prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1])).data
-    '''
 
     return prompt_emb_
 

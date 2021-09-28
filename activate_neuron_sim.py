@@ -9,8 +9,9 @@ import sys
 
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
+root_dir = "task_activated_neuron"
 #root_dir = "task_activated_neuron/12layer_1prompt"
-root_dir = "task_activated_neuron/task_activated_neuron_label"
+#root_dir = "task_activated_neuron/task_activated_neuron_label"
 #root_dir = "task_activated_neuron/lastlayer_100prompt_Prompt"
 
 dirs = os.listdir(root_dir)

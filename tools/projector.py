@@ -37,9 +37,9 @@ class AE_auto_layer(nn.Module):
 
 
 
-class AE_0_layer_76800(nn.Module):
+class AE_0_layer_mutiple_100(nn.Module):
     def __init__(self, **kwargs):
-        super(AE_0_layer_76800, self).__init__()
+        super(AE_0_layer_mutiple_100, self).__init__()
         self.encoder = nn.Linear(
             in_features=kwargs["dim_0"], out_features=kwargs["dim_1"]
         )
@@ -78,9 +78,9 @@ class AE_0_layer(nn.Module):
 
 
 
-class AE_1_layer_76800(nn.Module):
+class AE_1_layer_mutiple_100(nn.Module):
     def __init__(self, **kwargs):
-        super(AE_1_layer_76800, self).__init__()
+        super(AE_1_layer_mutiple_100, self).__init__()
         self.encoder = nn.Linear(
             in_features=kwargs["dim_0"], out_features=int(kwargs["dim_1"])
         )

@@ -124,3 +124,7 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
                         epoch)
 
     model.train()
+
+    ###Add
+    return round(total_loss/(step+1),3)
+    ###

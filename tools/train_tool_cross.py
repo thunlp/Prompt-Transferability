@@ -14,7 +14,7 @@ from tools.init_tool import init_test_dataset, init_formatter
 from reader.reader import init_dataset, init_formatter, init_test_dataset
 import torch.nn as nn
 import torch.optim as optim
-from tools.projector import AE_0_layer, AE_1_layer_76800, AE_1_layer
+from tools.projector import AE_0_layer, AE_1_layer_mutiple_100, AE_1_layer
 
 logger = logging.getLogger(__name__)
 
@@ -108,14 +108,19 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     #model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
-    if (config.get("model","model_size")).lower() == "large" and "medium" in (params["args"].model_prompt).lower():
+    if (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
+        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
+    elif (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" not in config.get("output","model_name"):
         model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
-    elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower():
+    elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
         ###
         #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
         #model_AE = AE_0_layer_76800(dim_0=76800,dim_1=76800).to(device)
-        model_AE = AE_1_layer_76800(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
+        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
         ###
+    elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower() and "100" not in config.get("output","model_name"):
+        #model_AE = AE_1_layer(dim_0=768,dim_1=768,dim_2=768).to(device)
+        model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     elif (config.get("model","model_size")).lower() == "base" and "medium" in (params["args"].model_prompt).lower():
         model_AE = AE_0_layer(dim_0=512,dim_1=768).to(device)
     elif (config.get("model","model_size")).lower() == "large":
@@ -237,9 +242,60 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
         if current_epoch % test_time == 0:
             with torch.no_grad():
-                ###
-                valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, AE=model_AE)
-                ###
+                #####
+                #valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, AE=model_AE)
+
+
+
+                total_loss = valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, AE=model_AE)
+
+                root_dir = "model/"+config.get("output", "model_name")
+                src_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross.pkl"
+                targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(total_loss)+".pkl"
+                os.rename(src_checkpoint_name, targ_checkpoint_name)
+
+                all_checkpoints = os.listdir(root_dir)
+                top_5_list = list()
+
+                #print(all_checkpoints)
+                for checkpoint_name in all_checkpoints:
+                    #print(top_5_list)
+                    #print(111111111)
+                    if len(top_5_list) < 1:
+                        top_5_list.append(checkpoint_name)
+                        #print(3333333)
+                    else:
+                        for idx, in_top_5 in enumerate(top_5_list):
+                            #print(in_top_5)
+                            #print("---")
+                            #print(top_5_list)
+                            #print("---")
+                            #print(222222)
+                            #exit()
+                            in_top_5_score = float(in_top_5.split("_")[-1].replace(".pkl",""))
+                            checkpoint_score = float(checkpoint_name.split("_")[-1].replace(".pkl",""))
+                            if checkpoint_score < in_top_5_score and checkpoint_name not in top_5_list:
+                                #print(checkpoint_score, in_top_5_score)
+                                top_5_list.insert(idx, checkpoint_name)
+                            else:
+                                pass
+
+                if len(top_5_list)>5:
+                    top_5_list = top_5_list[:5]
+                else:
+                    pass
+
+                print(top_5_list)
+
+                if len(all_checkpoints) > 5:
+                    for checkpoint_name in all_checkpoints:
+                        #print(3333333)
+                        if checkpoint_name not in top_5_list:
+                            os.remove(root_dir+"/"+checkpoint_name)
+                else:
+                    pass
+                #####
+
                 if do_test:
                     valid(model, test_dataset, current_epoch, writer, config, gpu_list, output_function, mode="test")
         if local_rank >= 0:
