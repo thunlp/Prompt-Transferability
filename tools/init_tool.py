@@ -61,16 +61,16 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
     #model = torch.load(PATH)
     #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
     #model = AE_auto_layer(dim_0=768,dim_1=768,dim3=1024).to("cuda")
-    if config.get("model","model_size") == "large" and "100" in config.get("output","model_name"):
+    if config.get("model","model_size") == "large" and "100" in projector:
         model = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=102400).to("cuda")
-    elif config.get("model","model_size") == "large":
+    elif config.get("model","model_size") == "large" and "100" not in projector::
         #model = AE_1_layer(dim_0=768,dim_1=1024).to("cuda")
         model = AE_1_layer(dim_0=768,dim_1=896,dim_2=1024).to("cuda")
-    elif config.get("model","model_size") == "base" and "100" in config.get("output","model_name"):
+    elif config.get("model","model_size") == "base" and "100" in projector:
         #model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
         #model = AE_0_layer_76800(dim_0=76800,dim_1=76800).to("cuda")
         model = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to("cuda")
-    elif config.get("model","model_size") == "base" and "100" not in config.get("output","model_name"):
+    elif config.get("model","model_size") == "base" and "100" not in projector:
         #model = AE_1_layer(dim_0=768,dim_1=768,dim_2=768).to("cuda")
         model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
 

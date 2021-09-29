@@ -9,7 +9,7 @@ order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "
 
 #root_dir = "result/"
 
-print("Dataset")
+print("Dataset: File dir")
 print("|")
 print("|")
 print("V")
@@ -45,7 +45,7 @@ for dataset in order_list:
     print(print_word, end="\t")
 
     result_dir = dataset+"/"
-    for prompt in order_list:
+    for prompt in order_list+["random"]:
         prompt_dir = result_dir+"result_"+prompt+".json"
         try:
             result = round(json.loads(json.load(open(prompt_dir,"r")))["acc"]*100,1)

@@ -11,7 +11,8 @@ all_model_prompt = [dir for dir in all_model_prompt if ".py" not in dir]
 for dataset_file in all_model_prompt:
 
     #if dataset_file != "ethicscommonsensePromptRoberta":
-    #    continue
+    if dataset_file != "MRPCPromptRoberta":
+        continue
 
     #print(file)
 
@@ -122,7 +123,7 @@ for dataset_file in all_model_prompt:
          max_epoch = 24 #25
 
     elif dataset_file == "MRPCPromptRoberta":
-        max_epoch = 34 #30
+        max_epoch = 41 #30
     elif dataset_file == "MRPCPromptRoberta_label":
         max_epoch = 30
     elif dataset_file == "MRPCPromptBert":
