@@ -1,4 +1,4 @@
-gpus=5
+gpus=7
 
 
 '''
@@ -112,7 +112,8 @@ do
     #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
     #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
     #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
-    for PROMPT in random
+    #for PROMPT in random
+    for PROMPT in MRPCPromptRoberta
     do
             echo "==========================="
             echo config/$MODEL.config
@@ -123,8 +124,8 @@ do
             CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
                 --gpu $gpus \
                 --checkpoint model/$MODEL \
-                --replacing_prompt $PROMPT
-                #--replacing_prompt task_prompt_emb/$PROMPT
+                --replacing_prompt task_prompt_emb/$PROMPT
+                #--replacing_prompt $PROMPT
     done
 done
 
