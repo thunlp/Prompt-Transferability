@@ -131,9 +131,34 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
         model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     else:
         print("Check tool/train_tool_cross.py Line:118 AE_model")
+        exit()
     #model_AE = AE_1_layer(dim_0=768,dim_1=768,dim_2=1024).to(device)
     # create an optimizer object
     # Adam optimizer with learning rate 1e-3
+
+    #################################################
+    ####Load from checkpoints and contiously training
+    checkpoint_dir= "model/"+config.get("output", "model_name")
+
+    if os.path.isdir(checkpoint_dir):
+        checkpoints = os.listdir(checkpoint_dir)
+        if len(checkpoints) > 0:
+            print(checkpoints)
+            last_checkpoint = checkpoints[0]
+            for checkpoint_name in checkpoints:
+                checkpoint_epoch = int(checkpoint_name.split("_")[0])
+                last_checkpoint_epoch = int(last_checkpoint.split("_")[0])
+                if checkpoint_epoch >= last_checkpoint_epoch:
+                    last_checkpoint = checkpoint_name
+            model_AE.load_state_dict(torch.load(checkpoint_dir+"/"+last_checkpoint_epoch, map_location=lambda storage, loc:storage))
+        else:
+            pass
+    else:
+        pass
+
+    #################################################
+
+
     optimizer_AE = optim.Adam(model_AE.parameters(), lr=1e-3)
     model_AE.train()
     ###########

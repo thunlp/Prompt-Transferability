@@ -189,7 +189,9 @@ def Euclidean(task1_emb, task2_emb):
 
 root = "task_prompt_emb"
 
-task_map ={0:"IMDBPromptRoberta",1:"SST2PromptRoberta",2:"laptopPromptRoberta",3:"restaurantPromptRoberta",4:"movierationalesPromptRoberta",5:"tweetevalsentimentPromptRoberta",6:"MNLIPromptRoberta",7:"QNLIPromptRoberta",8:"WNLIPromptRoberta",9:"snliPromptRoberta",10:"recastnerPromptRoberta",11:"RTEPromptRoberta",12:"recastpunsPromptRoberta",13:"recastverbcornerPromptRoberta",14:"recastfactualityPromptRoberta",15:"recastmegaveridicalityPromptRoberta",16:"recastsentimentPromptRoberta",17:"recastverbnetPromptRoberta",18:"ethicscommonsensePromptRoberta",19:"ethicsdeontologyPromptRoberta",20:"ethicsjusticePromptRoberta",21:"ethicsvirtuePromptRoberta",22:"QQPPromptRoberta",23:"MRPCPromptRoberta"}
+#task_map ={0:"IMDBPromptRoberta",1:"SST2PromptRoberta",2:"laptopPromptRoberta",3:"restaurantPromptRoberta",4:"movierationalesPromptRoberta",5:"tweetevalsentimentPromptRoberta",6:"MNLIPromptRoberta",7:"QNLIPromptRoberta",8:"WNLIPromptRoberta",9:"snliPromptRoberta",10:"recastnerPromptRoberta",11:"RTEPromptRoberta",12:"recastpunsPromptRoberta",13:"recastverbcornerPromptRoberta",14:"recastfactualityPromptRoberta",15:"recastmegaveridicalityPromptRoberta",16:"recastsentimentPromptRoberta",17:"recastverbnetPromptRoberta",18:"ethicscommonsensePromptRoberta",19:"ethicsdeontologyPromptRoberta",20:"ethicsjusticePromptRoberta",21:"ethicsvirtuePromptRoberta",22:"QQPPromptRoberta",23:"MRPCPromptRoberta"}
+
+task_map = {0:"IMDBPromptRoberta",1:"SST2PromptRoberta",2:"laptopPromptRoberta",3:"restaurantPromptRoberta",4:"movierationalesPromptRoberta",5:"tweetevalsentimentPromptRoberta",6:"MNLIPromptRoberta",7:"QNLIPromptRoberta",8:"snliPromptRoberta",9:"recastnerPromptRoberta",10:"ethicsdeontologyPromptRoberta",11:"ethicsjusticePromptRoberta",12:"QQPPromptRoberta",13:"MRPCPromptRoberta"}
 
 
 #sys.stdout = open("task_cos_distance.txt", 'w')

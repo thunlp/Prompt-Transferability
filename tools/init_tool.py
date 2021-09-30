@@ -202,7 +202,18 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     trained_epoch = 0
     global_step = 0
 
-
+    #######################
+    ###Cross model training
+    if os.path.isdir("model/"+config.get("model", "model_name")) and "cross" in config.get("model", "model_name"):
+        all_checkpoints = os.listdir("model/"+config.get("model", "model_name"))
+        max_checkpoint_epoch = 0
+        for checkpoint_epoch in all_checkpoints:
+            if int(checkpoint_epoch.split("_")[0]) > max_checkpoint_epoch:
+                max_checkpoint_epoch = int(checkpoint_epoch.split("_")[0])
+        trained_epoch = max_checkpoint_epoch
+    else:
+        pass
+    #######################
 
 
 

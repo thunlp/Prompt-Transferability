@@ -5,7 +5,7 @@ import json
 
 #dirs = os.listdir(root_dir)
 
-order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta", "random"]
 
 #root_dir = "result/"
 
@@ -45,7 +45,8 @@ for dataset in order_list:
     print(print_word, end="\t")
 
     result_dir = dataset+"/"
-    for prompt in order_list+["random"]:
+    for prompt in order_list:
+
         prompt_dir = result_dir+"result_"+prompt+".json"
         try:
             result = round(json.loads(json.load(open(prompt_dir,"r")))["acc"]*100,1)
