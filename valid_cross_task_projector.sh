@@ -17,9 +17,9 @@ gpus=5
 #emotion
 FROM_MODEL="Bert"
 TO_MODEL="Roberta"
-PROJECTOR="model/crossPromptRoberta"
+#PROJECTOR="model/crossPromptRoberta"
 #PROJECTOR="model/crossPromptRoberta_emotion/13_model_cross_0.443.pkl"
-PROJECTOR="model/crossPromptRoberta_emotion/7_model_cross_0.485.pkl"
+PROJECTOR="model/crossPromptRoberta_emotion_100/7_model_cross_0.485.pkl"
 #PROJECTOR="random"
 
 #nli

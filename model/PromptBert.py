@@ -13,7 +13,7 @@ from .modelling_bert import BertForMaskedLM
 try:
     tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 except:
-    tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/bert-base-uncased")
+    tokenizer = AutoTokenizer.from_pretrained("BertForMaskedLM/bert-base-uncased")
 
 class PromptBert(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
