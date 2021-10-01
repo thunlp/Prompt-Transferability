@@ -341,7 +341,12 @@ class crossPrompt(nn.Module):
             else:
                 task_specific_prompt_emb_ = task_specific_prompt_emb.reshape( int(task_specific_prompt_emb.shape[0]), int(task_specific_prompt_emb.shape[1])*int(task_specific_prompt_emb.shape[2]))
                 task_specific_prompt_emb_ = model_AE(task_specific_prompt_emb_)
-                task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
+
+                dim_out = int(int(model_AE.decoder.weight.shape[0])/100)
+
+                #task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
+                task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),dim_out)
+                #task_specific_prompt_emb = task_specific_prompt_emb_.reshape(dim_1,dim_2,dim_3)
             ###
 
 

@@ -105,6 +105,10 @@ if __name__ == "__main__":
     #    config.set("model","model_name", "projectPromptRoberta_prompt")
     else:
         pass
+
+
+    #if args.model_transfer_projector == True:
+    #    config.set("eval","batch_size", 16)
     ####################
 
 

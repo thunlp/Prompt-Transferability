@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=5
+gpus=7
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
@@ -8,47 +8,59 @@ gpus=5
 #PROJECTOR="model/cross_Bert_to_Roberta_reconstructionLoss"
 
 
+#restaurant
+FROM_MODEL="Bert"
+TO_MODEL="Roberta"
+#PROJECTOR="model/crossPromptRoberta_restaurant/13_model_cross_0.516.pkl"
+PROJECTOR="model/crossPromptRoberta_restaurant_100/21_model_cross_0.521.pkl"
+
 #emotion
 #FROM_MODEL="Bert"
 #TO_MODEL="Roberta"
-#PROJECTOR="model/crossPromptRoberta"
-#PROJECTOR="model/crossPromptRoberta_emotion_76800/20_model_cross.pkl"
-
-#emotion
-FROM_MODEL="Bert"
-TO_MODEL="Roberta"
-#PROJECTOR="model/crossPromptRoberta"
 #PROJECTOR="model/crossPromptRoberta_emotion/13_model_cross_0.443.pkl"
-PROJECTOR="model/crossPromptRoberta_emotion_100/7_model_cross_0.485.pkl"
+#PROJECTOR="model/crossPromptRoberta_emotion_100/7_model_cross_0.485.pkl"
 #PROJECTOR="random"
 
 #nli
 #FROM_MODEL="Bert"
 #TO_MODEL="Roberta"
-#PROJECTOR="model/crossPromptRoberta_nli/30_model_cross.pkl"
+#PROJECTOR="model/crossPromptRoberta_nli/2_model_cross_0.698.pkl"
+#PROJECTOR="model/crossPromptRoberta_nli_100/8_model_cross_0.435.pkl"
 
 #all
 #FROM_MODEL="Bert"
 #TO_MODEL="Roberta"
-#PROJECTOR="model/crossPromptRoberta_all/99_model_cross.pkl"
+#PROJECTOR="model/crossPromptRoberta_all/6_model_cross_0.81.pkl"
+#PROJECTOR="model/crossPromptRoberta_all_100/30_model_cross_0.541.pkl"
 #PROJECTOR="random"
+
+
+
 
 
 #emotion-large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_emotion/76_model_cross.pkl"
+#PROJECTOR="model/crossPromptRobertaLarge_emotion_100/52_model_cross_0.666.pkl"
 #PROJECTOR="random"
 
-#all_large
+
+#restaurant-large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_nli/17_model_cross.pkl"
+#PROJECTOR="model/crossPromptRobertaLarge_emotion_100/25_model_cross_0.705.pkl"
+#PROJECTOR="random"
+
+
+#nli_large
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_nli_100/"
 
 #all_large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_all/219_model_cross.pkl"
+#PROJECTOR="model/crossPromptRobertaLarge_all_100/"
 #PROJECTOR="random"
 
 

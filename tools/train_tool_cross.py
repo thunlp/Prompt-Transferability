@@ -109,7 +109,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     #model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     if (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
-        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
+        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=102400).to(device)
     elif (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" not in config.get("output","model_name"):
         model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
@@ -150,7 +150,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                 last_checkpoint_epoch = int(last_checkpoint.split("_")[0])
                 if checkpoint_epoch >= last_checkpoint_epoch:
                     last_checkpoint = checkpoint_name
-            model_AE.load_state_dict(torch.load(checkpoint_dir+"/"+last_checkpoint_epoch, map_location=lambda storage, loc:storage))
+            model_AE.load_state_dict(torch.load(checkpoint_dir+"/"+last_checkpoint, map_location=lambda storage, loc:storage))
         else:
             pass
     else:
@@ -282,21 +282,11 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                 all_checkpoints = os.listdir(root_dir)
                 top_5_list = list()
 
-                #print(all_checkpoints)
                 for checkpoint_name in all_checkpoints:
-                    #print(top_5_list)
-                    #print(111111111)
                     if len(top_5_list) < 1:
                         top_5_list.append(checkpoint_name)
-                        #print(3333333)
                     else:
                         for idx, in_top_5 in enumerate(top_5_list):
-                            #print(in_top_5)
-                            #print("---")
-                            #print(top_5_list)
-                            #print("---")
-                            #print(222222)
-                            #exit()
                             in_top_5_score = float(in_top_5.split("_")[-1].replace(".pkl",""))
                             checkpoint_score = float(checkpoint_name.split("_")[-1].replace(".pkl",""))
                             if checkpoint_score < in_top_5_score and checkpoint_name not in top_5_list:

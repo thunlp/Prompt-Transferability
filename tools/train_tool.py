@@ -205,7 +205,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
 
             global_step += 1
             writer.add_scalar(config.get("output", "model_name") + "_train_iter", float(loss), global_step)
-            # break
         try:
             model.module.lower_temp(0.8)
         except:
@@ -225,6 +224,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
         if local_rank <= 0:
             checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
             writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1), current_epoch)
+
 
         if current_epoch % test_time == 0:
             with torch.no_grad():
