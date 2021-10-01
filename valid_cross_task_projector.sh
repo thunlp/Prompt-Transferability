@@ -46,21 +46,21 @@ gpus=3
 
 
 #restaurant-large
-FROM_MODEL="Roberta"
-TO_MODEL="RobertaLarge"
-PROJECTOR="model/crossPromptRobertaLarge_emotion_100/34_model_cross_0.746.pkl"
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_restaurant_100/34_model_cross_0.746.pkl"
 #PROJECTOR="random"
 
 
 #nli_large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_nli_100/6_model_cross_0.384.pkl"
+#PROJECTOR="model/crossPromptRobertaLarge_nli_100/8_model_cross_0.345.pkl"
 
 #all_large
-#FROM_MODEL="Roberta"
-#TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
+FROM_MODEL="Roberta"
+TO_MODEL="RobertaLarge"
+PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
 #PROJECTOR="random"
 
 
