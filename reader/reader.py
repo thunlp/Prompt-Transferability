@@ -148,6 +148,7 @@ def init_one_dataset(config, mode, *args, **params):
                 mode = "test"
         batch_size = config.getint("train", "batch_size")
         shuffle = config.getboolean("train", "shuffle")
+        #shuffle = True
         reader_num = config.getint("train", "reader_num")
         drop_last = True
         if mode in ["valid", "test"]:

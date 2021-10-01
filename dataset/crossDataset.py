@@ -59,6 +59,7 @@ class crossDataset(Dataset):
             #print(dataset[0]["dataset"])
             #print("!!!!")
             sample_part += dataset[:self.min_length]
+        random.shuffle(sample_part)
         return sample_part
 
 
