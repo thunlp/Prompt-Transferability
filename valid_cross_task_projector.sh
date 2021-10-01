@@ -39,16 +39,16 @@ gpus=3
 
 
 #emotion-large
-FROM_MODEL="Roberta"
-TO_MODEL="RobertaLarge"
-PROJECTOR="model/crossPromptRobertaLarge_emotion_100/114_model_cross_0.691.pkl"
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_emotion_100/114_model_cross_0.691.pkl"
 #PROJECTOR="random"
 
 
 #restaurant-large
-#FROM_MODEL="Roberta"
-#TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_emotion_100/34_model_cross_0.746.pkl"
+FROM_MODEL="Roberta"
+TO_MODEL="RobertaLarge"
+PROJECTOR="model/crossPromptRobertaLarge_emotion_100/34_model_cross_0.746.pkl"
 #PROJECTOR="random"
 
 
