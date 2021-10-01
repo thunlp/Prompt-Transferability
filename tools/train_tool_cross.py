@@ -264,6 +264,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
         if local_rank <= 0:
             checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step, model_AE)
             writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1), current_epoch)
+            ###
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch_acc", float(acc_result['right']/acc_result['total']), current_epoch)
+            ###
 
         if current_epoch % test_time == 0:
             with torch.no_grad():
@@ -276,7 +279,10 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
                 root_dir = "model/"+config.get("output", "model_name")
                 src_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross.pkl"
+                ###min eval loss###
                 targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(total_loss)+".pkl"
+                ###max eval acc###
+                #targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(float(acc_result['right']/acc_result['total']))+".pkl"
                 os.rename(src_checkpoint_name, targ_checkpoint_name)
 
                 all_checkpoints = os.listdir(root_dir)
@@ -286,6 +292,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                     if len(top_5_list) < 1:
                         top_5_list.append(checkpoint_name)
                     else:
+                        ###min eval loss###
                         for idx, in_top_5 in enumerate(top_5_list):
                             in_top_5_score = float(in_top_5.split("_")[-1].replace(".pkl",""))
                             checkpoint_score = float(checkpoint_name.split("_")[-1].replace(".pkl",""))
@@ -294,6 +301,17 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                                 top_5_list.insert(idx, checkpoint_name)
                             else:
                                 pass
+                        ###max eval acc###
+                        '''
+                        for idx, in_top_5 in enumerate(top_5_list):
+                            in_top_5_score = float(in_top_5.split("_")[-1].replace(".pkl",""))
+                            checkpoint_score = float(checkpoint_name.split("_")[-1].replace(".pkl",""))
+                            if checkpoint_score > in_top_5_score and checkpoint_name not in top_5_list:
+                                #print(checkpoint_score, in_top_5_score)
+                                top_5_list.insert(idx, checkpoint_name)
+                            else:
+                                pass
+                        '''
 
                 if len(top_5_list)>5:
                     top_5_list = top_5_list[:5]

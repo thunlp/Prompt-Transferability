@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=7
+gpus=3
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
@@ -9,10 +9,10 @@ gpus=7
 
 
 #restaurant
-FROM_MODEL="Bert"
-TO_MODEL="Roberta"
+#FROM_MODEL="Bert"
+#TO_MODEL="Roberta"
 #PROJECTOR="model/crossPromptRoberta_restaurant/13_model_cross_0.516.pkl"
-PROJECTOR="model/crossPromptRoberta_restaurant_100/21_model_cross_0.521.pkl"
+#PROJECTOR="model/crossPromptRoberta_restaurant_100/21_model_cross_0.521.pkl"
 
 #emotion
 #FROM_MODEL="Bert"
@@ -39,28 +39,28 @@ PROJECTOR="model/crossPromptRoberta_restaurant_100/21_model_cross_0.521.pkl"
 
 
 #emotion-large
-#FROM_MODEL="Roberta"
-#TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_emotion_100/52_model_cross_0.666.pkl"
+FROM_MODEL="Roberta"
+TO_MODEL="RobertaLarge"
+PROJECTOR="model/crossPromptRobertaLarge_emotion_100/114_model_cross_0.691.pkl"
 #PROJECTOR="random"
 
 
 #restaurant-large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_emotion_100/25_model_cross_0.705.pkl"
+#PROJECTOR="model/crossPromptRobertaLarge_emotion_100/34_model_cross_0.746.pkl"
 #PROJECTOR="random"
 
 
 #nli_large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_nli_100/"
+#PROJECTOR="model/crossPromptRobertaLarge_nli_100/6_model_cross_0.384.pkl"
 
 #all_large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_all_100/"
+#PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
 #PROJECTOR="random"
 
 
