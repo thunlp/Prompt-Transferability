@@ -48,6 +48,7 @@ gpus=3
 #restaurant-large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_restaurant_100/70_model_cross_0.873.pkl"
 #PROJECTOR="model/crossPromptRobertaLarge_restaurant_100/34_model_cross_0.746.pkl"
 #PROJECTOR="random"
 
@@ -58,11 +59,18 @@ gpus=3
 #PROJECTOR="model/crossPromptRobertaLarge_nli_100/8_model_cross_0.345.pkl"
 
 #all_large
-FROM_MODEL="Roberta"
-TO_MODEL="RobertaLarge"
-PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
 #PROJECTOR="random"
 
+
+
+#random_large
+FROM_MODEL="Roberta"
+TO_MODEL="RobertaLarge"
+#PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
+PROJECTOR="random"
 
 
 for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
