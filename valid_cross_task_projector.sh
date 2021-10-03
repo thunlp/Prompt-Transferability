@@ -28,11 +28,11 @@ gpus=2
 #PROJECTOR="model/crossPromptRoberta_nli_100/8_model_cross_0.435.pkl"
 
 #all
-FROM_MODEL="Bert"
-TO_MODEL="Roberta"
+#FROM_MODEL="Bert"
+#TO_MODEL="Roberta"
 #PROJECTOR="model/crossPromptRoberta_all/6_model_cross_0.81.pkl"
 #PROJECTOR="model/crossPromptRoberta_all_100/30_model_cross_0.541.pkl"
-PROJECTOR="random"
+#PROJECTOR="random"
 
 
 
@@ -67,15 +67,14 @@ PROJECTOR="random"
 
 
 #random_large
-#FROM_MODEL="Roberta"
-#TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
-#PROJECTOR="random"
+FROM_MODEL="Roberta"
+TO_MODEL="RobertaLarge"
+PROJECTOR="random"
 
 
 #for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
-#for MODEL in restaurantPrompt tweetevalsentimentPrompt QQPPrompt MRPCPrompt
-for MODEL in restaurantPrompt movierationalesPrompt QQPPrompt
+for MODEL in laptopPrompt restaurantPrompt tweetevalsentimentPrompt QQPPrompt MRPCPrompt
+#for MODEL in restaurantPrompt movierationalesPrompt QQPPrompt
 #for MODEL in MRPCPrompt
 do
     echo "==========================="

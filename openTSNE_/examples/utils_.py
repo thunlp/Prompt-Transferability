@@ -279,7 +279,7 @@ def plot(
     colors=None,
     legend_kwargs=None,
     label_order=None,
-    #dot_size=None,
+    dot_size=None,
     **kwargs
 ):
 
@@ -321,7 +321,7 @@ def plot(
     ###
     #point_size_list = [50 for i in range(len(y))]
     ###
-    ax.scatter(x[:, 0], x[:, 1], c=point_colors, rasterized=True, **plot_params)
+    ax.scatter(x[:, 0], x[:, 1], c=point_colors, rasterized=True, s=dot_size, **plot_params)
 
     # Plot mediods
     if draw_centers:
@@ -333,7 +333,7 @@ def plot(
 
         center_colors = list(map(colors.get, classes))
         ax.scatter(
-            centers[:, 0], centers[:, 1], c=center_colors, s=48, alpha=1, edgecolor="k"
+            centers[:, 0], centers[:, 1], c=center_colors, s=dot_size, alpha=1, edgecolor="k"
         )
 
         # Draw mediod labels
@@ -343,7 +343,7 @@ def plot(
                     centers[idx, 0],
                     centers[idx, 1] + 2.2,
                     label,
-                    fontsize=kwargs.get("fontsize", 6),
+                    fontsize=kwargs.get("fontsize", 10),
                     horizontalalignment="center",
                 )
 

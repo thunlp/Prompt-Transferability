@@ -5,10 +5,10 @@ SST2PromptRoberta	emotion	Roberta
 snliPromptRoberta	nli	Roberta
 QQPPromptRoberta	sentence_sim	Roberta
 tweetevalsentimentPromptRoberta	emotion	Roberta
-WNLIPromptRoberta	nli	Roberta
-ethicsdeontologyPromptRoberta	accept	Roberta
+ethicsdeontologyPromptRoberta	ethics	Roberta
 QNLIPromptRoberta	nli	Roberta
-ethicsjusticePromptRoberta	accept	Roberta
+ethicsjusticePromptRoberta	ethics	Roberta
+recastnerPromptRoberta	nli	Roberta
 movierationalesPromptRoberta	emotion	Roberta
 laptopPromptRoberta	emotion	Roberta
 MNLIPromptRoberta	nli	Roberta

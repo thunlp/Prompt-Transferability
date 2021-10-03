@@ -10,7 +10,10 @@ print('Argument List:', sys.argv[1:])
 filter_tokens = sys.argv[1:]
 include_mlm = False
 #task_define ={"anli":"nli","emobankarousal":"emotion","emobankdominance":"emotion","IMDB":"emotion","laptop":"emotion","MNLI":"nli","movierationales":"emotion","MRPC":"sentence_sim","persuasivenessrelevance":"diseval","persuasivenessspecificity":"diseval","QNLI":"nli","QQP":"sentence_sim","restaurant":"emotion","RTE":"nli","snli":"nli","squinkyformality":"diseval","squinkyimplicature":"diseval","SST2":"emotion","STSB":"other","tweetevalsentiment":"emotion","WNLI":"nli","recastfactuality":"nli","recastmegaveridicality":"nli","recastner":"nli","recastpuns":"nli","recastsentiment":"nli","recastverbcorner":"nli","recastverbnet":"nli","ethicscommonsense":"accept","ethicsdeontology":"accept","ethicsjustice":"accept","ethicsvirtue":"accept"}
-task_define ={"IMDB":"emotion","laptop":"emotion","MNLI":"nli","movierationales":"emotion","MRPC":"sentence_sim","QNLI":"nli","QQP":"sentence_sim","restaurant":"emotion","snli":"nli","SST2":"emotion","tweetevalsentiment":"emotion","WNLI":"nli","ethicsdeontology":"accept","ethicsjustice":"accept"}
+
+#task_define ={"IMDB":"emotion","laptop":"emotion","MNLI":"nli","movierationales":"emotion","MRPC":"sentence_sim","QNLI":"nli","QQP":"sentence_sim","restaurant":"emotion","snli":"nli","SST2":"emotion","tweetevalsentiment":"emotion","WNLI":"nli","ethicsdeontology":"accept","ethicsjustice":"accept"}
+
+task_define ={"IMDB":"emotion","laptop":"emotion","MNLI":"nli","movierationales":"emotion","MRPC":"sentence_sim","QNLI":"nli","QQP":"sentence_sim","restaurant":"emotion","snli":"nli","SST2":"emotion","tweetevalsentiment":"emotion","WNLI":"nli","ethicsdeontology":"ethics","ethicsjustice":"ethics","recastner":"nli"}
 ###########################
 
 
