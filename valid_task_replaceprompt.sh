@@ -1,157 +1,41 @@
-gpus=4
-
-
-'''
-#Roberta prompt replaces with mlm-prompt
-for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta
-do
-    for PROMPT in IMDBPromptRoberta_mlm laptopPromptRoberta_mlm MRPCPromptRoberta_mlm restaurantPromptRoberta_mlm SST2PromptRoberta_mlm
-    do
-            echo "==========================="
-            echo config/$MODEL.config
-            echo model/$MODEL/1.pkl
-            echo "replace with: " $PROMPT " prompt"
-            echo "==========================="
-
-            #Eval mlm
-            CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                --gpu $gpus \
-                --checkpoint model/$MODEL/1.pkl \
-                --replacing_prompt $PROMPT
-    done
-done
-'''
-
-
-
+gpus=7
 
 '''
 #Bert
-for MODEL in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert anliPromptBert emobankarousalPromptBert emobankdominancePromptBert movierationalesPromptBert tweetevalsentimentPromptBert persuasivenessrelevancePromptBert persuasivenessspecificityPromptBert snliPromptBert squinkyformalityPromptBert squinkyimplicaturePromptBert
+for MODEL in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert
 do
-    for PROMPT in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert anliPromptBert emobankarousalPromptBert emobankdominancePromptBert movierationalesPromptBert tweetevalsentimentPromptBert persuasivenessrelevancePromptBert persuasivenessspecificityPromptBert snliPromptBert squinkyformalityPromptBert squinkyimplicaturePromptBert
-    do
-            echo "==========================="
-            echo config/$MODEL.config
-            echo model/$MODEL
-            echo task_prompt_emb/$PROMPT
-            echo "==========================="
+    echo "==========================="
+    echo config/$MODEL.config
+    echo model/$MODEL
+    echo "==========================="
 
-            if [ $MODEL == anliPromptBert ]
-            then
-                #Eval mlm
-                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                    --gpu $gpus \
-                    --checkpoint model/$MODEL \
-                    --replacing_prompt task_prompt_emb/$PROMPT
-            elif [ $MODEL == snliPromptBert ]
-            then
-                #Eval mlm
-                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                    --gpu $gpus \
-                    --checkpoint model/$MODEL \
-                    --replacing_prompt task_prompt_emb/$PROMPT
-            else
-                #Eval mlm
-                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                    --gpu $gpus \
-                    --checkpoint model/$MODEL \
-                    --replacing_prompt task_prompt_emb/$PROMPT
-            fi
-    done
+    #Eval mlm
+    CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+        --gpu $gpus \
+        --checkpoint model/$MODEL \
+        --task_transfer_projector
 done
 '''
 
 
-
-
-
-'''
-#Roberta
-for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta anliPromptRoberta emobankarousalPromptRoberta emobankdominancePromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta persuasivenessrelevancePromptRoberta persuasivenessspecificityPromptRoberta snliPromptRoberta squinkyformalityPromptRoberta squinkyimplicaturePromptRoberta
-do
-    for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta anliPromptRoberta emobankarousalPromptRoberta emobankdominancePromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta persuasivenessrelevancePromptRoberta persuasivenessspecificityPromptRoberta snliPromptRoberta squinkyformalityPromptRoberta squinkyimplicaturePromptRoberta
-    do
-            echo "==========================="
-            echo config/$MODEL.config
-            echo model/$MODEL/
-            echo task_prompt_emb/$PROMPT
-            echo "==========================="
-
-            #Eval mlm
-            if [ $MODEL == anliPromptRoberta ]
-            then
-                #Eval mlm
-                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                    --gpu $gpus \
-                    --checkpoint model/$MODEL \
-                    --replacing_prompt task_prompt_emb/$PROMPT
-            elif [$MODEL == snliPromptRoberta ]
-            then
-                #Eval mlm
-                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                    --gpu $gpus \
-                    --checkpoint model/$MODEL \
-                    --replacing_prompt task_prompt_emb/$PROMPT
-            else
-                CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                    --gpu $gpus \
-                    --checkpoint model/$MODEL \
-                    --replacing_prompt task_prompt_emb/$PROMPT
-            fi
-    done
-done
-'''
+FROM_MODEL="Bert"
+TO_MODEL="Roberta"
 
 
 #Roberta
-#for MODEL in QQPPromptRoberta
-#for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
-for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
+#for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta STSBPromptRoberta WNLIPromptRoberta
+for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
 do
-    #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
-    #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
-    #for PROMPT in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta
-    #for PROMPT in random
-    for PROMPT in MRPCPromptRoberta
-    do
-            echo "==========================="
-            echo config/$MODEL.config
-            echo model/$MODEL/
-            echo task_prompt_emb/$PROMPT
-            echo "==========================="
+    echo "==========================="
+    echo config/${MODEL}${TO_MODEL}.config
+    echo task_prompt_emb/${MODEL}${FROM_MODEL}
+    echo "==========================="
 
-            CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                --gpu $gpus \
-                --checkpoint model/$MODEL \
-                --replacing_prompt task_prompt_emb/$PROMPT
-                #--replacing_prompt $PROMPT
-    done
+    #Eval mlm
+    CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${MODEL}${TO_MODEL}.config \
+        --gpu $gpus \
+        --checkpoint model/${MODEL}${TO_MODEL} \
+        --replacing_prompt task_prompt_emb/${MODEL}${FROM_MODEL}
+        #--checkpoint task_prompt_emb/${MODEL}${FROM_MODEL} \
+        #--task_transfer_projector
 done
-
-
-
-'''
-#Roberta_label
-#for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta movierationalesPromptRoberta tweetevalsentimentPromptRoberta snliPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta MRPCPromptRoberta
-for MODEL in IMDBPromptRobertaLarge laptopPromptRobertaLarge MNLIPromptRobertaLarge QNLIPromptRobertaLarge QQPPromptRobertaLarge restaurantPromptRobertaLarge SST2PromptRobertaLarge movierationalesPromptRobertaLarge tweetevalsentimentPromptRobertaLarge snliPromptRobertaLarge recastnerPromptRobertaLarge ethicsdeontologyPromptRobertaLarge ethicsjusticePromptRobertaLarge MRPCPromptRobertaLarge
-#for MODEL in laptopPromptRoberta
-do
-    #for PROMPT in IMDBPromptRoberta_label laptopPromptRoberta_label MNLIPromptRoberta_label QNLIPromptRoberta_label QQPPromptRoberta_label restaurantPromptRoberta_label SST2PromptRoberta_label movierationalesPromptRoberta_label tweetevalsentimentPromptRoberta_label snliPromptRoberta_label recastnerPromptRoberta_label ethicsdeontologyPromptRoberta_label ethicsjusticePromptRoberta_label
-    for PROMPT in random
-    #for PROMPT in laptopPromptRoberta_label
-    do
-            echo "==========================="
-            echo config/$MODEL.config
-            echo model/$MODEL/
-            echo task_prompt_emb/$PROMPT
-            echo "==========================="
-
-            CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
-                --gpu $gpus \
-                --checkpoint model/$MODEL \
-                --replacing_prompt $PROMPT
-                #--replacing_prompt task_prompt_emb/$PROMPT
-    done
-done
-'''

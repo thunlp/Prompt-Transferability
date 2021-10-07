@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=2
+gpus=7
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
@@ -42,7 +42,6 @@ gpus=2
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
 #PROJECTOR="model/crossPromptRobertaLarge_emotion_100/114_model_cross_0.691.pkl"
-#PROJECTOR="random"
 
 
 #restaurant-large
@@ -61,8 +60,7 @@ gpus=2
 #all_large
 #FROM_MODEL="Roberta"
 #TO_MODEL="RobertaLarge"
-#PROJECTOR="model/crossPromptRobertaLarge_all_100/82_model_cross_0.821.pkl"
-#PROJECTOR="random"
+#PROJECTOR="model/crossPromptRobertaLarge_all_100/315_model_cross_0.708.pkl"
 
 
 
@@ -72,10 +70,11 @@ TO_MODEL="RobertaLarge"
 PROJECTOR="random"
 
 
-#for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
-for MODEL in laptopPrompt restaurantPrompt tweetevalsentimentPrompt QQPPrompt MRPCPrompt
+for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
+#for MODEL in laptopPrompt restaurantPrompt tweetevalsentimentPrompt QQPPrompt MRPCPrompt
 #for MODEL in restaurantPrompt movierationalesPrompt QQPPrompt
-#for MODEL in MRPCPrompt
+#for MODEL in QQPPrompt
+#for MODEL in laptopPrompt
 do
     echo "==========================="
     echo Model: config/${MODEL}${TO_MODEL}.config

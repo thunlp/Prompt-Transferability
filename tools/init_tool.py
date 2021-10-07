@@ -275,7 +275,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             max_epoch = 0
             for file in files:
                 present_epoch = int(file.split("_")[0])
-                if present_epoch > max_epoch:
+                if present_epoch >= max_epoch:
                     max_epoch = present_epoch
                     PATH=load_checkpoint+"/"+str(max_epoch)+"_task_prompt.pkl"
             prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)

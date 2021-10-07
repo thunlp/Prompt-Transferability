@@ -1,0 +1,5 @@
+gpus=5
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsdeontologyuseethicsjusticePromptRoberta.config \
+    --gpu $gpus \
+    --checkpoint model/ethicsdeontologyuseethicsjusticePromptRoberta

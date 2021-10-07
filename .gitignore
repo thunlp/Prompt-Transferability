@@ -204,6 +204,21 @@ model/crossPrompt_nli* #model/crossPromptRoberta_nli
 model/model_with_position_emb*
 
 
+model/IMDBusemoviepPromptRoberta*
+model/MNLIusesnliPromptRoberta*
+model/MRPCuseQQPPromptRoberta*
+model/QNLIuseMNLIPromptRoberta*
+model/QQPuseMRPCPromptRoberta*
+model/SST2uselaptopPromptRoberta*
+model/ethicsdeontologyuseethicsjusticePromptRoberta*
+model/ethicsjusticeuseethicsdeontologyPromptRoberta*
+model/laptopuserestaurantPromptRoberta*
+model/movierationalesuseIMDBPromptRoberta*
+model/recastneruseMNLIPromptRoberta*
+model/restaurantuselaptopPromptRoberta*
+model/snliuseMNLIPromptRoberta*
+
+
 
 
 task_activated_neuron*
