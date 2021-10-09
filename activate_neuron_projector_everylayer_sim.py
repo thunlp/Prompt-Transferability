@@ -16,22 +16,19 @@ root_dir = "task_activated_neuron"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
-#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", anliPromptRoberta, "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
-#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta", "recastfactualityPromptRoberta", "recastmegaveridicalityPromptRoberta","recastnerPromptRoberta", "recastpunsPromptRoberta","recastsentimentPromptRoberta", "recastverbcornerPromptRoberta","ethicscommonsensePromptRoberta","ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
-
-order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
 #order_list = ["IMDBPromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "snliPromptRoberta", "MNLIPromptRoberta", "IMDB_base_emotionPromptRoberta", "MNLI_base_nliPromptRoberta", "laptop_base_emotionPromptRoberta", "laptop_base_nliPromptRoberta", "restaurant_base_emotionPromptRoberta", "restaurant_base_nliPromptRoberta", "snli_base_emotionPromptRoberta","snli_base_nliPromptRoberta","RandomPromptRoberta","IMDB_base_nliPromptRoberta","MNLI_base_emotionPromptRoberta"]
-#order_list = ["IMDBPromptRoberta","IMDB_base_emotionPromptRoberta","IMDB_base_nliPromptRoberta"]
+order_list = ["IMDBPromptRoberta","laptopPromptRoberta","restaurantPromptRoberta","MNLIPromptRoberta","snliPromptRoberta"]
 
 
-if "_label" in root_dir:
-    order_list = [i+str("_label") for i in order_list]
+#if "_label" in root_dir:
+#    order_list = [i+str("_label") for i in order_list]
 
 #dirs = [dir for dir in dirs if ".txt" not in dir and "12layer_1prompt" not in dir]
 dirs = order_list
 
-data_name = [dir.replace("PromptRoberta","").replace("_label","").replace("urant","").replace("evalsentiment","").replace("rationales","") for dir in dirs]
+#data_name = [dir.replace("PromptRoberta","").replace("_label","").replace("urant","").replace("evalsentiment","").replace("rationales","") for dir in dirs]
+data_name = [dir.replace("PromptRoberta","") for dir in dirs]
 
 cos = torch.nn.CosineSimilarity(dim=0)
 
@@ -63,13 +60,16 @@ topk=100
 #print(end="\t \t")
 print(end="\t")
 for name in data_name:
-    name = name.replace("PromptRoberta","").replace("recast","").replace("ethics","")
+    #name = name.replace("PromptRoberta","").replace("recast","").replace("ethics","")
+    name = name.replace("PromptRoberta","")
     if len(name)>5:
         name = name[:5]
     print(name, end='\t')
 print()
 
-for dir_1 in dirs:
+#for dir_1 in dirs:
+#for dir_1 in ["randomPromptRoberta","MNLIPromptRoberta","MNLI_base_nliPromptRoberta","randomPromptRoberta","IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]:
+for dir_1 in ["MNLIPromptRoberta","MNLI_base_nliPromptRoberta","IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]:
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","").replace("recast","").replace("ethics","")
     print_name = dir_1.replace("PromptRoberta","").replace("recast","").replace("ethics","")
@@ -83,6 +83,10 @@ for dir_1 in dirs:
 
     print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+
+    ###########
+    activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
+    ###########
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
     activated_1[activated_1>0] = float(1)
@@ -90,6 +94,9 @@ for dir_1 in dirs:
 
     for dir_2 in dirs:
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+        ###########
+        activated_2 = activated_2[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
+        ###########
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 
         activated_2[activated_2>0] = float(1)
