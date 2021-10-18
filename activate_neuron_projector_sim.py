@@ -16,19 +16,34 @@ root_dir = "task_activated_neuron"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", anliPromptRoberta, "snliPromptRoberta", "RTEPromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta", "recastfactualityPromptRoberta", "recastmegaveridicalityPromptRoberta","recastnerPromptRoberta", "recastpunsPromptRoberta","recastsentimentPromptRoberta", "recastverbcornerPromptRoberta","ethicscommonsensePromptRoberta","ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
 #order_list = ["IMDBPromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "snliPromptRoberta", "MNLIPromptRoberta", "IMDB_base_emotionPromptRoberta", "MNLI_base_nliPromptRoberta", "laptop_base_emotionPromptRoberta", "laptop_base_nliPromptRoberta", "restaurant_base_emotionPromptRoberta", "restaurant_base_nliPromptRoberta", "snli_base_emotionPromptRoberta","snli_base_nliPromptRoberta","RandomPromptRoberta","IMDB_base_nliPromptRoberta","MNLI_base_emotionPromptRoberta"]
-order_list = ["IMDBPromptRoberta","laptopPromptRoberta","restaurantPromptRoberta","MNLIPromptRoberta","snliPromptRoberta"]
+#order_list = ["IMDBPromptRoberta","IMDB_base_emotionPromptRoberta","IMDB_base_nliPromptRoberta"]
+#order_list = ["IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]
+#order_list = ["IMDBPromptRoberta","laptop_base_emotionPromptRoberta"]
+#order_list = ["snliPromptRoberta","IMDB_base_emotionPromptRoberta"]
+#order_list = ["IMDBPromptRoberta","MNLI_base_emotionPromptRoberta"]
+#order_list = ["restaurantPromptRoberta","restaurant_base_emotionPromptRoberta"]
+order_list = ["snliPromptRoberta","snli_base_nliPromptRoberta"]
+#order_list = ["SST2PromptRoberta","SST2_base_emotionPromptRoberta"]
+#order_list = ["snliPromptRoberta","MNLIPromptRoberta"]
+#order_list = ["MNLIPromptRoberta","MNLI_base_emotionPromptRoberta"]
+#order_list = ["snliPromptRoberta","snli_base_emotionPromptRoberta"]
+#order_list = ["snliPromptRoberta","snli_base_emotionPromptRoberta"]
 
 
-#if "_label" in root_dir:
-#    order_list = [i+str("_label") for i in order_list]
+if "_label" in root_dir:
+    order_list = [i+str("_label") for i in order_list]
 
 #dirs = [dir for dir in dirs if ".txt" not in dir and "12layer_1prompt" not in dir]
 dirs = order_list
 
-#data_name = [dir.replace("PromptRoberta","").replace("_label","").replace("urant","").replace("evalsentiment","").replace("rationales","") for dir in dirs]
-data_name = [dir.replace("PromptRoberta","") for dir in dirs]
+data_name = [dir.replace("PromptRoberta","").replace("_label","").replace("urant","").replace("evalsentiment","").replace("rationales","") for dir in dirs]
 
 cos = torch.nn.CosineSimilarity(dim=0)
 
@@ -60,16 +75,13 @@ topk=100
 #print(end="\t \t")
 print(end="\t")
 for name in data_name:
-    #name = name.replace("PromptRoberta","").replace("recast","").replace("ethics","")
-    name = name.replace("PromptRoberta","")
+    name = name.replace("PromptRoberta","").replace("recast","").replace("ethics","")
     if len(name)>5:
         name = name[:5]
     print(name, end='\t')
 print()
 
-#for dir_1 in dirs:
-#for dir_1 in ["randomPromptRoberta","MNLIPromptRoberta","MNLI_base_nliPromptRoberta","randomPromptRoberta","IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]:
-for dir_1 in ["MNLIPromptRoberta","MNLI_base_nliPromptRoberta","IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]:
+for dir_1 in dirs:
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","").replace("recast","").replace("ethics","")
     print_name = dir_1.replace("PromptRoberta","").replace("recast","").replace("ethics","")
@@ -100,6 +112,12 @@ for dir_1 in ["MNLIPromptRoberta","MNLI_base_nliPromptRoberta","IMDBPromptRobert
 
         #sim = torch.dist(activated_1, activated_2, 2)
         #print("{:.2f}".format(float(sim)), end='\t')
+
+        print()
+        print("act_1", len(activated_1[activated_1==1]))
+        print("act_2", len(activated_2[activated_2==1]))
+        print("======================")
+        print("======================")
 
     print()
 

@@ -33,11 +33,13 @@ def CosineSimilarity(task1_emb,task2_emb):
     return cos(task1_emb,task2_emb).sum()
 
 def EuclideanDistances(task1_emb,task2_emb):
-    #return torch.norm(task1_emb-task2_emb, p='fro')
+    return torch.norm(task1_emb-task2_emb, p='fro')
+    '''
     sum_euclidence=0
     for i in range(len(task1_emb)):
         sum_euclidence += torch.norm(task1_emb[i]-task2_emb[i], p='fro')
     return sum_euclidence
+    '''
 
 
 def Euclidean(task1_emb, task2_emb):

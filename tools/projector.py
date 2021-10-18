@@ -88,6 +88,10 @@ class AE_1_layer_mutiple_100(nn.Module):
             in_features=int(kwargs["dim_1"]), out_features=kwargs["dim_2"]
         )
 
+        #########################
+        self.layer_norm = nn.LayerNorm(kwargs["dim_2"], eps=1e-05)
+        #########################
+
         # mean-squared error loss
         self.criterion = nn.CrossEntropyLoss()
         self.activation = nn.LeakyReLU()
@@ -101,6 +105,9 @@ class AE_1_layer_mutiple_100(nn.Module):
         encoded_emb = self.encoding(features)
         encoded_emb = self.activation(encoded_emb)
         decoded_emb = self.decoding(encoded_emb)
+        ###
+        decoded_emb = self.layer_norm(decoded_emb)
+        ###
         return decoded_emb
 
 
