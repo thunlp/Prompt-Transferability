@@ -177,8 +177,8 @@ for id_1, task_1 in task_map.items():
         #sim=float(EuclideanDistances(task_ten_1,task_ten_2))
         #sim=float(CosineSimilarity_per_token(task_ten_1,task_ten_2))
 
-        #sim=float(CosineSimilarity_avg(task_ten_1,task_ten_2))
-        sim=float(EuclideanDistances_avg(task_ten_1,task_ten_2))
+        sim=float(CosineSimilarity_avg(task_ten_1,task_ten_2))
+        #sim=float(EuclideanDistances_avg(task_ten_1,task_ten_2))
 
         #sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
         #task_ten_1 = task_ten_1.reshape(1,76800)
@@ -188,20 +188,20 @@ for id_1, task_1 in task_map.items():
 
 
         #print(sim, end='\t')
-        #print("{:.2f}".format(float(sim)), end='\t')
+        print("{:.2f},".format(float(sim)), end='\t')
         #print("{:.0f}".format(float(sim)), end='\t')
         #print("{:.5f}".format(float(sim)),",", end='\t')
-        print("{:.4f},".format(float(sim)), end=' ')
+        #print("{:.4f},".format(float(sim)), end=' ')
 
 
-        #if name_1!=name_2:
+        if name_1!=name_2:
         #if name_1=="" and name_2==:
-        #    l+=sim
+            l+=sim
 
 
     print()
 
-#print("All diferent tasks", l/(13*12))
+print("All diferent tasks", l/(13*12))
 #print("same tasks", l/(13*12))
 
 

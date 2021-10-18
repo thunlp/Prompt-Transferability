@@ -32,6 +32,25 @@ cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
 def CosineSimilarity(task1_emb,task2_emb):
     return cos(task1_emb,task2_emb).sum()
 
+
+def CosineSimilarity_avg(task1_emb,task2_emb):
+    task1_emb = task1_emb.reshape(100,768)
+    task2_emb = task2_emb.reshape(100,768)
+    task1_emb = task1_emb.mean(1)
+    task2_emb = task2_emb.mean(1)
+    return cos(task1_emb,task2_emb)
+
+def EuclideanDistances_avg(task1_emb,task2_emb):
+    task1_emb = task1_emb.reshape(100,768)
+    task2_emb = task2_emb.reshape(100,768)
+    task1_emb = task1_emb.mean(1)
+    task2_emb = task2_emb.mean(1)
+    #print(torch.norm(task1_emb-task2_emb, p='fro'))
+    #exit()
+    return torch.norm(task1_emb-task2_emb, p='fro')
+
+
+
 def EuclideanDistances_per_token(task1_emb,task2_emb):
     task1_emb = task1_emb.reshape(100,768)
     task2_emb = task2_emb.reshape(100,768)
@@ -94,9 +113,9 @@ for name in task_map:
 print()
 
 
+for task_1 in task_map:
 #for id_1, task_1 in task_map.items():
-#for task_1 in ["MNLIPromptRoberta","MNLI_base_nliPromptRoberta","IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]:
-for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRoberta","restaurant_base_emotionPromptRoberta","MNLI_base_nliPromptRoberta","snli_base_nliPromptRoberta"]:
+#for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRoberta","restaurant_base_emotionPromptRoberta","MNLI_base_nliPromptRoberta","snli_base_nliPromptRoberta"]:
     #if id_1 not in show_in_list:
     #    continue
     cos_dict=dict()
@@ -144,8 +163,10 @@ for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRobert
 
         #endcli
         #euc_dict[task_2]=float(EuclideanDistances(task_ten_1,task_ten_2))
-        #sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
-        sim=float(CosineSimilarity_per_token(task_ten_1,task_ten_2))
+        sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
+        #sim=float(CosineSimilarity_per_token(task_ten_1,task_ten_2))
+        #sim=float(CosineSimilarity_avg(task_ten_1,task_ten_2))
+        #sim=float(EuclideanDistances_avg(task_ten_1,task_ten_2))
 
 
         #print(sim, end='\t')
