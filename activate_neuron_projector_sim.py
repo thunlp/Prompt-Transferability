@@ -20,7 +20,7 @@ dirs = os.listdir(root_dir)
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "WNLIPromptRoberta", "snliPromptRoberta", "RTEPromptRoberta", "recastfactualityPromptRoberta", "recastmegaveridicalityPromptRoberta","recastnerPromptRoberta", "recastpunsPromptRoberta","recastsentimentPromptRoberta", "recastverbcornerPromptRoberta","ethicscommonsensePromptRoberta","ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
-#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
+order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
 #order_list = ["IMDBPromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "snliPromptRoberta", "MNLIPromptRoberta", "IMDB_base_emotionPromptRoberta", "MNLI_base_nliPromptRoberta", "laptop_base_emotionPromptRoberta", "laptop_base_nliPromptRoberta", "restaurant_base_emotionPromptRoberta", "restaurant_base_nliPromptRoberta", "snli_base_emotionPromptRoberta","snli_base_nliPromptRoberta","RandomPromptRoberta","IMDB_base_nliPromptRoberta","MNLI_base_emotionPromptRoberta"]
 #order_list = ["IMDBPromptRoberta","IMDB_base_emotionPromptRoberta","IMDB_base_nliPromptRoberta"]
@@ -29,7 +29,7 @@ dirs = os.listdir(root_dir)
 #order_list = ["snliPromptRoberta","IMDB_base_emotionPromptRoberta"]
 #order_list = ["IMDBPromptRoberta","MNLI_base_emotionPromptRoberta"]
 #order_list = ["restaurantPromptRoberta","restaurant_base_emotionPromptRoberta"]
-order_list = ["snliPromptRoberta","snli_base_nliPromptRoberta"]
+#order_list = ["snliPromptRoberta","snli_base_nliPromptRoberta"]
 #order_list = ["SST2PromptRoberta","SST2_base_emotionPromptRoberta"]
 #order_list = ["snliPromptRoberta","MNLIPromptRoberta"]
 #order_list = ["MNLIPromptRoberta","MNLI_base_emotionPromptRoberta"]
@@ -70,6 +70,8 @@ topk=100
 
 
 
+l=0
+c=0
 
 ##Title
 #print(end="\t \t")
@@ -113,15 +115,20 @@ for dir_1 in dirs:
         #sim = torch.dist(activated_1, activated_2, 2)
         #print("{:.2f}".format(float(sim)), end='\t')
 
-        print()
-        print("act_1", len(activated_1[activated_1==1]))
-        print("act_2", len(activated_2[activated_2==1]))
-        print("======================")
-        print("======================")
+        #print()
+        #print("act_1", len(activated_1[activated_1==1]))
+        #print("act_2", len(activated_2[activated_2==1]))
+        #print("======================")
+        #print("======================")
+
+        if dir_1 != dir_2:
+            l+= float(sim)
+            c+=1
 
     print()
 
-
+print(l/(13*12))
+print(c)
 
 
 

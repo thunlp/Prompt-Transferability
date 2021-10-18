@@ -42,6 +42,25 @@ def EuclideanDistances(task1_emb,task2_emb):
     return torch.norm(task1_emb-task2_emb, p='fro')
 
 
+
+def CosineSimilarity_avg(task1_emb,task2_emb):
+    task1_emb = task1_emb.reshape(100,768)
+    task2_emb = task2_emb.reshape(100,768)
+    task1_emb = task1_emb.mean(1)
+    task2_emb = task2_emb.mean(1)
+    return cos(task1_emb,task2_emb)
+
+def EuclideanDistances_avg(task1_emb,task2_emb):
+    task1_emb = task1_emb.reshape(100,768)
+    task2_emb = task2_emb.reshape(100,768)
+    task1_emb = task1_emb.mean(1)
+    task2_emb = task2_emb.mean(1)
+    #print(torch.norm(task1_emb-task2_emb, p='fro'))
+    #exit()
+    return torch.norm(task1_emb-task2_emb, p='fro')
+
+
+
 def EuclideanDistances_per_token(task1_emb,task2_emb):
     task1_emb = task1_emb.reshape(100,768)
     task2_emb = task2_emb.reshape(100,768)
@@ -73,7 +92,7 @@ def CosineSimilarity_per_token(task1_emb,task2_emb):
         for idx2, v2 in enumerate(task2_emb):
             c = cos(v1,v2)
             sum_c += c
-    return float(float(sum_c/100)/100)*100
+    return float(float(sum_c/100)/100)
 
 
 
@@ -86,6 +105,8 @@ root = "task_prompt_emb"
 #task_map = {0:"IMDBPromptRoberta",1:"SST2PromptRoberta",2:"laptopPromptRoberta",3:"restaurantPromptRoberta",4:"movierationalesPromptRoberta",5:"tweetevalsentimentPromptRoberta",6:"MNLIPromptRoberta",7:"QNLIPromptRoberta",8:"snliPromptRoberta",9:"recastnerPromptRoberta",10:"ethicsdeontologyPromptRoberta",11:"ethicsjusticePromptRoberta",12:"QQPPromptRoberta",13:"MRPCPromptRoberta"}
 
 task_map = {0:"IMDBPromptRoberta",1:"SST2PromptRoberta",2:"laptopPromptRoberta",3:"restaurantPromptRoberta",4:"movierationalesPromptRoberta",5:"tweetevalsentimentPromptRoberta",6:"MNLIPromptRoberta",7:"QNLIPromptRoberta",8:"snliPromptRoberta",9:"ethicsdeontologyPromptRoberta",10:"ethicsjusticePromptRoberta",11:"QQPPromptRoberta",12:"MRPCPromptRoberta"}
+
+#task_map = {0:"IMDBPromptRoberta",2:"laptopPromptRoberta",3:"restaurantPromptRoberta",6:"MNLIPromptRoberta",8:"snliPromptRoberta"}
 
 #task_map = {0:"MNLIPromptRoberta",1:"MNLI_base_nliPromptRoberta"}
 
@@ -103,6 +124,8 @@ for id, name in task_map.items():
     print(name, end="\t")
 print()
 
+
+l=0
 
 for id_1, task_1 in task_map.items():
     #if id_1 not in show_in_list:
@@ -153,7 +176,11 @@ for id_1, task_1 in task_map.items():
         #euc_dict[task_2]=float(EuclideanDistances(task_ten_1,task_ten_2))
         #sim=float(EuclideanDistances(task_ten_1,task_ten_2))
         #sim=float(CosineSimilarity_per_token(task_ten_1,task_ten_2))
-        sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
+
+        #sim=float(CosineSimilarity_avg(task_ten_1,task_ten_2))
+        sim=float(EuclideanDistances_avg(task_ten_1,task_ten_2))
+
+        #sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
         #task_ten_1 = task_ten_1.reshape(1,76800)
         #print(task_ten_1.shape)
         #exit()
@@ -164,9 +191,18 @@ for id_1, task_1 in task_map.items():
         #print("{:.2f}".format(float(sim)), end='\t')
         #print("{:.0f}".format(float(sim)), end='\t')
         #print("{:.5f}".format(float(sim)),",", end='\t')
-        print("{:.2f},".format(float(sim)), end=' ')
+        print("{:.4f},".format(float(sim)), end=' ')
+
+
+        #if name_1!=name_2:
+        #if name_1=="" and name_2==:
+        #    l+=sim
+
 
     print()
+
+#print("All diferent tasks", l/(13*12))
+#print("same tasks", l/(13*12))
 
 
 

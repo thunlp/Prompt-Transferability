@@ -32,18 +32,42 @@ cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
 def CosineSimilarity(task1_emb,task2_emb):
     return cos(task1_emb,task2_emb).sum()
 
-def EuclideanDistances(task1_emb,task2_emb):
-    return torch.norm(task1_emb-task2_emb, p='fro')
-    '''
-    sum_euclidence=0
-    for i in range(len(task1_emb)):
-        sum_euclidence += torch.norm(task1_emb[i]-task2_emb[i], p='fro')
-    return sum_euclidence
-    '''
+def EuclideanDistances_per_token(task1_emb,task2_emb):
+    task1_emb = task1_emb.reshape(100,768)
+    task2_emb = task2_emb.reshape(100,768)
+    sum_euc = 0
+    for idx1, v1 in enumerate(task1_emb):
+        #print(idx1)
+        #print(v1)
+        #print(v1.shape)
+        #exit()
+        for idx2, v2 in enumerate(task2_emb):
+            #euc = torch.norm(v1-v2, p='fro')
+            euc = torch.norm(v1-v2, p=2)
+            #print(euc)
+            #exit()
+            sum_euc += euc
+    #print(sum_euc)
+    #print(float(sum_euc/100)/100)
+    #exit()
+    return float((float(sum_euc/100)/100))
+    #return torch.norm(task1_emb-task2_emb, p='fro')
 
 
 def Euclidean(task1_emb, task2_emb):
     return torch.cdist(task1_emb,task2_emb,p=1)
+
+
+def CosineSimilarity_per_token(task1_emb,task2_emb):
+    task1_emb = task1_emb.reshape(100,768)
+    task2_emb = task2_emb.reshape(100,768)
+    sum_c = 0
+    #return cos(task1_emb,task2_emb).sum()
+    for idx1, v1 in enumerate(task1_emb):
+        for idx2, v2 in enumerate(task2_emb):
+            c = cos(v1,v2)
+            sum_c += c
+    return float(float(sum_c/100)/100)
 
 
 
@@ -71,7 +95,8 @@ print()
 
 
 #for id_1, task_1 in task_map.items():
-for task_1 in ["MNLIPromptRoberta","MNLI_base_nliPromptRoberta","IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]:
+#for task_1 in ["MNLIPromptRoberta","MNLI_base_nliPromptRoberta","IMDBPromptRoberta","IMDB_base_emotionPromptRoberta"]:
+for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRoberta","restaurant_base_emotionPromptRoberta","MNLI_base_nliPromptRoberta","snli_base_nliPromptRoberta"]:
     #if id_1 not in show_in_list:
     #    continue
     cos_dict=dict()
@@ -119,12 +144,13 @@ for task_1 in ["MNLIPromptRoberta","MNLI_base_nliPromptRoberta","IMDBPromptRober
 
         #endcli
         #euc_dict[task_2]=float(EuclideanDistances(task_ten_1,task_ten_2))
-        sim=float(EuclideanDistances(task_ten_1,task_ten_2))
+        #sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
+        sim=float(CosineSimilarity_per_token(task_ten_1,task_ten_2))
 
 
         #print(sim, end='\t')
-        #print("{:.2f}".format(float(sim)), end='\t')
-        print("{:.0f}".format(float(sim)), end='\t')
+        print("{:.2f}".format(float(sim)), end='\t')
+        #print("{:.0f}".format(float(sim)), end='\t')
 
     print()
 
