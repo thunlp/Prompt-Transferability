@@ -217,6 +217,7 @@ model/movierationalesuseIMDBPromptRoberta*
 model/recastneruseMNLIPromptRoberta*
 model/restaurantuselaptopPromptRoberta*
 model/snliuseMNLIPromptRoberta*
+model/tweetuserestaurantPromptRoberta*
 
 10_12_newest_randomseed_base*
 
