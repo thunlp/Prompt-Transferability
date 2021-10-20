@@ -172,7 +172,8 @@ task_ten= {0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_
 
 cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
 def CosineSimilarity(task1_emb,task2_emb):
-    return cos(task1_emb,task2_emb).sum()
+    #return cos(task1_emb,task2_emb).sum()
+    return cos(task1_emb,task2_emb)
 
 def EuclideanDistances(task1_emb,task2_emb):
     return torch.norm(task1_emb-task2_emb, p='fro')
@@ -234,7 +235,7 @@ for id_1, task_1 in task_map.items():
     name_1 = name_1.replace("PromptRoberta","").replace("ethics","").replace("recast","")
     if len(name_1)>5:
         name_1 = name_1[:5]
-    print(name_1, end="\t")
+    #print(name_1, end="\t")
     for id_2, task_2 in task_map.items():
         #if id_2 not in show_in_list:
         #    continue
@@ -257,11 +258,11 @@ for id_1, task_1 in task_map.items():
         task_ten_2 = task_ten_2.reshape(task_ten_2.shape[0]*task_ten_2.shape[1])
 
         #cos_dict[task_2]=float(CosineSimilarity(task_ten_1,task_ten_2))
-        #sim=float(CosineSimilarity(task_ten_1,task_ten_2))
+        sim=float(CosineSimilarity(task_ten_1,task_ten_2))
 
         #endcli
         #euc_dict[task_2]=float(EuclideanDistances(task_ten_1,task_ten_2))
-        sim=float(EuclideanDistances(task_ten_1,task_ten_2))
+        #sim=float(EuclideanDistances(task_ten_1,task_ten_2))
         #task_ten_1 = task_ten_1.reshape(1,76800)
         #print(task_ten_1.shape)
         #exit()
@@ -270,7 +271,8 @@ for id_1, task_1 in task_map.items():
 
         #print(sim, end='\t')
         #print("{:.2f}".format(float(sim)), end='\t')
-        print("{:.0f}".format(float(sim)), end='\t')
+        #print("{:.0f}".format(float(sim)), end='\t')
+        print("{:.2f},".format(float(sim)), end='\t')
         #print("{:.0f}".format(float(sim)),",", end='\t')
 
     print()
