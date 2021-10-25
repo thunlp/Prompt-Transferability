@@ -40,7 +40,7 @@ done
 #python3 activate_neuron_sim.py
 
 
-for i in {0,3,6,9}
+for i in 9
 do
     python3 activate_neuron_everylayer_sim.py $i
     #echo $i

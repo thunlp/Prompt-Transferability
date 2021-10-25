@@ -74,7 +74,8 @@ def EuclideanDistances_per_token(task1_emb,task2_emb):
 
 
 def Euclidean(task1_emb, task2_emb):
-    return torch.cdist(task1_emb,task2_emb,p=1)
+    #return torch.cdist(task1_emb,task2_emb,p=0)
+    return torch.norm(task1_emb-task2_emb, p='fro')
 
 
 def CosineSimilarity_per_token(task1_emb,task2_emb):
@@ -113,9 +114,9 @@ for name in task_map:
 print()
 
 
-for task_1 in task_map:
+#for task_1 in task_map:
 #for id_1, task_1 in task_map.items():
-#for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRoberta","restaurant_base_emotionPromptRoberta","MNLI_base_nliPromptRoberta","snli_base_nliPromptRoberta"]:
+for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRoberta","restaurant_base_emotionPromptRoberta","MNLI_base_nliPromptRoberta","snli_base_nliPromptRoberta"]:
     #if id_1 not in show_in_list:
     #    continue
     cos_dict=dict()
@@ -125,7 +126,7 @@ for task_1 in task_map:
         name_1 = "restaurant"
     elif task_1 == "movie":
         name_1 = "movierationales"
-    elif task_1 == "tweet":
+    elif task_1 == "tweet"
         name_1 = "tweetevalsentiment"
     '''
     name_1 = task_1
@@ -162,10 +163,11 @@ for task_1 in task_map:
         #sim=float(CosineSimilarity(task_ten_1,task_ten_2))
 
         #endcli
-        #euc_dict[task_2]=float(EuclideanDistances(task_ten_1,task_ten_2))
-        sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
+        #sim=float(Euclidean(task_ten_1,task_ten_2))
+        #sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
         #sim=float(CosineSimilarity_per_token(task_ten_1,task_ten_2))
         #sim=float(CosineSimilarity_avg(task_ten_1,task_ten_2))
+        sim=float(CosineSimilarity(task_ten_1,task_ten_2))
         #sim=float(EuclideanDistances_avg(task_ten_1,task_ten_2))
 
 

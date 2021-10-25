@@ -77,7 +77,7 @@ for dir_1 in dirs:
     #if "random" != dir_1:
     #    continue
 
-    print(print_name, end='\t')
+    #print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
     ###########
     activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
@@ -104,6 +104,7 @@ for dir_1 in dirs:
         activated_2[activated_2<0] = float(0)
 
         sim = cos(activated_1, activated_2)
+        #print("{:.2f}".format(float(sim)),",", end='\t')
         print("{:.2f}".format(float(sim)),",", end='\t')
 
         #sim = torch.dist(activated_1, activated_2, 2)
