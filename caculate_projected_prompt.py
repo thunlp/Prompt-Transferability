@@ -114,9 +114,9 @@ for name in task_map:
 print()
 
 
-#for task_1 in task_map:
+for task_1 in task_map:
 #for id_1, task_1 in task_map.items():
-for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRoberta","restaurant_base_emotionPromptRoberta","MNLI_base_nliPromptRoberta","snli_base_nliPromptRoberta"]:
+#for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRoberta","restaurant_base_emotionPromptRoberta","MNLI_base_nliPromptRoberta","snli_base_nliPromptRoberta"]:
     #if id_1 not in show_in_list:
     #    continue
     cos_dict=dict()
@@ -163,16 +163,16 @@ for task_1 in ["IMDB_base_emotionPromptRoberta","laptop_base_emotionPromptRobert
         #sim=float(CosineSimilarity(task_ten_1,task_ten_2))
 
         #endcli
-        #sim=float(Euclidean(task_ten_1,task_ten_2))
-        #sim=float(EuclideanDistances_per_token(task_ten_1,task_ten_2))
+        #sim=float(1/(float(Euclidean(task_ten_1,task_ten_2))+1))
+        sim=float(1/(float(EuclideanDistances_per_token(task_ten_1,task_ten_2))+1))
         #sim=float(CosineSimilarity_per_token(task_ten_1,task_ten_2))
         #sim=float(CosineSimilarity_avg(task_ten_1,task_ten_2))
-        sim=float(CosineSimilarity(task_ten_1,task_ten_2))
+        #sim=float(CosineSimilarity(task_ten_1,task_ten_2))
         #sim=float(EuclideanDistances_avg(task_ten_1,task_ten_2))
 
 
         #print(sim, end='\t')
-        print("{:.2f}".format(float(sim)), end='\t')
+        print("{:.8f}".format(float(sim)), end='\t')
         #print("{:.0f}".format(float(sim)), end='\t')
 
     print()
