@@ -1,5 +1,5 @@
 #mkdir RobertaForMaskedLM
-gpus=3
+gpus=7
 
 ############
 #Sentiment

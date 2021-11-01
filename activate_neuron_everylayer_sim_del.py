@@ -11,8 +11,9 @@ import sys
 
 #root_dir = "task_activated_neuron/12layer_1prompt"
 #root_dir = "task_activated_neuron/task_activated_neuron_label"
-root_dir = "10_12_newest_randomseed_base/task_activated_neuron"
+#root_dir = "10_12_newest_randomseed_base/task_activated_neuron"
 #root_dir = "task_activated_neuron/lastlayer_100prompt_Prompt"
+root_dir = "task_activated_neuron/"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
@@ -23,7 +24,8 @@ dirs = os.listdir(root_dir)
 
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
-order_list = ['laptop_126' 'IMDB_126' 'tweet_126' 'restaurant_326' 'MNLI_326' 'restaurant_126' 'QQP_326' 'SST2_326' 'SST2_86' 'laptop_326' 'restaurant_86' 'QNLI_326' 'QQP_86' 'IMDB_86' 'snli_326' 'MNLI_86' 'snli_126' 'IMDB_326' 'MNLI_126' 'MRPC_326' 'QNLI_126' 'MRPC_86' 'tweet_86' 'QQP_126' 'laptop_86' 'tweet_326' 'QNLI_86' 'snli_86' 'SST2_126' 'MRPC_126']
+#order_list = ['laptop_126' 'IMDB_126' 'tweet_126' 'restaurant_326' 'MNLI_326' 'restaurant_126' 'QQP_326' 'SST2_326' 'SST2_86' 'laptop_326' 'restaurant_86' 'QNLI_326' 'QQP_86' 'IMDB_86' 'snli_326' 'MNLI_86' 'snli_126' 'IMDB_326' 'MNLI_126' 'MRPC_326' 'QNLI_126' 'MRPC_86' 'tweet_86' 'QQP_126' 'laptop_86' 'tweet_326' 'QNLI_86' 'snli_86' 'SST2_126' 'MRPC_126']
+order_list = ["IMDBPromptRoberta","laptopPromptRoberta","restaurantPromptRoberta"]
 
 
 
@@ -83,7 +85,8 @@ for dir_1 in dirs:
     #print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
     ###########
-    activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
+    #activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
+    #activated_1 = activated_1[9:,:,:,:]
     #activated_1 = activated_1[10:12,:,:,:]
     #activated_1 = activated_1[0:2,:,:,:]
     #print(activated_1.shape)
@@ -95,9 +98,10 @@ for dir_1 in dirs:
     activated_1[activated_1<0] = float(0)
 
     for dir_2 in dirs:
+        dir_2 = dir_2+"_proj"
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
         ###########
-        activated_2 = activated_2[int(sys.argv[1]):int(sys.argv[1])+3,:,:,:]
+        #activated_2 = activated_2[9:,:,:,:]
         #activated_2 = activated_2[10:12,:,:,:]
         #activated_2 = activated_2[0:2,:,:,:]
         ###########
@@ -119,187 +123,5 @@ for dir_1 in dirs:
 
 
 
-
-
-'''
-#Check by each sentence
-##Title
-#print(end="\t \t")
-print(end="\t")
-for name in data_name:
-    print(name, end='\t')
-print()
-
-for dir_1 in dirs:
-    #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
-    print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","")
-
-    #if "random" != dir_1:
-    #    continue
-
-    print(print_name, end='\t')
-    activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
-    #activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
-    activated_1 = activated_1.reshape(activated_1.shape[1],activated_1.shape[0]*activated_1.shape[2]*activated_1.shape[3])
-
-    activated_1[activated_1>0] = float(1)
-    activated_1[activated_1<0] = float(0)
-
-    for dir_2 in dirs:
-        activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
-        #activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
-        activated_2 = activated_2.reshape(activated_2.shape[1],activated_2.shape[0]*activated_2.shape[2]*activated_2.shape[3])
-
-        activated_2[activated_2>0] = float(1)
-        activated_2[activated_2<0] = float(0)
-
-        sim = 0
-        for number_sentence in range(int(activated_1.shape[0])):
-            sim += cos(activated_1[number_sentence], activated_2[number_sentence])
-        sim = sim/int(activated_1.shape[0])
-        print("{:.2f}".format(float(sim)), end='\t')
-
-        #sim = torch.dist(activated_1, activated_2, 2)
-        #print("{:.2f}".format(float(sim)), end='\t')
-
-    print()
-'''
-
-
-
-
-
-
-
-
-
-
-
-'''
-topk=50
-#topk= 12*64*231*3072 - 1
-
-print("===========================================")
-print("===============Top",topk,"================")
-print("===========================================")
-
-
-##Title
-#print(end="\t \t")
-print(end="\t")
-for name in data_name:
-    print(name, end='\t')
-print()
-
-
-def matching(activated_1,activated_2,topk):
-    activated_1 = [int(a) for a in activated_1]
-    activated_2 = [int(a) for a in activated_2]
-    return float(len(set(activated_1) & set(activated_2))/topk)
-
-
-for dir_1 in dirs:
-    #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
-    print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","")
-
-    #if "random" != dir_1:
-    #    continue
-
-    print(print_name, end='\t')
-    activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
-    activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
-
-    #activated_1[activated_1>0] = float(1)
-    #activated_1[activated_1<0] = float(0)
-
-    activated_1 = torch.topk(activated_1, topk).indices
-
-    for dir_2 in dirs:
-        activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
-        activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
-
-        #activated_2[activated_2>0] = float(1)
-        #activated_2[activated_2<0] = float(0)
-
-        activated_2 = torch.topk(activated_2, topk).indices
-
-        #sim = cos(activated_1, activated_2)
-        sim = matching(activated_1,activated_2,topk)
-        print("{:.2f}".format(float(sim)), end='\t')
-
-        #sim = torch.dist(activated_1, activated_2, 2)
-        #print("{:.2f}".format(float(sim)), end='\t')
-
-    print()
-'''
-
-
-
-'''
-#Check by each sentence
-#topk=12*1*3072
-#topk=12*1*3072
-#topk= 12*64*1*3072 - 1
-topk=100
-
-print("===========================================")
-print("===============Top",topk,"================")
-print("===========================================")
-
-
-##Title
-#print(end="\t \t")
-print(end="\t")
-for name in data_name:
-    print(name, end='\t')
-print()
-
-
-def matching(activated_1,activated_2,topk):
-    activated_1 = [int(a) for a in activated_1]
-    activated_2 = [int(a) for a in activated_2]
-    return float(len(set(activated_1) & set(activated_2))/topk)
-
-
-for dir_1 in dirs:
-    #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
-    print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","")
-
-    #if "random" != dir_1:
-    #    continue
-
-    print(print_name, end='\t')
-    activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
-    #activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
-    activated_1 = activated_1.reshape(activated_1.shape[1],activated_1.shape[0]*activated_1.shape[2]*activated_1.shape[3])
-
-
-    #activated_1[activated_1>0] = float(1)
-    #activated_1[activated_1<0] = float(0)
-
-    #activated_1 = torch.topk(activated_1, topk).indices
-
-    for dir_2 in dirs:
-        activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
-        #activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
-        activated_2 = activated_2.reshape(activated_2.shape[1],activated_2.shape[0]*activated_2.shape[2]*activated_2.shape[3])
-
-        #activated_2[activated_2>0] = float(1)
-        #activated_2[activated_2<0] = float(0)
-
-        #activated_2 = torch.topk(activated_2, topk).indices
-
-
-        sim = 0
-        for number_sentence in range(int(activated_1.shape[0])):
-            sim += matching(activated_1[number_sentence].topk(topk).indices, activated_2[number_sentence].topk(topk).indices, topk)
-        sim = sim/int(activated_1.shape[0])
-        print("{:.2f}".format(float(sim)), end='\t')
-
-        #sim = torch.dist(activated_1, activated_2, 2)
-        #print("{:.2f}".format(float(sim)), end='\t')
-
-    print()
-'''
 
 
