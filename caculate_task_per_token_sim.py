@@ -195,13 +195,13 @@ for id_1, task_1 in task_map.items():
         #print("{:.4f}".format(float(sim)), end=' ')
 
 
-        #if task_1 != task_2:
-        if task_1 == task_2:
-            print(sim)
+        if task_1 != task_2:
+        #if task_1 == task_2:
+            #print(sim)
             l+=sim
 
 
-    print()
+    #print()
 
 print("All diferent tasks", l/(13*12))
 #print("same tasks", l/(13*12))

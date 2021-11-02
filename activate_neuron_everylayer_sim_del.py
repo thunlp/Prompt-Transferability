@@ -25,7 +25,12 @@ dirs = os.listdir(root_dir)
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 #order_list = ['laptop_126' 'IMDB_126' 'tweet_126' 'restaurant_326' 'MNLI_326' 'restaurant_126' 'QQP_326' 'SST2_326' 'SST2_86' 'laptop_326' 'restaurant_86' 'QNLI_326' 'QQP_86' 'IMDB_86' 'snli_326' 'MNLI_86' 'snli_126' 'IMDB_326' 'MNLI_126' 'MRPC_326' 'QNLI_126' 'MRPC_86' 'tweet_86' 'QQP_126' 'laptop_86' 'tweet_326' 'QNLI_86' 'snli_86' 'SST2_126' 'MRPC_126']
-order_list = ["IMDBPromptRoberta","laptopPromptRoberta","restaurantPromptRoberta"]
+
+#order_list = ["IMDBPromptRoberta","laptopPromptRoberta","restaurantPromptRoberta","MNLIPromptRoberta","QNLIPromptRoberta","snliPromptRoberta"]
+#order_list = ["IMDB","laptop","restaurant","MNLI","QNLI","snli"]
+
+order_list = ["IMDB","SST2","laptop","restaurant","movierationales","tweetevalsentiment","MNLI","QNLI","snli"]
+
 
 
 
@@ -71,7 +76,11 @@ for name in data_name:
     print(name, end='\t')
 print()
 
+
+
 for dir_1 in dirs:
+    #print(dir_1, end='\t')
+    dir_1 = dir_1+"PromptRoberta"
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","")
 
@@ -82,8 +91,8 @@ for dir_1 in dirs:
     #if "random" != dir_1:
     #    continue
 
-    #print(print_name, end='\t')
-    activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+    print(print_name, end='\t')
+    activated_1 = torch.load(root_dir+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
     ###########
     #activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
     #activated_1 = activated_1[9:,:,:,:]
@@ -98,8 +107,10 @@ for dir_1 in dirs:
     activated_1[activated_1<0] = float(0)
 
     for dir_2 in dirs:
-        dir_2 = dir_2+"_proj"
-        activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+        #dir_2 = dir_2+"_proj"
+        dir_2 = dir_2+"_trainedPromptRoberta"
+        #print(dir_2)
+        activated_2 = torch.load(root_dir+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
         ###########
         #activated_2 = activated_2[9:,:,:,:]
         #activated_2 = activated_2[10:12,:,:,:]
@@ -110,9 +121,10 @@ for dir_1 in dirs:
         activated_2[activated_2>0] = float(1)
         activated_2[activated_2<0] = float(0)
 
+
         sim = cos(activated_1, activated_2)
         #print("{:.2f}".format(float(sim)),",", end='\t')
-        print("{:.2f}".format(float(sim)),",", end='\t')
+        print("{:.3f}".format(float(sim)),",", end='\t')
 
         #sim = torch.dist(activated_1, activated_2, 2)
         #print("{:.2f}".format(float(sim)), end='\t')

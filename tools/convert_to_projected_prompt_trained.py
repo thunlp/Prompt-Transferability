@@ -17,9 +17,10 @@ import numpy as np
 from projector import AE_0_layer, AE_1_layer_mutiple_100, AE_1_layer
 
 def EuclideanDistances(task1_emb,task2_emb):
-    print(torch.norm(task1_emb-task2_emb, p='fro'))
-    print(1/(torch.norm(task1_emb-task2_emb, p='fro')+1))
-    print("=====")
+    #print(torch.norm(task1_emb-task2_emb, p='fro'))
+    #print(1/(torch.norm(task1_emb-task2_emb, p='fro')+1))
+    print((1/(torch.norm(task1_emb-task2_emb, p='fro')+1))*100,"%")
+    print("---")
 
 
 def EuclideanDistances_per_token(task1_emb,task2_emb):
@@ -36,9 +37,10 @@ def EuclideanDistances_per_token(task1_emb,task2_emb):
             euc = torch.norm(v1-v2, p=2)
             #print(euc)
             sum_euc += euc
-    print(float((float(sum_euc/100)/100)))
-    print(1/(float((float(sum_euc/100)/100))+1))
-    print("=====")
+    #print(float((float(sum_euc/100)/100)))
+    #print(1/(float((float(sum_euc/100)/100))+1))
+    print((1/(float((float(sum_euc/100)/100))+1))*100,"%")
+    print("---")
 
 
 
@@ -52,8 +54,9 @@ def CosineSimilarity_per_token(task1_emb,task2_emb):
         for idx2, v2 in enumerate(task2_emb):
             c = cos(v1,v2)
             sum_c += c
-    print(float(float(sum_c/100)/100))
-    print("=====")
+    #print(float(float(sum_c/100)/100))
+    print(float(float(sum_c/100)/100)*100,"%")
+    print("---")
 
 
 #cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
@@ -61,17 +64,18 @@ def CosineSimilarity(task1_emb,task2_emb):
     #print(task1_emb.shape)
     #print(task2_emb.shape)
     #exit()
-    print(cos(task1_emb,task2_emb))
+    #print(cos(task1_emb,task2_emb))
+    print((cos(task1_emb,task2_emb))*100,"%")
     #print(torch.cosine_similarity(task1_emb,task2_emb,dim=0))
-    print("=====")
+    print("---")
 
 
 
 #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 device = "cpu"
 
-model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
-model_AE.load_state_dict(torch.load("../model/crossPromptRoberta_nli_100/29_model_cross_0.398.pkl", map_location=lambda storage, loc:storage))
+#model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
+#model_AE.load_state_dict(torch.load("../model/crossPromptRoberta_nli_100/29_model_cross_0.398.pkl", map_location=lambda storage, loc:storage))
 #model_AE.load_state_dict(torch.load("../model/crossPromptRoberta_emotion_100/17_model_cross_0.458.pkl", map_location=lambda storage, loc:storage))
 #model_AE.load_state_dict(torch.load("../model/crossPromptRoberta_emotion_100/127_model_cross_0.759.pkl", map_location=lambda storage, loc:storage))
 #model_AE.load_state_dict(torch.load("../model/crossPromptRoberta_emotion_100/94_model_cross_0.89.pkl", map_location=lambda storage, loc:storage))
@@ -82,39 +86,33 @@ model_AE.load_state_dict(torch.load("../model/crossPromptRoberta_nli_100/29_mode
 
 #prompt = torch.load("../task_prompt_emb/MNLIPromptRoberta/task_prompt", map_location=lambda storage, loc:storage)
 #prompt = torch.load("../task_prompt_emb/QNLIPromptRoberta/task_prompt", map_location=lambda storage, loc:storage)
-prompt = torch.load("../task_prompt_emb/snliPromptRoberta/task_prompt", map_location=lambda storage, loc:storage)
+
+#prompt = torch.load("../task_prompt_emb/snliPromptRoberta/task_prompt", map_location=lambda storage, loc:storage)
+
+for data in ["IMDB","SST2","laptop","restaurant","movierationales","tweetevalsentiment","MNLI","QNLI","snli"]:
+
+    print(data)
 
 
-prompt = prompt.reshape(1,100*768)
-#print(prompt.shape)
-#print("===========")
-#print(prompt)
+    prompt = torch.load("../task_prompt_emb/"+str(data)+"PromptRoberta/task_prompt", map_location=lambda storage, loc:storage)
 
-p_prompt = torch.Tensor(model_AE(prompt))
-p_prompt = p_prompt.reshape(76800)
-prompt = prompt.reshape(76800)
-#print(p_prompt.shape)
-#print("===========")
-#exit()
-#print(p_prompt)
-#exit()
+    prompt_c = torch.load("../projected_prompt_bert_to_roberta/task_prompt_emb/"+str(data)+"_trainedPromptRoberta/task_prompt", map_location=lambda storage, loc:storage)
 
-EuclideanDistances(prompt, p_prompt)
-EuclideanDistances_per_token(prompt, p_prompt)
-CosineSimilarity(prompt, p_prompt)
-CosineSimilarity_per_token(prompt, p_prompt)
-#exit()
 
-p_prompt = p_prompt.reshape(100,768)
-print(p_prompt)
-print(p_prompt.shape)
-exit()
-#torch.save(p_prompt,"IMDBPromptRoberta_proj/task_prompt")
-#torch.save(p_prompt,"laptopPromptRoberta_proj/task_prompt")
-#torch.save(p_prompt,"restaurantPromptRoberta_proj/task_prompt")
+    prompt = prompt.reshape(100*768)
+    prompt_c = prompt_c.reshape(100*768)
 
-#torch.save(p_prompt,"MNLIPromptRoberta_proj/task_prompt")
-#torch.save(p_prompt,"QNLIPromptRoberta_proj/task_prompt")
-#torch.save(p_prompt,"snliPromptRoberta_proj/task_prompt")
+    #p_prompt = torch.Tensor(model_AE(prompt))
+    prompt = prompt.reshape(76800)
+    prompt_c = prompt_c.reshape(76800)
 
+    EuclideanDistances(prompt, prompt_c)
+    EuclideanDistances_per_token(prompt, prompt_c)
+    CosineSimilarity(prompt, prompt_c)
+    CosineSimilarity_per_token(prompt, prompt_c)
+
+    #p_prompt = p_prompt.reshape(100,768)
+
+    print("=======================")
+    print("=======================")
 
