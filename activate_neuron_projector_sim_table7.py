@@ -9,8 +9,8 @@ import sys
 
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
-#root_dir = "task_activated_neuron"
-root_dir = "10_12_newest_randomseed_base/task_activated_neuron"
+root_dir = "task_activated_neuron"
+#root_dir = "10_12_newest_randomseed_base/task_activated_neuron"
 #root_dir = "task_activated_neuron/12layer_1prompt"
 #root_dir = "task_activated_neuron/task_activated_neuron_label"
 #root_dir = "task_activated_neuron/lastlayer_100prompt_Prompt"
@@ -24,8 +24,20 @@ dirs = os.listdir(root_dir)
 
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
+###################
+###################
+###################
+###################
 
-order_list = ['laptop_126','IMDB_126','tweet_126','restaurant_326','MNLI_326','restaurant_126','QQP_326','SST2_326','SST2_86','laptop_326','restaurant_86','QNLI_326','QQP_86','IMDB_86','snli_326','MNLI_86','snli_126','IMDB_326','MNLI_126','MRPC_326','QNLI_126','MRPC_86','tweet_86','QQP_126','laptop_86','tweet_326','QNLI_86','snli_86','SST2_126','MRPC_126']
+#order_list = ['1-laptop_126','1-IMDB_126','1-tweet_126','1-restaurant_326','2-MNLI_326','1-restaurant_126','4-QQP_326','1-SST2_326','1-SST2_86','1-laptop_326','1-restaurant_86','2-QNLI_326','4-QQP_86','1-IMDB_86','2-snli_326','2-MNLI_86','2-snli_126','1-IMDB_326','2-MNLI_126','4-MRPC_326','2-QNLI_126','4-MRPC_86','1-tweet_86','4-QQP_126','1-laptop_86','1-tweet_326','2-QNLI_86','2-snli_86','1-SST2_126','4-MRPC_126']
+
+
+order_list = ["1-IMDBPromptRoberta", "1-SST2PromptRoberta", "1-laptopPromptRoberta", "1-restaurantPromptRoberta", "1-movierationalesPromptRoberta", "1-tweetevalsentimentPromptRoberta", "2-MNLIPromptRoberta", "2-QNLIPromptRoberta", "2-snliPromptRoberta", "3-ethicsdeontologyPromptRoberta","3-ethicsjusticePromptRoberta","4-QQPPromptRoberta", "4-MRPCPromptRoberta"]
+
+###################
+###################
+###################
+###################
 
 
 #order_list = ["IMDBPromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "snliPromptRoberta", "MNLIPromptRoberta", "IMDB_base_emotionPromptRoberta", "MNLI_base_nliPromptRoberta", "laptop_base_emotionPromptRoberta", "laptop_base_nliPromptRoberta", "restaurant_base_emotionPromptRoberta", "restaurant_base_nliPromptRoberta", "snli_base_emotionPromptRoberta","snli_base_nliPromptRoberta","RandomPromptRoberta","IMDB_base_nliPromptRoberta","MNLI_base_emotionPromptRoberta"]
@@ -77,10 +89,12 @@ topk=100
 
 
 l=0
+k=0
 c=0
 
 ##Title
 #print(end="\t \t")
+'''
 print(end="\t")
 for name in data_name:
     name = name.replace("PromptRoberta","").replace("recast","").replace("ethics","")
@@ -88,8 +102,11 @@ for name in data_name:
         name = name[:5]
     print(name, end='\t')
 print()
+'''
+
 
 for dir_1 in dirs:
+    task_type_1 , dir_1 = dir_1.split("-")
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","")
     #print_name = dir_1.replace("PromptRoberta","").replace("urant","").replace("evalsentiment","").replace("rationales","").replace("recast","").replace("ethics","")
     print_name = dir_1.replace("PromptRoberta","").replace("recast","").replace("ethics","")
@@ -103,8 +120,11 @@ for dir_1 in dirs:
 
     #print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+    #print(activated_1.shape)
+    #exit()
     ###
-    activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+3,:,:,:]
+    #activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+3,:,:,:]
+    #activated_1 = activated_1[9:12,:,:,:]
     ###
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
@@ -112,13 +132,15 @@ for dir_1 in dirs:
     activated_1[activated_1<0] = float(0)
 
     for dir_2 in dirs:
+        task_type_2 , dir_2 = dir_2.split("-")
 
-        if dir_1.split("_")[0] != dir_2.split("_")[0]:
-            continue
+        #if dir_1.split("_")[0] != dir_2.split("_")[0]:
+        #    continue
 
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
         ###
-        activated_2 = activated_2[int(sys.argv[1]):int(sys.argv[1])+3,:,:,:]
+        #activated_2 = activated_2[int(sys.argv[1]):int(sys.argv[1])+3,:,:,:]
+        #activated_2 = activated_2[9:12,:,:,:]
         ###
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 
@@ -137,14 +159,27 @@ for dir_1 in dirs:
         #print("======================")
         #print("======================")
 
+        #if dir_1.split("_")[0] == dir_2.split("_")[0]:
         #if dir_1 != dir_2:
-        if dir_1.split("_")[0] == dir_2.split("_")[0]:
-            #print(dir_1, dir_2)
+
+
+        if dir_1 != dir_2:
+            if task_type_1 != task_type_2:
+                pass
+            else:
+                continue
+
+
+            #if dir_1 == dir_2:
+            #    continue
+            print(dir_1, dir_2)
             #print(sim)
             l+= float(sim)
             c+=1
+        #same-type
+        # elif
 
-    print()
+    #print()
 
 #print(l/(13*12))
 print(l/c)

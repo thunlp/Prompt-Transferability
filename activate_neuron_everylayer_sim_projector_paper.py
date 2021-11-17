@@ -14,6 +14,8 @@ import sys
 #root_dir = "10_12_newest_randomseed_base/task_activated_neuron"
 #root_dir = "task_activated_neuron/lastlayer_100prompt_Prompt"
 root_dir = "task_activated_neuron/"
+#root_dir = "task_activated_neuron_ffn/"
+#root_dir = "task_activated_neuron_plm/"
 
 dirs = os.listdir(root_dir)
 #dirs = ['random']
@@ -27,9 +29,12 @@ dirs = os.listdir(root_dir)
 #order_list = ['laptop_126' 'IMDB_126' 'tweet_126' 'restaurant_326' 'MNLI_326' 'restaurant_126' 'QQP_326' 'SST2_326' 'SST2_86' 'laptop_326' 'restaurant_86' 'QNLI_326' 'QQP_86' 'IMDB_86' 'snli_326' 'MNLI_86' 'snli_126' 'IMDB_326' 'MNLI_126' 'MRPC_326' 'QNLI_126' 'MRPC_86' 'tweet_86' 'QQP_126' 'laptop_86' 'tweet_326' 'QNLI_86' 'snli_86' 'SST2_126' 'MRPC_126']
 
 #order_list = ["IMDBPromptRoberta","laptopPromptRoberta","restaurantPromptRoberta","MNLIPromptRoberta","QNLIPromptRoberta","snliPromptRoberta"]
-#order_list = ["IMDB","laptop","restaurant","MNLI","QNLI","snli"]
+#order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta"]
 
-order_list = ["IMDB","SST2","laptop","restaurant","movierationales","tweetevalsentiment","MNLI","QNLI","snli"]
+#order_list = ["IMDB","laptop","restaurant","MNLI","QNLI","snli"]
+order_list = ["IMDB", "SST2", "laptop", "restaurant", "movierationales", "tweetevalsentiment", "MNLI", "QNLI", "snli"]
+
+#order_list = ["IMDB","SST2","laptop","restaurant","movierationales","tweetevalsentiment","MNLI","QNLI","snli"]
 
 
 
@@ -96,7 +101,10 @@ for dir_1 in dirs:
     ###########
     #activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
     #activated_1 = activated_1[9:,:,:,:]
-    #activated_1 = activated_1[10:12,:,:,:]
+    activated_1 = activated_1[9:12,:,:,:]
+    #print(activated_1.shape)
+    #exit()
+    #activated_1 = activated_1[11:12,:,:,:]
     #activated_1 = activated_1[0:2,:,:,:]
     #print(activated_1.shape)
     #exit()
@@ -114,6 +122,9 @@ for dir_1 in dirs:
         ###########
         #activated_2 = activated_2[9:,:,:,:]
         #activated_2 = activated_2[10:12,:,:,:]
+        activated_2 = activated_2[9:12,:,:,:]
+        #activated_2 = activated_2[10:12,:,:,:]
+        #activated_2 = activated_2[11:12,:,:,:]
         #activated_2 = activated_2[0:2,:,:,:]
         ###########
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
