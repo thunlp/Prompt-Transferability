@@ -151,6 +151,148 @@ def load_task_prompt(model_prompt, config_name, config):
 
 
 
+
+
+
+
+
+
+
+
+def load_target_prompt(model_prompt, config_name, config, init_target_prompt):
+    #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','re','restaurant','rte','sst2','stsb','wnli']
+    #choosed_tasks=['imdb','laptop','mnli','mrp','qnli','qqp','restaurant','rte','sst2','wnli']
+
+
+    config_name = config_name.split("/")[1].replace(".config","")
+
+    choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
+    transfered_model = config.get("model","model_size").lower().split(",")
+    model_size = str.title(model_prompt.strip().split("-")[-1])
+    model_prompt = str.title(model_prompt.strip().split("-")[0])
+
+
+    if model_prompt == "Bert":
+        model_prompt_not_in = "Roberta"
+    elif model_prompt == "Roberta":
+        model_prompt_not_in = "Bert"
+    print("====")
+    print("Include prompt type:",model_prompt)
+    print("---")
+    print("Not include prompt type:",model_prompt_not_in)
+    print("---")
+    print("Trained prompt:", model_prompt, model_size)
+    print("---")
+    print("Transfered model size:", transfered_model)
+    print("====")
+    #exit()
+
+    name_list = list()
+    task_prompt_dict=dict()
+    task_prompt_ten=list()
+    path="./task_prompt_emb"
+    files = os.listdir(path)
+
+
+    print("----")
+    counter=0
+    for file in files:
+
+        #cross_mlmPromptRoberta
+        if "mlm" in config_name:
+
+            if model_size not in file:
+                continue
+
+            if model_prompt not in file:
+                continue
+            if "mlm" not in file:
+                continue
+            if "_s1" in file or "_s2" in file:
+
+                #task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
+                #task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
+                task_prompt_emb = init_target_prompt[counter]
+                counter+=1
+                name = str(file.strip().split("P")[0]).lower()
+                if name=="mr":
+                    name+="pc"
+                elif name=="qq":
+                    name+="p"
+
+                if "_s1" in file:
+                    name += "_s1"
+                elif "_s2" in file:
+                    name += "_s2"
+
+                if name not in choosed_tasks and "sst" not in name:
+                    continue
+
+                #if name not in choosed_tasks:
+                #    continue
+                #print(1)
+                print(file)
+                name_list.append(name)
+                task_prompt_dict[name] = task_prompt_emb
+            else:
+                continue
+
+        #crossPromptRoberta
+        else:
+            if model_size == "Base":
+                pass
+            elif model_size not in file:
+                continue
+            else:
+                print("crossPrompt.py: Line 103 - Have wrong model_size")
+                exit()
+
+
+            if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "Large" not in file and "Medium" not in file:
+                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
+                name = str(file.strip().split("P")[0]).lower()
+                if name=="mr":
+                    name+="pc"
+                elif name=="qq":
+                    name+="p"
+
+                if name not in choosed_tasks:
+                    continue
+
+                print(file, end='\t')
+
+
+                name_list.append(name)
+                task_prompt_dict[name] = task_prompt_emb
+            else:
+                continue
+
+    print()
+    print("----")
+    name_list.sort()
+    print(name_list)
+
+
+    #map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrp':3, 'qnli':4, 'qqp':5, 're':6, 'restaurant':7, 'rte':8, 'sst2':9, 'wnli':10}
+
+    for id, name in enumerate(name_list):
+        #task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
+        task_prompt_ten.append(task_prompt_dict[name])
+    task_prompt_ten = torch.stack(task_prompt_ten)
+
+
+    return task_prompt_ten
+
+
+
+
+
+
+
+
+
+
+
 #class crossPromptRoberta(nn.Module):
 class crossPrompt(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
@@ -326,15 +468,15 @@ class crossPrompt(nn.Module):
         ##########################
         ##########################
 
-        #self.num_target_prompts = int(len([config.get("data","train_dataset_type").split(",")]))
-        #self.init_target_prompt = list()
-        #for i in range(self.num_target_prompts):
-        #    target_prompt = nn.Embedding(int(self.plmconfig.prompt_num),int(self.hidden_size))
-        #    self._init_weights(target_prompt)
-        #    self.init_target_prompt.append(target_prompt)
+        self.num_target_prompts = int(len([config.get("data","train_dataset_type").split(",")]))
+        self.init_target_prompt = list()
+        for i in range(self.num_target_prompts):
+            target_prompt = nn.Embedding(int(self.plmconfig.prompt_num),int(self.hidden_size))
+            self._init_weights(target_prompt)
+            self.init_target_prompt.append(target_prompt)
 
 
-        #self.target_prompt_emb = load_target_prompt(params["model_prompt"],params["args"].config,config,self.init_target_prompt).to('cuda')
+        self.target_prompt_emb = load_target_prompt(params["model_prompt"],params["args"].config,config,self.init_target_prompt).to('cuda')
 
         #self.target_prompt = nn.Embedding(int(self.plmconfig.prompt_num),int(self.hidden_size))
         #self._init_weights(self.target_prompt)

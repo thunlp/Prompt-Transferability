@@ -14,8 +14,6 @@ from tools.init_tool import init_test_dataset, init_formatter
 from reader.reader import init_dataset, init_formatter, init_test_dataset
 import torch.nn as nn
 import torch.optim as optim
-#from model.optimizer import init_optimizer
-import transformers
 from tools.projector import AE_0_layer, AE_1_layer_mutiple_100, AE_1_layer
 
 logger = logging.getLogger(__name__)
@@ -135,42 +133,19 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     #################################################
 
 
-    #   AdamW (
-    #Parameter Group 0
-    #    amsgrad: False
-    #    betas: (0.9, 0.999)
-    #    eps: 1e-08
-    #    lr: 0.001
-    #    weight_decay: 0.01
-    #)
-    #----
-    #AdamW (
-    #Parameter Group 0
-    #    betas: (0.9, 0.999)
-    #    correct_bias: True
-    #    eps: 1e-06
-    #    lr: 0.001
-    #    weight_decay: 0.0
-    #)
-
-
-    #optimizer_AE = optim.AdamW(model_AE.parameters(), eps=1e-06, lr=1e-3, weight_decay=0.0, correct_bias=True)
-    #print(model_AE)
-    #print(model_AE.parameters())
-    #optimizer_AE = init_optimizer(model_AE.parameters(), config, gpu_list)
-    optimizer_AE = transformers.AdamW(model_AE.parameters(), eps=1e-06, lr=1e-3, weight_decay=0.0, correct_bias=True)
-    #print(optimizer_AE)
-    #print("----")
-
-    #model_AE.train()
-    ###########
 
 
 
-    #optimizer = parameters["optimizer"]
-    #print(optimizer)
-    #print("=======")
-    #exit()
+
+
+
+
+
+
+
+
+
+    optimizer = parameters["optimizer"]
 
     #dataset = parameters["train_dataset"]
     global_step = parameters["global_step"]
@@ -191,11 +166,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     writer = SummaryWriter(os.path.join(config.get("output", "tensorboard_path"), config.get("output", "model_name")),
                            config.get("output", "model_name"))
 
-
     step_size = config.getint("train", "step_size")
     gamma = config.getfloat("train", "lr_multiplier")
-    #exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=step_size, gamma=gamma)
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_AE, step_size=step_size, gamma=gamma)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=step_size, gamma=gamma)
     exp_lr_scheduler.step(trained_epoch)
 
     logger.info("Training start....")
@@ -205,6 +178,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
 
 
+    optimizer_AE = optim.Adam(model_AE.parameters(), lr=1e-3)
+    model_AE.train()
+    ###########
 
 
     #total_len = len(dataset)
@@ -235,16 +211,16 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
         start_time = timer()
         current_epoch = epoch_num
-        #model.train()
-        model.eval()
+        model.train()
+        #model.eval()
         exp_lr_scheduler.step(current_epoch)
 
         acc_result = None
-        #acc_result_target = None
+        acc_result_target = None
         total_loss = 0
-        #total_loss_ = 0
-        #total_loss_target = 0
-        #total_loss_kl = 0
+        total_loss_ = 0
+        total_loss_target = 0
+        total_loss_kl = 0
 
         output_info = ""
         step = -1
@@ -259,33 +235,33 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                         data[key] = Variable(data[key])
 
             ####
-            #model.zero_grad()
+            model.zero_grad()
             model_AE.zero_grad()
             ####
 
 
 
-            results = model(data, config, gpu_list, acc_result, "train", AE=model_AE)
+            results = model(data, config, gpu_list, acc_result, acc_result_target, "train", AE=model_AE)
 
-            loss, acc_result = results["loss"], results["acc_result"]
-            #loss, loss_, loss_target, loss_kl, acc_result, acc_result_target = results["loss_total"], results["loss"], results["loss_target"], results["loss_kl"], results["acc_result"], results["acc_result_target"]
+            #loss, acc_result = results["loss"], results["acc_result"]
+            loss, loss_, loss_target, loss_kl, acc_result, acc_result_target = results["loss_total"], results["loss"], results["loss_target"], results["loss_kl"], results["acc_result"], results["acc_result_target"]
 
 
 
 
             total_loss += float(loss)
-            #total_loss_ += float(loss_)
-            #total_loss_target += float(loss_target)
-            #total_loss_kl += float(loss_kl)
+            total_loss_ += float(loss_)
+            total_loss_target += float(loss_target)
+            total_loss_kl += float(loss_kl)
 
             loss.backward()
             ###AE
-            #optimizer.step()
+            optimizer.step()
             optimizer_AE.step()
 
             if step % output_time == 0 and local_rank <= 0:
                 output_info = output_function(acc_result, config)
-                #output_info_target = output_function(acc_result_target, config)
+                output_info_target = output_function(acc_result_target, config)
 
                 delta_t = timer() - start_time
 
@@ -293,9 +269,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                     gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                              "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
 
-                #output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
-                #    gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
-                #             "%.3lf" % (total_loss_target / (step + 1)), output_info_target, '\r', config)
+                output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                    gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+                             "%.3lf" % (total_loss_target / (step + 1)), output_info_target, '\r', config)
 
 
             global_step += 1
@@ -310,26 +286,29 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
         if local_rank <= 0:
             output_info = output_function(acc_result, config)
-            #output_info_target = output_function(acc_result_target, config)
+            output_info_target = output_function(acc_result_target, config)
             delta_t = timer() - start_time
             output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
                 gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                         "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
 
-            #output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
-            #    gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
-            #            "%.3lf" % (total_loss_target / (step + 1)), output_info_target, None, config)
+            output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+                        "%.3lf" % (total_loss_target / (step + 1)), output_info_target, None, config)
 
         if step == -1:
             logger.error("There is no data given to the model in this epoch, check your data.")
             raise NotImplementedError
 
         if local_rank <= 0:
-            #checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step, model_AE)
-            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer_AE, current_epoch, config, global_step, model_AE)
+            checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step, model_AE)
             writer.add_scalar(config.get("output", "model_name") + "_train_epoch_total_loss", float(total_loss) / (step + 1), current_epoch)
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch_loss", float(total_loss_) / (step + 1), current_epoch)
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch_loss_target", float(total_loss_target) / (step + 1), current_epoch)
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch_loss_kl", float(total_loss_kl) / (step + 1), current_epoch)
             ###
             writer.add_scalar(config.get("output", "model_name") + "_train_epoch_acc", float(acc_result['right']/acc_result['total']), current_epoch)
+            writer.add_scalar(config.get("output", "model_name") + "_train_epoch_acc_target", float(acc_result_target['right']/acc_result_target['total']), current_epoch)
             ###
 
         if current_epoch % test_time == 0:

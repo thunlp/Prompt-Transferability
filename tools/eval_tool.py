@@ -56,7 +56,9 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
     local_rank = config.getint('distributed', 'local_rank')
 
     acc_result = None
+    acc_result_target = None
     total_loss = 0
+    total_loss_target = 0
     cnt = 0
     total_len = len(dataset)
     start_time = timer()
@@ -78,12 +80,18 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
                     data[key] = Variable(data[key])
 
         if "AE" in kwargs:
+            #results = model(data, config, gpu_list, acc_result, acc_result_target, "valid", AE=kwargs["AE"])
             results = model(data, config, gpu_list, acc_result, "valid", AE=kwargs["AE"])
+            #results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
         else:
             results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
 
         loss, acc_result = results["loss"], results["acc_result"]
+        #if "AE" in kwargs:
+        #    loss, loss_target, acc_result, acc_result_target = results["loss_total"], results["loss_target"], results["acc_result"], results["acc_result_target"]
+
         total_loss += float(loss)
+        #total_loss_target += float(loss_target)
         cnt += 1
 
         if step % output_time == 0 and local_rank <= 0:
@@ -92,6 +100,13 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
             output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
                 gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                          "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
+
+
+            #if "AE" in kwargs:
+            #    output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
+            #        gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+            #                 "%.3lf" % (total_loss_target / (step + 1)), output_info_target, '\r', config)
+
 
     if step == -1:
         logger.error("There is no data given to the model in this epoch, check your data.")
@@ -116,9 +131,17 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
     if local_rank <= 0:
         delta_t = timer() - start_time
         output_info = output_function(acc_result, config)
+        #if "AE" in kwargs:
+        #    output_info_target = output_function(acc_result_target, config)
+
         output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
             gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                     "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
+
+        #if "AE" in kwargs:
+        #    output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
+        #        gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+        #                "%.3lf" % (total_loss_target / (step + 1)), output_info_target, None, config)
 
         writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)
         ######Acc

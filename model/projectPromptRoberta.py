@@ -143,6 +143,27 @@ class projectPromptRoberta(nn.Module):
         #if self.softlabel:
         #    self.init_softlabel(self.plmconfig.vocab_size, len(self.labeltoken))
 
+
+
+        self.random_init_prompt = nn.Embedding(int(self.plmconfig.prompt_num),int(self.hidden_size))
+        self._init_weights(self.random_init_prompt)
+    def return_init_prompt_emb_(self, module):
+        #self.random_init_prompt = nn.Embedding(int(config.prompt_num),int(config.hidden_size))
+        self._init_weights(self.random_init_prompt)
+    def _init_weights(self, module):
+        if isinstance(module, (nn.Linear, nn.Embedding)):
+            # Slightly different from the TF version which uses truncated_normal for initialization
+            # cf https://github.com/pytorch/pytorch/pull/5617
+            #module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+            module.weight.data.normal_(mean=0.0, std=0.02)
+        elif isinstance(module, nn.LayerNorm):
+            module.bias.data.zero_()
+            module.weight.data.fill_(1.0)
+        if isinstance(module, nn.Linear) and module.bias is not None:
+            module.bias.data.zero_()
+
+
+
     def init_prompt_emb(self, init_ids):
         self.encoder.roberta.embeddings.init_prompt_emb(torch.tensor(init_ids, dtype=torch.long).to(torch.cuda.current_device()))
 
@@ -160,6 +181,11 @@ class projectPromptRoberta(nn.Module):
             task_specific_prompt_emb_ = task_specific_prompt_emb.reshape(int(task_specific_prompt_emb.shape[0]), int(task_specific_prompt_emb.shape[1])*int(task_specific_prompt_emb.shape[2]))
             task_specific_prompt_emb_ = model_AE(task_specific_prompt_emb_).to("cuda")
             task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
+
+
+            #print("======")
+            #print(self.random_init_prompt)
+            #print("======")
 
 
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
