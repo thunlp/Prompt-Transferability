@@ -82,8 +82,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     #model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     if (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
+        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=3840,dim_2=102400).to(device)
         #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=102400).to(device)
-        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=768,dim_2=102400).to(device)
+        #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=768,dim_2=102400).to(device)
     elif (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" not in config.get("output","model_name"):
         model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
@@ -344,9 +345,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                 root_dir = "model/"+config.get("output", "model_name")
                 src_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross.pkl"
                 ###min eval loss###
-                targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(total_loss)+".pkl"
+                #targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(total_loss)+".pkl"
                 ###max eval acc###
-                #targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(float(acc_result['right']/acc_result['total']))+".pkl"
+                targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(round(float(acc_result['right']/acc_result['total']),4))+".pkl"
                 os.rename(src_checkpoint_name, targ_checkpoint_name)
 
                 all_checkpoints = os.listdir(root_dir)
@@ -357,6 +358,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                         top_5_list.append(checkpoint_name)
                     else:
                         ###min eval loss###
+                        '''
                         for idx, in_top_5 in enumerate(top_5_list):
                             in_top_5_score = float(in_top_5.split("_")[-1].replace(".pkl",""))
                             checkpoint_score = float(checkpoint_name.split("_")[-1].replace(".pkl",""))
@@ -365,8 +367,8 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                                 top_5_list.insert(idx, checkpoint_name)
                             else:
                                 pass
-                        ###max eval acc###
                         '''
+                        ###max eval acc###
                         for idx, in_top_5 in enumerate(top_5_list):
                             in_top_5_score = float(in_top_5.split("_")[-1].replace(".pkl",""))
                             checkpoint_score = float(checkpoint_name.split("_")[-1].replace(".pkl",""))
@@ -375,7 +377,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                                 top_5_list.insert(idx, checkpoint_name)
                             else:
                                 pass
-                        '''
 
                 if len(top_5_list)>5:
                     top_5_list = top_5_list[:5]
