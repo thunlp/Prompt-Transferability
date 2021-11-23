@@ -40,7 +40,7 @@ class movierationalesPromptRobertaFormatter(BasicFormatter):
             #if len(sent) > max_len:
             #    sent = sent[:max_len]
             if len(sent) > self.max_len:
-                sent = sent[:self.max_len]
+                sent = sent[:self.max_len-1]
             tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent + [self.tokenizer.sep_token_id]
 
             mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))

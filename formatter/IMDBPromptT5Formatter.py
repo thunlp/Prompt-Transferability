@@ -41,7 +41,7 @@ class IMDBPromptT5Formatter(BasicFormatter):
         for ins in data:
             sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
             if len(sent) > self.max_len:
-                sent = sent[:self.max_len]
+                sent = sent[:self.max_len-1]
             #if len(sent) > max_len:
             #    sent = sent[:max_len]
             #tokens = self.prompt_prefix + sent + self.tokenizer.encode("</s>", add_special_tokens=False)
@@ -55,8 +55,6 @@ class IMDBPromptT5Formatter(BasicFormatter):
             if len(target) >= self.target_len:
                 target = target[:self.target_len-1]
             target = target + self.tokenizer.encode("</s>", add_special_tokens=False)
-
-
             target = target + [-100] * (self.target_len - len(target))
 
 

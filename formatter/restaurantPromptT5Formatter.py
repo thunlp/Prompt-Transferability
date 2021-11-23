@@ -39,7 +39,7 @@ class restaurantPromptT5Formatter(BasicFormatter):
         for ins in data:
             sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
             if len(sent) > self.max_len:
-                sent = sent[:self.max_len]
+                sent = sent[:self.max_len-1]
 
             tokens = self.prompt_prefix + sent + self.tokenizer.encode("</s>", add_special_tokens=False)
 

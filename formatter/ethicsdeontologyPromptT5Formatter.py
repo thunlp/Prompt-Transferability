@@ -1,10 +1,11 @@
 from transformers import AutoTokenizer
+from transformers import T5TokenizerFast
 import torch
 import json
 import numpy as np
 from .Basic import BasicFormatter
 
-class ethicsdeontologyPromptRobertaFormatter(BasicFormatter):
+class ethicsdeontologyPromptT5Formatter(BasicFormatter):
     def __init__(self, config, mode, *args, **params):
         self.config = config
         self.mode = mode
@@ -14,12 +15,12 @@ class ethicsdeontologyPromptRobertaFormatter(BasicFormatter):
         self.mode = mode
         ##########
         self.model_name = config.get("model","model_base")
-        if "Roberta" in self.model_name:
+        if "T5" in self.model_name:
             #self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
             try:
-                self.tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+                self.tokenizer = T5TokenizerFast.from_pretrained("t5-base")
             except:
-                self.tokenizer = AutoTokenizer.from_pretrained("RobertaForMaskedLM/roberta-base")
+                self.tokenizer = T5TokenizerFast.from_pretrained("T5ForMaskedLM/t5-base")
         elif "Bert" in self.model_name:
             self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
         else:
@@ -34,16 +35,32 @@ class ethicsdeontologyPromptRobertaFormatter(BasicFormatter):
         inputx = []
         mask = []
         label = []
-        max_len = self.max_len + 3 + self.prompt_num#+ self.prompt_len * 1 + 4
+        max_len = self.max_len + 2 + self.prompt_num#+ self.prompt_len * 1 + 4
         for ins in data:
             sent1 = self.tokenizer.encode(ins["sent1"], add_special_tokens = False)
             sent2 = self.tokenizer.encode(ins["sent2"], add_special_tokens=False)
-            tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent1 + [self.tokenizer.sep_token_id] + sent2 + [self.tokenizer.sep_token_id]
+
+            tokens = self.prompt_prefix + sent1 + [self.tokenizer.sep_token_id] + sent2
+
             if len(tokens) > max_len:
                 tokens = tokens[:max_len - 1]
-                tokens = tokens + [self.tokenizer.sep_token_id]
-            mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
+                #tokens = tokens + [self.tokenizer.sep_token_id]
+            tokens = self.prompt_prefix + sent + self.tokenizer.encode("</s>", add_special_tokens=False)
+
+            #mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
+            #tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))
             tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))
+            mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
+
+            ##############################
+            ##############################
+            dict_ = {0:"un", 1:"acceptable"}
+            target = self.tokenizer.encode(dict_[ins["label"]], add_special_tokens=False)
+            if len(target) >= self.target_len:
+                target = target[:self.target_len-1]
+            target = target + self.tokenizer.encode("</s>", add_special_tokens=False)
+            target = target + [-100] * (self.target_len - len(target))
+
             if mode != "test":
                 label.append(ins["label"])
             inputx.append(tokens)
