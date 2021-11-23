@@ -6,6 +6,7 @@ from .RTEPromptFormatter import RTEPromptFormatter
 from .RTEPromptRobertaFormatter import RTEPromptRobertaFormatter
 from .SST2PromptFormatter import SST2PromptFormatter
 from .SST2PromptRobertaFormatter import SST2PromptRobertaFormatter
+from .SST2PromptT5Formatter import SST2PromptT5Formatter
 from .WikiREFormatter import WikiREFormatter
 from .WikiREPromptFormatter import WikiREPromptFormatter
 from .SQuADPromptRobertaFormatter import SQuADPromptRobertaFormatter
@@ -59,6 +60,7 @@ formatter_list = {
     "RTEPromptRoberta": RTEPromptRobertaFormatter,
     "SST2Prompt": SST2PromptFormatter,
     "SST2_PromptRoberta": SST2PromptRobertaFormatter,
+    "SST2_PromptT5": SST2PromptT5Formatter,
     "SQuADPromptRoberta": SQuADPromptRobertaFormatter,
     "RE": WikiREFormatter,
     "REPrompt": WikiREPromptFormatter,

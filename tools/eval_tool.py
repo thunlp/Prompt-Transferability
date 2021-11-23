@@ -56,7 +56,7 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
     local_rank = config.getint('distributed', 'local_rank')
 
     acc_result = None
-    acc_result_target = None
+    #acc_result_target = None
     total_loss = 0
     total_loss_target = 0
     cnt = 0
@@ -86,26 +86,28 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
         else:
             results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
 
-        loss, acc_result = results["loss"], results["acc_result"]
+        if "T5" in config.get("model","model_base"):
+            acc_result = results["acc_result"]
+        else:
+            loss, acc_result = results["loss"], results["acc_result"]
         #if "AE" in kwargs:
         #    loss, loss_target, acc_result, acc_result_target = results["loss_total"], results["loss_target"], results["acc_result"], results["acc_result_target"]
 
-        total_loss += float(loss)
-        #total_loss_target += float(loss_target)
-        cnt += 1
 
-        if step % output_time == 0 and local_rank <= 0:
-            delta_t = timer() - start_time
+        if "T5" in config.get("model","model_base"):
+            pass
+        else:
+            total_loss += float(loss)
+            #total_loss_target += float(loss_target)
+            cnt += 1
 
-            output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
-                gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
-                         "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
+            if step % output_time == 0 and local_rank <= 0:
+                delta_t = timer() - start_time
 
+                output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                    gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+                             "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
 
-            #if "AE" in kwargs:
-            #    output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
-            #        gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
-            #                 "%.3lf" % (total_loss_target / (step + 1)), output_info_target, '\r', config)
 
 
     if step == -1:
@@ -134,16 +136,24 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
         #if "AE" in kwargs:
         #    output_info_target = output_function(acc_result_target, config)
 
-        output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
-            gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
-                    "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
+        if "T5" in config.get("model","model_base"):
+            output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),"\t", output_info, None, config)
+
+        else:
+            output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+                        "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
 
         #if "AE" in kwargs:
         #    output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
         #        gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
         #                "%.3lf" % (total_loss_target / (step + 1)), output_info_target, None, config)
 
-        writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)
+        if "T5" in config.get("model","model_base"):
+            pass
+        else:
+            writer.add_scalar(config.get("output", "model_name") + "_eval_epoch", float(total_loss) / (step + 1), epoch)
         ######Acc
         writer.add_scalar(config.get("output", "model_name") + "_eval_epoch_acc", float(acc_result['right']/acc_result['total']), epoch)
         ######
@@ -151,5 +161,10 @@ def valid(model, dataset, epoch, writer, config, gpu_list, output_function, mode
     model.train()
 
     ###Add
-    return round(total_loss/(step+1),3)
+    if "T5" in config.get("model","model_base"):
+        return acc_result
+    elif "AE" in kwargs:
+        return round(total_loss/(step+1),3), acc_result
+    else:
+        return round(total_loss/(step+1),3)
     ###

@@ -12,6 +12,13 @@ class SST2Dataset(Dataset):
         fin = csv.reader(open(self.data_path, "r"), delimiter="\t", quotechar='"')
 
         data = [row for row in fin]
+
+        #if "T5" in self.config.get("model","model_base"):
+        #    if mode == "test":
+        #        self.data = [{"sent": ins[0].strip()} for ins in data[1:]]
+        #    else:
+        #        self.data = [{"sent": ins[0].strip(), "label": int(ins[1].strip())} for ins in data[1:]]
+        #else:
         if mode == "test":
             self.data = [{"sent": ins[0].strip()} for ins in data[1:]]
         else:

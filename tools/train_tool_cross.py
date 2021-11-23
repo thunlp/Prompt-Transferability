@@ -82,9 +82,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
     #model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     if (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
-        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=3840,dim_2=102400).to(device)
+        #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=3840,dim_2=102400).to(device)
         #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=102400).to(device)
-        #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=768,dim_2=102400).to(device)
+        model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=768,dim_2=102400).to(device)
     elif (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" not in config.get("output","model_name"):
         model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
     elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
@@ -340,14 +340,15 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
 
 
 
-                total_loss = valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, AE=model_AE)
+                #total_loss = valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, AE=model_AE)
+                total_loss, acc_result_eval = valid(model, parameters["valid_dataset"], current_epoch, writer, config, gpu_list, output_function, AE=model_AE)
 
                 root_dir = "model/"+config.get("output", "model_name")
                 src_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross.pkl"
                 ###min eval loss###
                 #targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(total_loss)+".pkl"
                 ###max eval acc###
-                targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(round(float(acc_result['right']/acc_result['total']),4))+".pkl"
+                targ_checkpoint_name = root_dir+"/"+str(current_epoch)+"_model_cross_"+str(round(float(acc_result_eval['right']/acc_result_eval['total']),4))+".pkl"
                 os.rename(src_checkpoint_name, targ_checkpoint_name)
 
                 all_checkpoints = os.listdir(root_dir)

@@ -82,8 +82,10 @@ model/recastverbcornerPromptRoberta*
 model/recastverbnetPromptRoberta*
 
 
+T5ForMaskedLM*
 
 
+model/SST2PromptT5*
 
 
 

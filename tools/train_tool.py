@@ -34,11 +34,18 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
     model_to_save = model_to_save.state_dict()
 
     for key in model_to_save.keys():
+        #print(key)
         if "embeddings.prompt_embeddings.weight" in key:
             if "roberta" in key:
                 prompt_emb = model_to_save["encoder.roberta.embeddings.prompt_embeddings.weight"]
             elif "bert" in key:
                 prompt_emb = model_to_save["encoder.bert.embeddings.prompt_embeddings.weight"]
+        elif "encoder.prompt_embeddings.weight" in key: #T5
+            prompt_emb = model_to_save["encoder.prompt_embeddings.weight"]
+            #same
+            #encoder.prompt_embeddings.weight
+            #encoder.encoder.prompt_tokens.weight
+            #encoder.decoder.prompt_tokens.weight
     ###
 
 
@@ -63,6 +70,8 @@ def checkpoint(filename, model, optimizer, trained_epoch, config, global_step):
         ###
     except Exception as e:
         logger.warning("Cannot save models with error %s, continue anyway" % str(e))
+
+
 
 
 def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **kwargs):
@@ -146,6 +155,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
     more = ""
     if total_len < 10000:
         more = "\t"
+
+
+
     for epoch_num in range(trained_epoch, epoch):
         start_time = timer()
         current_epoch = epoch_num
@@ -153,6 +165,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
         exp_lr_scheduler.step(current_epoch)
 
         acc_result = None
+        performance = 0
         total_loss = 0
 
         output_info = ""
@@ -183,49 +196,90 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
             model.zero_grad()
 
 
-            results = model(data, config, gpu_list, acc_result, "train", args=kwargs)
-            #results = model(data, config, gpu_list, acc_result, "train")
+            #results = model(data, config, gpu_list, acc_result, "train", args=kwargs)
 
-            loss, acc_result = results["loss"], results["acc_result"]
+            if "T5" in config.get("model","model_base"):
+                results = model(data, config, gpu_list, acc_result, "train", args=kwargs, step=step, performance=performance)
+                loss, performance = results["loss"], results["performance"]
+                #loss = results["loss"]
+            #elif "T5" in config.get("model","model_base") and int(step/250) == 0:
+            #    loss, acc_result = results["loss"], results["acc_result"]
+            else:
+                results = model(data, config, gpu_list, acc_result, "train", args=kwargs)
+                loss, acc_result = results["loss"], results["acc_result"]
 
             total_loss += float(loss)
-            total_loss = total_loss
+            #total_loss = total_loss
 
             loss.backward()
             optimizer.step()
 
             if step % output_time == 0 and local_rank <= 0:
-                output_info = output_function(acc_result, config)
+                if "T5" in config.get("model","model_base"):
 
-                delta_t = timer() - start_time
+                    delta_t = timer() - start_time
 
-                output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
-                    gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
-                             "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
+                    output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                        gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+                                 "%.3lf" % (total_loss / (step + 1)), "\t", '\r', config)
+
+                else:
+                    output_info = output_function(acc_result, config)
+
+                    delta_t = timer() - start_time
+
+                    output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                        gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+                                 "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
+
+
+            if "T5" in config.get("model","model_base") and int(step%100) == 0:
+                #print()
+                #print("Performance:", performance)
+                print("\t \t \t \t \t \t \t","Performance:", performance)
+
 
             global_step += 1
             writer.add_scalar(config.get("output", "model_name") + "_train_iter", float(loss), global_step)
+
+
+        #    if step >= 100:
+        #        break
+
+        #print("Break")
+        #print("=====")
+        #print("=====")
+
+
         try:
             model.module.lower_temp(0.8)
         except:
             pass
 
         if local_rank <= 0:
-            output_info = output_function(acc_result, config)
-            delta_t = timer() - start_time
-            output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
-                gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
-                        "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
+            if "T5" in config.get("model","model_base"):
+                pass
+            else:
+                output_info = output_function(acc_result, config)
+                delta_t = timer() - start_time
+                output_value(current_epoch, "train", "%d/%d" % (step + 1, total_len), "%s/%s" % (
+                    gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
+                            "%.3lf" % (total_loss / (step + 1)), output_info, None, config)
 
         if step == -1:
             logger.error("There is no data given to the model in this epoch, check your data.")
             raise NotImplementedError
 
         if local_rank <= 0:
+            ####Save prompt
             checkpoint(os.path.join(output_path, "%d.pkl" % current_epoch), model, optimizer, current_epoch, config, global_step)
+            ####
             writer.add_scalar(config.get("output", "model_name") + "_train_epoch", float(total_loss) / (step + 1), current_epoch)
             ###
-            writer.add_scalar(config.get("output", "model_name") + "_train_epoch_acc", float(acc_result['right']/acc_result['total']), current_epoch)
+            if "T5" in config.get("model","model_base"):
+                pass
+            else:
+                writer.add_scalar(config.get("output", "model_name") + "_train_epoch_acc", float(acc_result['right']/acc_result['total']), current_epoch)
             ###
 
 

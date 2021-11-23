@@ -201,8 +201,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
-    #print(model)
-    #exit()
     #print(params) #{'local_rank': -1, 'prompt_emb_output': True}
     optimizer = init_optimizer(model, config, *args, **params)
     trained_epoch = 0
@@ -223,7 +221,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
 
 
-    #########
+    ##########
     ##########
     if params["args"].checkpoint != None and mode=="train":
         if os.path.isdir(params["args"].checkpoint) and len(os.listdir(params["args"].checkpoint))!=0:
@@ -247,6 +245,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                     exit()
             elif model_type == "RobertaLarge":
                 load_dir = "RobertaLargeForMaskedLM/PromptRobertaLarge_init_params/pytorch_model.bin"
+                if os.path.exists(load_dir):
+                    parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
+                else:
+                    print("Not exist:",load_dir)
+                    exit()
+            elif model_type == "T5":
+                load_dir = "T5ForMaskedLM/PromptT5_init_params/pytorch_model.bin"
                 if os.path.exists(load_dir):
                     parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
                 else:
@@ -289,6 +294,11 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
             elif model_type == "Bert" or model_type == "BertLarge":
                 model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
+            elif model_type == "T5" or model_type == "T5Large":
+                #model.encoder.t5.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
+                model.encoder.prompt_embeddings.weight.data = prompt_parameters["model"]
+                model.encoder.encoder.prompt_tokens.weight.data = prompt_parameters["model"]
+                model.encoder.decoder.prompt_tokens.weight.data = prompt_parameters["model"]
             else:
                 print(model_type)
                 print("No matching checkpoint load")
@@ -389,6 +399,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_emb
             elif "Bert" in params["args"].config:
                 model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
+            elif "T5" in params["args"].config:
+                model.encoder.t5.embeddings.prompt_embeddings.weight.data = prompt_emb
             else:
                 print("Wrong!!!")
                 exit()
@@ -412,6 +424,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
         elif "Bert" in save_name:
             prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
+        elif "T5" in save_name:
+            prompt_emb = model.encoder.t5.embeddings.prompt_embeddings.weight.data
         else:
             print("Wrong!!!")
 

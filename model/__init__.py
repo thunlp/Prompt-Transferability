@@ -6,6 +6,7 @@ from .projectPromptRoberta import projectPromptRoberta
 from .projectPromptRoberta_prompt import projectPromptRoberta_prompt
 #from .SQuADPromptRoberta import SQuADPromptRoberta
 from .PromptBert import PromptBert
+from .PromptT5 import PromptT5
 from .crossPrompt import crossPrompt
 from .mlmPrompt import mlmPrompt
 model_list = {
@@ -20,7 +21,8 @@ model_list = {
     "crossPrompt": crossPrompt,
     #"SQuADPromptRoberta": SQuADPromptRoberta
     "PromptBert": PromptBert,
-    "mlmPrompt": mlmPrompt
+    "mlmPrompt": mlmPrompt,
+    "PromptT5": PromptT5
 }
 
 def get_model(model_name):
