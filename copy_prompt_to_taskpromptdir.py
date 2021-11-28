@@ -9,7 +9,7 @@ all_model_prompt = [dir for dir in all_model_prompt if ".py" not in dir]
 
 
 for dataset_file in all_model_prompt:
-    if "T5" not in dataset_file:
+    if "T5" not in dataset_file or "Small" in dataset_file:
         continue
 
     #if dataset_file != "QQPPromptRoberta":
@@ -148,7 +148,7 @@ for dataset_file in all_model_prompt:
     elif dataset_file == "QQPPromptBert":
          max_epoch = 24 #25
     elif dataset_file == "QQPPromptT5":
-         max_epoch = 26
+         max_epoch = 1
 
     elif dataset_file == "MRPCPromptRoberta":
         max_epoch = 66 #30
@@ -225,7 +225,7 @@ for dataset_file in all_model_prompt:
     elif dataset_file == "ethicsjusticePromptBert":
         max_epoch = 15
     elif dataset_file == "ethicsjusticePromptT5":
-        max_epoch =
+        max_epoch = 1
     ##elif dataset_file == "ethicsvirtuePromptRoberta":
     ##    max_epoch = 21
 

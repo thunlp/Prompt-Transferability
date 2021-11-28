@@ -1,23 +1,27 @@
 gpus=7
 
-'''
-#Bert
-for MODEL in IMDBPromptBert laptopPromptBert MNLIPromptBert MRPCPromptBert QNLIPromptBert QQPPromptBert restaurantPromptBert RTEPromptBert SST2PromptBert STSBPromptBert WNLIPromptBert
+BASEMODEL="T5"
+
+#FROM_MODEL="Roberta"
+#TO_MODEL="RobertaLarge"
+#PROJECTOR="random"
+for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt recastnerPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
 do
     echo "==========================="
-    echo config/$MODEL.config
-    echo model/$MODEL
+    echo Model: config/${MODEL}${BASEMODEL}.config
+    echo Prompt-emb: task_prompt_emb/${MODEL}${BASEMODEL}
     echo "==========================="
 
-    #Eval mlm
-    CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/$MODEL.config \
+    CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${MODEL}${BASEMODEL}.config \
         --gpu $gpus \
-        --checkpoint model/$MODEL \
-        --task_transfer_projector
+        --checkpoint model/${MODEL}${BASEMODEL} \
+        --replacing_prompt task_prompt_emb/${MODEL}${BASEMODEL} \
 done
+
+
+
+
 '''
-
-
 FROM_MODEL="Bert"
 TO_MODEL="Roberta"
 
@@ -39,3 +43,4 @@ do
         #--checkpoint task_prompt_emb/${MODEL}${FROM_MODEL} \
         #--task_transfer_projector
 done
+'''
