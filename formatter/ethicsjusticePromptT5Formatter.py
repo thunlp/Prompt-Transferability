@@ -12,6 +12,7 @@ class ethicsjusticePromptT5Formatter(BasicFormatter):
         self.max_len = config.getint("train", "max_len")
         self.prompt_len = config.getint("prompt", "prompt_len")
         self.prompt_num = config.getint("prompt", "prompt_num")
+        self.target_len = config.getint("train", "target_len")
         self.mode = mode
         ##########
         self.model_name = config.get("model","model_base")
@@ -37,15 +38,15 @@ class ethicsjusticePromptT5Formatter(BasicFormatter):
         label = []
         max_len = self.max_len + 2 + self.prompt_num#+ self.prompt_len * 1 + 4
         for ins in data:
-            sent1 = self.tokenizer.encode(ins["sent1"], add_special_tokens = False)
-            sent2 = self.tokenizer.encode(ins["sent2"], add_special_tokens=False)
+            sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
 
-            tokens = self.prompt_prefix + sent1 + [self.tokenizer.sep_token_id] + sent2
+            tokens = self.prompt_prefix + sent
 
-            if len(tokens) > max_len:
-                tokens = tokens[:max_len - 1]
+            if len(tokens) >= max_len:
+                #tokens = tokens[:max_len - 1]
+                tokens = tokens[:max_len]
                 #tokens = tokens + [self.tokenizer.sep_token_id]
-            tokens = self.prompt_prefix + sent + self.tokenizer.encode("</s>", add_special_tokens=False)
+            #tokens += self.tokenizer.encode("</s>", add_special_tokens=False)
 
             #mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
             #tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))
@@ -54,15 +55,18 @@ class ethicsjusticePromptT5Formatter(BasicFormatter):
 
             ##############################
             ##############################
-            dict_ = {0:"un", 1:"acceptable"}
+            #dict_ = {0:"un", 1:"acceptable"}
+            dict_ = {0:"unacceptable", 1:"acceptable"}
             target = self.tokenizer.encode(dict_[ins["label"]], add_special_tokens=False)
             if len(target) >= self.target_len:
-                target = target[:self.target_len-1]
-            target = target + self.tokenizer.encode("</s>", add_special_tokens=False)
+                #target = target[:self.target_len-1]
+                target = target[:self.target_len]
+            #target = target + self.tokenizer.encode("</s>", add_special_tokens=False)
             target = target + [-100] * (self.target_len - len(target))
 
             if mode != "test":
-                label.append(ins["label"])
+                #label.append(ins["label"])
+                label.append(target)
             inputx.append(tokens)
 
         ret = {

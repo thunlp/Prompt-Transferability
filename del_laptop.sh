@@ -1,5 +1,5 @@
-gpus=5
+gpus=0
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptT5.config \
     --gpu $gpus \
-    --checkpoint model/laptopPromptRoberta
+    --checkpoint model/laptopPromptT5

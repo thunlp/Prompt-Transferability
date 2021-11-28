@@ -11,6 +11,7 @@ class restaurantPromptRobertaFormatter(BasicFormatter):
         self.max_len = config.getint("train", "max_len")
         self.prompt_len = config.getint("prompt", "prompt_len")
         self.prompt_num = config.getint("prompt", "prompt_num")
+        self.target_len = config.getint("train", "target_len")
         self.mode = mode
         ##########
         self.model_name = config.get("model","model_base")
@@ -39,14 +40,15 @@ class restaurantPromptRobertaFormatter(BasicFormatter):
             sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
             #if len(sent) > max_len:
             #    sent = sent[:max_len]
-            if len(sent) > self.max_len:
+            if len(sent) >= self.max_len:
                 sent = sent[:self.max_len]
             tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent + [self.tokenizer.sep_token_id]
 
             mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
             tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))
             if mode != "test":
-                label.append(ins["label"])
+                #label.append(ins["label"])
+                label.append(target)
             inputx.append(tokens)
 
 

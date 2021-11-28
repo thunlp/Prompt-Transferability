@@ -10,16 +10,24 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 from transformers import AutoConfig
 from .modeling_t5 import T5ForConditionalGeneration
+from torchnlp.metrics import get_moses_multi_bleu
+
+from transformers import T5TokenizerFast
+tokenizer = T5TokenizerFast.from_pretrained("T5ForMaskedLM/t5-base")
+
+from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import SmoothingFunction
+smoother = SmoothingFunction()
 
 class PromptT5(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
         super(PromptT5, self).__init__()
 
         try:
-            if config.get("model","model_size")=="large":
-                model = "t5-large"
-                ckp = "T5LargeForMaskedLM"
-                self.hidden_size = 1024
+            if config.get("model","model_size")=="small":
+                model = "t5-small"
+                ckp = "T5SmallForMaskedLM"
+                self.hidden_size = 512
             else:
                 model = "t5-base"
                 ckp = "T5ForMaskedLM"
@@ -84,12 +92,17 @@ class PromptT5(nn.Module):
             else:
                 #output = self.encoder(input_ids=data["inputx"], labels=data["target"])
                 #output = self.encoder(input_ids=data["inputx"], labels=data["target"], attention_mask=data["mask"])
-                output = self.encoder(input_ids=data["inputx"], labels=data["target"])
+                output = self.encoder(input_ids=data["inputx"], labels=data["label"])
                 performance = kwargs["performance"]
 
                 if int(kwargs["step"]%100) == 0:
                     gen = self.encoder.generate(input_ids=data["inputx"], num_beams=config.getint("eval","num_beams"), output_scores=True, return_dict_in_generate=True, min_length=config.getint("eval","min_length"), max_length=config.getint("eval","max_length"))
-                    performance = train_acc(gen['sequences'], data["target"])
+
+                    if "squad" in config.get("data","train_dataset_type") or "nq_open" in config.get("data","train_dataset_type") or "multi_news" in config.get("data","train_dataset_type") or "samsum" in config.get("data","train_dataset_type"):
+                        performance = train_bleu(gen['sequences'], data["label"], config.get("data","train_dataset_type"))
+
+                    else:
+                        performance = train_acc(gen['sequences'], data["label"], config.get("data","train_dataset_type"))
 
             #acc_result = acc(output.logits, data["target"], acc_result)
 
@@ -129,7 +142,13 @@ class PromptT5(nn.Module):
             #print(generated_tokens.shape)
             #exit()
 
-            acc_result = acc(output['sequences'], data["target"], acc_result)
+            if "squad" in config.get("data","train_dataset_type") or "nq_open" in config.get("data","train_dataset_type") or "multi_news" in config.get("data","train_dataset_type") or "samsum" in config.get("data","train_dataset_type"):
+                acc_result = bleu(output['sequences'], data["label"], acc_result, config.get("data","train_dataset_type"))
+
+            else:
+                acc_result = acc(output['sequences'], data["label"], acc_result, config.get("data","train_dataset_type"))
+
+
             return {'acc_result':acc_result}
 
             # A B C D respectively
@@ -152,27 +171,28 @@ class PromptT5(nn.Module):
 
 
 
-def train_acc(score, label):
-    #print("===========")
-    #print(score)
-    #print("-----------")
-    #print(label)
-    #print("===========")
-    ###
-    #score = score[:,2:3]
-    score = score[:,1:2]
-    ###
-    #label = label[:,1:2]
-    label = label[:,0:1]
+def train_acc(score, label, dataset):
+    if "nli" in dataset or "NLI" in dataset:
+        #print(111111)
+        #print(score)
+        #print("----")
+        #print(label)
+        #print("======")
+        #score = score[:,2:3]
+        score = score[:,1:2]
+        label = label[:,0:1]
+    else:
+        print(score)
+        print("----")
+        print(label)
+        print("======")
+
+        score = score[:,1:2]
+        label = label[:,0:1]
+
+
     total = int(label.shape[0])
-    #print("===========")
-    #print(score)
-    #print("----")
-    #print(label)
     right = int((score == label).int().sum())
-    #print("----")
-    #print(int((score == label).int().sum()))
-    #print("===========")
 
     acc_result = round(float(right/total),4)
 
@@ -180,29 +200,94 @@ def train_acc(score, label):
 
 
 
-def acc(score, label, acc_result):
+def acc(score, label, acc_result, dataset):
     if acc_result is None:
         acc_result = {'total': 0, 'right': 0}
-    #print("===========")
-    #print(score)
-    #print("-----------")
-    #print(label)
-    #print("===========")
-    ###
-    #score = score[:,2:3]
-    score = score[:,1:2]
-    ###
-    #label = label[:,1:2]
-    label = label[:,0:1]
+    if "nli" in dataset or "NLI" in dataset:
+        #score = score[:,2:3]
+        score = score[:,1:2]
+        label = label[:,0:1]
+    else:
+        score = score[:,1:2]
+        label = label[:,0:1]
     acc_result['total'] += int(label.shape[0])
-    #print("===========")
-    #print(score)
-    #print("----")
-    #print(label)
     acc_result['right'] += int((score == label).int().sum())
-    #print("----")
-    #print(int((score == label).int().sum()))
-    #print("===========")
+
+    return acc_result
+
+
+
+
+
+def train_bleu(score, label, dataset):
+    total_bleu = 0
+    length = len(label)
+
+    #references = [tokenizer.decode(l[l!=-100].tolist(), skip_special_tokens=True) for l in label]
+    references = [tokenizer.convert_ids_to_tokens(l[l!=-100].tolist(), skip_special_tokens=True) for l in label]
+    #hypotheses = [tokenizer.decode(l[l!=-100].tolist(), skip_special_tokens=True) for l in score]
+    hypotheses = [tokenizer.convert_ids_to_tokens(l[l!=-100].tolist(), skip_special_tokens=True) for l in score]
+
+    total_bleu = 0
+    for l in range(len(hypotheses)):
+        print(references[l])
+        #y = [references[l].lower().split()]
+        y = [references[l]]
+        print(hypotheses[l])
+        #y_ = hypotheses[l].lower().split()
+        y_ = hypotheses[l]
+        print("-----")
+        if len(y)!=0 and len(y_)!=0:
+            #b = sentence_bleu(y, y_, weights=(0.35, 0.35, 0.15, 0.15), smoothing_function=smoother.method1) #b-1, b-2, b-3, b-4
+            b = sentence_bleu(y, y_, weights=(0.7, 0.3, 0.0, 0.0), smoothing_function=smoother.method1) #b-1, b-2, b-3, b-4
+        else:
+            b = 0
+        print(b)
+        total_bleu+=b
+    print("========")
+    result = round(float(total_bleu/length),4)
+
+    return result
+
+
+
+
+def bleu(score, label, acc_result, dataset):
+    if acc_result is None:
+        acc_result = {'total': 0, 'right': 0}
+    acc_result['total'] += int(label.shape[0])
+
+    #references = [tokenizer.decode(l[l!=-100].tolist(), skip_special_tokens=True) for l in label]
+    references = [tokenizer.convert_ids_to_tokens(l[l!=-100].tolist(), skip_special_tokens=True) for l in label]
+    #hypotheses = [tokenizer.decode(l[l!=-100].tolist(), skip_special_tokens=True) for l in score]
+    hypotheses = [tokenizer.convert_ids_to_tokens(l[l!=-100].tolist(), skip_special_tokens=True) for l in score]
+
+    total_bleu = 0
+    for l in range(len(hypotheses)):
+        #print(references[l].lower().split())
+        #y = [references[l].lower().split()]
+        y = [references[l]]
+        #print(hypotheses[l].lower().split())
+        #y_ = hypotheses[l].lower().split()
+        y_ = hypotheses[l]
+        #print("-----")
+        if len(y)!=0 and len(y_)!=0:
+            b = sentence_bleu(y, y_, weights=(0.7, 0.3, 0.0, 0.0), smoothing_function=smoother.method1) #b-1, b-2, b-3, b-4
+            #b = sentence_bleu(y, y_, weights=(0.35, 0.35, 0.15, 0.15), smoothing_function=smoother.method1) #b-1, b-2, b-3, b-4
+        else:
+            b = 0
+        #print(b)
+        total_bleu+=b
+    #print("========")
+
+    '''
+    references = [tokenizer.decode(l[l!=-100].tolist(), skip_special_tokens=True) for l in label]
+    hypotheses = [tokenizer.decode(l[l!=-100].tolist(), skip_special_tokens=True) for l in score]
+    total_bleu = get_moses_multi_bleu(hypotheses, references, lowercase=True)
+    if total_bleu == None:
+        total_bleu = 0
+    '''
+    acc_result['right'] += int(total_bleu)
 
     return acc_result
 

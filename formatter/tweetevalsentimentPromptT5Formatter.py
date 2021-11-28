@@ -12,6 +12,7 @@ class tweetevalsentimentPromptT5Formatter(BasicFormatter):
         self.max_len = config.getint("train", "max_len")
         self.prompt_len = config.getint("prompt", "prompt_len")
         self.prompt_num = config.getint("prompt", "prompt_num")
+        self.target_len = config.getint("train", "target_len")
         self.mode = mode
         ##########
         self.model_name = config.get("model","model_base")
@@ -37,11 +38,11 @@ class tweetevalsentimentPromptT5Formatter(BasicFormatter):
         max_len = self.max_len + 2 + self.prompt_num#+ self.prompt_len * 1 + 4
 
         for ins in data:
-            sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
-            if len(sent) > self.max_len:
-                sent = sent[:self.max_len]
+            tokens = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
+            if len(tokens) >= self.max_len:
+                tokens = tokens[:self.max_len-1]
 
-            tokens = self.prompt_prefix + sent + self.tokenizer.encode("</s>", add_special_tokens=False)
+            tokens = self.prompt_prefix + tokens + self.tokenizer.encode("</s>", add_special_tokens=False)
 
 
             #<pad>==1
@@ -55,13 +56,15 @@ class tweetevalsentimentPromptT5Formatter(BasicFormatter):
 
             target = self.tokenizer.encode(dict_[ins["label"]], add_special_tokens=False)
             if len(target) >= self.target_len:
-                target = target[:self.target_len-1]
-            target = target + self.tokenizer.encode("</s>", add_special_tokens=False)
+                #target = target[:self.target_len-1]
+                target = target[:self.target_len]
+            #target = target + self.tokenizer.encode("</s>", add_special_tokens=False)
 
             target = target + [-100] * (self.target_len - len(target))
 
 
             if mode != "test":
+                #label.append(target)
                 label.append(target)
             inputx.append(tokens)
 

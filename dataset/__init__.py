@@ -41,6 +41,10 @@ from .ethicsvirtueDataset import ethicsvirtueDataset
 from .ethicsjusticeDataset import ethicsjusticeDataset
 from .ethicsdeontologyDataset import ethicsdeontologyDataset
 from .ethicscommonsenseDataset import ethicscommonsenseDataset
+from .squadDataset import squadDataset
+from .nq_openDataset import nq_openDataset
+from .multi_newsDataset import multi_newsDataset
+from .samsumDataset import samsumDataset
 
 
 dataset_list = {
@@ -87,4 +91,8 @@ dataset_list = {
     "ethicsjustice": ethicsjusticeDataset,
     "ethicsdeontology": ethicsdeontologyDataset,
     "ethicscommonsense": ethicscommonsenseDataset,
+    "squad": squadDataset,
+    "nq_open": nq_openDataset,
+    "multi_news": multi_newsDataset,
+    "samsum": samsumDataset,
 }

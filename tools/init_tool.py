@@ -257,6 +257,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 else:
                     print("Not exist:",load_dir)
                     exit()
+            elif model_type == "T5Small":
+                load_dir = "T5SmallForMaskedLM/PromptT5Small_init_params/pytorch_model.bin"
+                if os.path.exists(load_dir):
+                    parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
+                else:
+                    print("Not exist:",load_dir)
+                    exit()
 
 
 
@@ -294,7 +301,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 model.encoder.roberta.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
             elif model_type == "Bert" or model_type == "BertLarge":
                 model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
-            elif model_type == "T5" or model_type == "T5Large":
+            elif model_type == "T5" or model_type == "T5Large" or model_type=="T5Small":
                 #model.encoder.t5.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
                 model.encoder.prompt_embeddings.weight.data = prompt_parameters["model"]
                 model.encoder.encoder.prompt_tokens.weight.data = prompt_parameters["model"]
@@ -364,6 +371,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             config_name = params["args"].config.split("/")[1].split(".")[0]
             if "Large" in config_name:
                 prompt_emb = torch.rand(config.getint("prompt","prompt_num"),1024).to("cuda")
+            if "Small" in config_name:
+                prompt_emb = torch.rand(config.getint("prompt","prompt_num"),512).to("cuda")
             else:
                 prompt_emb = torch.rand(config.getint("prompt","prompt_num"),768).to("cuda")
         else:
@@ -400,7 +409,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             elif "Bert" in params["args"].config:
                 model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_emb
             elif "T5" in params["args"].config:
-                model.encoder.t5.embeddings.prompt_embeddings.weight.data = prompt_emb
+                #model.encoder.t5.embeddings.prompt_embeddings.weight.data = prompt_emb
+                model.encoder.prompt_embeddings.weight.data = prompt_emb
             else:
                 print("Wrong!!!")
                 exit()
@@ -425,7 +435,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         elif "Bert" in save_name:
             prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
         elif "T5" in save_name:
-            prompt_emb = model.encoder.t5.embeddings.prompt_embeddings.weight.data
+            #prompt_emb = model.encoder.t5.embeddings.prompt_embeddings.weight.data
+            prompt_emb = model.encoder.prompt_embeddings.weight.data
         else:
             print("Wrong!!!")
 

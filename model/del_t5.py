@@ -15,8 +15,9 @@ tokenizer = AutoTokenizer.from_pretrained('t5-base')
 model = T5ForConditionalGeneration.from_pretrained('t5-base', config=plmconfig)
 
 #print("=====")
-#print(tokenizer.decode([5],skip_special_tokens=False))
-#exit()
+print(tokenizer("answer",add_special_tokens=False))
+print(tokenizer("answer"))
+exit()
 
 
 '''
