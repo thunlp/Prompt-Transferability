@@ -411,6 +411,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             elif "T5" in params["args"].config:
                 #model.encoder.t5.embeddings.prompt_embeddings.weight.data = prompt_emb
                 model.encoder.prompt_embeddings.weight.data = prompt_emb
+                model.encoder.encoder.prompt_tokens.weight.data = prompt_emb
+                model.encoder.decoder.prompt_tokens.weight.data = prompt_emb
             else:
                 print("Wrong!!!")
                 exit()

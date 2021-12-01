@@ -53,6 +53,7 @@ from .emobankdominancePromptRobertaFormatter import emobankdominancePromptRobert
 from .squinkyimplicaturePromptRobertaFormatter import squinkyimplicaturePromptRobertaFormatter
 from .squinkyformalityPromptRobertaFormatter import squinkyformalityPromptRobertaFormatter
 from .activate_neuronPromptRobertaFormatter import activate_neuronPromptRobertaFormatter
+from .activate_neuronPromptT5Formatter import activate_neuronPromptT5Formatter
 from .ethicscommonsensePromptRobertaFormatter import ethicscommonsensePromptRobertaFormatter
 from .ethicsdeontologyPromptRobertaFormatter import ethicsdeontologyPromptRobertaFormatter
 from .ethicsdeontologyPromptT5Formatter import ethicsdeontologyPromptT5Formatter
@@ -134,6 +135,7 @@ formatter_list = {
     "nq_openPromptT5": nq_openPromptT5Formatter,
     "multi_newsPromptT5": multi_newsPromptT5Formatter,
     "samsumPromptT5": samsumPromptT5Formatter,
+    "activate_neuronPromptT5": activate_neuronPromptT5Formatter,
 }
 
 

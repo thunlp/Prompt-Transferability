@@ -171,6 +171,10 @@ if __name__ == "__main__":
 
     for n in range(12):
         #这里面提取feature的模组可以改变，这里因为我自定义模型的原因要两层roberta
+        #for l in model.state_dict().keys():
+        #    print(l)
+        #print("====")
+        #exit()
         model.encoder.roberta.encoder.layer[n].intermediate.register_forward_hook(save_ppt_outputs1_hook(n))
 
 
@@ -233,16 +237,19 @@ if __name__ == "__main__":
 
     #Activated neuron for a task-specific prompt
     outputs = torch.stack(outputs)
+    #print(outputs.shape)
+    #exit()
 
 
     #outputs = outputs[11:,:,:1,:]
     #outputs = outputs[11:,:,:100,:]
+    #outputs = outputs[:,:,:1,:] #12 layers, [mask]
     outputs = outputs[:,:,:1,:] #12 layers, [mask]
     #outputs = outputs[:,:,:100,:] #12 layers, [mask]+[promot]
     #outputs = outputs[11:,:,:100,:]
 
     print(outputs.shape)
-    # [12, 128, 231, 3072] --> 12, 128, 231(1 or 100), 3072
+    # [12, 128, 231, 3072] --> 12, 128(eval batcch size), 231(1 or 100), 3072
     #exit()
 
 

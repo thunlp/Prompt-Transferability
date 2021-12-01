@@ -81,8 +81,20 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
 
             results = model(data, config, gpu_list, acc_result, "valid", args=kwargs)
 
-            loss, acc_result = results["loss"], results["acc_result"]
-            total_loss += float(loss)
+            #print(config['args'])
+            #print(config['args'].checkpoint)
+            #print(config.get("args","checkpoint"))
+            #print(config.get("model","model_base"))
+            #exit()
+
+            #if "T5" in config['args'].checkpoint:
+            if "T5" in config.get("model","model_base"):
+                acc_result = results["acc_result"]
+                total_loss += float(0)
+            else:
+                loss, acc_result = results["loss"], results["acc_result"]
+                total_loss += float(loss)
+
             cnt += 1
 
             if step % output_time == 0 and local_rank <= 0:
@@ -91,6 +103,7 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
                 output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
                     gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                              "%.3lf" % (total_loss / (step + 1)), output_info, '\r', config)
+
 
     if step == -1:
         logger.error("There is no data given to the model in this epoch, check your data.")
@@ -115,6 +128,8 @@ def valid(model, dataset, epoch, no_use_2, config, gpu_list, output_function, mo
     if local_rank <= 0:
         delta_t = timer() - start_time
         output_info = output_function(acc_result, config)
+
+
         output_value(epoch, mode, "%d/%d" % (step + 1, total_len), "%s/%s" % (
             gen_time_str(delta_t), gen_time_str(delta_t * (total_len - step - 1) / (step + 1))),
                     "%.3lf" % (total_loss / (step + 1)), output_info, None, config)

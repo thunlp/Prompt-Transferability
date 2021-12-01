@@ -23,6 +23,10 @@ dirs = os.listdir(root_dir)
 #order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "recastnerPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 order_list = ["IMDBPromptRoberta", "SST2PromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "movierationalesPromptRoberta", "tweetevalsentimentPromptRoberta", "MNLIPromptRoberta", "QNLIPromptRoberta", "snliPromptRoberta", "ethicsdeontologyPromptRoberta","ethicsjusticePromptRoberta","QQPPromptRoberta", "MRPCPromptRoberta"]
 
+
+#order_list = ["IMDBPromptT5", "SST2PromptT5", "laptopPromptT5", "restaurantPromptT5", "movierationalesPromptT5", "tweetevalsentimentPromptT5", "MNLIPromptT5", "QNLIPromptT5", "snliPromptT5", "ethicsdeontologyPromptT5","ethicsjusticePromptT5","QQPPromptT5", "MRPCPromptT5","squadPromptT5","nq_openPromptT5","samsumPromptT5","multi_newsPromptT5"]
+
+
 #order_list = ["IMDBPromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "snliPromptRoberta", "MNLIPromptRoberta", "IMDB_base_emotionPromptRoberta", "MNLI_base_nliPromptRoberta", "laptop_base_emotionPromptRoberta", "laptop_base_nliPromptRoberta", "restaurant_base_emotionPromptRoberta", "restaurant_base_nliPromptRoberta", "snli_base_emotionPromptRoberta","snli_base_nliPromptRoberta","RandomPromptRoberta","IMDB_base_nliPromptRoberta","MNLI_base_emotionPromptRoberta"]
 #order_list = ["IMDBPromptRoberta","IMDB_base_emotionPromptRoberta","IMDB_base_nliPromptRoberta"]
 
@@ -85,6 +89,7 @@ for dir_1 in dirs:
 
     print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+    #activated_1 = activated_1[9:12,:,:,:]
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
     activated_1[activated_1>0] = float(1)
@@ -92,6 +97,7 @@ for dir_1 in dirs:
 
     for dir_2 in dirs:
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+        #activated_2 = activated_2[9:12,:,:,:]
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 
         activated_2[activated_2>0] = float(1)

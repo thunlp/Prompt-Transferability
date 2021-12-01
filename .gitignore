@@ -86,6 +86,7 @@ T5ForMaskedLM*
 /T5ForMaskedLM
 T5SmallForMaskedLM*
 /T5SmallForMaskedLM
+/chmin_train_prompt
 
 
 model/SST2PromptT5*

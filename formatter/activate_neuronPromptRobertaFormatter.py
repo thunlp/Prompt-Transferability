@@ -35,12 +35,14 @@ class activate_neuronPromptRobertaFormatter(BasicFormatter):
         label = []
         max_len = self.max_len + 3 + self.prompt_num#+ self.prompt_len * 1 + 4
         for ins in data:
-            sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
+            #sent = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
+            sent = self.tokenizer.encode("<s>", add_special_tokens = False)
             #if len(sent) > max_len:
             #    sent = sent[:max_len]
-            if len(sent) > self.max_len:
-                sent = sent[:self.max_len]
-            tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent + [self.tokenizer.sep_token_id]
+            #if len(sent) > self.max_len:
+            #    sent = sent[:self.max_len]
+            #tokens = self.prompt_prefix + [self.tokenizer.cls_token_id] + sent + [self.tokenizer.sep_token_id]
+            tokens = self.prompt_prefix + sent
 
             mask.append([1] * len(tokens) + [0] * (max_len - len(tokens)))
             tokens = tokens + [self.tokenizer.pad_token_id] * (max_len - len(tokens))

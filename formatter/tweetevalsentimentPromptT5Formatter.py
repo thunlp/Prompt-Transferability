@@ -52,8 +52,7 @@ class tweetevalsentimentPromptT5Formatter(BasicFormatter):
 
             ##############################
             ##############################
-            dict_ = {0:"negative", 1:"moderate", 2:"postive"}
-
+            dict_ = {0:"negative", 1:"moderate", 2:"positive"}
             target = self.tokenizer.encode(dict_[ins["label"]], add_special_tokens=False)
             if len(target) >= self.target_len:
                 #target = target[:self.target_len-1]

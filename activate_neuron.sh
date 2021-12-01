@@ -1,4 +1,4 @@
-gpus=7
+gpus=6
 
 
 '''
@@ -23,6 +23,7 @@ do
         --gpu $gpus \
         --replacing_prompt task_prompt_emb/$MODEL \
         --activate_neuron
+    #exit
 done
 
 

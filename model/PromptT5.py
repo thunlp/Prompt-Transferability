@@ -129,9 +129,19 @@ class PromptT5(nn.Module):
 
             #output = self.encoder.generate(input_ids=data["inputx"], )
 
-            output = self.encoder.generate(input_ids=data["inputx"], num_beams=config.getint("eval","num_beams"), output_scores=True, return_dict_in_generate=True, min_length=config.getint("eval","min_length"), max_length=config.getint("eval","max_length"))
+            #for l in self.encoder.generate.state_dict():
+            #    print(l)
+            #print(kwargs)
+            #exit()
+            #{'args': Namespace(activate_neuron=True, checkpoint=None, comment=None, config='config/activate_neuronPromptT5.config', do_test=False, gpu='4', local_rank=-1, mode='valid', model_transfer_projector=False, pre_train_mlm=False, projector=None, prompt_emb_output=False, replacing_prompt='task_prompt_emb/IMDBPromptT5', save_name=None, seed=None, task_transfer_projector=False)}
 
+            output = self.encoder.generate(input_ids=data["inputx"], num_beams=config.getint("eval","num_beams"), output_scores=True, return_dict_in_generate=True, min_length=config.getint("eval","min_length"), max_length=config.getint("eval","max_length"))
+            #output = self.encoder.generate(input_ids=data["inputx"], num_beams=config.getint("eval","num_beams"), output_scores=True, return_dict_in_generate=True, min_length=config.getint("eval","min_length"), max_length=2)
+
+
+            #print("======")
             #print(output)
+            #print("======")
             #exit()
 
 
@@ -142,11 +152,21 @@ class PromptT5(nn.Module):
             #print(generated_tokens.shape)
             #exit()
 
+            #print(output["scores"])
+            #print(output["scores"][0])
+            #print(output["scores"][0].shape)
+            #exit()
+
+
+
+
             if "squad" in config.get("data","train_dataset_type") or "nq_open" in config.get("data","train_dataset_type") or "multi_news" in config.get("data","train_dataset_type") or "samsum" in config.get("data","train_dataset_type"):
                 acc_result = bleu(output['sequences'], data["label"], acc_result, config.get("data","train_dataset_type"))
 
             else:
-                acc_result = acc(output['sequences'], data["label"], acc_result, config.get("data","train_dataset_type"))
+                hidden_score = output["scores"][0]
+
+                acc_result = acc(output['sequences'], data["label"], acc_result, config.get("data","train_dataset_type"), hidden_score=hidden_score)
 
 
             return {'acc_result':acc_result}
@@ -200,7 +220,8 @@ def train_acc(score, label, dataset):
 
 
 
-def acc(score, label, acc_result, dataset):
+def acc(score, label, acc_result, dataset, hidden_score=None):
+    '''
     if acc_result is None:
         acc_result = {'total': 0, 'right': 0}
     if "nli" in dataset or "NLI" in dataset:
@@ -211,6 +232,128 @@ def acc(score, label, acc_result, dataset):
         score = score[:,1:2]
         label = label[:,0:1]
     acc_result['total'] += int(label.shape[0])
+    acc_result['right'] += int((score == label).int().sum())
+    '''
+
+
+    if acc_result is None:
+        acc_result = {'total': 0, 'right': 0}
+
+
+    acc_result['total'] += int(label.shape[0])
+    #print(label)
+    #exit()
+    label = label[:,0:1]
+
+    if dataset == "IMDB":
+        #negative: 2841, positive:1465
+        score = torch.cat([hidden_score[:,2841].unsqueeze(1), hidden_score[:,1465].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==2841] = 0
+        label[label==1465] = 1
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "SST2":
+        #negative: 2841, positive:1465
+        score = torch.cat([hidden_score[:,2841].unsqueeze(1), hidden_score[:,1465].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==2841] = 0
+        label[label==1465] = 1
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "laptop":
+        #negative: 2841, moderate:8107, positive:1465, conflict:4129
+        score = torch.cat([hidden_score[:,2841].unsqueeze(1), hidden_score[:,8107].unsqueeze(1), hidden_score[:,1465].unsqueeze(1), hidden_score[:,4129].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==2841] = 0
+        label[label==8107] = 1
+        label[label==1465] = 2
+        label[label==4129] = 3
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "restaurant":
+        #negative: 2841, moderate:8107, positive:1465, conflict:4129
+        score = torch.cat([hidden_score[:,2841].unsqueeze(1), hidden_score[:,8107].unsqueeze(1), hidden_score[:,1465].unsqueeze(1), hidden_score[:,4129].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==2841] = 0
+        label[label==8107] = 1
+        label[label==1465] = 2
+        label[label==4129] = 3
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "movierationales":
+        #negative: 2841, positive:1465
+        score = torch.cat([hidden_score[:,2841].unsqueeze(1), hidden_score[:,1465].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==2841] = 0
+        label[label==1465] = 1
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "tweetevalsentiment":
+        #negative: 2841, moderate:8107, positive:1465
+        score = torch.cat([hidden_score[:,2841].unsqueeze(1), hidden_score[:,8107].unsqueeze(1), hidden_score[:,1465].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==2841] = 0
+        label[label==8107] = 1
+        label[label==1465] = 2
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "MNLI":
+        #contradiction: 27252, neutral: 7163, entailment: 3   #[3, 35, 5756, 297]
+        score = torch.cat([hidden_score[:,27252].unsqueeze(1), hidden_score[:,7163].unsqueeze(1), hidden_score[:,3].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==27252] = 0
+        label[label==7163] = 1
+        label[label==3] = 2
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "QNLI":
+        #contradiction: 27252, entailment: 3   #[3, 35, 5756, 297]
+        score = torch.cat([hidden_score[:,27252].unsqueeze(1), hidden_score[:,3].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==27252] = 0
+        label[label==3] = 1
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif dataset == "snli":
+        #contradiction: 27252, neutral: 7163, entailment: 3   #[3, 35, 5756, 297]
+        score = torch.cat([hidden_score[:,27252].unsqueeze(1), hidden_score[:,7163].unsqueeze(1), hidden_score[:,3].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==27252] = 0
+        label[label==7163] = 1
+        label[label==3] = 2
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif "ethics" in dataset:
+        #unacceptable: 29452, acceptable: 9961
+        score = torch.cat([hidden_score[:,29452].unsqueeze(1), hidden_score[:,9961].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==29452] = 0
+        label[label==9961] = 1
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif "QQP" in dataset or "MRPC" in dataset:
+        #false: 6136, true:1176
+        score = torch.cat([hidden_score[:,6136].unsqueeze(1), hidden_score[:,1176].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==6136] = 0
+        label[label==1176] = 1
+        #label = label.reshape(int(label.shape[0]),int(label.shape[1]))
+        label = label.reshape(int(label.shape[0]))
+    elif "activate" in dataset:
+        #false: 6136, true:1176
+        score = torch.cat([hidden_score[:,6136].unsqueeze(1), hidden_score[:,1176].unsqueeze(1)], dim=1)
+        score = torch.argmax(score, dim=1)
+        label[label==6136] = 0
+        label[label==1176] = 1
+        label = label.reshape(int(label.shape[0]))
+    else:
+        print("Eval metrics wrong!!!")
+        exit()
+
+
+
+    #acc_result['total'] += int(label.shape[0])
     acc_result['right'] += int((score == label).int().sum())
 
     return acc_result

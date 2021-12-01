@@ -52,7 +52,7 @@ class restaurantPromptT5Formatter(BasicFormatter):
 
             ##############################
             ##############################
-            dict_ = {0:"negative", 1:"moderate", 2:"postive", 3:"conflict"}
+            dict_ = {0:"negative", 1:"moderate", 2:"positive", 3:"conflict"}
 
             target = self.tokenizer.encode(dict_[ins["label"]], add_special_tokens=False)
             if len(target) >= self.target_len:
