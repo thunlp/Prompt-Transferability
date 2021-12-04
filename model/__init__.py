@@ -9,6 +9,7 @@ from .PromptBert import PromptBert
 from .PromptT5 import PromptT5
 from .crossPrompt import crossPrompt
 from .mlmPrompt import mlmPrompt
+from .crossPromptT5 import crossPromptT5
 model_list = {
     "BinaryClsBERT": BinaryClsBERT,
     "RTEPrompt": PromptClsBERT,
@@ -22,7 +23,8 @@ model_list = {
     #"SQuADPromptRoberta": SQuADPromptRoberta
     "PromptBert": PromptBert,
     "mlmPrompt": mlmPrompt,
-    "PromptT5": PromptT5
+    "PromptT5": PromptT5,
+    "crossPromptT5": crossPromptT5
 }
 
 def get_model(model_name):

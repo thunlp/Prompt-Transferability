@@ -37,6 +37,8 @@ print()
 
 
 for dataset in order_list:
+    if "random" in dataset:
+        continue
     #result_dir = root_dir+dataset+"/"
 
     print_word = dataset.replace("PromptRoberta","")

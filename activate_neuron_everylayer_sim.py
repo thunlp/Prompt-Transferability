@@ -88,8 +88,8 @@ for dir_1 in dirs:
     ###########
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
-    activated_1[activated_1>0] = float(1)
-    activated_1[activated_1<0] = float(0)
+    #activated_1[activated_1>0] = float(1)
+    #activated_1[activated_1<0] = float(0)
 
     for dir_2 in dirs:
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
@@ -100,8 +100,8 @@ for dir_1 in dirs:
         ###########
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 
-        activated_2[activated_2>0] = float(1)
-        activated_2[activated_2<0] = float(0)
+        #activated_2[activated_2>0] = float(1)
+        #activated_2[activated_2<0] = float(0)
 
         sim = cos(activated_1, activated_2)
         #print("{:.2f}".format(float(sim)),",", end='\t')

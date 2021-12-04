@@ -1,4 +1,4 @@
-gpus=6
+gpus=7
 
 
 '''
@@ -35,7 +35,7 @@ done
 #cd /data/private/suyusheng/prompt
 ###
 
-python3 activate_neuron_sim_t5.py
+#python3 activate_neuron_sim_t5.py
 
 '''
 for i in 9

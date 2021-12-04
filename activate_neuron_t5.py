@@ -218,7 +218,8 @@ if __name__ == "__main__":
     #merge 17 epoch
     for k in range(12):
         #outputs[k] = relu(np.concatenate(outputs[k]))
-        outputs[k] = torch.relu(torch.cat(outputs[k]))
+        #outputs[k] = torch.relu(torch.cat(outputs[k]))
+        outputs[k] = torch.cat(outputs[k])
         #print(outputs[k])
         #print(outputs[k].shape)
         #exit()

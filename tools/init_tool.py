@@ -183,16 +183,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     elif mode=="train" or mode=="valid":
         # init_formatter(config, ["train", "valid"], *args, **params)
         result["train_dataset"], result["valid_dataset"] = init_dataset(config, *args, **params)
-        '''
-        print("===================")
-        print(result["train_dataset"])
-        print(len(result["train_dataset"]))
-        print("----")
-        print(result["valid_dataset"])
-        print(len(result["valid_dataset"]))
-        print("===================")
-        exit()
-        '''
     else:
         print("Don't need to load data")
 

@@ -243,12 +243,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
             writer.add_scalar(config.get("output", "model_name") + "_train_iter", float(loss), global_step)
 
 
-        #    if step >= 100:
-        #        break
-
-        #print("Break")
-        #print("=====")
-        #print("=====")
 
 
         try:

@@ -5,7 +5,8 @@ import json
 
 #dirs = os.listdir(root_dir)
 
-order_list = ["IMDBPromptT5", "SST2PromptT5", "laptopPromptT5", "restaurantPromptT5", "movierationalesPromptT5", "tweetevalsentimentPromptT5", "MNLIPromptT5", "QNLIPromptT5", "snliPromptT5", "recastnerPromptT5", "ethicsdeontologyPromptT5","ethicsjusticePromptT5","QQPPromptT5", "MRPCPromptT5", "random"]
+#order_list = ["IMDBPromptT5", "SST2PromptT5", "laptopPromptT5", "restaurantPromptT5", "movierationalesPromptT5", "tweetevalsentimentPromptT5", "MNLIPromptT5", "QNLIPromptT5", "snliPromptT5", "recastnerPromptT5", "ethicsdeontologyPromptT5","ethicsjusticePromptT5","QQPPromptT5", "MRPCPromptT5", "random"]
+order_list = ["IMDBPromptT5", "SST2PromptT5", "laptopPromptT5", "restaurantPromptT5", "movierationalesPromptT5", "tweetevalsentimentPromptT5", "MNLIPromptT5", "QNLIPromptT5", "snliPromptT5", "ethicsdeontologyPromptT5","ethicsjusticePromptT5","QQPPromptT5", "MRPCPromptT5","squadPromptT5","nq_openPromptT5", "multi_newsPromptT5", "samsumPromptT5", "randomPromptT5"]
 
 #root_dir = "result/"
 
@@ -37,6 +38,8 @@ print()
 
 
 for dataset in order_list:
+    if "randomPromptT5" in dataset:
+        continue
     #result_dir = root_dir+dataset+"/"
 
     print_word = dataset.replace("PromptT5","")

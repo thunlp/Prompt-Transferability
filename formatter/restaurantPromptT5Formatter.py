@@ -39,6 +39,7 @@ class restaurantPromptT5Formatter(BasicFormatter):
 
         for ins in data:
             tokens = self.tokenizer.encode(ins["sent"], add_special_tokens = False)
+            #tokens = self.tokenizer.encode(ins["sent"]+" negative moderate positive conflict ", add_special_tokens = False)
             if len(tokens) >= self.max_len:
                 tokens = tokens[:self.max_len-1]
 

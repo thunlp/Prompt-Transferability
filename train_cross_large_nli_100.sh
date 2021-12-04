@@ -1,12 +1,12 @@
 #mkdir RobertaForMaskedLM
-gpus=5
+gpus=7
 
 ############
 #Sentiment
 ############
 
-#model_prompt="bert-base"
-model_prompt="roberta-base"
+#model_prompt="Bert-base"
+model_prompt="Roberta-base"
 
 #restaurant
 #CUDA_VISIBLE_DEVICES=$gpus python3 train_projector.py --config config/projectorPromptRoberta.config \

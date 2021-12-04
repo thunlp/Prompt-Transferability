@@ -1,19 +1,23 @@
 gpus=3
 
 BASEMODEL="T5"
+#TARGET
+#SOURCE
 
-for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt squadPrompt nq_openPrompt multi_newsPrompt samsumPrompt
-#for MODEL in samsumPrompt
+for DATASET in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt squadPrompt nq_openPrompt multi_newsPrompt samsumPrompt
 do
-    echo "==========================="
-    echo Model: config/${MODEL}${BASEMODEL}.config
-    echo Prompt-emb: task_prompt_emb/${MODEL}${BASEMODEL}
-    echo "==========================="
+    for PROMPT in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt squadPrompt nq_openPrompt multi_newsPrompt samsumPrompt randomPrompt
+    do
+        echo "==========================="
+        echo Model: config/${DATASET}${BASEMODEL}.config
+        echo Prompt-emb: task_prompt_emb/${PROMPT}${BASEMODEL}
+        echo "==========================="
 
-    CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${MODEL}${BASEMODEL}.config \
-        --gpu $gpus \
-        --checkpoint model/${MODEL}${BASEMODEL} \
-        --replacing_prompt task_prompt_emb/${MODEL}${BASEMODEL}
+        CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${DATASET}${BASEMODEL}.config \
+            --gpu $gpus \
+            --checkpoint model/${DATASET}${BASEMODEL} \
+            --replacing_prompt task_prompt_emb/${PROMPT}${BASEMODEL}
+    done
 done
 
 

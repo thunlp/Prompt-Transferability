@@ -192,6 +192,7 @@ class PromptT5(nn.Module):
 
 
 def train_acc(score, label, dataset):
+    '''
     if "nli" in dataset or "NLI" in dataset:
         #print(111111)
         #print(score)
@@ -202,13 +203,15 @@ def train_acc(score, label, dataset):
         score = score[:,1:2]
         label = label[:,0:1]
     else:
-        print(score)
-        print("----")
-        print(label)
-        print("======")
+    '''
+    print()
+    print(score)
+    print("----")
+    print(label)
+    print("======")
 
-        score = score[:,1:2]
-        label = label[:,0:1]
+    score = score[:,1:2]
+    label = label[:,0:1]
 
 
     total = int(label.shape[0])

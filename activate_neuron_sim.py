@@ -9,8 +9,8 @@ import sys
 
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
-#root_dir = "task_activated_neuron"
-root_dir = "task_activated_neuron_ffn"
+root_dir = "task_activated_neuron"
+#root_dir = "task_activated_neuron_ffn"
 #root_dir = "task_activated_neuron/12layer_1prompt"
 #root_dir = "task_activated_neuron/task_activated_neuron_label"
 #root_dir = "task_activated_neuron/lastlayer_100prompt_Prompt"
@@ -89,19 +89,21 @@ for dir_1 in dirs:
 
     print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+    #print(activated_1.shape)
+    #exit()
     #activated_1 = activated_1[9:12,:,:,:]
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
-    activated_1[activated_1>0] = float(1)
-    activated_1[activated_1<0] = float(0)
+    #activated_1[activated_1>0] = float(1)
+    #activated_1[activated_1<0] = float(0)
 
     for dir_2 in dirs:
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
         #activated_2 = activated_2[9:12,:,:,:]
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 
-        activated_2[activated_2>0] = float(1)
-        activated_2[activated_2<0] = float(0)
+        #activated_2[activated_2>0] = float(1)
+        #activated_2[activated_2<0] = float(0)
 
         sim = cos(activated_1, activated_2)
         print("{:.2f}".format(float(sim)), end='\t')

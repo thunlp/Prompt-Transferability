@@ -101,7 +101,7 @@ for dir_1 in dirs:
     ###########
     #activated_1 = activated_1[int(sys.argv[1]):int(sys.argv[1])+1,:,:,:]
     #activated_1 = activated_1[9:,:,:,:]
-    activated_1 = activated_1[9:12,:,:,:]
+    #activated_1 = activated_1[9:12,:,:,:]
     #print(activated_1.shape)
     #exit()
     #activated_1 = activated_1[11:12,:,:,:]
@@ -111,8 +111,8 @@ for dir_1 in dirs:
     ###########
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
 
-    activated_1[activated_1>0] = float(1)
-    activated_1[activated_1<0] = float(0)
+    #activated_1[activated_1>0] = float(1)
+    #activated_1[activated_1<0] = float(0)
 
     for dir_2 in dirs:
         #dir_2 = dir_2+"_proj"
@@ -122,20 +122,20 @@ for dir_1 in dirs:
         ###########
         #activated_2 = activated_2[9:,:,:,:]
         #activated_2 = activated_2[10:12,:,:,:]
-        activated_2 = activated_2[9:12,:,:,:]
+        #activated_2 = activated_2[9:12,:,:,:]
         #activated_2 = activated_2[10:12,:,:,:]
         #activated_2 = activated_2[11:12,:,:,:]
         #activated_2 = activated_2[0:2,:,:,:]
         ###########
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
 
-        activated_2[activated_2>0] = float(1)
-        activated_2[activated_2<0] = float(0)
+        #activated_2[activated_2>0] = float(1)
+        #activated_2[activated_2<0] = float(0)
 
 
         sim = cos(activated_1, activated_2)
         #print("{:.2f}".format(float(sim)),",", end='\t')
-        print("{:.3f}".format(float(sim)),",", end='\t')
+        print("{:.2f}".format(float(sim)),",", end='\t')
 
         #sim = torch.dist(activated_1, activated_2, 2)
         #print("{:.2f}".format(float(sim)), end='\t')

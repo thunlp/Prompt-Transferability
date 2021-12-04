@@ -10,8 +10,8 @@ import sys
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
 #root_dir = "task_activated_neuron_xxlarge"
-root_dir = "task_activated_neuron_xxlarge/neurons/final"
-#root_dir = "task_activated_neuron_xxlarge/neurons/wi0"
+#root_dir = "task_activated_neuron_xxlarge/neurons/final"
+root_dir = "task_activated_neuron_xxlarge/neurons/wi0"
 #root_dir = "task_activated_neuron_xxlarge/neurons/wi1"
 #root_dir = "task_activated_neuron_xxlarge/neurons/final"
 #root_dir = "task_activated_neuron"
@@ -32,7 +32,7 @@ dirs = os.listdir(root_dir)
 #order_list = ["IMDBPromptT5", "SST2PromptT5", "laptopPromptT5", "restaurantPromptT5", "movierationalesPromptT5", "tweetevalsentimentPromptT5", "MNLIPromptT5", "QNLIPromptT5", "snliPromptT5", "ethicsdeontologyPromptT5","ethicsjusticePromptT5","QQPPromptT5", "MRPCPromptT5","squadPromptT5","nq_openPromptT5","samsumPromptT5","multi_newsPromptT5"]
 
 #order_list = ["IMDB", "sst-2", "laptop", "restaurant", "movie", "tweet", "MNLI", "QNLI", "snli", "deont","justice","QQP", "MRPC","squad","nqopen","samsum","multinews"]
-order_list = ["IMDB", "sst-2", "laptop", "restaurant", "movie", "tweet", "MNLI", "QNLI", "snli", "deont","justice","QQP", "MRPC","squad","nqopen","multinews"]
+order_list = ["IMDB", "sst-2", "laptop", "restaurant", "movie", "tweet", "MNLI", "QNLI", "snli", "deont","justice","QQP", "MRPC","squad","nqopen","multinews", "samsum"]
 
 
 #order_list = ["IMDBPromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "snliPromptRoberta", "MNLIPromptRoberta", "IMDB_base_emotionPromptRoberta", "MNLI_base_nliPromptRoberta", "laptop_base_emotionPromptRoberta", "laptop_base_nliPromptRoberta", "restaurant_base_emotionPromptRoberta", "restaurant_base_nliPromptRoberta", "snli_base_emotionPromptRoberta","snli_base_nliPromptRoberta","RandomPromptRoberta","IMDB_base_nliPromptRoberta","MNLI_base_emotionPromptRoberta"]
@@ -105,26 +105,26 @@ for dir_1 in dirs:
     #print(activated_1.shape)
     #exit()
     activated_1 = activated_1.reshape(24,10240)
-    activated_1 = activated_1[18:24,:]
+    activated_1 = activated_1[21:24,:]
     #####
     #activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
     activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1])
 
-    activated_1[activated_1>threadhold] = float(1)
-    activated_1[activated_1<threadhold] = float(0)
+    #activated_1[activated_1>threadhold] = float(1)
+    #activated_1[activated_1<threadhold] = float(0)
 
     for dir_2 in dirs:
         activated_2 = torch.load(root_dir+"/"+dir_2+"/"+"neurons.pt", map_location=lambda storage, loc: storage)
         #####
         #activated_2 = activated_2[:,1:2,:,:]
         activated_2 = activated_2.reshape(24,10240)
-        activated_2 = activated_2[18:24,:]
+        activated_2 = activated_2[21:24,:]
         #####
         #activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
         activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1])
 
-        activated_2[activated_2>threadhold] = float(1)
-        activated_2[activated_2<threadhold] = float(0)
+        #activated_2[activated_2>threadhold] = float(1)
+        #activated_2[activated_2<threadhold] = float(0)
 
 
         sim = cos(activated_1.float(), activated_2.float())
