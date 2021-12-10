@@ -10,8 +10,8 @@ import sys
 # [12, 64, 231, 3072] --> 12, 64, 231(1 or 100), 3072
 
 #root_dir = "task_activated_neuron_xxlarge"
-#root_dir = "task_activated_neuron_xxlarge/neurons/final"
-root_dir = "task_activated_neuron_xxlarge/neurons/wi0"
+root_dir = "task_activated_neuron_xxlarge/neurons/final"
+#root_dir = "task_activated_neuron_xxlarge/neurons/wi0"
 #root_dir = "task_activated_neuron_xxlarge/neurons/wi1"
 #root_dir = "task_activated_neuron_xxlarge/neurons/final"
 #root_dir = "task_activated_neuron"
@@ -128,7 +128,9 @@ for dir_1 in dirs:
 
 
         sim = cos(activated_1.float(), activated_2.float())
-        print("{:.2f}".format(float(sim)), end='\t')
+        #print("{:.2f}".format(float(sim)), end='\t')
+        #print("{:.4f},".format(float(sim)), end='\t')
+        print("{:.2f},".format(float(sim)), end='\t')
 
         #sim = torch.dist(activated_1, activated_2, 2)
         #print("{:.2f}".format(float(sim)), end='\t')

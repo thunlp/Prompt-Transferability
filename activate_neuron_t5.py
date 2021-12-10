@@ -182,13 +182,12 @@ if __name__ == "__main__":
         #    print(l)
         #print("====")
         #exit()
-        #model.encoder.roberta.encoder.layer[n].intermediate.register_forward_hook(save_ppt_outputs1_hook(n))
-        model.encoder.decoder.block[n].layer[2].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
-        #print("=====")
-        #exit()
-        #print(outputs[n])
-        #print(len(outputs[n]))
-    #exit()
+
+        #decoder
+        #model.encoder.decoder.block[n].layer[2].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
+
+        #encoder
+        model.encoder.encoder.block[n].layer[1].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
 
 
 
@@ -253,17 +252,13 @@ if __name__ == "__main__":
 
 
 
-    #Activated neuron for a task-specific prompt
     outputs = torch.stack(outputs)
-    #print(outputs.shape)
-    #exit()
 
+    #decoder
+    #outputs = outputs[:,:,:1,:] #12 layers, [mask]
 
-    #outputs = outputs[11:,:,:1,:]
-    #outputs = outputs[11:,:,:100,:]
-    outputs = outputs[:,:,:1,:] #12 layers, [mask]
-    #outputs = outputs[:,:,:100,:] #12 layers, [mask]+[promot]
-    #outputs = outputs[11:,:,:100,:]
+    #encoder
+    outputs = outputs[:,:,100:101,:] #12 layers, [mask]
 
     #print(outputs.shape)
     # [12, 1, 1, 3072] --> 12, 1(batch_size), (target_length), 3072

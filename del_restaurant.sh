@@ -1,4 +1,4 @@
-gpus=0
+gpus=6
 
 
 '''
@@ -7,6 +7,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobe
     --checkpoint model/restaurantPromptRoberta
 '''
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptT5.config \
     --gpu $gpus \
     --checkpoint model/restaurantPromptT5
+'''
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRobertaLarge.config \
+    --gpu $gpus \
+    --checkpoint model/restaurantPromptRobertaLarge

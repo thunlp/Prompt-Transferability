@@ -3,6 +3,7 @@ import os
 
 dir = os.listdir()
 for l in dir:
+    print(l)
     if ".py" in l:
         continue
     #a = torch.load(l+"/task_prompt").type(torch.float32)

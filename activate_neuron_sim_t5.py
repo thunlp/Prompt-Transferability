@@ -26,6 +26,13 @@ dirs = os.listdir(root_dir)
 
 order_list = ["IMDBPromptT5", "SST2PromptT5", "laptopPromptT5", "restaurantPromptT5", "movierationalesPromptT5", "tweetevalsentimentPromptT5", "MNLIPromptT5", "QNLIPromptT5", "snliPromptT5", "ethicsdeontologyPromptT5","ethicsjusticePromptT5","QQPPromptT5", "MRPCPromptT5","squadPromptT5","nq_openPromptT5","samsumPromptT5","multi_newsPromptT5"]
 
+post_fix = "decoder"
+#post_fix = "encoder"
+
+order_list = [i+str(post_fix) for i in order_list]
+#print(order_list)
+#exit()
+
 
 #order_list = ["IMDBPromptRoberta", "laptopPromptRoberta", "restaurantPromptRoberta", "snliPromptRoberta", "MNLIPromptRoberta", "IMDB_base_emotionPromptRoberta", "MNLI_base_nliPromptRoberta", "laptop_base_emotionPromptRoberta", "laptop_base_nliPromptRoberta", "restaurant_base_emotionPromptRoberta", "restaurant_base_nliPromptRoberta", "snli_base_emotionPromptRoberta","snli_base_nliPromptRoberta","RandomPromptRoberta","IMDB_base_nliPromptRoberta","MNLI_base_emotionPromptRoberta"]
 #order_list = ["IMDBPromptRoberta","IMDB_base_emotionPromptRoberta","IMDB_base_nliPromptRoberta"]
@@ -89,6 +96,8 @@ for dir_1 in dirs:
 
     print(print_name, end='\t')
     activated_1 = torch.load(root_dir+"/"+dir_1+"/"+"task_activated_neuron", map_location=lambda storage, loc: storage)
+    #print(activated_1.shape)
+    #exit()
     #####
     #activated_1 = activated_1[:,1:2,:,:]
     #activated_1 = activated_1[9:12,1:2,:,:]

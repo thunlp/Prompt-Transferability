@@ -1,4 +1,4 @@
-gpus=2
+gpus=4
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.config \
@@ -7,6 +7,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.co
 '''
 
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptT5.config \
     --gpu $gpus \
     --checkpoint model/SST2PromptT5
+'''
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRobertaLarge.config \
+    --gpu $gpus \
+    --checkpoint model/SST2PromptRobertaLarge

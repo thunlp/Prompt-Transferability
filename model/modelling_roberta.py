@@ -196,6 +196,9 @@ class RobertaEmbeddings(nn.Module):
 
             #use mask
             mask_prompt_emb = self.word_embeddings(torch.LongTensor([50264]).to("cuda")).detach()
+            #print(mask_prompt_emb.shape)
+            #print(prompt_emb.data.shape)
+            #exit()
             prompt_emb.data[:,0,:] = mask_prompt_emb
             #########################
 

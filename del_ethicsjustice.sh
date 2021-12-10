@@ -1,4 +1,4 @@
-gpus=2
+gpus=7
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsjusticePromptRoberta.config \
@@ -6,6 +6,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsjusticePromptR
     --checkpoint model/ethicsjusticePromptRoberta
 '''
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsjusticePromptT5.config \
     --gpu $gpus \
     --checkpoint model/ethicsjusticePromptT5
+'''
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsjusticePromptRobertaLarge.config \
+    --gpu $gpus \
+    --checkpoint model/ethicsjusticePromptRobertaLarge

@@ -16,7 +16,7 @@ import torch.nn as nn
 import torch.optim as optim
 #from model.optimizer import init_optimizer
 import transformers
-from tools.projector import AE_0_layer, AE_1_layer_mutiple_100, AE_1_layer
+from tools.projector import AE_0_layer, AE_1_layer_mutiple_100, AE_1_layer, AE_1_layer_mutiple_100_paper
 
 logger = logging.getLogger(__name__)
 
@@ -87,9 +87,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
         model_AE = AE_1_layer_mutiple_100(dim_0=409600,dim_1=512,dim_2=76800).to(device)
     else:
         if (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
-            #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=3840,dim_2=102400).to(device)
-            #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=102400).to(device)
-            model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=768,dim_2=102400).to(device)
+            model_AE = AE_1_layer_mutiple_100_paper(dim_0=76800,dim_1=768,dim_2=102400).to(device)
+            #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=768,dim_2=102400).to(device)
+
         elif (config.get("model","model_size")).lower() == "large" and "base" in (params["args"].model_prompt).lower() and "100" not in config.get("output","model_name"):
             model_AE = AE_0_layer(dim_0=768,dim_1=1024).to(device)
         elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower() and "100" in config.get("output","model_name"):
@@ -121,7 +121,8 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
     for module in model_AE.modules():
         if isinstance(module, torch.nn.Linear):
             if "roberta" in config.get("model","model_base").lower():
-                torch.nn.init.normal_(module.weight, mean=0, std=0.1)
+                #torch.nn.init.normal_(module.weight, mean=0, std=0.1)
+                pass
             elif "t5" in config.get("model","model_base").lower():
                 torch.nn.init.normal_(module.weight, mean=0, std=1)
             else:

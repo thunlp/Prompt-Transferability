@@ -1,4 +1,4 @@
-gpus=7
+gpus=3
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.config \
@@ -6,6 +6,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.co
     --checkpoint model/QNLIPromptRoberta
 '''
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptT5.config \
     --gpu $gpus \
     --checkpoint model/QNLIPromptT5
+'''
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRobertaLarge.config \
+    --gpu $gpus \
+    --checkpoint model/QNLIPromptRobertaLarge

@@ -134,6 +134,9 @@ class PromptT5(nn.Module):
             #print(kwargs)
             #exit()
             #{'args': Namespace(activate_neuron=True, checkpoint=None, comment=None, config='config/activate_neuronPromptT5.config', do_test=False, gpu='4', local_rank=-1, mode='valid', model_transfer_projector=False, pre_train_mlm=False, projector=None, prompt_emb_output=False, replacing_prompt='task_prompt_emb/IMDBPromptT5', save_name=None, seed=None, task_transfer_projector=False)}
+            #print(data["inputx"])
+            #print(data["inputx"].shape)
+            #exit()
 
             output = self.encoder.generate(input_ids=data["inputx"], num_beams=config.getint("eval","num_beams"), output_scores=True, return_dict_in_generate=True, min_length=config.getint("eval","min_length"), max_length=config.getint("eval","max_length"))
             #output = self.encoder.generate(input_ids=data["inputx"], num_beams=config.getint("eval","num_beams"), output_scores=True, return_dict_in_generate=True, min_length=config.getint("eval","min_length"), max_length=2)

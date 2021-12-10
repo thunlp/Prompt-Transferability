@@ -28,7 +28,7 @@ class PromptRoberta(nn.Module):
 
 
         try:
-            if config.get("model","model_size")=="large":
+            if config.get("model","model_size").lower()=="large":
                 model = "roberta-large"
                 ckp = "RobertaLargeForMaskedLM"
                 self.hidden_size = 1024
@@ -49,7 +49,7 @@ class PromptRoberta(nn.Module):
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = "RobertaForMaskedLM/"+config.get("data","train_formatter_type")
         #self.init_model_path = str(ckp)+"/"+config.get("data","train_formatter_type")
-        if config.get("model","model_size")=="large":
+        if config.get("model","model_size").lower()=="large":
             self.init_model_path = str(ckp)+"/"+"PromptRobertaLarge_init_params"
         else:
             self.init_model_path = str(ckp)+"/"+"PromptRoberta_init_params"
@@ -118,6 +118,8 @@ class PromptRoberta(nn.Module):
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
         else:
+            #print(data["inputx"])
+            #exit()
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 
         # batch, seq_len = data["inputx"].shape[0], data["inputx"].shape[1]

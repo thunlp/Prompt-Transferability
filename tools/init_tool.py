@@ -57,10 +57,13 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
 
     print("===")
     print("Applied Model:",PATH)
+    model_parameters = torch.load(projector, map_location=lambda storage, loc:storage)
+    model = AE_1_layer_mutiple_100(dim_0=int(model_parameters["encoder.weight"].shape[1]),dim_1=int(model_parameters["encoder.weight"].shape[0]),dim_2=int(model_parameters["decoder.weight"].shape[0])).to("cuda")
     #model = torch.load(PATH).to("cuda")
     #model = torch.load(PATH)
     #model = AE_1_layer(input_dim=76800,compress_dim=768).to("cuda")
     #model = AE_auto_layer(dim_0=768,dim_1=768,dim3=1024).to("cuda")
+    '''
     if config.get("model","model_size") == "large" and "100" in projector:
         model = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=102400).to("cuda")
     elif config.get("model","model_size") == "large" and "100" not in projector:
@@ -74,16 +77,15 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
         #model = AE_1_layer(dim_0=768,dim_1=768,dim_2=768).to("cuda")
         model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
 
-    '''
-    elif config.get("model","model_size") == "base":
-        model = AE_0_layer(dim_0=512,dim_1=768).to("cuda")
-    '''
     #model = AE_0_layer(dim_0=768,dim_1=768).to("cuda")
     #model = AE_1_layer(dim_0=768,dim_1=int(768/2),dim_2=1024).to("cuda")
+    '''
     if projector == "Random" or projector=="random":
         pass
     else:
-        model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
+        #model.load_state_dict(torch.load(PATH, map_location=lambda storage, loc: storage))
+        model.load_state_dict(model_parameters)
+
     print("===")
     #exit()
     model.eval()
@@ -353,13 +355,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 print("Warning: Use original prompt emb")
             '''
 
-        elif "Random" in params["args"].replacing_prompt or "random" in params["args"].replacing_prompt:
+        elif "Random" in params["args"].replacing_prompt or "random" in params["args"].replacing_prompt and params["args"].replacing_prompt!="randomPromptRobertaLarge":
             print("=========================")
             print("Using random prompt emb")
             print("=========================")
             #prompt_emb = torch.nn.Parameter(torch.rand(100,768)).to("cuda")
             config_name = params["args"].config.split("/")[1].split(".")[0]
-            if "Large" in config_name:
+            if "Large" in config_name or "large" in config_name:
                 prompt_emb = torch.rand(config.getint("prompt","prompt_num"),1024).to("cuda")
             if "Small" in config_name:
                 prompt_emb = torch.rand(config.getint("prompt","prompt_num"),512).to("cuda")
