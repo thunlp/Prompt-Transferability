@@ -40,7 +40,7 @@ def load_task_prompt(model_prompt, config_name, config):
     elif model_prompt == "Roberta":
         model_prompt_not_in = "Bert"
     elif model_prompt == "T5":
-        model_prompt_not_in = "XXLT5"
+        model_prompt_not_in = "T5XXL"
     print("====")
     print("Include prompt type:",model_prompt)
     print("---")
@@ -101,7 +101,7 @@ def load_task_prompt(model_prompt, config_name, config):
 
         #crossPromptRoberta
         else:
-            if model_size == "Base":
+            if model_size == "Base" or model_size == "base":
                 pass
             elif model_size not in file:
                 continue
@@ -111,7 +111,7 @@ def load_task_prompt(model_prompt, config_name, config):
 
 
             #if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "Large" not in file and "Medium" not in file:
-            if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "Large" not in file and "Medium" not in file and model_prompt_not_in not in file:
+            if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "Large" not in file and "Medium" not in file and model_prompt_not_in not in file and "cross" not in file:
                 task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
                 name = str(file.strip().split("P")[0]).lower()
                 if name=="mr":
@@ -133,6 +133,9 @@ def load_task_prompt(model_prompt, config_name, config):
 
 
     #map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrp':3, 'qnli':4, 'qqp':5, 're':6, 'restaurant':7, 'rte':8, 'sst2':9, 'wnli':10}
+
+    print("====")
+    print(task_prompt_dict.keys())
 
     #for id, name in name_dict.items():
     for id, name in enumerate(name_list):

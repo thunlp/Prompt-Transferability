@@ -1,10 +1,8 @@
-gpus=2
+gpus=6
 
-'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsdeontologyPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/ethicsdeontologyPromptRoberta
-'''
 
 
 '''
@@ -13,6 +11,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsdeontologyProm
     --checkpoint model/ethicsdeontologyPromptT5
 '''
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsdeontologyPromptRobertaLarge.config \
     --gpu $gpus \
     --checkpoint model/ethicsdeontologyPromptRobertaLarge
+'''

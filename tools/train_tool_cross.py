@@ -425,6 +425,9 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
                     for checkpoint_name in all_checkpoints:
                         if checkpoint_name not in top_5_list:
                             os.remove(root_dir+"/"+checkpoint_name)
+                            all_checkpoints_ = os.listdir(root_dir)
+                            if len(all_checkpoints_) < 5:
+                                break
                 else:
                     pass
                 #####

@@ -93,6 +93,17 @@ def ActivatedNeurons(activated_1, activated_2, layer, backbone_model=None):
             activated_2 = activated_2[int(layer):int(layer)+3,:]
             activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1])
 
+    elif "Small" in backbone_model:
+        if layer ==6:
+            activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
+            activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
+        else:
+            activated_1 = activated_1[int(layer):int(layer)+3,:,:,:]
+            activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
+
+            activated_2 = activated_2[int(layer):int(layer)+3,:,:,:]
+            activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
+
     else:
         if layer ==12:
             activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
@@ -131,13 +142,13 @@ root = "task_prompt_emb"
 
 
 
-#backbone_model = "Roberta"
+backbone_model = "Roberta"
 #backbone_model = "RobertaLarge"
 #backbone_model = "T5"
-backbone_model = "T5XXL"
+#backbone_model = "T5XXL"
 
-task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3, "squadPrompt":4, "nq_openPrompt":4, "multi_newsPrompt":5, "samsumPrompt":5}
-#task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3}
+#task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3, "squadPrompt":4, "nq_openPrompt":4, "multi_newsPrompt":5, "samsumPrompt":5}
+task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3}
 
 task_map = {k+backbone_model:v for k,v in task_map.items()}
 #print(task_map)
@@ -293,6 +304,7 @@ for task_1, id_1 in task_map.items():
         #ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons)
         #exit()
 
+        '''
         #same task
         if task_1 == task_2 and id_1 == id_2:
             same_task_list_cos.append(CosineSimilarity(task_ten_1,task_ten_2))
@@ -325,6 +337,7 @@ for task_1, id_1 in task_map.items():
             different_task_list_neurons_18.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 18, backbone_model))
             different_task_list_neurons_21.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 21, backbone_model))
             different_task_list_neurons_24.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 24, backbone_model))
+        '''
 
         #same task type
         if task_1 != task_2 and id_1 == id_2:
@@ -342,6 +355,7 @@ for task_1, id_1 in task_map.items():
             same_type_list_neurons_21.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 21, backbone_model))
             same_type_list_neurons_24.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 24, backbone_model))
 
+        '''
         # different task type
         if task_1 != task_2 and id_1 != id_2:
             #print("11",id_1,id_2)
@@ -358,6 +372,7 @@ for task_1, id_1 in task_map.items():
             different_type_list_neurons_18.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 18, backbone_model))
             different_type_list_neurons_21.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 21, backbone_model))
             different_type_list_neurons_24.append(ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 24, backbone_model))
+        '''
 
         #break
 

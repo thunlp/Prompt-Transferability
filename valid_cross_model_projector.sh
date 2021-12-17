@@ -1,6 +1,6 @@
 #CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=7
+gpus=4
 
 #MODEL_PROMPT="Roberta-base"
 #MODEL_PROMPT="Bert-base"
@@ -71,13 +71,15 @@ FROM_MODEL="T5"
 TO_MODEL="Roberta"
 #PROJECTOR="random"
 #PROJECTOR="model/crossPromptRoberta_laptop_100_t5_to_roberta/75_model_cross_0.7719.pkl"
-PROJECTOR="model/crossPromptRoberta_laptop_100_t5_to_roberta/75_model_cross_0.7719.pkl"
+#PROJECTOR="model/crossPromptRoberta_laptop_100_t5_to_roberta/75_model_cross_0.7719.pkl"
+#PROJECTOR="model/crossPromptRoberta_laptop_100_t5_to_roberta/21_model_cross_0.7734.pkl"
 #PROJECTOR="model/crossPromptRoberta_MNLI_100_t5_to_roberta/26_model_cross_0.846.pkl"
+PROJECTOR="model/crossPromptRoberta_MNLI_100_t5_to_roberta/15_model_cross_0.8175.pkl"
 
 
-for MODEL in IMDBPrompt laptopPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
+for MODEL in laptopPrompt IMDBPrompt MNLIPrompt QNLIPrompt QQPPrompt restaurantPrompt SST2Prompt snliPrompt tweetevalsentimentPrompt movierationalesPrompt ethicsdeontologyPrompt ethicsjusticePrompt MRPCPrompt
 #for MODEL in laptopPrompt restaurantPrompt tweetevalsentimentPrompt QQPPrompt MRPCPrompt
-#for MODEL in restaurantPrompt movierationalesPrompt QQPPrompt
+#for MODEL in MNLIPrompt QNLIPrompt snliPrompt
 #for MODEL in QQPPrompt
 #for MODEL in laptopPrompt
 do
@@ -92,6 +94,7 @@ do
         --replacing_prompt task_prompt_emb/${MODEL}${FROM_MODEL} \
         --model_transfer_projector \
         --projector $PROJECTOR
+    #exit
 done
 
 

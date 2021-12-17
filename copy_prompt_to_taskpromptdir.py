@@ -10,7 +10,9 @@ all_model_prompt = [dir for dir in all_model_prompt if ".py" not in dir]
 
 for dataset_file in all_model_prompt:
     #if "T5" not in dataset_file or "Small" in dataset_file:
-    if "RobertaLarge" not in dataset_file or "Small" in dataset_file:
+    #if "RobertaLarge" not in dataset_file or "Small" in dataset_file:
+    #    continue
+    if "Small" not in dataset_file:
         continue
 
     #if dataset_file != "QQPPromptRoberta":
@@ -64,6 +66,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 21
     elif dataset_file == "IMDBPromptT5":
         max_epoch = 70
+    elif dataset_file == "IMDBPromptT5Small":
+        max_epoch = 45 #45
 
     elif dataset_file == "SST2PromptRoberta":
         max_epoch = 25
@@ -75,6 +79,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 18
     elif dataset_file == "SST2PromptT5":
         max_epoch = 26
+    elif dataset_file == "SST2PromptT5Small":
+        max_epoch = 10 #9
 
     elif dataset_file  == "laptopPromptRoberta":
         max_epoch = 32
@@ -86,6 +92,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 30
     elif dataset_file  == "laptopPromptT5":
         max_epoch = 210
+    elif dataset_file  == "laptopPromptT5Small":
+        max_epoch = 92 #92
 
     elif dataset_file == "restaurantPromptRoberta":
         max_epoch = 33
@@ -97,6 +105,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 31
     elif dataset_file == "restaurantPromptT5":
         max_epoch = 276
+    elif dataset_file == "restaurantPromptT5Small":
+        max_epoch = 162 #162
 
     elif dataset_file == "movierationalesPromptRoberta":
         max_epoch = 21
@@ -108,6 +118,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 24
     elif dataset_file == "movierationalesPromptT5":
         max_epoch = 197
+    elif dataset_file == "movierationalesPromptT5Small":
+        max_epoch = 162 #299
 
     elif dataset_file == "tweetevalsentimentPromptRoberta":
         max_epoch = 28
@@ -119,6 +131,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 21
     elif dataset_file == "tweetevalsentimentPromptT5":
         max_epoch = 18
+    elif dataset_file == "tweetevalsentimentPromptT5Small":
+        max_epoch = 20 #20 better
 
 
     elif dataset_file == "MNLIPromptRoberta":
@@ -131,6 +145,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 34
     elif dataset_file == "MNLIPromptT5":
         max_epoch = 5
+    elif dataset_file == "MNLIPromptT5Small":
+        max_epoch = 2 ##
 
 
     elif dataset_file == "QNLIPromptRoberta":
@@ -143,6 +159,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 41
     elif dataset_file == "QNLIPromptT5":
         max_epoch = 30
+    elif dataset_file == "QNLIPromptT5Small":
+        max_epoch = 6 ##
 
     elif dataset_file == "WNLIPromptRoberta":
         max_epoch = 755
@@ -161,6 +179,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 32
     elif dataset_file == "snliPromptT5":
         max_epoch = 2
+    elif dataset_file == "snliPromptT5Small":
+        max_epoch = 1 #
 
 
     elif dataset_file =="RTEPromptRoberta":
@@ -181,6 +201,8 @@ for dataset_file in all_model_prompt:
          max_epoch = 24
     elif dataset_file == "QQPPromptT5":
          max_epoch = 10
+    elif dataset_file == "QQPPromptT5Small":
+         max_epoch = 1 ###
 
     elif dataset_file == "MRPCPromptRoberta":
         max_epoch = 66
@@ -192,6 +214,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 27
     elif dataset_file == "MRPCPromptT5":
         max_epoch = 199
+    elif dataset_file == "MRPCPromptT5Small":
+        max_epoch = 133
 
 
     elif dataset_file == "recastfactualityPromptRoberta":
@@ -246,36 +270,49 @@ for dataset_file in all_model_prompt:
     elif dataset_file == "ethicsdeontologyPromptRoberta":
         max_epoch = 63
     elif dataset_file == "ethicsdeontologyPromptRobertaLarge":
-        max_epoch = 125 ###
+        max_epoch = 79 #125 ###
     elif dataset_file == "ethicsdeontologyPromptRoberta_label":
         max_epoch = 77
     elif dataset_file == "ethicsdeontologyPromptBert":
         max_epoch = 14
     elif dataset_file == "ethicsdeontologyPromptT5":
         max_epoch = 101
+    elif dataset_file == "ethicsdeontologyPromptT5Small":
+        max_epoch = 28 #
 
     elif dataset_file == "ethicsjusticePromptRoberta":
         max_epoch = 29
     elif dataset_file == "ethicsjusticePromptRobertaLarge":
-        max_epoch = 127 ###
+        max_epoch = 68  #127 ###
     elif dataset_file == "ethicsjusticePromptRoberta_label":
         max_epoch = 63
     elif dataset_file == "ethicsjusticePromptBert":
         max_epoch = 15
     elif dataset_file == "ethicsjusticePromptT5":
         max_epoch = 141
+    elif dataset_file == "ethicsjusticePromptT5Small":
+        max_epoch = 23
     ##elif dataset_file == "ethicsvirtuePromptRoberta":
     ##    max_epoch = 21
 
 
     elif dataset_file == "squadPromptT5":
         max_epoch = 23
+    elif dataset_file == "squadPromptT5Small":
+        max_epoch = 5 ##
     elif dataset_file == "nq_openPromptT5":
         max_epoch = 15
+    elif dataset_file == "nq_openPromptT5Small":
+        max_epoch = 6 ##
     elif dataset_file == "multi_newsPromptT5":
         max_epoch = 21
+    elif dataset_file == "multi_newsPromptT5Small":
+        max_epoch = 8 ##
     elif dataset_file == "samsumPromptT5":
         max_epoch = 85
+    elif dataset_file == "samsumPromptT5Small":
+        max_epoch = 0 ###
+
 
     else:
         print("--------------------")

@@ -14,7 +14,7 @@ a["trained_epoch"]=0
 a["trained_step"]=0
 torch.save(a,"ethicsjusticeuseethicsdeontologyPromptRobertaLarge/0_task_prompt.pkl")
 
-
+exit()
 
 a = torch.load("movierationalesPromptRobertaLarge/1_task_prompt.pkl")
 a["optimizer"]["state"][0]["step"]=0

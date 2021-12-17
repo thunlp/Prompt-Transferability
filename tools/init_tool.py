@@ -99,10 +99,15 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
         prompt_emb_ = model(prompt_emb.to("cuda"))
 
     elif "100" in projector:
-        prompt_emb_ = prompt_emb.reshape(int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
+        #print(prompt_emb.shape)
+        prompt_emb_ = prompt_emb.reshape(1,int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
+        #print(prompt_emb_.shape)
         prompt_emb_ = model(prompt_emb_.to("cuda"))
+        #print(prompt_emb_.shape)
         dim_out = int(int(model.decoder.weight.shape[0])/int(prompt_emb.shape[0]))
         prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),dim_out)
+        #print(prompt_emb_.shape)
+        #exit()
         #prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1]))
     else:
         print("Wrong: tool/init_tool.py Line:102")
