@@ -1,10 +1,8 @@
-gpus=2
+gpus=0
 
-'''
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromptRobertaSmall.config \
     --gpu $gpus \
-    --checkpoint model/movierationalesPromptRoberta
-'''
+    --checkpoint model/movierationalesPromptRobertaSmall
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromptT5.config \
@@ -12,6 +10,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromp
     --checkpoint model/movierationalesPromptT5
 '''
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/movierationalesPromptRobertaLarge.config \
     --gpu $gpus \
     --checkpoint model/movierationalesPromptRobertaLarge
+'''

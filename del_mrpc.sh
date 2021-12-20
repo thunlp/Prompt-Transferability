@@ -1,8 +1,8 @@
-gpus=0
+gpus=4
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptRobertaSmall.config \
     --gpu $gpus \
-    --checkpoint model/MRPCPromptRoberta
+    --checkpoint model/MRPCPromptRobertaSmall
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MRPCPromptT5.config \

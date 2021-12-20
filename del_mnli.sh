@@ -1,10 +1,8 @@
-gpus=7
+gpus=4
 
-'''
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRobertaSmall.config \
     --gpu $gpus \
-    --checkpoint model/MNLIPromptRoberta
-'''
+    --checkpoint model/MNLIPromptRobertaSmall
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptT5.config \
@@ -13,6 +11,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptT5.config 
 '''
 
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/MNLIPromptRobertaLarge.config \
     --gpu $gpus \
     --checkpoint model/MNLIPromptRobertaLarge
+'''

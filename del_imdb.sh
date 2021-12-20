@@ -1,8 +1,8 @@
-gpus=6
+gpus=4
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRobertaSmall.config \
     --gpu $gpus \
-    --checkpoint model/IMDBPromptRoberta
+    --checkpoint model/IMDBPromptRobertaSmall
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptT5.config \

@@ -142,13 +142,14 @@ root = "task_prompt_emb"
 
 
 
-backbone_model = "Roberta"
+#backbone_model = "Roberta"
 #backbone_model = "RobertaLarge"
 #backbone_model = "T5"
 #backbone_model = "T5XXL"
+backbone_model = "T5Small"
 
-#task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3, "squadPrompt":4, "nq_openPrompt":4, "multi_newsPrompt":5, "samsumPrompt":5}
-task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3}
+task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3, "squadPrompt":4, "nq_openPrompt":4, "multi_newsPrompt":5, "samsumPrompt":5}
+#task_map = {"IMDBPrompt":0, "laptopPrompt":0, "MNLIPrompt":1, "QNLIPrompt":1, "QQPPrompt":3, "restaurantPrompt":0, "SST2Prompt":0, "snliPrompt":1, "tweetevalsentimentPrompt":0, "movierationalesPrompt":0, "ethicsdeontologyPrompt":2, "ethicsjusticePrompt":2, "MRPCPrompt":3}
 
 task_map = {k+backbone_model:v for k,v in task_map.items()}
 #print(task_map)
@@ -260,6 +261,9 @@ for task_1, id_1 in task_map.items():
     if "T5XXL" in name_1:
         task_ten_1_neurons = torch.load("task_activated_neuron"+"/"+name_1+"/task_activated_neuron", map_location=lambda storage, loc: storage)
         task_ten_1_neurons = task_ten_1_neurons.reshape(24,10240)
+    elif "T5Small" in name_1:
+        task_ten_1_neurons = torch.load("task_activated_neuron"+"/"+name_1+"/task_activated_neuron", map_location=lambda storage, loc: storage)
+        task_ten_1_neurons = task_ten_1_neurons[:,0:1,:,:]
     elif "T5" in name_1:
         task_ten_1_neurons = torch.load("task_activated_neuron"+"/"+name_1+"decoder/task_activated_neuron", map_location=lambda storage, loc: storage)
         task_ten_1_neurons = task_ten_1_neurons[:,0:1,:,:]
@@ -294,6 +298,9 @@ for task_1, id_1 in task_map.items():
         if "T5XXL" in name_2:
             task_ten_2_neurons = torch.load("task_activated_neuron"+"/"+name_2+"/task_activated_neuron", map_location=lambda storage, loc: storage)
             task_ten_2_neurons = task_ten_2_neurons.reshape(24,10240)
+        elif "T5Small" in name_2:
+            task_ten_2_neurons = torch.load("task_activated_neuron"+"/"+name_2+"/task_activated_neuron", map_location=lambda storage, loc: storage)
+            task_ten_2_neurons = task_ten_2_neurons[:,0:1,:,:]
         elif "T5" in name_2:
             task_ten_2_neurons = torch.load("task_activated_neuron"+"/"+name_2+"decoder/task_activated_neuron", map_location=lambda storage, loc: storage)
             task_ten_2_neurons = task_ten_2_neurons[:,0:1,:,:]
@@ -428,8 +435,9 @@ print("same_type_list_cos_per_token:", sum(same_type_list_cos_per_token)/len(sam
 print("same_type_list_neurons_0:", sum(same_type_list_neurons_0)/len(same_type_list_neurons_0))
 print("same_type_list_neurons_3:", sum(same_type_list_neurons_3)/len(same_type_list_neurons_3))
 print("same_type_list_neurons_6:", sum(same_type_list_neurons_6)/len(same_type_list_neurons_6))
-print("same_type_list_neurons_9:", sum(same_type_list_neurons_9)/len(same_type_list_neurons_9))
-print("same_type_list_neurons_12:", sum(same_type_list_neurons_12)/len(same_type_list_neurons_12))
+if len(same_type_list_neurons_9)!=0:
+    print("same_type_list_neurons_9:", sum(same_type_list_neurons_9)/len(same_type_list_neurons_9))
+    print("same_type_list_neurons_12:", sum(same_type_list_neurons_12)/len(same_type_list_neurons_12))
 if len(same_type_list_neurons_15)!=0:
     print("same_type_list_neurons_15:", sum(same_type_list_neurons_15)/len(same_type_list_neurons_15))
     print("same_type_list_neurons_18:", sum(same_type_list_neurons_18)/len(same_type_list_neurons_18))
@@ -445,8 +453,9 @@ print("same_task_list_cos_per_token:", sum(same_task_list_cos_per_token)/len(sam
 print("same_task_list_neurons_0:", sum(same_task_list_neurons_0)/len(same_task_list_neurons_0))
 print("same_task_list_neurons_3:", sum(same_task_list_neurons_3)/len(same_task_list_neurons_3))
 print("same_task_list_neurons_6:", sum(same_task_list_neurons_6)/len(same_task_list_neurons_6))
-print("same_task_list_neurons_9:", sum(same_task_list_neurons_9)/len(same_task_list_neurons_9))
-print("same_task_list_neurons_12:", sum(same_task_list_neurons_12)/len(same_task_list_neurons_12))
+if len(same_task_list_neurons_9)!=0:
+    print("same_task_list_neurons_9:", sum(same_task_list_neurons_9)/len(same_task_list_neurons_9))
+    print("same_task_list_neurons_12:", sum(same_task_list_neurons_12)/len(same_task_list_neurons_12))
 if len(same_task_list_neurons_15)!=0:
     print("same_task_list_neurons_15:", sum(same_task_list_neurons_15)/len(same_task_list_neurons_15))
     print("same_task_list_neurons_18:", sum(same_task_list_neurons_18)/len(same_task_list_neurons_18))
@@ -462,8 +471,9 @@ print("different_type_list_cos_per_token:", sum(different_type_list_cos_per_toke
 print("different_type_list_neurons_0:", sum(different_type_list_neurons_0)/len(different_type_list_neurons_0))
 print("different_type_list_neurons_3:", sum(different_type_list_neurons_3)/len(different_type_list_neurons_3))
 print("different_type_list_neurons_6:", sum(different_type_list_neurons_6)/len(different_type_list_neurons_6))
-print("different_type_list_neurons_9:", sum(different_type_list_neurons_9)/len(different_type_list_neurons_9))
-print("different_type_list_neurons_12:", sum(different_type_list_neurons_12)/len(different_type_list_neurons_12))
+if len(different_type_list_neurons_9)!=0:
+    print("different_type_list_neurons_9:", sum(different_type_list_neurons_9)/len(different_type_list_neurons_9))
+    print("different_type_list_neurons_12:", sum(different_type_list_neurons_12)/len(different_type_list_neurons_12))
 if len(different_type_list_neurons_15)!=0:
     print("different_type_list_neurons_15:", sum(different_type_list_neurons_15)/len(different_type_list_neurons_15))
     print("different_type_list_neurons_18:", sum(different_type_list_neurons_18)/len(different_type_list_neurons_18))
@@ -479,8 +489,9 @@ print("different_task_list_cos_per_token:", sum(different_task_list_cos_per_toke
 print("different_task_list_neurons_0:", sum(different_task_list_neurons_0)/len(different_task_list_neurons_0))
 print("different_task_list_neurons_3:", sum(different_task_list_neurons_3)/len(different_task_list_neurons_3))
 print("different_task_list_neurons_6:", sum(different_task_list_neurons_6)/len(different_task_list_neurons_6))
-print("different_task_list_neurons_9:", sum(different_task_list_neurons_9)/len(different_task_list_neurons_9))
-print("different_task_list_neurons_12:", sum(different_task_list_neurons_12)/len(different_task_list_neurons_12))
+if len(different_task_list_neurons_9)!=0:
+    print("different_task_list_neurons_9:", sum(different_task_list_neurons_9)/len(different_task_list_neurons_9))
+    print("different_task_list_neurons_12:", sum(different_task_list_neurons_12)/len(different_task_list_neurons_12))
 if len(different_task_list_neurons_15)!=0:
     print("different_task_list_neurons_15:", sum(different_task_list_neurons_15)/len(different_task_list_neurons_15))
     print("different_task_list_neurons_18:", sum(different_task_list_neurons_18)/len(different_task_list_neurons_18))

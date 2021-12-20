@@ -1,8 +1,8 @@
-gpus=6
+gpus=7
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptRobertaSmall.config \
     --gpu $gpus \
-    --checkpoint model/QQPPromptRoberta
+    --checkpoint model/QQPPromptRobertaSmall
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QQPPromptT5.config \

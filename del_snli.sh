@@ -1,8 +1,8 @@
-gpus=7
+gpus=5
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/snliPromptRoberta.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/snliPromptRobertaSmall.config \
     --gpu $gpus \
-    --checkpoint model/snliPromptRoberta
+    --checkpoint model/snliPromptRobertaSmall
 
 '''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/snliPromptT5.config \

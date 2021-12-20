@@ -151,9 +151,9 @@ root = "task_prompt_emb"
 
 #backbone_model = "Roberta"
 #backbone_model = "RobertaLarge"
-#backbone_model = "T5"
+backbone_model = "T5"
 #backbone_model = "T5XXL"
-backbone_model = "T5Small"
+#backbone_model = "T5Small"
 
 
 '''
@@ -212,11 +212,11 @@ task_map = {k+backbone_model:v for k,v in task_map.items() }
 
 #for metric in ["CosineSimilarity", "CosineSimilarity_per_token", "EuclideanDistances", "EuclideanDistances_per_token", "ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12","ActivatedNeurons_15", "ActivatedNeurons_18", "ActivatedNeurons_21", "ActivatedNeurons_24"]:
 #for metric in ["CosineSimilarity", "CosineSimilarity_per_token","ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12"]:
-#for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12"]:
+for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12"]:
 #for metric in ["ActivatedNeurons_15", "ActivatedNeurons_18", "ActivatedNeurons_21", "ActivatedNeurons_24"]:
 #for metric in ["ActivatedNeurons_21"]:
 #for metric in ["CosineSimilarity", "CosineSimilarity_per_token","EuclideanDistances", "EuclideanDistances_per_token","ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6"]:
-for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6"]:
+#for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6"]:
 
     print()
     print("=========")
@@ -260,6 +260,8 @@ for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6"]
 
         #print(name_1, end="\t")
 
+
+        print("[", end=' ')
         for task_2, id_2 in task_map.items():
             name_2 = task_2
             task_ten_2 = torch.load(root+"/"+name_2+"/task_prompt", map_location=lambda storage, loc: storage)
@@ -322,6 +324,7 @@ for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6"]
                 print("{:.2f},".format(float(sim)), end='\t')
             else:
                 continue
+        #print("]")
 
 
 
