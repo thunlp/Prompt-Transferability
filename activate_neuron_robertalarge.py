@@ -81,7 +81,6 @@ def topk(obj, k):
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', '-c', help="specific config file", required=True)
     parser.add_argument('--gpu', '-g', help="gpu id list")
@@ -162,33 +161,23 @@ if __name__ == "__main__":
 
     '''准备hook'''
     '''这是提取特征的代码'''
-    outputs=[[] for _ in range(12)]
+    #outputs=[[] for _ in range(12)]
+    outputs=[[] for _ in range(24)]
     def save_ppt_outputs1_hook(n):
         def fn(_,__,output):
-            #print("=====")
-            #print(output)
-            #print("----")
-            #print(output.shape) #torch.Size([1, 1, 3072])
-            #print("=====")
-            #exit()
             outputs[n].append(output.detach().to("cpu"))
             #outputs[n].append(output.detach())
         return fn
 
 
-    for n in range(12):
+    #for n in range(12):
+    for n in range(24):
         #这里面提取feature的模组可以改变，这里因为我自定义模型的原因要两层roberta
         #for l in model.state_dict().keys():
         #    print(l)
         #print("====")
         #exit()
-
-        #decoder
-        model.encoder.decoder.block[n].layer[2].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
-
-        #encoder
-        #model.encoder.encoder.block[n].layer[1].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
-
+        model.encoder.roberta.encoder.layer[n].intermediate.register_forward_hook(save_ppt_outputs1_hook(n))
 
 
 
@@ -215,13 +204,11 @@ if __name__ == "__main__":
     '''
 
     #merge 17 epoch
-    for k in range(12):
+    #for k in range(12):
+    for k in range(24):
         #outputs[k] = relu(np.concatenate(outputs[k]))
         #outputs[k] = torch.relu(torch.cat(outputs[k]))
         outputs[k] = torch.cat(outputs[k])
-        #print(outputs[k])
-        #print(outputs[k].shape)
-        #exit()
 
 
     '''
@@ -252,28 +239,30 @@ if __name__ == "__main__":
 
 
 
+    #Activated neuron for a task-specific prompt
     outputs = torch.stack(outputs)
-
-    #decoder
-    outputs = outputs[:,:1,:1,:] #12 layers, [mask]
-
-    #encoder
-    #outputs = outputs[:,:,100:101,:] #12 layers, [mask]
-
     #print(outputs.shape)
-    # [12, 1, 1, 3072] --> 12, 1(batch_size), (target_length), 3072
-
-    # [12, 2, 1, 3072] --> 12, 1(batch_size), (target_length), 3072
-
-
-    #print(outputs)
-    #print(save_dir)
     #exit()
+
+
+    #outputs = outputs[11:,:,:1,:]
+    #outputs = outputs[11:,:,:100,:]
+    #outputs = outputs[:,:,:1,:] #12 layers, [mask]
+    #print(outputs)
+    #print(outputs.shape)
+    #exit()
+    outputs = outputs[:,:,:1,:] #12 layers, [mask]
+    #outputs = outputs[:,:,:100,:] #12 layers, [mask]+[promot]
+    #outputs = outputs[11:,:,:100,:]
+
+    print(outputs.shape)
+    # [12, 128, 231, 3072] --> 12, 128(eval batcch size), 231(1 or 100), 3072
+    #exit()
+
+
 
 
     save_name = args.replacing_prompt.strip().split("/")[-1].split(".")[0]
-    #print(save_name)
-    #exit()
     dir = "task_activated_neuron"
     if os.path.isdir(dir):
         save_dir = dir+"/"+save_name

@@ -196,8 +196,25 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
     logger.info("Begin to initialize models...")
 
-
+    #if config.get("model", "model_name") == "roberta-small":
+    #    model = get_model("RobertaSmallForMaskedLM/"+config.get("model", "model_name"))(config, gpu_list, *args, **params).cuda()
+    #    print("====")
+    #    print(model)
+    #    exit()
+    #else:
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
+    #print("====")
+    #print(model)
+    #print("====")
+    #print(config.get("model", "model_name"))
+    #print("====")
+    #print(config.get("model", "model_size"))
+    #print("====")
+    #exit()
+
+    #model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
+
+
     #print(params) #{'local_rank': -1, 'prompt_emb_output': True}
     optimizer = init_optimizer(model, config, *args, **params)
     trained_epoch = 0
@@ -216,7 +233,10 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         pass
     #######################
 
-
+    #print("===============")
+    #model_type = params["args"].checkpoint#.split("Prompt")[-1].replace(".config","").replace("_label","")
+    #print(model_type)
+    #exit()
 
     ##########
     ##########
@@ -240,6 +260,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                 else:
                     print("Not exist:",load_dir)
                     exit()
+            elif model_type == "RobertaSmall":
+                load_dir = "RobertaSmallForMaskedLM/PromptRoberta_init_params/pytorch_model.bin"
+                if os.path.exists(load_dir):
+                    parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
+                else:
+                    print("Not exist:",load_dir)
+                    exit()
             elif model_type == "RobertaLarge":
                 load_dir = "RobertaLargeForMaskedLM/PromptRobertaLarge_init_params/pytorch_model.bin"
                 if os.path.exists(load_dir):
@@ -256,6 +283,13 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                     exit()
             elif model_type == "T5Small":
                 load_dir = "T5SmallForMaskedLM/PromptT5Small_init_params/pytorch_model.bin"
+                if os.path.exists(load_dir):
+                    parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
+                else:
+                    print("Not exist:",load_dir)
+                    exit()
+            elif model_type == "T5Large":
+                load_dir = "T5LargeForMaskedLM/PromptT5_init_params/pytorch_model.bin"
                 if os.path.exists(load_dir):
                     parameters = torch.load(load_dir, map_location=lambda storage, loc: storage)
                 else:

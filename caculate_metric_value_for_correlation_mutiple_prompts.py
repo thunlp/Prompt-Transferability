@@ -128,11 +128,21 @@ def ActivatedNeurons(activated_1, activated_2, layer, model_name=None):
 
 
 
+    '''
     activated_1[activated_1>0] = float(1)
     activated_1[activated_1<0] = float(0)
 
     activated_2[activated_2>0] = float(1)
     activated_2[activated_2<0] = float(0)
+    '''
+
+    '''
+    activated_1[activated_1>2] = float(1)
+    activated_1[activated_1<2] = float(0)
+
+    activated_2[activated_2>2] = float(1)
+    activated_2[activated_2<2] = float(0)
+    '''
 
     sim = cos(activated_1, activated_2)
 
@@ -163,8 +173,9 @@ root = "task_prompt_emb"
 #backbone_model = "RobertaLarge"
 #backbone_model = "T5"
 #backbone_model = "T5Large"
-backbone_model = "T5Small"
-#backbone_model = "T5XXL"
+#backbone_model = "T5Small"
+backbone_model = "T5XXL"
+
 
 
 task_map = {
@@ -223,10 +234,12 @@ task_map = {k+backbone_model:v for k,v in task_map.items() }
 
 #for metric in ["CosineSimilarity", "CosineSimilarity_per_token", "EuclideanDistances", "EuclideanDistances_per_token", "ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12","ActivatedNeurons_15", "ActivatedNeurons_18", "ActivatedNeurons_21", "ActivatedNeurons_24"]:
 #for metric in ["CosineSimilarity", "CosineSimilarity_per_token","ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12"]:
-for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12"]:
-#for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12", "ActivatedNeurons_15", "ActivatedNeurons_18", "ActivatedNeurons_21", "ActivatedNeurons_24"]:
+#for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12"]:
+#for metric in ["CosineSimilarity", "CosineSimilarity_per_token", "EuclideanDistances", "EuclideanDistances_per_token","ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6", "ActivatedNeurons_9", "ActivatedNeurons_12", "ActivatedNeurons_15", "ActivatedNeurons_18", "ActivatedNeurons_21", "ActivatedNeurons_24"]:
+#for metric in ["ActivatedNeurons_0", "ActivatedNeurons_21", "ActivatedNeurons_24"]:
 #for metric in ["ActivatedNeurons_24"]:
 #for metric in ["CosineSimilarity", "CosineSimilarity_per_token","EuclideanDistances", "EuclideanDistances_per_token","ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6"]:
+for metric in ["CosineSimilarity", "CosineSimilarity_per_token","EuclideanDistances", "EuclideanDistances_per_token"]:
 #for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6"]:
 
     print()
@@ -247,13 +260,50 @@ for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6",
 
 
     for task_1, id_1 in task_map.items():
+
+
         name_1 = task_1
+
+
         task_ten_1 = torch.load(root+"/"+name_1+"/task_prompt", map_location=lambda storage, loc: storage)
         task_ten_1 = task_ten_1.reshape(task_ten_1.shape[0]*task_ten_1.shape[1])
+
+
+        task_ten_11 = torch.load("../different_seed/prompt/NLI/"+name_1+"/latest.pt", map_location=lambda storage, loc: storage)
+        task_ten_11 = task_ten_11.reshape(task_ten_11.shape[0],task_ten_11.shape[1]*task_ten_11.shape[2])
+
+
+        task_ten_111 = torch.load("../different_seed/prompt/SA/"+name_1+"/latest.pt", map_location=lambda storage, loc: storage)
+        task_ten_111 = task_ten_111.reshape(task_ten_111.shape[0],task_ten_111.shape[1]*task_ten_111.shape[2])
+
 
         if "T5XXL" in name_1:
             task_ten_1_neurons = torch.load("task_activated_neuron"+"/"+name_1+"/task_activated_neuron", map_location=lambda storage, loc: storage)
             task_ten_1_neurons = task_ten_1_neurons.reshape(24,10240)
+
+            task_ten_11_neurons = torch.load("../different_seed/neuron/NLI"+"/"+name_1+"/wi0/neurons.pt", map_location=lambda storage, loc: storage)
+            task_ten_11_neurons = task_ten_11_neurons.reshape(24,10240)
+
+            task_ten_111_neurons = torch.load("../different_seed/neuron/SA"+"/"+name_1+"/wi0/neurons.pt", map_location=lambda storage, loc: storage)
+            task_ten_111_neurons = task_ten_111_neurons.reshape(24,10240)
+
+
+
+            ###
+            task_ten_1_neurons[task_ten_1_neurons>0] = float(1)
+            task_ten_1_neurons[task_ten_1_neurons<0] = float(0)
+
+            task_ten_11_neurons[task_ten_11_neurons>0] = float(1)
+            task_ten_11_neurons[task_ten_11_neurons<0] = float(0)
+
+            task_ten_111_neurons[task_ten_111_neurons>0] = float(1)
+            task_ten_111_neurons[task_ten_111_neurons<0] = float(0)
+
+            task_ten_1_neurons = task_ten_1_neurons + task_ten_11_neurons + task_ten_111_neurons
+            ###
+
+
+
         elif "T5Small" in name_1:
             task_ten_1_neurons = torch.load("task_activated_neuron"+"/"+name_1+"/task_activated_neuron", map_location=lambda storage, loc: storage)
             task_ten_1_neurons = task_ten_1_neurons[:,0:1,:,:]
@@ -278,9 +328,38 @@ for metric in ["ActivatedNeurons_0", "ActivatedNeurons_3", "ActivatedNeurons_6",
             task_ten_2 = torch.load(root+"/"+name_2+"/task_prompt", map_location=lambda storage, loc: storage)
             task_ten_2 = task_ten_2.reshape(task_ten_2.shape[0]*task_ten_2.shape[1])
 
+            task_ten_22 = torch.load("../different_seed/prompt/NLI/"+name_2+"/latest.pt", map_location=lambda storage, loc: storage)
+            task_ten_22 = task_ten_22.reshape(task_ten_22.shape[0],task_ten_22.shape[1]*task_ten_22.shape[2])
+
+
+            task_ten_222 = torch.load("../different_seed/prompt/SA/"+name_2+"/latest.pt", map_location=lambda storage, loc: storage)
+            task_ten_222 = task_ten_222.reshape(task_ten_222.shape[0],task_ten_222.shape[1]*task_ten_222.shape[2])
+
             if "T5XXL" in name_2:
                 task_ten_2_neurons = torch.load("task_activated_neuron"+"/"+name_2+"/task_activated_neuron", map_location=lambda storage, loc: storage)
                 task_ten_2_neurons = task_ten_2_neurons.reshape(24,10240)
+
+                task_ten_22_neurons = torch.load("../different_seed/neuron/NLI"+"/"+name_2+"/wi0/neurons.pt", map_location=lambda storage, loc: storage)
+                task_ten_22_neurons = task_ten_22_neurons.reshape(24,10240)
+
+                task_ten_222_neurons = torch.load("../different_seed/neuron/SA"+"/"+name_2+"/wi0/neurons.pt", map_location=lambda storage, loc: storage)
+                task_ten_222_neurons = task_ten_222_neurons.reshape(24,10240)
+
+
+                ###
+                task_ten_2_neurons[task_ten_2_neurons>0] = float(1)
+                task_ten_2_neurons[task_ten_2_neurons<0] = float(0)
+
+                task_ten_22_neurons[task_ten_22_neurons>0] = float(1)
+                task_ten_22_neurons[task_ten_22_neurons<0] = float(0)
+
+                task_ten_222_neurons[task_ten_222_neurons>0] = float(1)
+                task_ten_222_neurons[task_ten_222_neurons<0] = float(0)
+
+                task_ten_2_neurons = task_ten_2_neurons + task_ten_22_neurons + task_ten_222_neurons
+                ###
+
+
             elif "T5Small" in name_2:
                 task_ten_2_neurons = torch.load("task_activated_neuron"+"/"+name_2+"/task_activated_neuron", map_location=lambda storage, loc: storage)
                 task_ten_2_neurons = task_ten_2_neurons[:,0:1,:,:]

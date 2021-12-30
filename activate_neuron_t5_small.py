@@ -186,10 +186,10 @@ if __name__ == "__main__":
         #exit()
 
         #decoder
-        #model.encoder.decoder.block[n].layer[2].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
+        model.encoder.decoder.block[n].layer[2].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
 
         #encoder
-        model.encoder.encoder.block[n].layer[1].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
+        #model.encoder.encoder.block[n].layer[1].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
 
 
 
@@ -258,10 +258,10 @@ if __name__ == "__main__":
     outputs = torch.stack(outputs)
 
     #decoder
-    #outputs = outputs[:,:,:1,:] #12 layers, [mask]
+    outputs = outputs[:,:1,:1,:] #12 layers, [mask]
 
     #encoder
-    outputs = outputs[:,:,100:101,:] #12 layers, [mask]
+    #outputs = outputs[:,:,100:101,:] #12 layers, [mask]
 
     #print(outputs.shape)
     # [12, 1, 1, 3072] --> 12, 1(batch_size), (target_length), 3072

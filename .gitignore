@@ -3,7 +3,14 @@
 
 result_mlm*
 
+proj_prompt_roberta_to_t5xxl*
+
 #g.sh
+
+task_prompt_emb/*
+result/*
+model_init_para/*
+T5LargeForMaskedLM/*
 
 model/RTE_BERT*
 model/SST2PromptRoberta*

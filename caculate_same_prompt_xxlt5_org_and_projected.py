@@ -105,8 +105,8 @@ for f_model in from_model:
     root_dir2 = "task_prompt_emb/"
 
     root_dir1_act = "task_activated_neuron/cross_model_xxlt5_neuron/from_"+f_model+"/"
-    #root_dir2_act = "task_activated_neuron/"
-    root_dir2_act = "task_activated_neuron/old_PromptT5XXL_activated_neurons/"
+    root_dir2_act = "task_activated_neuron/"
+    #root_dir2_act = "task_activated_neuron/old_PromptT5XXL_activated_neurons/"
 
     root_prompts = os.listdir(root_dir1_act)
     #print(root_prompts)
@@ -130,7 +130,6 @@ for f_model in from_model:
             task_ten_1 = task_ten_1.reshape(102400)
             task_ten_2 = task_ten_2.reshape(102400)
 
-        '''
         if "T5XXL" in backbone_model:
             #task_ten_1_neurons = torch.load(root_dir1_act+prompt+"/task_activated_neuron", map_location=lambda storage, loc: storage)
             task_ten_1_neurons = torch.load(root_dir1_act+prompt+"/wi0/neurons.pt", map_location=lambda storage, loc: storage)
@@ -142,7 +141,6 @@ for f_model in from_model:
             task_ten_1_neurons = task_ten_1_neurons[:,0:1,:,:]
             task_ten_2_neurons = torch.load(root_dir2_act+prompt+"/task_activated_neuron", map_location=lambda storage, loc: storage)
             task_ten_2_neurons = task_ten_2_neurons[:,0:1,:,:]
-        '''
 
 
 
@@ -150,16 +148,17 @@ for f_model in from_model:
         print("same_task_list_cos_per_token:\t",CosineSimilarity_per_token(task_ten_1,task_ten_2))
         print("same_task_list_euc:\t",EuclideanDistances(task_ten_1,task_ten_2))
         print("same_task_list_euc_per_token:\t",EuclideanDistances_per_token(task_ten_1,task_ten_2))
-        '''
+
         print("same_task_list_neurons_0:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 0, backbone_model))
+        '''
         print("same_task_list_neurons_3:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 3, backbone_model))
         print("same_task_list_neurons_6:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 6, backbone_model))
         print("same_task_list_neurons_9:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 9, backbone_model))
         print("same_task_list_neurons_12:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 12, backbone_model))
         print("same_task_list_neurons_15:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 15, backbone_model))
         print("same_task_list_neurons_18:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 18, backbone_model))
+        '''
         print("same_task_list_neurons_21:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 21, backbone_model))
         print("same_task_list_neurons_24:\t",ActivatedNeurons(task_ten_1_neurons, task_ten_2_neurons, 24, backbone_model))
-        '''
         print("------------")
     print("================")

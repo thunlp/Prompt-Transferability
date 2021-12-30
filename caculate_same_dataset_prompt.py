@@ -58,6 +58,18 @@ def ActivatedNeurons(activated_1, activated_2, layer, backbone_model=None):
             activated_2 = activated_2[int(layer):int(layer)+3,:]
             activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1])
 
+    elif backbone_model == "RobertaLarge":
+        if layer ==24:
+            activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
+            activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
+        else:
+            activated_1 = activated_1[int(layer):int(layer)+3,:,:,:]
+            activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
+
+            activated_2 = activated_2[int(layer):int(layer)+3,:,:,:]
+            activated_2 = activated_2.reshape(activated_2.shape[0]*activated_2.shape[1]*activated_2.shape[2]*activated_2.shape[3])
+
+
     else:
         if layer ==12:
             activated_1 = activated_1.reshape(activated_1.shape[0]*activated_1.shape[1]*activated_1.shape[2]*activated_1.shape[3])
@@ -83,17 +95,17 @@ def ActivatedNeurons(activated_1, activated_2, layer, backbone_model=None):
 
 
 
-#root_dir1 = "task_prompt_emb/RobertaLarge_from_chimin/"
-root_dir1 = "task_prompt_emb/T5XXL_from_chimin/"
+root_dir1 = "task_prompt_emb/RobertaLarge_from_chimin/"
+#root_dir1 = "task_prompt_emb/T5XXL_from_chimin/"
 root_dir2 = "task_prompt_emb/"
 
-#root_dir1_act = "task_activated_neuron/RobertaLarge_from_chimin/"
-root_dir1_act = "task_activated_neuron/old_PromptT5XXL_activated_neurons/"
+root_dir1_act = "task_activated_neuron/RobertaLarge_from_chimin/"
+#root_dir1_act = "task_activated_neuron/old_PromptT5XXL_activated_neurons/"
 root_dir2_act = "task_activated_neuron/"
 
 #root_prompts = os.listdir("task_prompt_emb/RobertaLarge_from_chimin")
-#root_prompts = os.listdir("task_prompt_emb/RobertaLarge_from_chimin")
-root_prompts = os.listdir("task_prompt_emb/T5XXL_from_chimin")
+root_prompts = os.listdir("task_prompt_emb/RobertaLarge_from_chimin")
+#root_prompts = os.listdir("task_prompt_emb/T5XXL_from_chimin")
 
 
 same_task_list_cos = list()
@@ -112,6 +124,7 @@ same_task_list_neurons_24 = list()
 
 #backbone_model = "RobertaLarge"
 backbone_model = "T5XXL"
+#backbone_model = "T5Small"
 
 for prompt in root_prompts:
     if "random" in prompt or ".py" in prompt or "snli" in prompt:

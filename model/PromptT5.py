@@ -28,6 +28,14 @@ class PromptT5(nn.Module):
                 model = "t5-small"
                 ckp = "T5SmallForMaskedLM"
                 self.hidden_size = 512
+            elif config.get("model","model_size")=="large":
+                model = "t5-large"
+                ckp = "T5LargeForMaskedLM"
+                self.hidden_size = 1024
+            elif config.get("model","model_size")=="b3":
+                model = "t5-b3"
+                ckp = "T5B3ForMaskedLM"
+                self.hidden_size = 1024
             else:
                 model = "t5-base"
                 ckp = "T5ForMaskedLM"
@@ -45,11 +53,13 @@ class PromptT5(nn.Module):
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
 
-
+        '''
         if config.get("model","model_size")=="large":
             self.init_model_path = str(ckp)+"/"+"PromptT5Large_init_params"
         else:
             self.init_model_path = str(ckp)+"/"+"PromptT5_init_params"
+        '''
+        self.init_model_path = str(ckp)+"/"+"PromptT5_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
@@ -95,7 +105,7 @@ class PromptT5(nn.Module):
                 output = self.encoder(input_ids=data["inputx"], labels=data["label"])
                 performance = kwargs["performance"]
 
-                if int(kwargs["step"]%100) == 0:
+                if int(kwargs["step"]%500) == 0:
                     gen = self.encoder.generate(input_ids=data["inputx"], num_beams=config.getint("eval","num_beams"), output_scores=True, return_dict_in_generate=True, min_length=config.getint("eval","min_length"), max_length=config.getint("eval","max_length"))
 
                     if "squad" in config.get("data","train_dataset_type") or "nq_open" in config.get("data","train_dataset_type") or "multi_news" in config.get("data","train_dataset_type") or "samsum" in config.get("data","train_dataset_type"):

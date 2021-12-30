@@ -1,14 +1,14 @@
-gpus=7
+gpus=2
 
+'''
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRobertaSmall.config \
     --gpu $gpus \
     --checkpoint model/laptopPromptRobertaSmall
+'''
 
-'''
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptT5.config \
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptT5Large.config \
     --gpu $gpus \
-    --checkpoint model/laptopPromptT5
-'''
+    --checkpoint model/laptopPromptT5Large
 
 
 '''

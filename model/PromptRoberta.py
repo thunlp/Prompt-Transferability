@@ -27,22 +27,35 @@ class PromptRoberta(nn.Module):
         #RoBERT-large	341M	24	1024	24	0.6929	0.9843
 
 
-        try:
-            if config.get("model","model_size").lower()=="large":
-                model = "roberta-large"
-                ckp = "RobertaLargeForMaskedLM"
-                self.hidden_size = 1024
-            else:
-                model = "roberta-base"
-                ckp = "RobertaForMaskedLM"
-                self.hidden_size = 768
+        #try:
+        if config.get("model","model_size").lower()=="large":
+            model = "roberta-large"
+            ckp = "RobertaLargeForMaskedLM"
+            self.hidden_size = 1024
+        elif config.get("model","model_size").lower()=="small":
+            model = "roberta-small"
+            ckp = "RobertaSmallForMaskedLM"
+            self.hidden_size = 256
+        else:
+            model = "roberta-base"
+            ckp = "RobertaForMaskedLM"
+            self.hidden_size = 768
+        '''
         except:
             model = "roberta-base"
             ckp = "RobertaForMaskedLM"
             self.hidden_size = 768
+        '''
 
+        if model == "roberta-small":
+            #self.plmconfig = AutoConfig.from_pretrained("RobertaSmallForMaskedLM/"+model)
+            self.plmconfig = AutoConfig.from_pretrained("RobertaSmallForMaskedLM/"+model)
+            #print(self.plmconfig)
+            #exit()
+        else:
+            self.plmconfig = AutoConfig.from_pretrained(model)
+        #self.plmconfig = AutoConfig.from_pretrained(model)
 
-        self.plmconfig = AutoConfig.from_pretrained(model)
         # self.plmconfig["architectures"] = ["RobertaForMaskedLM"]
         self.plmconfig.prompt_num = config.getint("prompt", "prompt_num")
         self.plmconfig.prompt_len = config.getint("prompt", "prompt_len")
@@ -53,6 +66,7 @@ class PromptRoberta(nn.Module):
             self.init_model_path = str(ckp)+"/"+"PromptRobertaLarge_init_params"
         else:
             self.init_model_path = str(ckp)+"/"+"PromptRoberta_init_params"
+        #self.init_model_path = str(ckp)+"/"+"PromptRoberta_init_params"
         ##############
         ###Save a PLM + add prompt -->save --> load again
         #Build model and save it
@@ -74,7 +88,10 @@ class PromptRoberta(nn.Module):
             #print(type(self.plmconfig))
             #exit()
             #print(111111111)
-            self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
+            if model == "roberta-small":
+                self.encoder = RobertaForMaskedLM.from_pretrained("RobertaSmallForMaskedLM/"+model, config=self.plmconfig)
+            else:
+                self.encoder = RobertaForMaskedLM.from_pretrained(model, config=self.plmconfig)
             #exit()
             #print(self.encoder.state_dict().keys())
             os.mkdir(self.init_model_path)

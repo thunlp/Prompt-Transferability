@@ -1,4 +1,4 @@
-gpus=5
+gpus=0
 
 
 '''
@@ -10,21 +10,21 @@ gpus=5
 for MODEL in IMDBPromptT5_label laptopPromptT5_label MNLIPromptT5_label QNLIPromptT5_label QQPPromptT5_label restaurantPromptT5_label SST2PromptT5_label snliPromptT5_label tweetevalsentimentPromptT5_label movierationalesPromptT5_label recastnerPromptT5_label ethicsdeontologyPromptT5_label ethicsjusticePromptT5_label MRPCPromptT5_label
 '''
 
-#BACKBRON="encoder"
+BACKBRON="Large"
 
-for MODEL in IMDBPromptT5 laptopPromptT5 MNLIPromptT5 QNLIPromptT5 QQPPromptT5 restaurantPromptT5 SST2PromptT5 snliPromptT5 tweetevalsentimentPromptT5 movierationalesPromptT5 ethicsdeontologyPromptT5 ethicsjusticePromptT5 MRPCPromptT5 multi_newsPromptT5 nq_openPromptT5 samsumPromptT5 squadPromptT5
+#for MODEL in IMDBPromptT5 laptopPromptT5 MNLIPromptT5 QNLIPromptT5 QQPPromptT5 restaurantPromptT5 SST2PromptT5 snliPromptT5 tweetevalsentimentPromptT5 movierationalesPromptT5 ethicsdeontologyPromptT5 ethicsjusticePromptT5 MRPCPromptT5 multi_newsPromptT5 nq_openPromptT5 samsumPromptT5 squadPromptT5
+for MODEL in IMDBPromptT5 laptopPromptT5 restaurantPromptT5 SST2PromptT5 tweetevalsentimentPromptT5 movierationalesPromptT5
 do
     echo "==========================="
-    echo activate_neuronPromptT5
+    echo activate_neuronPromptT5Large
     #echo Replace with task_prompt_emb/$MODEL
     echo "==========================="
 
     #Eval mlm
-    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_t5.py --config config/activate_neuronPromptT5.config \
+    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_t5_large.py --config config/activate_neuronPromptT5Large.config \
         --gpu $gpus \
-        --replacing_prompt task_prompt_emb/$MODEL \
+        --replacing_prompt task_prompt_emb/$MODEL${BACKBRON} \
         --activate_neuron
-    #exit
 done
 
 

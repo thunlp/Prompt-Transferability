@@ -1,4 +1,4 @@
-gpus=1
+gpus=3
 
 
 '''
@@ -10,18 +10,20 @@ gpus=1
 for MODEL in IMDBPromptRoberta_label laptopPromptRoberta_label MNLIPromptRoberta_label QNLIPromptRoberta_label QQPPromptRoberta_label restaurantPromptRoberta_label SST2PromptRoberta_label snliPromptRoberta_label tweetevalsentimentPromptRoberta_label movierationalesPromptRoberta_label recastnerPromptRoberta_label ethicsdeontologyPromptRoberta_label ethicsjusticePromptRoberta_label MRPCPromptRoberta_label
 '''
 
-#for MODEL in IMDBPromptRobertaLarge laptopPromptRobertaLarge MNLIPromptRobertaLarge QNLIPromptRobertaLarge QQPPromptRobertaLarge restaurantPromptRobertaLarge SST2PromptRobertaLarge snliPromptRobertaLarge tweetevalsentimentPromptRobertaLarge movierationalesPromptRobertaLarge ethicsdeontologyPromptRobertaLarge ethicsjusticePromptRobertaLarge MRPCPromptRobertaLarge
-for MODEL in IMDBPromptRobertaLarge
+BACKBONE="Small"
+
+for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta snliPromptRoberta tweetevalsentimentPromptRoberta movierationalesPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta MRPCPromptRoberta
+#for MODEL in IMDBPromptRoberta
 do
     echo "==========================="
     echo activate_neuronPromptRoberta
-    echo Replace with task_prompt_emb/$MODEL
+    echo Replace with task_prompt_emb/$MODEL${BACKBONE}
     echo "==========================="
 
     #Eval mlm
-    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron.py --config config/activate_neuronPromptRobertaLarge.config \
+    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron.py --config config/activate_neuronPromptRoberta${BACKBONE}.config \
         --gpu $gpus \
-        --replacing_prompt task_prompt_emb/$MODEL \
+        --replacing_prompt task_prompt_emb/$MODEL${BACKBONE} \
         --activate_neuron
     #exit
 done

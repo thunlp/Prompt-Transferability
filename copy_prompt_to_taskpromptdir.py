@@ -13,7 +13,7 @@ for dataset_file in all_model_prompt:
     #if "RobertaLarge" not in dataset_file or "Small" in dataset_file:
     #    continue
     #if "Small" not in dataset_file or "sam" not in dataset_file:
-    if "Small" not in dataset_file:
+    if "T5Large" not in dataset_file:
         continue
 
     #if dataset_file != "QQPPromptRoberta":
@@ -59,9 +59,9 @@ for dataset_file in all_model_prompt:
 
     if dataset_file == "IMDBPromptRoberta":
         max_epoch = 23
-    if dataset_file == "IMDBPromptRobertaSmall":
+    elif dataset_file == "IMDBPromptRobertaSmall":
         max_epoch = 29
-    if dataset_file == "IMDBPromptRobertaLarge":
+    elif dataset_file == "IMDBPromptRobertaLarge":
         max_epoch = 27
     elif dataset_file == "IMDBPromptRoberta_label":
         max_epoch = 40
@@ -71,6 +71,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 70
     elif dataset_file == "IMDBPromptT5Small":
         max_epoch = 69 #45
+    elif dataset_file == "IMDBPromptT5Large":
+        max_epoch = 60
 
     elif dataset_file == "SST2PromptRoberta":
         max_epoch = 25
@@ -86,6 +88,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 26
     elif dataset_file == "SST2PromptT5Small":
         max_epoch = 17 #9
+    elif dataset_file == "SST2PromptT5Large":
+        max_epoch = 36
 
     elif dataset_file  == "laptopPromptRoberta":
         max_epoch = 32
@@ -101,6 +105,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 210
     elif dataset_file  == "laptopPromptT5Small":
         max_epoch = 229 #92
+    elif dataset_file  == "laptopPromptT5Large":
+        max_epoch = 499
 
     elif dataset_file == "restaurantPromptRoberta":
         max_epoch = 33
@@ -116,6 +122,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 276
     elif dataset_file == "restaurantPromptT5Small":
         max_epoch = 224 #162
+    elif dataset_file == "restaurantPromptT5Large":
+        max_epoch = 100
 
     elif dataset_file == "movierationalesPromptRoberta":
         max_epoch = 21
@@ -131,6 +139,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 197
     elif dataset_file == "movierationalesPromptT5Small":
         max_epoch = 373 #299
+    elif dataset_file == "movierationalesPromptT5Large":
+        max_epoch = 100
 
     elif dataset_file == "tweetevalsentimentPromptRoberta":
         max_epoch = 28
@@ -146,6 +156,8 @@ for dataset_file in all_model_prompt:
         max_epoch = 18
     elif dataset_file == "tweetevalsentimentPromptT5Small":
         max_epoch = 32 #20 better
+    elif dataset_file == "tweetevalsentimentPromptT5Large":
+        max_epoch = 38
 
 
     elif dataset_file == "MNLIPromptRoberta":
@@ -228,7 +240,7 @@ for dataset_file in all_model_prompt:
     elif dataset_file == "MRPCPromptRoberta":
         max_epoch = 66
     elif dataset_file == "MRPCPromptRobertaSmall":
-        max_epoch =
+        max_epoch = 53
     elif dataset_file == "MRPCPromptRobertaLarge":
         max_epoch = 96
     elif dataset_file == "MRPCPromptRoberta_label":

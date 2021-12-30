@@ -162,7 +162,7 @@ if __name__ == "__main__":
 
     '''准备hook'''
     '''这是提取特征的代码'''
-    outputs=[[] for _ in range(12)]
+    outputs=[[] for _ in range(24)]
     def save_ppt_outputs1_hook(n):
         def fn(_,__,output):
             #print("=====")
@@ -176,7 +176,7 @@ if __name__ == "__main__":
         return fn
 
 
-    for n in range(12):
+    for n in range(24):
         #这里面提取feature的模组可以改变，这里因为我自定义模型的原因要两层roberta
         #for l in model.state_dict().keys():
         #    print(l)
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     '''
 
     #merge 17 epoch
-    for k in range(12):
+    for k in range(24):
         #outputs[k] = relu(np.concatenate(outputs[k]))
         #outputs[k] = torch.relu(torch.cat(outputs[k]))
         outputs[k] = torch.cat(outputs[k])
@@ -255,10 +255,16 @@ if __name__ == "__main__":
     outputs = torch.stack(outputs)
 
     #decoder
+    #print(outputs.shape)
     outputs = outputs[:,:1,:1,:] #12 layers, [mask]
+    #print(outputs.shape)
+    #exit()
 
     #encoder
+    #print(outputs.shape)
     #outputs = outputs[:,:,100:101,:] #12 layers, [mask]
+    #print(outputs.shape)
+    #exit()
 
     #print(outputs.shape)
     # [12, 1, 1, 3072] --> 12, 1(batch_size), (target_length), 3072
