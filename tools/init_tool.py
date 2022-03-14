@@ -203,8 +203,11 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
     #    exit()
     #else:
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
+
+
     #print("====")
     #print(model)
+    #exit()
     #print("====")
     #print(config.get("model", "model_name"))
     #print("====")

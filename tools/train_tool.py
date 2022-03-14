@@ -170,6 +170,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, *args, **k
 
         output_info = ""
         step = -1
+
         ##############################
         #####MLM re-mask tokens#######
         ##Other task remain the same##

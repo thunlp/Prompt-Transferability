@@ -962,7 +962,21 @@ class T5Stack(T5PreTrainedModel):
         #exit()
         hidden_states = self.dropout(inputs_embeds)
 
+        #print("?????????????")
+        #print(self.block)
+        #print("?????????????")
+        #exit()
+
         for i, (layer_module, past_key_value) in enumerate(zip(self.block, past_key_values)):
+
+            #print("?????????????")
+            #print(layer_module)
+            #print("-----------")
+            #print(past_key_value)
+            #print(past_key_value.shape)
+            #print("?????????????")
+            #exit()
+
             layer_head_mask = head_mask[i]
             cross_attn_layer_head_mask = cross_attn_head_mask[i]
             # Model parallel
@@ -1057,6 +1071,7 @@ class T5Stack(T5PreTrainedModel):
 
         hidden_states = self.final_layer_norm(hidden_states)
         hidden_states = self.dropout(hidden_states)
+
 
         # Add last layer
         if output_hidden_states:
@@ -1638,6 +1653,37 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
                 decoder_attention_mask = decoder_attention_mask.to(self.decoder.first_device)
 
         # Decode
+        '''
+        print("!!!!!!!!!!!!!!!!")
+        print("================")
+        print(decoder_input_ids)
+        print(decoder_input_ids.shape)
+        print("---")
+        print(decoder_attention_mask)
+        print("---")
+        print(decoder_inputs_embeds)
+        print("---")
+        print(past_key_values)
+        print("---")
+        #print(hidden_states)
+        print(hidden_states.shape)
+        print("---")
+        print(attention_mask)
+        #print(attention_mask.shape)
+        print("---")
+        print(decoder_head_mask)
+        #print(decoder_head_mask.shape)
+        print("---")
+        print(cross_attn_head_mask)
+        #print(cross_attn_head_mask.shape)
+        print("---")
+        print(output_attentions)
+        #print(output_attentions.shape)
+        print("---")
+        print(output_hidden_states)
+        #print(output_hidden_states.shape)
+        print("----------------")
+        '''
         decoder_outputs = self.decoder(
             input_ids=decoder_input_ids,
             attention_mask=decoder_attention_mask,
@@ -1652,6 +1698,17 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
+        #print("---------------")
+        #print(decoder_input_ids)
+        #print(decoder_inputs_embeds)
+        #print(decoder_outputs)
+        #torch.Size([16, 1, 768])
+        #print(decoder_outputs[0])
+        #print(decoder_outputs[0].shape)
+        #print(decoder_outputs.hidden_states)
+        #print(decoder_outputs.hidden_states.shape)
+        #print("================")
+        #exit()
 
         sequence_output = decoder_outputs[0]
 
@@ -1660,13 +1717,24 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             torch.cuda.set_device(self.encoder.first_device)
             self.lm_head = self.lm_head.to(self.encoder.first_device)
             sequence_output = sequence_output.to(self.lm_head.weight.device)
+            #print(11111111)
 
         if self.config.tie_word_embeddings:
             # Rescale output before projecting on vocab
             # See https://github.com/tensorflow/mesh/blob/fa19d69eafc9a482aff0b59ddd96b025c0cb207d/mesh_tensorflow/transformer/transformer.py#L586
             sequence_output = sequence_output * (self.model_dim ** -0.5)
+            #print(22222222)
 
+        #print("==========")
+        #print(sequence_output)
+        #print(sequence_output.shape)
+        #print("---------")
         lm_logits = self.lm_head(sequence_output)
+        #print(lm_logits)
+        #print(lm_logits.shape)
+        #print("==========")
+        #list(self.config.items('Section'))
+        #exit()
 
         loss = None
         if labels is not None:

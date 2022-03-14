@@ -1,5 +1,0 @@
-gpus=2
-
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2useIMDBPromptRobertaLarge.config \
-    --gpu $gpus \
-    --checkpoint model/SST2useIMDBPromptRobertaLarge
