@@ -19,7 +19,7 @@ do
     echo "==========================="
 
     #Eval mlm
-    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_robertalarge.py --config config/activate_neuronPromptRobertaLarge.config \
+    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_roberta_large.py --config config/activate_neuronPromptRobertaLarge.config \
         --gpu $gpus \
         --replacing_prompt task_prompt_emb/$MODEL \
         --activate_neuron
