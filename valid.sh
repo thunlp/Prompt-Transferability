@@ -20,19 +20,12 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/restaurantPromptRobe
     --checkpoint model/restaurantPromptRoberta \
 
 
-
-
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
     --checkpoint model/laptopPromptRoberta  \
 
 
-
-exit
-
-
-'''
 #IMDB
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/IMDBPromptRoberta.config \
     --gpu $gpus \
@@ -108,8 +101,9 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta \
 
-'''
+exit
 
+'''
 #################################################
 #################################################
 ##################Bert###########################
