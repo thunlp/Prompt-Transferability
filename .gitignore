@@ -9,7 +9,6 @@ proj_prompt_roberta_to_t5xxl*
 
 
 /__pycache__
-__pycache__/
 
 task_prompt_emb/*
 result/*
