@@ -1,3 +1,5 @@
+#g.sh
+
 /data
 /tsne-cuda
 
@@ -5,9 +7,8 @@ result_mlm*
 
 proj_prompt_roberta_to_t5xxl*
 
-#g.sh
 
-__pycache__
+/__pycache__
 
 task_prompt_emb/*
 result/*
