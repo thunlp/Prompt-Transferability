@@ -87,7 +87,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/crossPrompt${T
 
 
 
-
 ###########################################
 #All task: from BertBase to RobertaBase####
 ###########################################
