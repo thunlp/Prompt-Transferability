@@ -5,6 +5,12 @@
 [![Arxiv](https://img.shields.io/badge/arXiv-2111.06719-B21A1B)](https://arxiv.org/abs/2111.06719)
 [![GitHub Stars](https://img.shields.io/github/stars/thunlp/Prompt-Transferability?style=social)](https://github.com/thunlp/Prompt-Transferability/stargazers)
 
+ArXiv link: https://arxiv.org/abs/2111.06719
+To be published in [**NAACL 2022**](https://2022.naacl.org/)
+
+
+
+
 
 
 Note
