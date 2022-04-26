@@ -28,29 +28,30 @@ def load_task_prompt(model_prompt, config_name, config):
     config_name = config_name.split("/")[1].replace(".config","")
 
     choosed_tasks = config.get("data","train_dataset_type").lower().split(",")
-    transfered_model = config.get("model","model_size").lower().split(",")
+    transfered_model = str.title(config.get("model","model_base").lower())+str.title(config.get("model","model_size").lower())
+
     model_size = str.title(model_prompt.strip().split("-")[-1])
-    model_prompt = str.title(model_prompt.strip().split("-")[0])
-    #print(model_prompt)
-    #exit()
+    model_backbone = str.title(model_prompt.strip().split("-")[0])
+    model_prompt = model_backbone+model_size
 
+    '''
+    if model_backbone == "Bert":
+        model_backbone_not_in = "Roberta"
+    elif model_backbone == "Roberta":
+        model_backbone_not_in = "Bert"
+    elif model_backbone == "T5":
+        model_backbone_not_in = "None"
+    '''
 
-    if model_prompt == "Bert":
-        model_prompt_not_in = "Roberta"
-    elif model_prompt == "Roberta":
-        model_prompt_not_in = "Bert"
-    elif model_prompt == "T5":
-        model_prompt_not_in = "T5XXL"
     print("====")
-    print("Include prompt type:",model_prompt)
+    print("Include prompt type:",model_backbone)
     print("---")
-    print("Not include prompt type:",model_prompt_not_in)
-    print("---")
+    #print("Not include prompt type:",model_backbone_not_in)
+    #print("---")
     print("Trained prompt:", model_prompt, model_size)
     print("---")
-    print("Transfered model size:", transfered_model)
+    print("From:", model_prompt, "transfer to:", transfered_model)
     print("====")
-    #exit()
 
     name_list = list()
     task_prompt_dict=dict()
@@ -59,78 +60,35 @@ def load_task_prompt(model_prompt, config_name, config):
     files = os.listdir(path)
 
 
-    print("----")
+    print("====")
     for file in files:
 
-        #cross_mlmPromptRoberta
-        if "mlm" in config_name:
-
-            if model_size not in file:
-                continue
-
-            if model_prompt not in file:
-                continue
-            if "mlm" not in file:
-                continue
-            if "_s1" in file or "_s2" in file:
-
-                #task_prompt_emb = torch.load(path+"/"+file+"/task_prompt")
-                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
-                name = str(file.strip().split("P")[0]).lower()
-                if name=="mr":
-                    name+="pc"
-                elif name=="qq":
-                    name+="p"
-
-                if "_s1" in file:
-                    name += "_s1"
-                elif "_s2" in file:
-                    name += "_s2"
-
-                if name not in choosed_tasks and "sst" not in name:
-                    continue
-
-                #if name not in choosed_tasks:
-                #    continue
-                #print(1)
-                print(file)
-                name_list.append(name)
-                task_prompt_dict[name] = task_prompt_emb
-            else:
-                continue
-
         #crossPromptRoberta
+        if model_size == "Base":
+            if "Small" in file or "Medium" in file or "Large" in file or "XXL" in file:
+                continue
+            else:
+                model_prompt = model_prompt.replace("Base","")
+
+
+        if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "cross" not in file:
+
+            task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
+            name = str(file.strip().split("P")[0]).lower()
+            if name=="mr":
+                name+="pc"
+            elif name=="qq":
+                name+="p"
+
+            if name not in choosed_tasks:
+                continue
+
+            print(file, task_prompt_emb.shape)
+
+            name_list.append(name)
+            task_prompt_dict[name] = task_prompt_emb
         else:
-            if model_size == "Base" or model_size == "base":
-                pass
-            elif model_size not in file:
-                continue
-            else:
-                print("crossPrompt.py: Line 103 - Have wrong model_size")
-                exit()
-
-
-            #if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "Large" not in file and "Medium" not in file:
-            if "proj" not in file and model_prompt in file and "mlm" not in file and "_label" not in file and "Large" not in file and "Medium" not in file and model_prompt_not_in not in file and "cross" not in file:
-                task_prompt_emb = torch.load(path+"/"+file+"/task_prompt", map_location=lambda storage, loc:storage)
-                name = str(file.strip().split("P")[0]).lower()
-                if name=="mr":
-                    name+="pc"
-                elif name=="qq":
-                    name+="p"
-
-                if name not in choosed_tasks:
-                    continue
-
-                print(file, end='\t')
-
-
-                name_list.append(name)
-                task_prompt_dict[name] = task_prompt_emb
-            else:
-                continue
-
-
+            continue
 
     #map_id = {'imdb':0, 'laptop':1, 'mnli':2, 'mrp':3, 'qnli':4, 'qqp':5, 're':6, 'restaurant':7, 'rte':8, 'sst2':9, 'wnli':10}
 
@@ -142,13 +100,6 @@ def load_task_prompt(model_prompt, config_name, config):
         #task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
         task_prompt_ten.append(task_prompt_dict[name])
     task_prompt_ten = torch.stack(task_prompt_ten)
-    '''
-    for name, id in map_id:
-        task_prompt_ten.append(task_prompt_dict[name].to("cuda"))
-    task_prompt_ten = torch.stack(task_prompt_ten).to("cuda")
-    print(task_prompt_ten.shape)
-    exit()
-    '''
 
 
     return task_prompt_ten
@@ -159,9 +110,6 @@ def load_task_prompt(model_prompt, config_name, config):
 class crossPrompt(nn.Module):
     def __init__(self, config, gpu_list, *args, **params):
 
-        #super(PromptRoberta, self).__init__()
-        #super(projectPromptRoberta, self).__init__()
-        #super(crossPromptRoberta, self).__init__()
         super(crossPrompt, self).__init__()
 
 
@@ -204,21 +152,6 @@ class crossPrompt(nn.Module):
             print("crossPromptRoberta.py Error")
             exit()
 
-        '''
-        try:
-            if config.get("model","model_size")=="large":
-                model = "roberta-large"
-                ckp = "RobertaLargeForMaskedLM"
-                self.hidden_size = 1024
-            else:
-                model = "roberta-base"
-                ckp = "RobertaForMaskedLM"
-                self.hidden_size = 768
-        except:
-            model = "roberta-base"
-            ckp = "RobertaForMaskedLM"
-            self.hidden_size = 768
-        '''
 
 
         self.task_specific_prompt_emb = load_task_prompt(params["model_prompt"],params["args"].config,config).to('cuda')
@@ -238,11 +171,6 @@ class crossPrompt(nn.Module):
         else:
             self.init_model_path = str(ckp)+"/PromptRoberta_init_params"
         '''
-        #print("=========")
-        #print(config.get("data","train_dataset_type"))
-        #print("=========")
-        #exit()
-        #print(config.get("data","train_dataset_type"))
 
 
         if "bert-medium" in model:
@@ -307,41 +235,11 @@ class crossPrompt(nn.Module):
                 print("Wrong")
                 exit()
         ##############
-        #self.encoder = RobertaForMaskedLM.from_pretrained(self.init_model_path, config=self.plmconfig)
-
-
-        # self.encoder = AutoModelForMaskedLM.from_pretrained("roberta-base")
-        #self.hidden_size = 768
-        # self.fc = nn.Linear(self.hidden_size, 2)
         if config.get("data", "train_dataset_type") == "STSB":
             self.criterion = nn.MSELoss()
         else:
             self.criterion = nn.CrossEntropyLoss()
-        # self.prompt_num = config.getint("prompt", "prompt_len") # + 1
-        # self.init_prompt_emb()
 
-        #Refer to https://github.com/xcjthu/prompt/blob/master/model/PromptRoberta.py : line31 revised
-        #self.labeltoken = torch.tensor([10932, 2362], dtype=torch.long)
-        #self.softlabel = config.getboolean("prompt", "softlabel")
-        #if self.softlabel:
-        #    self.init_softlabel(self.plmconfig.vocab_size, len(self.labeltoken))
-
-
-        ##########################
-        ##########################
-
-        #self.num_target_prompts = int(len([config.get("data","train_dataset_type").split(",")]))
-        #self.init_target_prompt = list()
-        #for i in range(self.num_target_prompts):
-        #    target_prompt = nn.Embedding(int(self.plmconfig.prompt_num),int(self.hidden_size))
-        #    self._init_weights(target_prompt)
-        #    self.init_target_prompt.append(target_prompt)
-
-
-        #self.target_prompt_emb = load_target_prompt(params["model_prompt"],params["args"].config,config,self.init_target_prompt).to('cuda')
-
-        #self.target_prompt = nn.Embedding(int(self.plmconfig.prompt_num),int(self.hidden_size))
-        #self._init_weights(self.target_prompt)
     def return_init_prompt_emb_(self, module):
         #self.random_init_prompt = nn.Embedding(int(config.prompt_num),int(config.hidden_size))
         self._init_weights(self.random_init_prompt)
@@ -366,8 +264,6 @@ class crossPrompt(nn.Module):
 
     def forward(self, data, config, gpu_list, acc_result, mode, prompt_emb_output="replace_task_specific_prompt_emb", **kwargs):
 
-
-
         # print(self.encoder.roberta.embeddings.prompt_embeddings.weight)
         if prompt_emb_output == True:
             output, prompt_emb = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len)
@@ -383,15 +279,19 @@ class crossPrompt(nn.Module):
             if "100" not in config.get("output","model_name"):
                 task_specific_prompt_emb = model_AE(task_specific_prompt_emb)
             else:
+                #print("=========")
+                #print(model_AE)
+                #print("----------")
+                #print(task_specific_prompt_emb.shape)
+                #print("=========")
+                #exit()
+
                 task_specific_prompt_emb_ = task_specific_prompt_emb.reshape( int(task_specific_prompt_emb.shape[0]), int(task_specific_prompt_emb.shape[1])*int(task_specific_prompt_emb.shape[2]))
+
                 task_specific_prompt_emb_ = model_AE(task_specific_prompt_emb_)
 
                 dim_out = int(int(model_AE.decoder.weight.shape[0])/int(task_specific_prompt_emb.shape[1]))
-                #dim_out = int(int(model_AE.decoder.weight.shape[0])/100)
-
-                #task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),int(task_specific_prompt_emb.shape[2]))
                 task_specific_prompt_emb = task_specific_prompt_emb_.reshape(int(task_specific_prompt_emb.shape[0]),int(task_specific_prompt_emb.shape[1]),dim_out)
-                #task_specific_prompt_emb = task_specific_prompt_emb_.reshape(dim_1,dim_2,dim_3)
             ###
 
 
@@ -399,12 +299,6 @@ class crossPrompt(nn.Module):
             if "mlm" in config.get("output","model_name"):
                 output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb, labels=data["label"])
             else:
-                #print(task_specific_prompt_emb.shape)
-                #print(task_specific_prompt_emb)
-                #exit()
-                #print(self.target_prompt.weight.shape)
-                #print(self.target_prompt.shape)
-                #exit()
                 output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'], prompt_emb_output=prompt_emb_output, prompt_token_len=self.plmconfig.prompt_len, task_specific_prompt_emb=task_specific_prompt_emb)
 
 
@@ -413,19 +307,7 @@ class crossPrompt(nn.Module):
         else:
             output = self.encoder(input_ids=data["inputx"], attention_mask=data['mask'])
 
-        # batch, seq_len = data["inputx"].shape[0], data["inputx"].shape[1]
-        # prompt = self.prompt_emb.weight # prompt_len, 768
-
-        # input = self.encoder.get_input_embeddings()(data["inputx"])
-        # embs = torch.cat([prompt.unsqueeze(0).repeat(batch, 1, 1), input], dim = 1)
-
-        # output = self.encoder(attention_mask=data['mask'], inputs_embeds=embs)
-
-
         logits = output["logits"] # batch, seq_len, vocab_size #torch.Size([16, 231, 50265])
-
-        #print("=====")
-        #print(config.get("output","model_name"))
         if "mlm" in config.get("output","model_name"):
             loss = output["loss"]
             acc_result = acc_mlm(logits, data['label'], acc_result)

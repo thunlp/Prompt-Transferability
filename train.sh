@@ -1,8 +1,33 @@
+
+#Download model checkpoints and move them to the corresponding dir
+
+
+mkdir BertMediumForMaskedLM
+mkdir BertForMaskedLM
+
 mkdir RobertaForMaskedLM
 mkdir RobertaLargeForMaskedLM
-gpus=6
+
+mkdir T5SmallForMaskedLM
+mkdir T5ForMaskedLM
+mkdir T5LargeForMaskedLM
+mkdir T53BForMaskedLM
+mkdir T511BForMaskedLM
 
 
+# Bert: BertMedium, Bert (BertBase)
+# Roberta: Roberta, RobertaBase (BertBase)
+# T5: T5Small, T5 (T5Base), T5Large
+gpus=7
+DATASET="SST2"
+BACKBONE="Roberta"
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/${DATASET}Prompt${BACKBONE}.config \
+    --gpu $gpus \
+    #--checkpoint model/${DATASET}Prompt${BACKBONE} \
+
+
+'''
 ################################
 ###########Roberta##############
 ################################
@@ -12,20 +37,17 @@ gpus=6
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptRoberta.config \
     --gpu $gpus
-    #--checkpoint roberta-base \
     #--local_rank \
     #--do_test \
     #--comment \
     #--seed
 
 
-'''
 
 
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptRoberta.config \
     --gpu $gpus \
-    #--checkpoint roberta-base \
     #--local_rank \
     #--do_test \
     #--comment \
@@ -41,7 +63,6 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptRoberta.co
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptRoberta.config \
     --gpu $gpus \
-    #--checkpoint roberta-base \
     #--local_rank \
     #--do_test \
     #--comment \
@@ -106,10 +127,8 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/QNLIPromptRoberta.co
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/STSBPromptRoberta.config \
     --gpu $gpus \
-'''
 
 
-'''
 ###
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/emobankarousalPromptRoberta.config \
     --gpu $gpus
@@ -202,11 +221,9 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsjusticePromptR
 
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsvirtuePromptRoberta.config \
     --gpu $gpus
-'''
 
 
 
-'''
 ##########################################################
 ###########BERT###########################################
 ##########################################################
@@ -217,21 +234,13 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/ethicsvirtuePromptRo
 #restaurant
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/restaurantPromptBert.config \
     --gpu $gpus \
-    #--checkpoint roberta-base \
-    #--local_rank \
-    #--do_test \
-    #--comment \
-    #--seed
+
 
 
 #laptop
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/laptopPromptBert.config \
     --gpu $gpus \
-    #--checkpoint roberta-base \
-    #--local_rank \
-    #--do_test \
-    #--comment \
-    #--seed
+
 
 
 #IMDB
@@ -242,11 +251,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/IMDBPromptBert.confi
 #SST-2
 CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/SST2PromptBert.config \
     --gpu $gpus \
-    #--checkpoint roberta-base \
-    #--local_rank \
-    #--do_test \
-    #--comment \
-    #--seed
+
 
 
 ############

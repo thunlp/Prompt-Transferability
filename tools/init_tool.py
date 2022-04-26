@@ -99,16 +99,10 @@ def recover_model_transfer_prompt(prompt_emb,projector,config):
         prompt_emb_ = model(prompt_emb.to("cuda"))
 
     elif "100" in projector:
-        #print(prompt_emb.shape)
         prompt_emb_ = prompt_emb.reshape(1,int(prompt_emb.shape[0])*int(prompt_emb.shape[1]))
-        #print(prompt_emb_.shape)
         prompt_emb_ = model(prompt_emb_.to("cuda"))
-        #print(prompt_emb_.shape)
         dim_out = int(int(model.decoder.weight.shape[0])/int(prompt_emb.shape[0]))
         prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),dim_out)
-        #print(prompt_emb_.shape)
-        #exit()
-        #prompt_emb_ = prompt_emb_.reshape(int(prompt_emb.shape[0]),int(prompt_emb.shape[1]))
     else:
         print("Wrong: tool/init_tool.py Line:102")
         print(projector)
@@ -181,8 +175,6 @@ def recover_task_transfer_prompt(prompt_emb,projector):
 def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
     result = {}
-
-
     logger.info("Begin to initialize dataset and formatter...")
     if mode=="test":
         # init_formatter(config, ["test"], *args, **params)
@@ -196,26 +188,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
     logger.info("Begin to initialize models...")
 
-    #if config.get("model", "model_name") == "roberta-small":
-    #    model = get_model("RobertaSmallForMaskedLM/"+config.get("model", "model_name"))(config, gpu_list, *args, **params).cuda()
-    #    print("====")
-    #    print(model)
-    #    exit()
-    #else:
     model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
-
-
-    #print("====")
-    #print(model)
-    #exit()
-    #print("====")
-    #print(config.get("model", "model_name"))
-    #print("====")
-    #print(config.get("model", "model_size"))
-    #print("====")
-    #exit()
-
-    #model = get_model(config.get("model", "model_name"))(config, gpu_list, *args, **params)
 
 
     #print(params) #{'local_rank': -1, 'prompt_emb_output': True}
@@ -234,15 +207,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         trained_epoch = max_checkpoint_epoch
     else:
         pass
-    #######################
 
-    #print("===============")
-    #model_type = params["args"].checkpoint#.split("Prompt")[-1].replace(".config","").replace("_label","")
-    #print(model_type)
-    #exit()
-
-    ##########
-    ##########
     if params["args"].checkpoint != None and mode=="train":
         if os.path.isdir(params["args"].checkpoint) and len(os.listdir(params["args"].checkpoint))!=0:
 
@@ -317,9 +282,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             load_checkpoint = params["args"].checkpoint
             files = os.listdir(load_checkpoint)
 
-            #if "task_prompt_emb" in files:
-            #    PATH = load_checkpoint+"/task_prompt"
-            #else:
             max_epoch = 0
             for file in files:
                 present_epoch = int(file.split("_")[0])
@@ -327,8 +289,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
                     max_epoch = present_epoch
                     PATH=load_checkpoint+"/"+str(max_epoch)+"_task_prompt.pkl"
             prompt_parameters = torch.load(PATH, map_location=lambda storage, loc: storage)
-            #torch.save(prompt_parameters, load_checkpoint+"/task_prompt_emb")
-            #encoder.roberta.embeddings.prompt_embeddings.weight
 
 
             if model_type == "Roberta" or model_type == "RobertaLarge":
@@ -336,7 +296,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             elif model_type == "Bert" or model_type == "BertLarge":
                 model.encoder.bert.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
             elif model_type == "T5" or model_type == "T5Large" or model_type=="T5Small":
-                #model.encoder.t5.embeddings.prompt_embeddings.weight.data = prompt_parameters["model"]
                 model.encoder.prompt_embeddings.weight.data = prompt_parameters["model"]
                 model.encoder.encoder.prompt_tokens.weight.data = prompt_parameters["model"]
                 model.encoder.decoder.prompt_tokens.weight.data = prompt_parameters["model"]
@@ -384,18 +343,6 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             print("=========================")
             print("Using",prompt_name,"prompt emb")
             print("=========================")
-            '''
-            if "Roberta" in prompt_name or "RobertaLarge" in prompt_name:
-            config_name = params["args"].config.split("/")[1].split(".")[0]
-            #load_task_prompt_dir = "task_prompt_emb/"+config_name+"/task_prompt"
-            #prompt_emb = torch.load(load_task_prompt_dir)
-            if "Roberta" in config_name or "RobertaLarge" in config_name:
-                prompt_emb = model.encoder.roberta.embeddings.prompt_embeddings.weight.data
-            elif "Bert" in config_name or "BertLarge" in config_name:
-                prompt_emb = model.encoder.bert.embeddings.prompt_embeddings.weight.data
-            else:
-                print("Warning: Use original prompt emb")
-            '''
 
         elif "Random" in params["args"].replacing_prompt or "random" in params["args"].replacing_prompt and params["args"].replacing_prompt!="randomPromptRobertaLarge":
             print("=========================")
@@ -420,12 +367,8 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
 
         ###Using Project or not
         if params["args"].task_transfer_projector:
-            #load_model = params["args"].checkpoint.strip().split("/")[1]
-            #prompt_emb = recover_task_transfer_prompt(prompt_emb,load_model)
             prompt_emb = recover_task_transfer_prompt(prompt_emb,params["args"].projector)
         elif params["args"].model_transfer_projector:
-            #load_model = params["args"].checkpoint.strip().split("/")[1]
-            #prompt_emb = recover_model_transfer_prompt(prompt_emb,load_model,params["args"].projector)
             prompt_emb = recover_model_transfer_prompt(prompt_emb,params["args"].projector,config)
         elif params["args"].model_transfer_projector and params["args"].task_transfer_projector:
             print("init_tool.py: Cannot choose both task_project and model_project")
@@ -501,38 +444,9 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
         print("Mode: Train")
         pass
     ########################
-    ########################
-    ########################
 
 
-    '''
-    try:
-        if params["args"].checkpoint==None and mode == "train" or mode == "valid":
-            trained_epoch = parameters["trained_epoch"]
-            if config.get("train", "optimizer") == parameters["optimizer_name"]:
-                optimizer.load_state_dict(parameters["optimizer"])
-            else:
-                logger.warning("Optimizer changed, do not load parameters of optimizer.")
 
-            if "global_step" in parameters:
-                global_step = parameters["global_step"]
-    except:
-        pass
-    '''
-
-    ###
-
-
-    '''
-    except Exception as e:
-
-        information = "Cannot load checkpoint file with error %s" % str(e)
-        if mode == "test":
-            logger.error(information)
-            raise e
-        else:
-            logger.warning(information)
-    '''
 
     ############
     if len(gpu_list) > 0:
@@ -552,10 +466,7 @@ def init_all(config, gpu_list, checkpoint, mode, *args, **params):
             #muti machines
             model = nn.parallel.DistributedDataParallel(model, device_ids=[params['local_rank']], output_device=params['local_rank'], find_unused_parameters = True)
 
-            #single machine
-            #model = nn.parallel.DistributedDataParallel(model, device_ids=gpu_list)
-            #model = nn.parallel.DistributedDataParallel(model)
-            ###
+
         except Exception as e:
             logger.warning("No init_multi_gpu implemented in the model, use single gpu instead.")
     ############

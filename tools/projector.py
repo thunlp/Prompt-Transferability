@@ -154,24 +154,10 @@ class AE_1_layer_mutiple_100(nn.Module):
 
     def forward(self, features):
         encoded_emb = self.encoding(features)
-        #print(encoded_emb.shape)
         encoded_emb = self.activation(encoded_emb)
-        #print(encoded_emb.shape)
         decoded_emb = self.decoding(encoded_emb)
-        #torch.Size([1, 76800])
-        #print(decoded_emb.shape)
-        #exit()
-        ###
-        #layer_norm = nn.LayerNorm(int(decoded_emb.shape[0]),100,768)
-        #print(int(decoded_emb.shape[0]))
-        #print(decoded_emb.shape)
-        #exit()
         decoded_emb = decoded_emb.reshape(int(decoded_emb.shape[0]),100,self.dim)
-        #print(decoded_emb.shape)
-        #print(self.dim)
         decoded_emb = self.layer_norm(decoded_emb)
-        #print(decoded_emb.shape)
-        #exit()
         decoded_emb = decoded_emb.reshape(int(decoded_emb.shape[0]),100*self.dim)
         ###
         return decoded_emb

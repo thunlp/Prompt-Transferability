@@ -1,9 +1,20 @@
-#CUDA_VISIBLE_DEVICES=$gpus
 
-gpus=5
+# Bert: BertMedium, Bert (BertBase)
+# Roberta: Roberta, RobertaBase (BertBase)
+# T5: T5Small, T5 (T5Base), T5Large
+gpus=7
+DATASET="SST2"
+BACKBONE="Roberta"
+
+
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/{DATASET}Prompt${BACKBONE}.config \
+    --gpu $gpus \
+    --checkpoint model/${DATASET}Prompt${BACKBONE} \
 
 
 
+
+'''
 #################################################
 #################################################
 ##################Roberta########################
@@ -101,9 +112,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptRoberta.co
     --gpu $gpus \
     --checkpoint model/STSBPromptRoberta \
 
-exit
 
-'''
 #################################################
 #################################################
 ##################Bert###########################
@@ -206,6 +215,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/QNLIPromptBert.confi
 CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/STSBPromptBert.config \
     --gpu $gpus \
     --checkpoint model/STSBPromptBert \
+'''
 
 
 

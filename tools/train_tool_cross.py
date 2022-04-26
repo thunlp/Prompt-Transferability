@@ -96,7 +96,6 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
             ###
             #model_AE = AE_0_layer(dim_0=768,dim_1=768).to(device)
             #model_AE = AE_0_layer_76800(dim_0=76800,dim_1=76800).to(device)
-            #model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=7680,dim_2=76800).to(device)
             model_AE = AE_1_layer_mutiple_100(dim_0=76800,dim_1=768,dim_2=76800).to(device)
             ###
         elif (config.get("model","model_size")).lower() == "base" and "base" in (params["args"].model_prompt).lower() and "100" not in config.get("output","model_name"):
@@ -287,6 +286,7 @@ def train(parameters, config, gpu_list, do_test=False, local_rank=-1, **params):
             #print(kwargs)
             #print("====")
             #exit()
+
 
             if "T5" in config.get("model","model_base"):
                 results = model(data, config, gpu_list, acc_result, "train", args=params, step=step, performance=performance, AE=model_AE)
