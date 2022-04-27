@@ -185,3 +185,18 @@ Utilize different metrics to evaluate transferability indicators:
 ```
 python3 caculate_metric_value_for_correlation.py
 ```
+
+
+## Citations
+[![DOI](https://img.shields.io/badge/DOI-10.48550/arXiv.2111.06719-green?color=FF8000?color=009922)](https://arxiv.org/abs/2111.06719)
+
+Please cite our paper if they are helpful to your work!
+
+```bibtex
+@inproceedings{su2022on,
+   title={On Transferability of Prompt Tuning for Natural Language Processing},
+   author={Su, Yusheng and Wang, Xiaozhi and Qin, Yujia and Chan, Chi-Min and Lin, Yankai and Liu, Zhiyuan and Li, Peng and Li, Juanzi and Hou, Lei and Sun, Maosong and Zhou, Jie},
+   booktitle={Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)},
+   year={2022}
+}
+```
