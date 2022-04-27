@@ -6,7 +6,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/thunlp/Prompt-Transferability?style=social)](https://github.com/thunlp/Prompt-Transferability/stargazers)
 
 
-ArXiv link: https://arxiv.org/abs/2111.06719 [**NAACL 2022** accepted](https://2022.naacl.org/) 
+[**NAACL 2022**](https://2022.naacl.org/) Accepted. (link: https://arxiv.org/abs/2111.06719)
 
 
 
