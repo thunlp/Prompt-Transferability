@@ -1,6 +1,7 @@
 #g.sh
 
-/data
+#/data
+data/*
 /tsne-cuda
 
 result_mlm*
