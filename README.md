@@ -36,6 +36,8 @@ bash requirement.sh
 ```
 ```
 
+
+
 ## Train (Prompt Tuning)
 Perform Prompt Tuning: 
 ```
@@ -82,6 +84,9 @@ Main Arguments:
 
 
 
+
+
+
 ## Cross-task Transfer
 Perform cross-task transfer experiments: 
 ```
@@ -110,3 +115,34 @@ Main Arguments:
 * `--config`: Utilize the same configurations as PT.
 * `--gpu`: Assign gpu ID.
 * `--checkpoint`: Trained prompts for validation.
+
+
+
+## Cross-model Transfer (Train)
+Train projectors for cross-model transfer:
+```
+bash train_cross_model.sh
+```
+
+Example:
+```
+DATASET="laptop"
+MODEL_PROMPT="T5-base"
+SOURCE_MODEL="T5"
+TARGET_MODEL="Roberta"
+source_model="t5"
+target_model="roberta"
+
+CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/crossPrompt${TARGET_MODEL}_${DATASET}_100_${source_model}_to_${target_model}.config \
+    --gpu $gpus \
+    --model_prompt $MODEL_PROMPT
+```
+
+Main Arguments:
+* `--config`: Configurations for cross-model projectors.
+* `--gpu`: Assign gpu ID.
+* `--model_prompt`: Trained prompts for training cross-model projectors.
+
+
+
+## Transferability Indicators (Neuron Stimulation)
