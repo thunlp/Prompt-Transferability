@@ -23,61 +23,63 @@ Moreover, to explore what decides prompt transferability, we investigate various
 > You could refer `environment.yml` for more details.
 
 
-Note
-=============
-#### Environment Setup
+### Requirements
 ```
 bash requirement.sh
 ```
 
+### Download PLM Checkpoints
+```
+```
 
-#### Training
+### Download Downstream Dataset
+```
+```
+
+## Train (Prompt Tuning)
+Perform Prompt Tuning: 
 ```
 bash train.sh
 ```
 
+Example:
+```
+gpus=7
+DATASET="SST2"
+BACKBONE="Roberta"
 
-#### Valid
+CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/${DATASET}Prompt${BACKBONE}.config \
+    --gpu $gpus \
+    --checkpoint model/${DATASET}Prompt${BACKBONE} \
+```
+
+Main Arguments:
+* `--config`: Prompt Tuning (PT) / Validation configurations in `/config` directory.
+* `--gpu`: Assign gpu id.
+* `--checkpoint`: Initialize prompt parameters for Prompt Tuning (PT).
+
+
+## Evaluate (Trained Prompts)
+Evaluate trained prompts on the corresponding tasks:
 ```
 bash valid.sh
 ```
 
-
-#### Extract Prompt Embedding
+Example:
 ```
-bash create_prompt_emb.sh
+gpus=7
+DATASET="SST2"
+BACKBONE="Roberta"
+
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/{DATASET}Prompt${BACKBONE}.config \
+    --gpu $gpus \
+    --checkpoint model/${DATASET}Prompt${BACKBONE} \
 ```
-
-### Rank Similiarty
-```
-rank_task_sim.py
-```
-
-### train.py
-```
-Generate prompt for each task
-```
-
-### train projector.py
-```
-Train an AE
-```
-
-### valid projector prompt.py
-```
-Compare original prompt with compressed prompt
-```
+Main Arguments:
+* `--config`: Utilize the same configurations as PT.
+* `--gpu`: Assign gpu id.
+* `--checkpoint`: Trained prompts for validation.
 
 
 
 
-
-
-
-Task:
-- Sentiment Classification: SST2, laptop, restaurant, IMDB
-- Paraphrase: MRPC, QQP, STSB(?)
-- NLI: MNLI, RTE, WNLI(Coreference), QNLI(QA)
-- RE: Fewrel
-- Sentence Similiarity: STSB
-- QA: QNLI(QA), SQUAD
