@@ -17,10 +17,10 @@ Prompt tuning (PT) is a promising parameter-efficient method to utilize extremel
 Moreover, to explore what decides prompt transferability, we investigate various transferability indicators and find that the overlapping rate of activated neurons strongly reflects the transferability, which suggests how the prompts \textit{stimulate} PLMs is essential. Our findings show that prompt transfer is promising for improving PT, and further research shall focus more on prompts' stimulation to PLMs.
 
 ### Setups
-* >= pip==21.3.1
-* >= python=3.6.13
+* pip>=21.3.1
+* python>=3.6.13
 * torch==1.9.0+cu111
-> You could refer `environment.yml` for more details.
+You could refer `environment.yml` for more details.
 
 
 ### Requirements
@@ -44,7 +44,7 @@ bash train.sh
 
 Example:
 ```
-gpus=7
+gpus=0
 DATASET="SST2"
 BACKBONE="Roberta"
 
@@ -67,7 +67,7 @@ bash valid.sh
 
 Example:
 ```
-gpus=7
+gpus=0
 DATASET="SST2"
 BACKBONE="Roberta"
 
@@ -82,4 +82,31 @@ Main Arguments:
 
 
 
+## Cross-task Transfer
+Perform cross-task transfer experiments: 
+```
+bash valid_cross_task.sh
+```
 
+Example:
+```
+gpus=0
+BASEMODEL="T5Large"
+DATASET=IMDBPrompt 
+PROMPT=laptopPrompt 
+
+echo "==========================="
+echo Model: config/${DATASET}${BASEMODEL}.config
+echo Prompt-emb: task_prompt_emb/${PROMPT}${BASEMODEL}
+echo "==========================="
+
+CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${DATASET}${BASEMODEL}.config \
+    --gpu $gpus \
+    --checkpoint model/${DATASET}${BASEMODEL} \
+    --replacing_prompt task_prompt_emb/${PROMPT}${BASEMODEL}
+```
+
+Main Arguments:
+* `--config`: Utilize the same configurations as PT.
+* `--gpu`: Assign gpu id.
+* `--checkpoint`: Trained prompts for validation.
