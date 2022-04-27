@@ -1,4 +1,4 @@
-# Prompt-Transferability: On Transferability of Prompt Tuning for Natural Language Processing
+# On Transferability of Prompt Tuning for Natural Language Processing
 
 [![Version](https://img.shields.io/badge/Version-v0.1.0-blue?color=FF8000?color=009922)](https://img.shields.io/badge/Version-v0.1.0-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](https://opensource.org/licenses/MIT)
