@@ -20,8 +20,7 @@ Moreover, to explore what decides prompt transferability, we investigate various
 * >= pip==21.3.1
 * >= python=3.6.13
 * torch==1.9.0+cu111
-
-> You could refer 
+> You could refer `environment.yml` for more details.
 
 
 Note
