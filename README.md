@@ -34,6 +34,7 @@ bash requirement.sh
 
 ### Download Downstream Dataset
 ```
+Refer to data/download_dataset_convert_file.py
 ```
 
 

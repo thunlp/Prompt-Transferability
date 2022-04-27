@@ -1,7 +1,8 @@
 #g.sh
 
-#/data
-data/*
+/data
+!/data/download_dataset_convert_file.py
+
 /tsne-cuda
 
 result_mlm*
