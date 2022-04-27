@@ -1,43 +1,50 @@
 gpus=7
 
+######################################
+#######Activate Neurons Roberta#######
+######################################
 
-'''
-#for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta MRPCPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta RTEPromptRoberta SST2PromptRoberta WNLIPromptRoberta anliPromptRoberta snliPromptRoberta tweetevalsentimentPromptRoberta movierationalesPromptRoberta recastfactualityPromptRoberta recastpunsPromptRoberta recastverbnetPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta ethicsvirtuePromptRoberta
+BACKBONE_MODEL="Roberta"
+#BACKBONE_MODEL="RobertaLarge"
 
-
-#for MODEL in recastfactualityPromptRoberta recastpunsPromptRoberta recastverbnetPromptRoberta recastverbcornerPromptRoberta recastnerPromptRoberta recastsentimentPromptRoberta recastmegaveridicalityPromptRoberta ethicscommonsensePromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta ethicsvirtuePromptRoberta
-
-for MODEL in IMDBPromptRoberta_label laptopPromptRoberta_label MNLIPromptRoberta_label QNLIPromptRoberta_label QQPPromptRoberta_label restaurantPromptRoberta_label SST2PromptRoberta_label snliPromptRoberta_label tweetevalsentimentPromptRoberta_label movierationalesPromptRoberta_label recastnerPromptRoberta_label ethicsdeontologyPromptRoberta_label ethicsjusticePromptRoberta_label MRPCPromptRoberta_label
-'''
-
-
-for MODEL in IMDBPromptRoberta laptopPromptRoberta MNLIPromptRoberta QNLIPromptRoberta QQPPromptRoberta restaurantPromptRoberta SST2PromptRoberta snliPromptRoberta tweetevalsentimentPromptRoberta movierationalesPromptRoberta recastnerPromptRoberta ethicsdeontologyPromptRoberta ethicsjusticePromptRoberta MRPCPromptRoberta
-#for MODEL in IMDBPromptRoberta
+for MODEL in IMDBPrompt${BACKBONE_MODEL} laptopPrompt${BACKBONE_MODEL} MNLIPrompt${BACKBONE_MODEL} QNLIPrompt${BACKBONE_MODEL} QQPPrompt${BACKBONE_MODEL} restaurantPrompt${BACKBONE_MODEL} SST2Prompt${BACKBONE_MODEL} snliPrompt${BACKBONE_MODEL} tweetevalsentimentPrompt${BACKBONE_MODEL} movierationalesPrompt${BACKBONE_MODEL} recastnerPrompt${BACKBONE_MODEL} ethicsdeontologyPrompt${BACKBONE_MODEL} ethicsjusticePrompt${BACKBONE_MODEL} MRPCPrompt${BACKBONE_MODEL}
 do
     echo "==========================="
-    echo activate_neuronPromptRoberta
-    echo Replace with task_prompt_emb/$MODEL
+    echo Activate_neuronPrompt${BACKBONE_MODEL}
+    echo Stimulate neurons with task_prompt_emb/$MODEL
     echo "==========================="
 
-    #Eval mlm
-    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron.py --config config/activate_neuronPromptRoberta.config \
+    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_${BACKBONE_MODEL}.py --config config/activate_neuronPrompt${BACKBONE_MODEL}.config \
         --gpu $gpus \
         --replacing_prompt task_prompt_emb/$MODEL \
         --activate_neuron
-    #exit
 done
 
 
 
 
+######################################
+#########Activate Neurons T5##########
+######################################
 
-###
-#cd /data/private/suyusheng/prompt/data/activate_neuron_data
-#python3 create_valid.py
-#cd /data/private/suyusheng/prompt
-###
+BACKBONE_MODEL="T5"
+#BACKBONE_MODEL="T5SMALL"
+#BACKBONE_MODEL="T5Large"
 
-#python3 activate_neuron_sim.py
+for MODEL in IMDBPrompt${BACKBONE_MODEL} laptopPrompt${BACKBONE_MODEL} MNLIPrompt${BACKBONE_MODEL} QNLIPrompt${BACKBONE_MODEL} QQPPrompt${BACKBONE_MODEL} restaurantPrompt${BACKBONE_MODEL} SST2Prompt${BACKBONE_MODEL} snliPrompt${BACKBONE_MODEL} tweetevalsentimentPrompt${BACKBONE_MODEL} movierationalesPrompt${BACKBONE_MODEL} ethicsdeontologyPrompt${BACKBONE_MODEL} ethicsjusticePrompt${BACKBONE_MODEL} MRPCPrompt${BACKBONE_MODEL} multi_newsPrompt${BACKBONE_MODEL} nq_openPrompt${BACKBONE_MODEL} samsumPrompt${BACKBONE_MODEL} squadPrompt${BACKBONE_MODEL}
+do
+    echo "==========================="
+    echo Activate_neuronPrompt${BACKBONE_MODEL}
+    echo Stimulate neurons with task_prompt_emb/$MODEL
+    echo "==========================="
+
+    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_${BACKBONE_MODEL}.py --config config/activate_neuronPrompt${BACKBONE_MODEL}.config \
+        --gpu $gpus \
+        --replacing_prompt task_prompt_emb/$MODEL \
+        --activate_neuron
+done
+
+
 
 '''
 for i in 9

@@ -11,26 +11,9 @@ import torch
 import sys
 
 
-#from openTSNE import TSNE, TSNEEmbedding, affinity, initialization
-#from openTSNE import initialization
-#from openTSNE.callbacks import ErrorLogger
-#from examples import utils
-#from openTSNE_.examples import utils_
-#import utils
-#import numpy as np
-#import matplotlib.pyplot as plt
-
-#from tsnecuda import TSNE
-#from os import listdir
-#from os.path import isfile, join
 import glob
 
 #####
-
-
-#task_ten={0:sst2_ten,1:rte_ten,2:re_ten,3:MNLI_ten,4:MRPC_ten,5:QNLI_ten,6:QQP_ten,7:WNLI_ten,8:STSB_ten}
-
-#task_map={0:"sst2_15",1:"rte",2:"re",3:"MNLI",4:"MRPC",5:"QNLI",6:"QQP",7:"WNLI",8:"STSB"}
 
 
 
@@ -43,10 +26,6 @@ def EuclideanDistances_per_token(task1_emb,task2_emb):
     task2_emb = task2_emb.reshape(100,int(task2_emb.shape[-1]/100))
     sum_euc = 0
     for idx1, v1 in enumerate(task1_emb):
-        #print(idx1)
-        #print(v1)
-        #print(v1.shape)
-        #exit()
         for idx2, v2 in enumerate(task2_emb):
             #euc = torch.norm(v1-v2, p='fro')
             euc = torch.norm(v1-v2, p=2)
