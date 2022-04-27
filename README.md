@@ -180,7 +180,7 @@ Main Arguments:
 * `--activate_neuron`: Neuron-capture mode.
 
 
-## Transferability Indicators (Neuron Stimulation)
+## Transferability Indicators (Different Metric Results)
 Utilize different metrics to evaluate transferability indicators:
 ```
 python3 caculate_metric_value_for_correlation.py
