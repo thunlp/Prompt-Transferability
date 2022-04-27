@@ -28,8 +28,22 @@ You could refer `environment.yml` for more details.
 bash requirement.sh
 ```
 
-### Download PLM Checkpoints
+### Download PLM Checkpoints from Huggieface
+You could directly download PLMs (Checkpoints and Tokenizers) to the corresponding directories as below:
+> Bert: `bert-base-uncased`
 ```
+mkdir BertForMaskedLM
+```
+> Roberta: `roberta-base`, `roberta-large`
+```
+mkdir RobertaForMaskedLM
+mkdir RobertaLargeForMaskedLM
+```
+> T5: `t5-small`, `t5-base`, `t5-large`
+```
+mkdir T5SmallForMaskedLM
+mkdir T5ForMaskedLM
+mkdir T5LargeForMaskedLM
 ```
 
 ### Download Downstream Dataset
