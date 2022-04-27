@@ -55,7 +55,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/${DATASET}Prompt${BA
 
 Main Arguments:
 * `--config`: Prompt Tuning (PT) / Validation configurations in `/config` directory.
-* `--gpu`: Assign gpu id.
+* `--gpu`: Assign gpu ID.
 * `--checkpoint`: Initialize prompt parameters for Prompt Tuning (PT).
 
 
@@ -77,7 +77,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/{DATASET}Prompt${BAC
 ```
 Main Arguments:
 * `--config`: Utilize the same configurations as PT.
-* `--gpu`: Assign gpu id.
+* `--gpu`: Assign gpu ID.
 * `--checkpoint`: Trained prompts for validation.
 
 
@@ -108,5 +108,5 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${DATASET}${BASEMODE
 
 Main Arguments:
 * `--config`: Utilize the same configurations as PT.
-* `--gpu`: Assign gpu id.
+* `--gpu`: Assign gpu ID.
 * `--checkpoint`: Trained prompts for validation.
