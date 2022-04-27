@@ -60,6 +60,9 @@ Main Arguments:
 * `--gpu`: Assign gpu ID.
 * `--checkpoint`: Initialize prompt parameters for Prompt Tuning (PT).
 
+After prompt tuning, you could use `copy_prompt_to_taskpromptdir.py` to convert trained prompts and save them as tensors in `/task_prompt_emb`.
+
+
 
 ## Evaluate (Trained Prompts)
 Evaluate trained prompts on the corresponding tasks:
@@ -114,7 +117,7 @@ CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${DATASET}${BASEMODE
 Main Arguments:
 * `--config`: Utilize the same configurations as PT.
 * `--gpu`: Assign gpu ID.
-* `--checkpoint`: Trained prompts for validation.
+* `--replacing_prompt`: Choose the source trained prompts to transfer to another tasks.
 
 
 
@@ -145,4 +148,40 @@ Main Arguments:
 
 
 
+
 ## Transferability Indicators (Neuron Stimulation)
+Capture values of neurons (the output values between 1st and 2nd layers of feed-forward network FFN) in every layer of a PLM [Refer to Section 6.1 in the paper]:
+```
+bash activate_neuron.sh
+```
+
+Example:
+```
+BACKBONE_MODEL="Roberta"
+
+for MODEL in IMDBPrompt${BACKBONE_MODEL} laptopPrompt${BACKBONE_MODEL} MNLIPrompt${BACKBONE_MODEL} QNLIPrompt${BACKBONE_MODEL} QQPPrompt${BACKBONE_MODEL} restaurantPrompt${BACKBONE_MODEL} SST2Prompt${BACKBONE_MODEL} snliPrompt${BACKBONE_MODEL} tweetevalsentimentPrompt${BACKBONE_MODEL} movierationalesPrompt${BACKBONE_MODEL} recastnerPrompt${BACKBONE_MODEL} ethicsdeontologyPrompt${BACKBONE_MODEL} ethicsjusticePrompt${BACKBONE_MODEL} MRPCPrompt${BACKBONE_MODEL}
+do
+    echo "==========================="
+    echo Activate_neuronPrompt${BACKBONE_MODEL}
+    echo Stimulate neurons with task_prompt_emb/$MODEL
+    echo "==========================="
+
+    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_${BACKBONE_MODEL}.py --config config/activate_neuronPrompt${BACKBONE_MODEL}.config \
+        --gpu $gpus \
+        --replacing_prompt task_prompt_emb/$MODEL \
+        --activate_neuron
+done
+```
+
+Main Arguments:
+* `--config`: Configurations for neuron stimulation (capture neuron values).
+* `--gpu`: Assign gpu ID.
+* `--replacing_prompt`: Choose trained prompts to stimulate neurons.
+* `--activate_neuron`: Neuron-capture mode.
+
+
+## Transferability Indicators (Neuron Stimulation)
+Utilize different metrics to evaluate transferability indicators:
+```
+python3 caculate_metric_value_for_correlation.py
+```
