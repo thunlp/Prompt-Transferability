@@ -210,7 +210,7 @@ Please cite our paper if they are helpful to your work!
 ```bibtex
 @inproceedings{su2022on,
    title={On Transferability of Prompt Tuning for Natural Language Processing},
-   author={Su, Yusheng and Wang, Xiaozhi and Qin, Yujia and Chan, Chi-Min and Lin, Yankai and Liu, Zhiyuan and Li, Peng and Li, Juanzi and Hou, Lei and Sun, Maosong and Zhou, Jie},
+   author={Su, Yusheng and Wang, Xiaozhi and Qin, Yujia and Chan, Chi-Min and Lin, Yankai and Wang, Huadong and Wen, Kaiyue and Liu, Zhiyuan and Li, Peng and Li, Juanzi and Hou, Lei and Sun, Maosong and Zhou, Jie},
    booktitle={Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)},
    year={2022}
 }
