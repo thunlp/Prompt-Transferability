@@ -202,7 +202,7 @@ python3 caculate_metric_value_for_correlation.py
 ## Citations
 [![DOI](https://img.shields.io/badge/DOI-10.48550/arXiv.2111.06719-green?color=FF8000?color=009922)](https://arxiv.org/abs/2111.06719)
 
-Please cite our paper if they are helpful to your work!
+Please cite our paper if it is helpful to your work!
 
 ```bibtex
 @inproceedings{su2021transferability,
