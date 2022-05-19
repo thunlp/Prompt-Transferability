@@ -209,8 +209,9 @@ Please cite our paper if they are helpful to your work!
    title={On Transferability of Prompt Tuning for Natural Language Processing},
    author={Su, Yusheng and Wang, Xiaozhi and Qin, Yujia and Chan, Chi-Min and Lin, Yankai and Wang, Huadong and Wen, Kaiyue and Liu, Zhiyuan and Li, Peng and Li, Juanzi and Hou, Lei and Sun, Maosong and Zhou, Jie},
    booktitle={Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)},
-   url = {https://arxiv.org/abs/2111.06719},
-   year={2022}
+   year={2022},
+   doi = {10.48550/ARXIV.2111.06719},
+   url = {https://arxiv.org/abs/2111.06719}
 }
 ```
 
