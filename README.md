@@ -5,7 +5,7 @@
 [![Arxiv](https://img.shields.io/badge/arXiv-2111.06719-B21A1B)](https://arxiv.org/abs/2111.06719)
 [![GitHub Stars](https://img.shields.io/github/stars/thunlp/Prompt-Transferability?style=social)](https://github.com/thunlp/Prompt-Transferability/stargazers)
 
-- [**NAACL 2022**](https://2022.naacl.org/) Accepted. [[**pdf**]](https://arxiv.org/abs/2111.06719)
+- [**NAACL 2022**](https://2022.naacl.org/) Accepted. [[**pdf**]](https://aclanthology.org/2022.naacl-main.290/)
 
 ## Overview
 ![prompt_transferability](github_fig/prompt_transferbility_github.png)
