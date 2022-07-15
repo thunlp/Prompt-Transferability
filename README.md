@@ -198,7 +198,7 @@ Utilize different metrics to evaluate transferability indicators:
 python3 caculate_metric_value_for_correlation.py
 ```
 
-##Activated Neurons Demo 
+## Activated Neurons Demo 
 [Colab](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 
 ## Citations
