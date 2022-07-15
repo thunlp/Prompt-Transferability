@@ -207,11 +207,22 @@ Please cite our paper if it is helpful to your work!
 ```bibtex
 @inproceedings{su2021transferability,
    title={On Transferability of Prompt Tuning for Natural Language Processing},
-   author={Su, Yusheng and Wang, Xiaozhi and Qin, Yujia and Chan, Chi-Min and Lin, Yankai and Wang, Huadong and Wen, Kaiyue and Liu, Zhiyuan and Li, Peng and Li, Juanzi and Hou, Lei and Sun, Maosong and Zhou, Jie},
-   booktitle={Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)},
+   author={Su, Yusheng  and
+      Wang, Xiaozhi  and
+      Qin, Yujia  and
+      Chan, Chi-Min  and
+      Lin, Yankai  and
+      Wang, Huadong  and
+      Wen, Kaiyue  and
+      Liu, Zhiyuan  and
+      Li, Peng  and
+      Li, Juanzi  and
+      Hou, Lei  and
+      Sun, Maosong  and
+      Zhou, Jie},
+   booktitle={Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies},
    year={2022},
-   doi = {10.48550/ARXIV.2111.06719},
-   url = {https://arxiv.org/abs/2111.06719}
+   url = {https://aclanthology.org/2022.naacl-main.290}
 }
 ```
 
