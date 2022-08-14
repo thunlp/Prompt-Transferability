@@ -202,14 +202,14 @@ python3 caculate_metric_value_for_correlation.py
 [Colab](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 
 ## Citations
-[![DOI](https://img.shields.io/badge/DOI-10.48550/arXiv.2111.06719-green?color=FF8000?color=009922)](https://arxiv.org/abs/2111.06719)
+[![DOI](https://img.shields.io/badge/DOI-10.18653/v1/2022.naacl-main.290-green?color=FF8000?color=009922)](https://aclanthology.org/2022.naacl-main.290)
 
 Please cite our paper if it is helpful to your work!
 
 ```bibtex
-@inproceedings{su2021transferability,
-   title={On Transferability of Prompt Tuning for Natural Language Processing},
-   author={Su, Yusheng  and
+@inproceedings{su-etal-2022-transferability,
+    title = "On Transferability of Prompt Tuning for Natural Language Processing",
+    author = "Su, Yusheng  and
       Wang, Xiaozhi  and
       Qin, Yujia  and
       Chan, Chi-Min  and
@@ -221,10 +221,15 @@ Please cite our paper if it is helpful to your work!
       Li, Juanzi  and
       Hou, Lei  and
       Sun, Maosong  and
-      Zhou, Jie},
-   booktitle={Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies},
-   year={2022},
-   url = {https://aclanthology.org/2022.naacl-main.290}
+      Zhou, Jie",
+    booktitle = "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+    month = jul,
+    year = "2022",
+    address = "Seattle, United States",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2022.naacl-main.290",
+    doi = "10.18653/v1/2022.naacl-main.290",
+    pages = "3949--3969"
 }
 ```
 
