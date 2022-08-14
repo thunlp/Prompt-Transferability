@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Version-v0.1.0-blue?color=FF8000?color=009922)](https://img.shields.io/badge/Version-v0.1.0-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://img.shields.io/badge/NAACL-10.18653/v1)](https://aclanthology.org/2022.naacl-main.290)
+[![DOI](https://img.shields.io/badge/NAACL-10.18653)](https://aclanthology.org/2022.naacl-main.290)
 [![GitHub Stars](https://img.shields.io/github/stars/thunlp/Prompt-Transferability?style=social)](https://github.com/thunlp/Prompt-Transferability/stargazers)
 
 - [**NAACL 2022**](https://2022.naacl.org/) Accepted. [[**pdf**]](https://aclanthology.org/2022.naacl-main.290/)
@@ -202,7 +202,7 @@ python3 caculate_metric_value_for_correlation.py
 [Colab](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 
 ## Citations
-[![DOI](https://img.shields.io/badge/DOI-10.18653/v1/2022.naacl-main.290-green?color=FF8000?color=009922)](https://aclanthology.org/2022.naacl-main.290)
+[![DOI](https://img.shields.io/badge/DOI-10.18653-green?color=FF8000?color=009922)](https://aclanthology.org/2022.naacl-main.290)
 
 Please cite our paper if it is helpful to your work!
 
