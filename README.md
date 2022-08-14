@@ -202,7 +202,7 @@ python3 caculate_metric_value_for_correlation.py
 [Colab](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 
 ## Citations
-[![DOI](https://img.shields.io/badge/DOI-10.18653/v1/2022.naacl-main.290-green?color=FF8000?color=009922)](https://aclanthology.org/2022.naacl-main.290)
+[![DOI](https://img.shields.io/badge/DOI-10.18653/v1/2022.naacl-green?color=FF8000?color=009922)](https://aclanthology.org/2022.naacl-main.290)
 
 Please cite our paper if it is helpful to your work!
 
