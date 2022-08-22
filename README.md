@@ -4,9 +4,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/thunlp/Prompt-Transferability?style=social)](https://github.com/thunlp/Prompt-Transferability/stargazers)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 
-This is the source code of "On Transferability of Prompt Tuning for Natural Language Processing".
-
-- [**NAACL 2022**](https://2022.naacl.org/) Accepted. [[**pdf**]](https://aclanthology.org/2022.naacl-main.290/)
+This is the source code of "On Transferability of Prompt Tuning for Natural Language Processing", an [NAACL 2022](https://2022.naacl.org/) paper, [[**pdf**]](https://aclanthology.org/2022.naacl-main.290/).
 
 ## Overview
 ![prompt_transferability](github_fig/prompt_transferbility_github.png)
