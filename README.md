@@ -52,6 +52,8 @@ Refer to data/download_dataset_convert_file.py
 
 
 ## Train (Prompt Tuning)
+![](github_profile/prompt_tuning.png)
+
 Perform Prompt Tuning: 
 ```
 bash train.sh
