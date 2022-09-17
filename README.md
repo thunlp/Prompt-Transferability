@@ -9,7 +9,7 @@
 This is the source code of "On Transferability of Prompt Tuning for Natural Language Processing", an [NAACL 2022](https://2022.naacl.org/) paper [[**pdf**]](https://aclanthology.org/2022.naacl-main.290/).
 
 ## Overview
-![prompt_transferability](github_fig/prompt_transferbility_github.png)
+![prompt_transferability](github_profile/prompt_transferbility_github.png)
 
 Prompt tuning (PT) is a promising parameter-efficient method to utilize extremely large pre-trained language models (PLMs), which can achieve comparable performance to full-parameter fine-tuning by only tuning a few soft prompts. However, PT requires much more training time than fine-tuning. Intuitively, knowledge transfer can help to improve the efficiency. To explore whether we can improve PT via prompt transfer, we empirically investigate the transferability of soft prompts across different downstream tasks and PLMs in this work. We find that (1) in zero-shot setting, trained soft prompts can effectively transfer to similar tasks on the same PLM and also to other PLMs with a cross-model projector trained on similar tasks; (2) when used as initialization, trained soft prompts of similar tasks and projected prompts of other PLMs can significantly accelerate training and also improve the performance of PT. Moreover, to explore what decides prompt transferability, we investigate various transferability indicators and find that the overlapping rate of activated neurons strongly reflects the transferability, which suggests how the prompts stimulate PLMs is essential. Our findings show that prompt transfer is promising for improving PT, and further research shall focus more on prompts' stimulation to PLMs.
 
@@ -104,6 +104,8 @@ Main Arguments:
 
 
 ## Cross-task Transfer
+![](github_profile/cross_task.gif)
+
 Perform cross-task transfer experiments: 
 ```
 bash valid_cross_task.sh
@@ -135,6 +137,8 @@ Main Arguments:
 
 
 ## Cross-model Transfer (Train)
+![](github_profile/cross_model.gif)
+
 Train projectors for cross-model transfer:
 ```
 bash train_cross_model.sh
@@ -163,6 +167,8 @@ Main Arguments:
 
 
 ## Transferability Indicators (Neuron Stimulation)
+![](github_profile/activated_neurons.gif)
+
 Capture values of neurons (the output values between 1st and 2nd layers of feed-forward network FFN) in every layer of a PLM [Refer to Section 6.1 in the paper]:
 ```
 bash activate_neuron.sh
