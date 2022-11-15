@@ -1,5 +1,4 @@
 import os
-import copy
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
@@ -102,7 +101,6 @@ class PromptHub(Trainer):
             if hasattr(args, "model_parallel") and args.model_parallel:
                 print('parallelize model!')
                 model.parallelize()
-        print('aaaaaaaaaaaaaaaaaaaa', model)
 
         return model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type
 
