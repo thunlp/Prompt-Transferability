@@ -45,6 +45,9 @@ class PromptTrainingArguments(TrainingArguments):
             "If False, will pad the samples dynamically when batching to the maximum length in the batch."
         },
     )
+    model_parallel: bool = field(
+        default=False, metadata={"help": "Whether to use model parallelism."}
+    )
 
     def __post_init__(self):
         super().__post_init__()

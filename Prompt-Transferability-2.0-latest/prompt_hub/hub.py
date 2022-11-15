@@ -1,4 +1,5 @@
 import os
+import copy
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
@@ -71,12 +72,12 @@ class PromptHub(Trainer):
             model_type = 'gpt'
 
         # Load openprompt models
-        if not hasattr(self, 'args') or args.backbone != model_name:
+        if (not hasattr(self, 'args')) or args.backbone != model_name:
             plm, tokenizer, model_config, tokenizer_wrapper_class = load_plm(model_type, model_name)
         else:
             plm = self.plm
             tokenizer = self.tokenizer
-            model_config = self.model_config
+            model_config = self.config
             tokenizer_wrapper_class = self.tokenizer_wrapper_class
             model_type = self.source_model_type
 
@@ -93,10 +94,15 @@ class PromptHub(Trainer):
         else:
             verbalizer = ManualVerbalizer(tokenizer, classes=processor.labels, label_words=processor.label_words)
         
-        if hasattr(self, 'verbalizer') and self.verbalizer is not None:
+        if hasattr(self, 'model') and self.model is not None:
             model = self.model
         else:
             model = PromptForClassification(plm=plm, template=template, verbalizer=verbalizer, freeze_plm=True)
+
+            if hasattr(args, "model_parallel") and args.model_parallel:
+                print('parallelize model!')
+                model.parallelize()
+        print('aaaaaaaaaaaaaaaaaaaa', model)
 
         return model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type
 
@@ -204,10 +210,12 @@ class PromptHub(Trainer):
         os.makedirs(self.args.output_dir, exist_ok=True)
 
         if model is not None:
-            if isinstance(model, str) and model != self.args.backbone:
-                processor = data_processor_list[task]
-                model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(self.args.backbone, processor, self.args)
-                self.set_active_state_dict(model)   # Only save soft prompts
+            if isinstance(model, str):
+                if model != self.args.backbone:
+                    processor = data_processor_list[task]
+                    model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(model, processor, self.args)
+                else:
+                    model = self.model
 
             elif isinstance(model, torch.nn.Module):
                 pass
@@ -229,7 +237,6 @@ class PromptHub(Trainer):
         if model is not None and model != self.args.backbone:
             model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(args.backbone, processor, args)
             self.model = model
-            self.set_active_state_dict(model)   # Only save soft prompts
 
         if prompt_emb is not None:
             if isinstance(prompt_emb, str):

@@ -18,12 +18,13 @@ model_mapping = {
     'bert-base': 'bert-base-uncased',
     'bert-large': 'bert-large-uncased',
     'roberta-base': 'roberta-base',
-    'roberta-large': 'roberta-large'
+    'roberta-large': 'roberta-large',
+    't5-small': 't5-small'
 }
 
 seeds = [42, 87, 21]
 datasets = ["mrpc", "cola", "sst2", "qnli", "rte",  "mnli", "qqp", "snli"]
-models = ['bert-tiny', 'bert-small', 'bert-base', 'bert-large', 'roberta-base', 'roberta-large']
+models = ['bert-tiny', 'bert-small', 'bert-base', 'bert-large', 'roberta-base', 'roberta-large', 't5-small']
 
 
 template = {
@@ -51,6 +52,7 @@ template = {
     "evaluation_strategy": "steps",
     "overwrite_output_dir": True,
     "save_strategy": "steps",
+    "model_parallel": False
 }
 
 
