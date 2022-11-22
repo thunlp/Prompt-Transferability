@@ -1,4 +1,5 @@
 import os
+import copy
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
@@ -101,6 +102,13 @@ class PromptHub(Trainer):
             if hasattr(args, "model_parallel") and args.model_parallel:
                 print('parallelize model!')
                 model.parallelize()
+
+        _keys_to_ignore_on_save = []
+        for n, p in model.named_parameters():
+            if not p.requires_grad:
+                _keys_to_ignore_on_save.append(n)
+
+        model._keys_to_ignore_on_save = _keys_to_ignore_on_save
 
         return model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type
 
@@ -232,7 +240,7 @@ class PromptHub(Trainer):
         self.args.output_dir = os.path.join(self.out_dir_root, 'prompt_emb')
         os.makedirs(self.args.output_dir, exist_ok=True)
 
-        if model is not None and model != self.args.backbone:
+        if model is not None and isinstance(model, str) and model != self.args.backbone:
             model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(args.backbone, processor, args)
             self.model = model
 
@@ -287,10 +295,16 @@ class PromptHub(Trainer):
             num_layers=self.args.num_proj_layers, flatten=self.args.flatten_proj,
             model=plm, text=self.template_text, tokenizer=tokenizer, num_tokens=self.args.prompt_len)
         self.model = PromptForClassification(plm=plm, template=template, verbalizer=verbalizer, freeze_plm=True)
-        
+        _keys_to_ignore_on_save = []
+        for n, p in self.model.named_parameters():
+            if not p.requires_grad:
+                _keys_to_ignore_on_save.append(n)
+
+        self.model._keys_to_ignore_on_save = _keys_to_ignore_on_save
+
         # Load source prompt or specific prompt
         if prompt_emb is None:
-            prompt_emb = os.path.join(self.out_dir_root, 'prompt_emb/checkpoint-4000/pytorch_model.bin')
+            prompt_emb = os.path.join(self.out_dir_root, 'prompt_emb/checkpoint-711776/pytorch_model.bin')
         
         prompt_emb = torch.load(prompt_emb, map_location='cpu')['prompt_model.template.soft_embeds'].to(self.args.device)
         self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
@@ -308,7 +322,8 @@ class PromptHub(Trainer):
         if task != self.args.dataset:
             self.train_dataset = processor.train_dataset
             self.eval_dataset = processor.eval_dataset
-            
+
+        self.args.learning_rate = 0.1    
         train_result = super().train(**kwargs)
         
         return train_result
@@ -333,7 +348,7 @@ class PromptHub(Trainer):
 
         processor = data_processor_list[task]()
 
-        model, _, _, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(model, self.args, processor)
+        model, _, _, _, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(model, processor, self.args)
         self._move_model_to_device(model, self.args.device)
         num_layers = model_config.num_hidden_layers
         
@@ -359,10 +374,12 @@ class PromptHub(Trainer):
             return fn
 
         for n in range(num_layers):
-            if model_type == 'roberta':
+            if model_type == 'bert' or model_type == 'roberta':
                 model.prompt_model.plm.roberta.encoder.layer[n].intermediate.register_forward_hook(save_ppt_outputs1_hook(n))
             elif model_type == 't5':
                 model.prompt_model.plm.t5.decoder.block[n].layer[2].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
+            elif model_type == 'gpt':
+                model.prompt_model.plm.gpt.transformer.h[n].mlp.c_fc.register_forward_hook(save_ppt_outputs1_hook(n))
             else:
                 raise NotImplementedError
 
@@ -377,7 +394,10 @@ class PromptHub(Trainer):
 
         if layers is not None:
             outputs = outputs[torch.tensor(layers)]
+            num_layers = len(layers)
         
+        outputs = outputs.view(num_layers, -1)
+
         # Active neuron before ReLU
         torch.save(outputs, f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_before_relu.pt')
 
@@ -386,6 +406,56 @@ class PromptHub(Trainer):
         torch.save(neuron_after_relu, f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_after_relu.pt')
 
         return outputs, neuron_after_relu
+
+    def mask_activated_neuron(self, model=None, task=None, layers=None, ratio=0.2):
+        
+        processor = data_processor_list[task]()
+
+        model, _, _, _, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(model, processor, self.args)
+        self._move_model_to_device(model, self.args.device)
+        num_layers = model_config.num_hidden_layers
+
+        neuron = torch.load(f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_before_relu.pt')
+        original_shape = neuron.shape
+        neuron = neuron.reshape(-1)
+        mask = torch.ones_like(neuron)
+        idx = torch.argsort(neuron, descending=True)
+        idx = idx[:int(ratio * len(idx))]
+        mask[idx] = 0
+        mask = mask.view(original_shape)
+
+        def save_ppt_outputs1_hook(n):
+            def fn(_,__,output):
+                output = output * mask[n].to('cuda')
+                return output
+            return fn
+
+        if layers is None:
+            layers = range(num_layers)
+
+        for n in layers:
+            if model_type == 'bert' or model_type == 'roberta':
+                model.prompt_model.plm.roberta.encoder.layer[n].intermediate.register_forward_hook(save_ppt_outputs1_hook(n))
+            elif model_type == 't5':
+                model.prompt_model.plm.t5.decoder.block[n].layer[2].DenseReluDense.wi.register_forward_hook(save_ppt_outputs1_hook(n))
+            elif model_type == 'gpt':
+                model.prompt_model.plm.gpt.transformer.h[n].mlp.c_fc.register_forward_hook(save_ppt_outputs1_hook(n))
+            else:
+                raise NotImplementedError
+
+        eval_results = self.eval_prompt(model=model, eval_dataset=task)
+
+        return eval_results, mask
+        
+    def plot_neuron(self, model=None, task=None, **kwargs):
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+
+        plt.figure(figsize=(40, 20))
+        neuron = torch.load(f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_before_relu.pt')
+        sns.heatmap(neuron.numpy(), cmap='Reds', **kwargs)
+        plt.xlabel('Neuron')
+        plt.ylabel('Layer')
 
     def set_active_state_dict(self, module: nn.Module, includes=['prompt_model.template.soft_embeds']):
         r"""modify the state_dict function of the model (by default, the backbone model) to return only the tunable part.

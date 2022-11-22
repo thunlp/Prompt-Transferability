@@ -22,16 +22,23 @@ class CrossModelProjector(SoftTemplate):
             hidden_dim = target_config.hidden_size
             out_dim = target_config.hidden_size
 
-        i_d = in_dim
-        o_d = hidden_dim
-        proj = nn.ModuleList()
-        for i in range(num_layers):
-            proj.append(nn.Linear(i_d, o_d))
-            proj.append(nn.LeakyReLU())
-            i_d = o_d
-            o_d = out_dim
+        hidden_dim = 768
+        self.proj = nn.Sequential(
+            nn.Linear(in_dim, 768),
+            nn.LeakyReLU(),
+            nn.Linear(768, out_dim)
+        )
+
+        # i_d = in_dim
+        # o_d = hidden_dim
+        # proj = nn.ModuleList()
+        # for i in range(num_layers):
+        #     proj.append(nn.Linear(i_d, o_d))
+        #     proj.append(nn.LeakyReLU())
+        #     i_d = o_d
+        #     o_d = out_dim
         
-        self.proj = nn.Sequential(proj)
+        # self.proj = nn.Sequential(proj)
 
     def process_batch(self, batch: Union[Dict, InputFeatures]) -> Union[Dict, InputFeatures]:
         """
@@ -42,7 +49,8 @@ class CrossModelProjector(SoftTemplate):
         inputs_embeds = self.raw_embedding(batch['input_ids'])
         batch_size = inputs_embeds.size(0)
         if self.num_tokens > 0:
-            soft_embeds = self.proj(self.soft_embeds)
+            soft_embeds = self.soft_embeds.flatten()
+            soft_embeds = self.proj(soft_embeds)
             soft_embeds = soft_embeds.reshape((self.args.prompt_len, -1))
             soft_embeds = soft_embeds.repeat(batch_size, 1, 1)
             inputs_embeds = torch.cat([soft_embeds, inputs_embeds], 1)

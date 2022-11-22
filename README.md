@@ -28,7 +28,55 @@ pip install -r requirements.txt
 
 ## Usage
 
-Please refer to `Prompt-Transferability-2.0-latest/example/test.py` for usage, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron.
+You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. 
+
+#### Step 1: initialization
+We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
+
+```
+from prompt_hub.training_args import PromptTrainingArguments
+
+args = PromptTrainingArguments()
+trainer = PromptHub(args=args)
+```
+
+#### Step 2: prompt training
+Then we can start training a soft prompt. You can pass in parameters to overwrite the default configurations in the arguments you passed in. We support `Bert`, `Roberta`, `GPT`, and `T5 v1.1`.
+
+```
+trainer.train_prompt('roberta-base', 'mnli')
+```
+
+#### Step 3: prompt evaluation
+With the trained prompt, we can evaluate its performance. You can overwrite the default configs as above.
+
+```
+eval_results = trainer.eval_prompt('roberta-base', 'mnli')
+```
+
+#### Step 4: cross-task evaluation
+We can also evaluate the trained prompt on another task. For example, we used the prompt trained on `MNLI` dataset and evaluate on `SNLI` dataset.
+
+```
+cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'mnli', 'snli')
+```
+
+#### Step 4: cross-model evaluation
+We can also evaluate the trained prompt on another task. In contrast to cross-task evaluation, we need to first train a projector. In the example below, we transfer the prompt trained on `roberta-base` to `roberta-large` on `MNLI` dataset.
+
+```
+trainer.cross_model_train(source_model='roberta-base', target_model='roberta-large', task='mnli')
+cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base', target_model='roberta-large', task='mnli')
+```
+
+#### Step 5: activated neuron probing
+With the trained prompt, we can probe the PLM and find the activated neurons. To prove that they are the important ones, we can mask them and evaluate the model's performance, which will degradate. Visualization of activated neurons is also supported.
+
+```
+activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
+eval_metric, mask = trainer.mask_activated_neuron(args.backbone, args.dataset, ratio=0.2)
+trainer.plot_neuron()
+```
 
 
 ## Citations
