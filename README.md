@@ -23,192 +23,61 @@ You could refer `environment.yml` for more details.
 
 ### Requirements
 ```
-bash requirement.sh
+pip install -r requirements.txt
 ```
 
-### Download PLM Checkpoints from Huggieface
-You could directly download PLMs (Checkpoints and Tokenizers) to the corresponding directories as below:
-> Bert: `bert-base-uncased`
+## Usage
+
+You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. 
+
+#### Step 1: initialization
+We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
+
 ```
-mkdir BertForMaskedLM
-```
-> Roberta: `roberta-base`, `roberta-large`
-```
-mkdir RobertaForMaskedLM
-mkdir RobertaLargeForMaskedLM
-```
-> T5: `t5-small`, `t5-base`, `t5-large`
-```
-mkdir T5SmallForMaskedLM
-mkdir T5ForMaskedLM
-mkdir T5LargeForMaskedLM
+from prompt_hub.training_args import PromptTrainingArguments
+
+args = PromptTrainingArguments()
+trainer = PromptHub(args=args)
 ```
 
-### Download Downstream Dataset
+#### Step 2: prompt training
+Then we can start training a soft prompt. You can pass in parameters to overwrite the default configurations in the arguments you passed in. We support `Bert`, `Roberta`, `GPT`, and `T5 v1.1`.
+
 ```
-Refer to data/download_dataset_convert_file.py
-```
-
-
-
-## Train (Prompt Tuning)
-![](github_profile/prompt_tuning.png)
-
-Perform Prompt Tuning: 
-```
-bash train.sh
+trainer.train_prompt('roberta-base', 'mnli')
 ```
 
-Example:
-```
-gpus=0
-DATASET="SST2"
-BACKBONE="Roberta"
+#### Step 3: prompt evaluation
+With the trained prompt, we can evaluate its performance. You can overwrite the default configs as above.
 
-CUDA_VISIBLE_DEVICES=$gpus python3 train.py --config config/${DATASET}Prompt${BACKBONE}.config \
-    --gpu $gpus \
-    --checkpoint model/${DATASET}Prompt${BACKBONE} \
+```
+eval_results = trainer.eval_prompt('roberta-base', 'mnli')
 ```
 
-Main Arguments:
-* `--config`: Prompt Tuning (PT) / Validation configurations in `/config` directory.
-* `--gpu`: Assign gpu ID.
-* `--checkpoint`: Initialize prompt parameters for Prompt Tuning (PT).
+#### Step 4: cross-task evaluation
+We can also evaluate the trained prompt on another task. For example, we used the prompt trained on `MNLI` dataset and evaluate on `SNLI` dataset.
 
-After prompt tuning, you could use `copy_prompt_to_taskpromptdir.py` to convert trained prompts and save them as tensors in `/task_prompt_emb`.
-
-
-
-## Evaluate (Trained Prompts)
-Evaluate trained prompts on the corresponding tasks:
 ```
-bash valid.sh
+cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'mnli', 'snli')
 ```
 
-Example:
+#### Step 4: cross-model evaluation
+We can also evaluate the trained prompt on another task. In contrast to cross-task evaluation, we need to first train a projector. In the example below, we transfer the prompt trained on `roberta-base` to `roberta-large` on `MNLI` dataset.
+
 ```
-gpus=0
-DATASET="SST2"
-BACKBONE="Roberta"
-
-CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/{DATASET}Prompt${BACKBONE}.config \
-    --gpu $gpus \
-    --checkpoint model/${DATASET}Prompt${BACKBONE} \
-```
-Main Arguments:
-* `--config`: Utilize the same configurations as PT.
-* `--gpu`: Assign gpu ID.
-* `--checkpoint`: Trained prompts for validation.
-
-
-
-
-
-
-## Cross-task Transfer
-![](github_profile/cross_task.gif)
-
-Perform cross-task transfer experiments: 
-```
-bash valid_cross_task.sh
+trainer.cross_model_train(source_model='roberta-base', target_model='roberta-large', task='mnli')
+cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base', target_model='roberta-large', task='mnli')
 ```
 
-Example:
+#### Step 5: activated neuron probing
+With the trained prompt, we can probe the PLM and find the activated neurons. To prove that they are the important ones, we can mask them and evaluate the model's performance, which will degradate. Visualization of activated neurons is also supported.
+
 ```
-gpus=0
-BASEMODEL="T5Large"
-DATASET=IMDBPrompt 
-PROMPT=laptopPrompt 
-
-echo "==========================="
-echo Model: config/${DATASET}${BASEMODEL}.config
-echo Prompt-emb: task_prompt_emb/${PROMPT}${BASEMODEL}
-echo "==========================="
-
-CUDA_VISIBLE_DEVICES=$gpus python3 valid.py --config config/${DATASET}${BASEMODEL}.config \
-    --gpu $gpus \
-    --checkpoint model/${DATASET}${BASEMODEL} \
-    --replacing_prompt task_prompt_emb/${PROMPT}${BASEMODEL}
+activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
+eval_metric, mask = trainer.mask_activated_neuron(args.backbone, args.dataset, ratio=0.2)
+trainer.plot_neuron()
 ```
 
-Main Arguments:
-* `--config`: Utilize the same configurations as PT.
-* `--gpu`: Assign gpu ID.
-* `--replacing_prompt`: Choose the source trained prompts to transfer to another tasks.
-
-
-
-## Cross-model Transfer (Train)
-![](github_profile/cross_model.gif)
-
-Train projectors for cross-model transfer:
-```
-bash train_cross_model.sh
-```
-
-Example:
-```
-DATASET="laptop"
-MODEL_PROMPT="T5-base"
-SOURCE_MODEL="T5"
-TARGET_MODEL="Roberta"
-source_model="t5"
-target_model="roberta"
-
-CUDA_VISIBLE_DEVICES=$gpus python3 train_cross.py --config config/crossPrompt${TARGET_MODEL}_${DATASET}_100_${source_model}_to_${target_model}.config \
-    --gpu $gpus \
-    --model_prompt $MODEL_PROMPT
-```
-
-Main Arguments:
-* `--config`: Configurations for cross-model projectors.
-* `--gpu`: Assign gpu ID.
-* `--model_prompt`: Trained prompts for training cross-model projectors.
-
-
-
-
-## Transferability Indicators (Neuron Stimulation)
-![](github_profile/activated_neurons.gif)
-
-Capture values of neurons (the output values between 1st and 2nd layers of feed-forward network FFN) in every layer of a PLM [Refer to Section 6.1 in the paper]:
-```
-bash activate_neuron.sh
-```
-
-Example:
-```
-BACKBONE_MODEL="Roberta"
-
-for MODEL in IMDBPrompt${BACKBONE_MODEL} laptopPrompt${BACKBONE_MODEL} MNLIPrompt${BACKBONE_MODEL} QNLIPrompt${BACKBONE_MODEL} QQPPrompt${BACKBONE_MODEL} restaurantPrompt${BACKBONE_MODEL} SST2Prompt${BACKBONE_MODEL} snliPrompt${BACKBONE_MODEL} tweetevalsentimentPrompt${BACKBONE_MODEL} movierationalesPrompt${BACKBONE_MODEL} recastnerPrompt${BACKBONE_MODEL} ethicsdeontologyPrompt${BACKBONE_MODEL} ethicsjusticePrompt${BACKBONE_MODEL} MRPCPrompt${BACKBONE_MODEL}
-do
-    echo "==========================="
-    echo Activate_neuronPrompt${BACKBONE_MODEL}
-    echo Stimulate neurons with task_prompt_emb/$MODEL
-    echo "==========================="
-
-    CUDA_VISIBLE_DEVICES=$gpus python3 activate_neuron_${BACKBONE_MODEL}.py --config config/activate_neuronPrompt${BACKBONE_MODEL}.config \
-        --gpu $gpus \
-        --replacing_prompt task_prompt_emb/$MODEL \
-        --activate_neuron
-done
-```
-
-Main Arguments:
-* `--config`: Configurations for neuron stimulation (capture neuron values).
-* `--gpu`: Assign gpu ID.
-* `--replacing_prompt`: Choose trained prompts to stimulate neurons.
-* `--activate_neuron`: Neuron-capture mode.
-
-
-## Transferability Indicators (Different Metric Results)
-Utilize different metrics to evaluate transferability indicators:
-```
-python3 caculate_metric_value_for_correlation.py
-```
-
-## Activated Neurons Demo 
-[Colab](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 
 ## Citations
 [![DOI](https://img.shields.io/badge/DOI-10.18653/v1/2022.naacl-green?color=FF8000?color=009922)](https://aclanthology.org/2022.naacl-main.290)
