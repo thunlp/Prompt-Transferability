@@ -9,11 +9,11 @@
 This is the source code of "On Transferability of Prompt Tuning for Natural Language Processing", an [NAACL 2022](https://2022.naacl.org/) paper [[**pdf**]](https://aclanthology.org/2022.naacl-main.290/).
 
 ## Overview
-![prompt_transferability](github_profile/prompt_transferbility_github.png)
+![prompt_transferability](github_profile/main_fig.png)
 
 Prompt tuning (PT) is a promising parameter-efficient method to utilize extremely large pre-trained language models (PLMs), which can achieve comparable performance to full-parameter fine-tuning by only tuning a few soft prompts. However, PT requires much more training time than fine-tuning. Intuitively, knowledge transfer can help to improve the efficiency. To explore whether we can improve PT via prompt transfer, we empirically investigate the transferability of soft prompts across different downstream tasks and PLMs in this work. We find that (1) in zero-shot setting, trained soft prompts can effectively transfer to similar tasks on the same PLM and also to other PLMs with a cross-model projector trained on similar tasks; (2) when used as initialization, trained soft prompts of similar tasks and projected prompts of other PLMs can significantly accelerate training and also improve the performance of PT. Moreover, to explore what decides prompt transferability, we investigate various transferability indicators and find that the overlapping rate of activated neurons strongly reflects the transferability, which suggests how the prompts stimulate PLMs is essential. Our findings show that prompt transfer is promising for improving PT, and further research shall focus more on prompts' stimulation to PLMs.
 
-### Setups
+#### Setups
 * pip>=21.3.1
 * python>=3.6.13
 * torch==1.9.0+cu111
@@ -29,6 +29,8 @@ pip install -r requirements.txt
 ## Usage
 
 You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. 
+
+## Basic Usage
 
 #### Step 1: initialization
 We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
@@ -54,26 +56,57 @@ With the trained prompt, we can evaluate its performance. You can overwrite the 
 eval_results = trainer.eval_prompt('roberta-base', 'mnli')
 ```
 
-#### Step 4: cross-task evaluation
-We can also evaluate the trained prompt on another task. For example, we used the prompt trained on `MNLI` dataset and evaluate on `SNLI` dataset.
+
+## Cross-Task Transfer
+We can directly utilize any wel-trained prompts on a specific models.
+
+#### cross-task evaluation
+For example, we use the `MNLI` prompt on `SNLI` dataset.
 
 ```
 cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'mnli', 'snli')
 ```
 
-#### Step 4: cross-model evaluation
-We can also evaluate the trained prompt on another task. In contrast to cross-task evaluation, we need to first train a projector. In the example below, we transfer the prompt trained on `roberta-base` to `roberta-large` on `MNLI` dataset.
+## Cross-Model Transfer
+Unlike cross-task transfer, cross-model require utilize a projector to transfer the prompt.
+
+#### Step 1: cross-model Training
+We first train a projector (from `roberta-base` to `roberta-large` on `MNLI` dataset).
 
 ```
 trainer.cross_model_train(source_model='roberta-base', target_model='roberta-large', task='mnli')
+```
+
+#### Step 2: cross-model evaluation
+Then, we utilize it to transfer the prompt to another models. 
+
+```
 cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base', target_model='roberta-large', task='mnli')
 ```
 
-#### Step 5: activated neuron probing
-With the trained prompt, we can probe the PLM and find the activated neurons. To prove that they are the important ones, we can mask them and evaluate the model's performance, which will degradate. Visualization of activated neurons is also supported.
+
+## Transferability Indicators (Activated neuron)
+Prompt can be seen as a paradigm to manipulate PLMs (stimulate artificial neurons) to perform downstream tasks. We further observe that similar prompts will activate similar neurons; thus, it can be a transferability indicator.
+
+Definition of Neurons :the output values between 1st and 2nd layers of feed-forward network FFN (in every layer of a PLM) [Refer to Section 6.1 in the paper]
+
+#### Step 1: Acquire task-specific neurons
+Given a model and the trained task-specific prompt, you can obtain the activated neurons values.
 
 ```
 activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
+```
+
+#### Step 2: Similarity/Transferability between two tasks
+You can caculate the similarity/transferability between two tasks via actiaved neurons
+```
+[to-do] add ode
+```
+
+#### Step 3: Masked Neurons
+To further demonstrate the importance of task-specific neurons, we mask them and find the model performance on the corresponding task will degrade. Visualization of activated neurons is also supported.
+
+```
 eval_metric, mask = trainer.mask_activated_neuron(args.backbone, args.dataset, ratio=0.2)
 trainer.plot_neuron()
 ```
