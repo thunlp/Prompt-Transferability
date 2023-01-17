@@ -63,7 +63,7 @@ eval_results = trainer.eval_prompt('roberta-base', 'mnli')
 ![prompt_transferability](github_profile/cross_task.gif)
 We can directly utilize any wel-trained prompts on a specific models.
 
-#### cross-task evaluation
+#### Step 1: cross-task evaluation
 For example, we use the `MNLI` prompt on `SNLI` dataset.
 
 ```
@@ -103,7 +103,7 @@ activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_ne
 ```
 
 #### Step 2: Similarity/Transferability between two tasks
-You can caculate the similarity/transferability between two tasks via actiaved neurons
+You can caculate the similarity/transferability between two tasks via actiaved neurons.
 ```
 [to-do] add ode
 ```
