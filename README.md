@@ -71,6 +71,7 @@ cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'mnli', 'snli'
 ```
 
 ## Cross-Model Transfer
+![prompt_transferability](github_profile/cross_model.gif)
 Unlike cross-task transfer, cross-model require utilize a projector to transfer the prompt.
 
 #### Step 1: cross-model Training
@@ -81,7 +82,6 @@ trainer.cross_model_train(source_model='roberta-base', target_model='roberta-lar
 ```
 
 #### Step 2: cross-model evaluation
-![prompt_transferability](github_profile/cross_model.gif)
 Then, we utilize it to transfer the prompt to another models. 
 
 ```
