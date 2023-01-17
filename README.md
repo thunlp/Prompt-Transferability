@@ -95,7 +95,7 @@ cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base',
 ![prompt_transferability](github_profile/activated_neurons.gif)
 Prompt can be seen as a paradigm to manipulate PLMs (stimulate artificial neurons) to perform downstream tasks. We further observe that similar prompts will activate similar neurons; thus, it can be a transferability indicator.
 
-Definition of Neurons :the output values between 1st and 2nd layers of feed-forward network FFN (in every layer of a PLM) [Refer to Section 6.1 in the paper]
+Definition of Neurons: the output values between 1st and 2nd layers of feed-forward network FFN (in every layer of a PLM) [Refer to Section 6.1 in the paper]
 
 #### Step 1: Acquire task-specific neurons
 Given a model and the trained task-specific prompt, you can obtain the activated neurons values.
@@ -118,6 +118,7 @@ eval_metric, mask = trainer.mask_activated_neuron(args.backbone, args.dataset, r
 trainer.plot_neuron()
 ```
 
+<!--[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)-->
 
 ## Citations
 [![DOI](https://img.shields.io/badge/DOI-10.18653/v1/2022.naacl-green?color=FF8000?color=009922)](https://aclanthology.org/2022.naacl-main.290)
