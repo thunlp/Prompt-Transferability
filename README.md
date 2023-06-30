@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 ## Reproduce results in the paper
 
-Please refer to `Prompt-Transferability-1.0` for more details about reproducing the results in the paper.
+Please refer to [Prompt-Transferability-1.0](./Prompt-Transferability-1.0/) for more details about reproducing the results in the paper.
 
 
 ## Usage
@@ -50,7 +50,12 @@ from prompt_hub.hub import PromptHub
 from prompt_hub.training_args import PromptTrainingArguments
 
 # Training config
-args = PromptTrainingArguments(output_dir='outputs', dataset='sst2', backbone='roberta-base', learning_rate=1e-2)
+args = PromptTrainingArguments(
+  output_dir='outputs', 
+  dataset='sst2', 
+  backbone='roberta-base', 
+  learning_rate=1e-2
+)
 trainer = PromptHub(args=args)
 
 # Prompt training and evaluation
@@ -72,7 +77,7 @@ bash example/train.sh
 ```
 
 
-## Detail Usage
+## Detailed Usage
 ![prompt_transferability](github_profile/prompt_tuning.png)
 
 #### Step 1: initialization of arguments and trainer
