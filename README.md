@@ -18,46 +18,99 @@ Prompt tuning (PT) is a promising parameter-efficient method to utilize extremel
 
 #### Setups
 * pip>=21.3.1
-* python>=3.6.13
-* torch==1.9.0+cu111
+* python>=3.6
+* torch>=1.9.0
 
-You could refer `environment.yml` for more details.
-
-
-### Requirements
+We recommend using conda to manage the required packages. Create a new environment for Prompt Transferability.
+```bash
+conda create -n prompt_transfer python=3.8
 ```
+
+Activate the environment and install required packages.
+
+```bash
+conda activate prompt_transfer
 pip install -r requirements.txt
 ```
+
+## Reproduce results in the paper
+
+Please refer to [Prompt-Transferability-1.0](./Prompt-Transferability-1.0/) for more details about reproducing the results in the paper.
+
 
 ## Usage
 
 You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. 
 
-## Basic Usage
-![prompt_transferability](github_profile/prompt_tuning.png)
+#### Quick Example
+The following code shows an example of prompt training, evaluation, activated neuron analysis on `SST2` with `Roberta-base`
 
-#### Step 1: initialization
-We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
-
-```
+```python
+from prompt_hub.hub import PromptHub
 from prompt_hub.training_args import PromptTrainingArguments
 
-args = PromptTrainingArguments()
+# Training config
+args = PromptTrainingArguments(
+  output_dir='outputs', 
+  dataset='sst2', 
+  backbone='roberta-base', 
+  learning_rate=1e-2
+)
+trainer = PromptHub(args=args)
+
+# Prompt training and evaluation
+trainer.train_prompt()
+trainer.eval_prompt()
+
+# Cross-task evaluation
+cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotten_tomatoes')
+
+
+# Activated neuron
+activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
+
+```
+
+Or, you can run the bash file to run a quick example
+```bash
+bash example/train.sh
+```
+
+
+## Detailed Usage
+![prompt_transferability](github_profile/prompt_tuning.png)
+
+#### Step 1: initialization of arguments and trainer
+We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
+
+```python
+from prompt_hub.training_args import PromptTrainingArguments
+
+args = PromptTrainingArguments(
+  output_dir='outputs',
+  backbone='roberta-base',
+  dataset='sst2',
+  prompt_len=100
+)
 trainer = PromptHub(args=args)
 ```
 
-#### Step 2: prompt training
-Then we can start training a soft prompt. You can pass in parameters to overwrite the default configurations in the arguments you passed in. We support `Bert`, `Roberta`, `GPT`, and `T5 v1.1`.
+For a complete list of arguments, please refer to `prompt_hub/training_args.py` and HuggingFace `transformers.training_arguments` for more details. 
 
-```
-trainer.train_prompt('roberta-base', 'mnli')
+#### Step 2: prompt training
+Then we can start training a soft prompt. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. We support `Bert`, `Roberta`, `GPT`, and `T5 v1.1`.
+
+```python
+trainer.train_prompt() 
+# trainer.train_prompt('roberta-large', 'sst2') # Optional arguments to overwrite default parameters
 ```
 
 #### Step 3: prompt evaluation
 With the trained prompt, we can evaluate its performance. You can overwrite the default configs as above.
 
-```
-eval_results = trainer.eval_prompt('roberta-base', 'mnli')
+```python
+eval_results = trainer.eval_prompt()
+# eval_results = trainer.eval_prompt('roberta-base', 'sst2') # Optional arguments to overwrite default parameters
 ```
 
 
@@ -65,11 +118,10 @@ eval_results = trainer.eval_prompt('roberta-base', 'mnli')
 ![prompt_transferability](github_profile/cross_task.gif)
 We can directly utilize any wel-trained prompts on a specific models.
 
-#### Step 1: cross-task evaluation
-For example, we use the `MNLI` prompt on `SNLI` dataset.
+For example, we transfer the prompt trained on `SST2` to `Rotten Tomatoes`.
 
 ```
-cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'mnli', 'snli')
+cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotten_tomatoes')
 ```
 
 ## Cross-Model Transfer
@@ -77,17 +129,17 @@ cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'mnli', 'snli'
 Unlike cross-task transfer, cross-model require utilize a projector to transfer the prompt.
 
 #### Step 1: cross-model Training
-We first train a projector (from `roberta-base` to `roberta-large` on `MNLI` dataset).
+We first train a projector (from `roberta-base` to `roberta-large` on `SST2` dataset).
 
-```
-trainer.cross_model_train(source_model='roberta-base', target_model='roberta-large', task='mnli')
+```python
+trainer.cross_model_train(source_model='roberta-base', target_model='roberta-large', task='sst2')
 ```
 
 #### Step 2: cross-model evaluation
 Then, we utilize it to transfer the prompt to another models. 
 
-```
-cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base', target_model='roberta-large', task='mnli')
+```python
+cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base', target_model='roberta-large', task='sst2')
 ```
 
 
@@ -100,14 +152,14 @@ Definition of Neurons: the output values between 1st and 2nd layers of feed-forw
 #### Step 1: Acquire task-specific neurons
 Given a model and the trained task-specific prompt, you can obtain the activated neurons values.
 
-```
-activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
+```python
+activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron('roberta-base', 'sst2')
 ```
 
 #### Step 2: Similarity/Transferability between two tasks
 You can caculate the similarity/transferability between two tasks via actiaved neurons.
-```
-[to-do] add ode
+```python
+cos_sim = trainer.neuron_similarity(backbone='roberta-base', task1='sst2', task2='rotten_tomatoes')
 ```
 
 #### Step 3: Masked Neurons
