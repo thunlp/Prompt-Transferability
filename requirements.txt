@@ -1,6 +1,8 @@
+torch
 transformers
+accelerate
 datasets
 openprompt
-torch
+scikit-learn
 matplotlib
 seaborn
