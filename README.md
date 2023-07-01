@@ -16,18 +16,13 @@ This is the source code of "On Transferability of Prompt Tuning for Natural Lang
 
 Prompt tuning (PT) is a promising parameter-efficient method to utilize extremely large pre-trained language models (PLMs), which can achieve comparable performance to full-parameter fine-tuning by only tuning a few soft prompts. However, PT requires much more training time than fine-tuning. Intuitively, knowledge transfer can help to improve the efficiency. To explore whether we can improve PT via prompt transfer, we empirically investigate the transferability of soft prompts across different downstream tasks and PLMs in this work. We find that (1) in zero-shot setting, trained soft prompts can effectively transfer to similar tasks on the same PLM and also to other PLMs with a cross-model projector trained on similar tasks; (2) when used as initialization, trained soft prompts of similar tasks and projected prompts of other PLMs can significantly accelerate training and also improve the performance of PT. Moreover, to explore what decides prompt transferability, we investigate various transferability indicators and find that the overlapping rate of activated neurons strongly reflects the transferability, which suggests how the prompts stimulate PLMs is essential. Our findings show that prompt transfer is promising for improving PT, and further research shall focus more on prompts' stimulation to PLMs.
 
-#### Setups
-* pip>=21.3.1
-* python>=3.6
-* torch>=1.9.0
-
+## Setups
 We recommend using conda to manage the required packages. Create a new environment for Prompt Transferability.
+* python==3.8
 ```bash
 conda create -n prompt_transfer python=3.8
 ```
-
-Activate the environment and install required packages.
-
+Activate the environment and install required packages. User can refer to `environment.yml` for package versions and directly use `environment.yml` to create environment.
 ```bash
 conda activate prompt_transfer
 pip install -r requirements.txt
@@ -43,7 +38,14 @@ Please refer to [Prompt-Transferability-1.0](./Prompt-Transferability-1.0/) for 
 You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. 
 
 #### Quick Example
-The following code shows an example of prompt training, evaluation, activated neuron analysis on `SST2` with `Roberta-base`
+
+Or, you can run the bash file to run a quick example
+```bash
+cd Prompt-Transferability-2.0-latest
+bash example/train.sh
+```
+
+The above code shows an example of prompt training (based on `Roberta-base`), evaluation, activated neuron analysis on `SST2` dataset.
 
 ```python
 from prompt_hub.hub import PromptHub
@@ -71,10 +73,6 @@ activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_ne
 
 ```
 
-Or, you can run the bash file to run a quick example
-```bash
-bash example/train.sh
-```
 
 
 ## Detailed Usage

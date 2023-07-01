@@ -1,5 +1,5 @@
 torch
-transformers==4.10.0
+transformers
 accelerate
 datasets
 openprompt
