@@ -30,7 +30,7 @@ We recommend using conda to manage the required packages. Create a new environme
 ```bash
 conda create -n prompt_transfer python=3.8
 ```
-Activate the environment and install required packages. User can refer to `environment.yml` for package versions and directly use `environment.yml` to create environment.
+Activate the environment and install required packages. User can refer to `Prompt-Transferability-2.0-latest/environment.yml` for package versions and directly create the environment via `Prompt-Transferability-2.0-latest/environment.yml`.
 ```bash
 conda activate prompt_transfer
 pip install -r requirements.txt
@@ -40,11 +40,12 @@ pip install -r requirements.txt
 
 ## Usage
 
-You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. 
+- !!!!!!! the colab code is different from the `quick example` ??
+- !!!!!!! example script not exists??
+- !!!!!!! where is the train.sh????
+- !!!!!!! what is example/train.py???? this is incomplete code.
 
-#### Quick Example
-
-Or, you can run the bash file to run a quick example
+You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. Or, you can run the bash file to run a quick example
 ```bash
 cd Prompt-Transferability-2.0-latest
 bash example/train.sh
@@ -81,10 +82,12 @@ activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_ne
 
 
 ## Detailed Usage
+
+### Prompt Tuning
 ![prompt_transferability](github_profile/prompt_tuning.png)
 
 #### Step 1: initialization of arguments and trainer
-We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
+We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `Prompt-Transferability-2.0-latest/PromptHub` object passing in the arguments we just created.
 
 ```python
 from prompt_hub.training_args import PromptTrainingArguments
@@ -98,7 +101,7 @@ args = PromptTrainingArguments(
 trainer = PromptHub(args=args)
 ```
 
-For a complete list of arguments, please refer to `prompt_hub/training_args.py` and HuggingFace `transformers.training_arguments` for more details. 
+For a complete list of arguments, please refer to `Prompt-Transferability-2.0-latest/prompt_hub/training_args.py` and HuggingFace `transformers.training_arguments` for more details. 
 
 #### Step 2: prompt training
 Then we can start training a soft prompt. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. We support `Bert`, `Roberta`, `GPT`, and `T5 v1.1`.
@@ -119,7 +122,7 @@ eval_results = trainer.eval_prompt()
 
 ## Cross-Task Transfer
 ![prompt_transferability](github_profile/cross_task.gif)
-We can directly utilize any wel-trained prompts on a specific models.
+We can directly utilize any well-trained prompts on a specific models.
 
 For example, we transfer the prompt trained on `SST2` to `Rotten Tomatoes`.
 
