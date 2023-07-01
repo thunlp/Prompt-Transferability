@@ -16,6 +16,14 @@ This is the source code of "On Transferability of Prompt Tuning for Natural Lang
 
 Prompt tuning (PT) is a promising parameter-efficient method to utilize extremely large pre-trained language models (PLMs), which can achieve comparable performance to full-parameter fine-tuning by only tuning a few soft prompts. However, PT requires much more training time than fine-tuning. Intuitively, knowledge transfer can help to improve the efficiency. To explore whether we can improve PT via prompt transfer, we empirically investigate the transferability of soft prompts across different downstream tasks and PLMs in this work. We find that (1) in zero-shot setting, trained soft prompts can effectively transfer to similar tasks on the same PLM and also to other PLMs with a cross-model projector trained on similar tasks; (2) when used as initialization, trained soft prompts of similar tasks and projected prompts of other PLMs can significantly accelerate training and also improve the performance of PT. Moreover, to explore what decides prompt transferability, we investigate various transferability indicators and find that the overlapping rate of activated neurons strongly reflects the transferability, which suggests how the prompts stimulate PLMs is essential. Our findings show that prompt transfer is promising for improving PT, and further research shall focus more on prompts' stimulation to PLMs.
 
+
+## Reproduce results in the paper
+
+- [Prompt-Transferability-1.0](./Prompt-Transferability-1.0/) provide the original codes and details to reproduce the results in the paper.
+- [Prompt-Transferability-2.0-latest](https://github.com/thunlp/Prompt-Transferability/tree/main) refactors the Prompt-Transferability-1.0 and provides more user-friendly codes for users. In this `README.md`, we mainly demostrate the usage of the version 2.  
+
+
+
 ## Setups
 We recommend using conda to manage the required packages. Create a new environment for Prompt Transferability.
 * python==3.8
@@ -28,9 +36,6 @@ conda activate prompt_transfer
 pip install -r requirements.txt
 ```
 
-## Reproduce results in the paper
-
-Please refer to [Prompt-Transferability-1.0](./Prompt-Transferability-1.0/) for more details about reproducing the results in the paper.
 
 
 ## Usage
