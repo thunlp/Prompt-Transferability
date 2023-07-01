@@ -76,7 +76,7 @@ python example/train.py \
 ```
 
 
-The above code `train.py` shows an example of prompt training (based on `Roberta-base`), evaluation, activated neuron analysis on `SST2` dataset.
+The above code `train.py` shows an example that includes prompt training, evaluation, activated neuron analysis on a specific dataset.
 
 ```python
 from prompt_hub.hub import PromptHub
@@ -84,10 +84,11 @@ from prompt_hub.training_args import PromptTrainingArguments
 
 # Training config
 args = PromptTrainingArguments(
-  output_dir='outputs', 
-  dataset='sst2', 
-  backbone='roberta-base', 
-  learning_rate=1e-2
+  output_dir= OUTPUT, 
+  dataset= DATASET_1, 
+  backbone= MODEL, 
+  prompt_len= PRMOPTLEN,
+  learning_rate= LEARNINGRATE
 )
 trainer = PromptHub(args=args)
 
@@ -96,13 +97,18 @@ trainer.train_prompt()
 trainer.eval_prompt()
 
 # Cross-task evaluation
-cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotten_tomatoes')
+cross_task_eval_results = trainer.cross_task_eval(MODEL, DATASET_1, DATASET_1)
 
 
 # Activated neuron
 activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
 ```
-
+- `OUTPUT`: Output directory.
+- `DATASET_1`: Source (training) dataset. This framework supports all datasets here. We select `sst2` as the example.
+- `DATASET_1`: Target dataset. This framework supports all datasets here. We select `rotten_tomatoes` as the example.
+- `MODEL`: Backbone models. This framework supports `Bert`, `Roberta`, `GPT`, and `T5 v1.1`, currently. We select `roberta-base` as the example.
+- `PROMPTLEN`: The length of prompt. We set `100` here.
+- `LEARNINGRATE`: Learning rate. We set `1e-2` here.
 
 
 ## Detailed Usage
@@ -123,7 +129,8 @@ args = PromptTrainingArguments(
   output_dir='outputs',
   backbone='roberta-base',
   dataset='sst2',
-  prompt_len=100
+  prompt_len=100,
+  learning_rate=1e-2
 )
 trainer = PromptHub(args=args)
 ```
@@ -131,7 +138,7 @@ trainer = PromptHub(args=args)
 For a complete list of arguments, please refer to `Prompt-Transferability-2.0-latest/prompt_hub/training_args.py` and HuggingFace `transformers.training_arguments` for more details. 
 
 #### Step 2: prompt training
-Then we start training a soft prompt. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. This framework supports all datasets and some backbone models (`Bert`, `Roberta`, `GPT`, and `T5 v1.1`), currently. 
+Then we start training a soft prompt. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. 
 
 ```python
 # Optional arguments to overwrite default parameters
@@ -162,7 +169,7 @@ cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotte
 Prompt can utilize a well-trained projector to transfer among different backbones. 
 
 #### Step 1: cross-model Training
-We first train a projector (from `roberta-base` to `roberta-large` on `SST2` dataset).
+We first use `SST2` datase and ttrain a projector that can transfer (from `roberta-base` to `roberta-large`).
 
 ```python
 trainer.cross_model_train(source_model='roberta-base', target_model='roberta-large', task='sst2')
