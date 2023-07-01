@@ -1,7 +1,9 @@
 import os
 import copy
+import glob
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 from transformers import Trainer
 from transformers.trainer_pt_utils import nested_detach
@@ -152,11 +154,6 @@ class PromptHub(Trainer):
 
     def _prepare_input(self, data):
         kwargs = dict(device=self.args.device)
-        if self.deepspeed and data.dtype != torch.int64:
-            # NLP models inputs are int64 and those get adjusted to the right dtype of the
-            # embedding. Other models such as wav2vec2's inputs are already float and thus
-            # may need special handling to match the dtypes of the model
-            kwargs.update(dict(dtype=self.args.hf_deepspeed_config.dtype()))
         return data.to(**kwargs)
     
     def _prepare_inputs(self, inputs):
@@ -215,7 +212,10 @@ class PromptHub(Trainer):
         self.args.output_dir = os.path.join(self.out_dir_root, 'prompt_emb')
         os.makedirs(self.args.output_dir, exist_ok=True)
 
-        if model is not None:
+        if model is None:
+            model = self.model
+        
+        else:
             if isinstance(model, str):
                 if model != self.args.backbone:
                     processor = data_processor_list[task]
@@ -303,11 +303,15 @@ class PromptHub(Trainer):
         self.model._keys_to_ignore_on_save = _keys_to_ignore_on_save
 
         # Load source prompt or specific prompt
-        if prompt_emb is None:
-            prompt_emb = os.path.join(self.out_dir_root, 'prompt_emb/checkpoint-711776/pytorch_model.bin')
+        # if prompt_emb is None:
+        #     prompt_emb = os.path.join(self.out_dir_root, 'prompt_emb/checkpoint-711776/pytorch_model.bin')
         
-        prompt_emb = torch.load(prompt_emb, map_location='cpu')['prompt_model.template.soft_embeds'].to(self.args.device)
-        self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
+        if isinstance(prompt_emb, str):
+            prompt_emb = torch.load(prompt_emb, map_location='cpu')['prompt_model.template.soft_embeds'].to(self.args.device)
+            self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
+        elif isinstance(prompt_emb, torch.Tensor):
+            self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
+
         self._move_model_to_device(self.model, self.args.device)
 
         trainable_parameter_names = []
@@ -399,13 +403,33 @@ class PromptHub(Trainer):
         outputs = outputs.view(num_layers, -1)
 
         # Active neuron before ReLU
-        torch.save(outputs, f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_before_relu.pt')
+        torch.save(outputs, os.path.join(self.args.out_dir_root, self.dataset, 'activated_neuron_before_relu.pt'))
 
         # Active neuron after ReLU
         neuron_after_relu = (outputs > 0).int()
-        torch.save(neuron_after_relu, f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_after_relu.pt')
+        torch.save(neuron_after_relu, os.path.join(self.args.out_dir_root, self.dataset, 'activated_neuron_after_relu.pt'))
 
         return outputs, neuron_after_relu
+
+    def neuron_similarity(self, backbone=None, task1=None, task2=None):
+        if task1 is None:
+            task1 = self.args.source_dataset
+        if task2 is None:
+            task2 = self.args.target_dataset
+
+        path1 = os.path.join(self.args.out_dir_root, self.args.source_dataset, 'activated_neuron_before_relu.pt')
+        path2 = os.path.join(self.args.out_dir_root, self.args.target_dataset, 'activated_neuron_before_relu.pt')
+        if os.path.exists(path1) == 0:
+            raise ValueError(f"No neuron for {task1}.")
+        if os.path.exists(path2) == 0:
+            raise ValueError(f"No neuron for {task2}.")
+
+        neuron1 = torch.load(path1)
+        neuron2 = torch.load(path2)
+
+        sim = F.cosine_similarity(neuron1, neuron2)
+
+        return sim
 
     def mask_activated_neuron(self, model=None, task=None, layers=None, ratio=0.2):
         
