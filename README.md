@@ -76,7 +76,6 @@ cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotte
 
 # Activated neuron
 activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
-
 ```
 
 
@@ -122,7 +121,7 @@ eval_results = trainer.eval_prompt()
 ```
 
 
-## Cross-Task Transfer
+### Cross-Task Transfer
 ![prompt_transferability](github_profile/cross_task.gif)
 Prompt can directly transfer among tasks. Here, we provide an example to transfer the prompt trained from `SST2` dataset to `Rotten Tomatoes` dataset.
 
@@ -130,7 +129,7 @@ Prompt can directly transfer among tasks. Here, we provide an example to transfe
 cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotten_tomatoes')
 ```
 
-## Cross-Model Transfer
+### Cross-Model Transfer
 ![prompt_transferability](github_profile/cross_model.gif)
 Prompt can utilize a well-trained projector to transfer among different backbones. 
 
@@ -149,7 +148,7 @@ cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base',
 ```
 
 
-## Transferability Indicators (Activated neuron)
+### Transferability Indicators (Activated neuron)
 ![prompt_transferability](github_profile/activated_neurons.gif)
 Prompt can be seen as a paradigm to manipulate PLMs (stimulate artificial neurons) knowledge to perform downstream tasks. We further observe that similar prompts will activate similar neurons; thus, the activated neurons can be a transferability indicator.
 
@@ -163,7 +162,7 @@ activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_ne
 ```
 
 #### Step 2: Similarity/Transferability between two tasks
-You can caculate the similarity/transferability between two tasks via actiaved neurons.
+You can caculate the similarity/transferability between two prompts via actiaved neurons.
 ```python
 cos_sim = trainer.neuron_similarity(backbone='roberta-base', task1='sst2', task2='rotten_tomatoes')
 ```
