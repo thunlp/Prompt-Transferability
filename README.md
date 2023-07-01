@@ -53,6 +53,20 @@ You can easily use PromptHub for various perposes, including prompt training, ev
 cd Prompt-Transferability-2.0-latest
 bash example/train.sh
 ```
+The script of `train.sh` is:
+```bash
+python example/train.py \
+        --output_dir outputs \
+        --dataset sst2 \
+        --learning_rate 1e-2 \
+        --num_train_epochs 3 \
+        --save_total_limit 1 \
+        --evaluation_strategy epoch \
+        --save_strategy epoch \
+        --load_best_model_at_end true \
+        --metric_for_best_model combined_score
+```
+
 
 The above code shows an example of prompt training (based on `Roberta-base`), evaluation, activated neuron analysis on `SST2` dataset.
 
@@ -81,19 +95,6 @@ cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotte
 activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
 ```
 
-Or, run the following command to start to run a quick example (from `Prompt-Transferability-2.0-latest/example/train.sh`)
-```bash
-python example/train.py \
-        --output_dir outputs \
-        --dataset sst2 \
-        --learning_rate 1e-2 \
-        --num_train_epochs 3 \
-        --save_total_limit 1 \
-        --evaluation_strategy epoch \
-        --save_strategy epoch \
-        --load_best_model_at_end true \
-        --metric_for_best_model combined_score
-```
 
 ## Dataset
 Excute `Prompt-Transferability-2.0-latest/download_data.sh` to download datasets.
