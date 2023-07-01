@@ -33,6 +33,8 @@ conda create -n prompt_transfer python=3.8.0
 conda activate prompt_transfer
 pip install -r requirements.txt
 ```
+If the system shows `ERROR: Invalid requirement: 'torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0' (from line 10 of requirements.txt)`. Please manually run `pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html`.
+
 
 User can also directly create the environment via `Prompt-Transferability-2.0-latest/environment.yml`.
 ```bash
@@ -102,7 +104,7 @@ bash download_data.sh
 ### Prompt Tuning
 ![prompt_transferability](github_profile/prompt_tuning.png)
 
-Users can use the well-trained prompts in `Prompt-Transferability-2.0-latest/task_prompt_emb` or re-train the prompts by your own.
+Users can use the well-trained prompts in `Prompt-Transferability-2.0-latest/task_prompt_emb` or re-train the prompts by your own as the following instruction.
 
 
 #### Step 1: initialization of arguments and trainer
