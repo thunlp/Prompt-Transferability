@@ -104,29 +104,27 @@ trainer = PromptHub(args=args)
 For a complete list of arguments, please refer to `Prompt-Transferability-2.0-latest/prompt_hub/training_args.py` and HuggingFace `transformers.training_arguments` for more details. 
 
 #### Step 2: prompt training
-Then we start training a soft prompt. We support `Bert`, `Roberta`, `GPT`, `T5 v1.1`, etc. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. 
+Then we start training a soft prompt. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. This framework supports all datasets and some backbone models (`Bert`, `Roberta`, `GPT`, and `T5 v1.1`), currently. 
 
 ```python
-trainer.train_prompt() 
-# trainer.train_prompt('roberta-large', 'sst2') 
 # Optional arguments to overwrite default parameters
+# trainer.train_prompt('roberta-large', 'sst2') 
+trainer.train_prompt() 
 ```
 
 #### Step 3: prompt evaluation
-With the trained prompt, we excute the following code to evaluate its performance. (You can overwrite the default configs as above.)
+With the prompt (trained on specific dataset and utilized backbone model), we excute the following code to evaluate its performance. 
 
 ```python
-eval_results = trainer.eval_prompt()
-# eval_results = trainer.eval_prompt('roberta-base', 'sst2') 
 # Optional arguments to overwrite default parameters
+# eval_results = trainer.eval_prompt('roberta-base', 'sst2') 
+eval_results = trainer.eval_prompt()
 ```
 
 
 ## Cross-Task Transfer
 ![prompt_transferability](github_profile/cross_task.gif)
-We can directly utilize any well-trained prompts on a specific models.
-
-For example, we transfer the prompt trained on `SST2` to `Rotten Tomatoes`.
+Prompt can directly transfer among tasks. Here, we provide an example to transfer the prompt trained from `SST2` dataset to `Rotten Tomatoes` dataset.
 
 ```
 cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotten_tomatoes')
@@ -134,7 +132,7 @@ cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotte
 
 ## Cross-Model Transfer
 ![prompt_transferability](github_profile/cross_model.gif)
-Unlike cross-task transfer, cross-model require utilize a projector to transfer the prompt.
+Prompt can utilize a well-trained projector to transfer among different backbones. 
 
 #### Step 1: cross-model Training
 We first train a projector (from `roberta-base` to `roberta-large` on `SST2` dataset).
@@ -144,7 +142,7 @@ trainer.cross_model_train(source_model='roberta-base', target_model='roberta-lar
 ```
 
 #### Step 2: cross-model evaluation
-Then, we utilize it to transfer the prompt to another models. 
+Then, we utilize it to transfer the prompt among different models. 
 
 ```python
 cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base', target_model='roberta-large', task='sst2')
@@ -153,7 +151,7 @@ cross_model_eval_results = trainer.cross_model_eval(source_model='roberta-base',
 
 ## Transferability Indicators (Activated neuron)
 ![prompt_transferability](github_profile/activated_neurons.gif)
-Prompt can be seen as a paradigm to manipulate PLMs (stimulate artificial neurons) to perform downstream tasks. We further observe that similar prompts will activate similar neurons; thus, it can be a transferability indicator.
+Prompt can be seen as a paradigm to manipulate PLMs (stimulate artificial neurons) knowledge to perform downstream tasks. We further observe that similar prompts will activate similar neurons; thus, the activated neurons can be a transferability indicator.
 
 Definition of Neurons: the output values between 1st and 2nd layers of feed-forward network FFN (in every layer of a PLM) [Refer to Section 6.1 in the paper]
 
