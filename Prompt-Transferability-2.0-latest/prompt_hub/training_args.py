@@ -1,3 +1,4 @@
+import os
 import json
 import argparse
 import dataclasses
@@ -26,7 +27,7 @@ class PromptTrainingArguments(TrainingArguments):
         default=True, metadata={"help": "Whether to flatten prompt embeddings for cross-model projector."}
     )
     dataset: Optional[str] = field(
-        default=None, metadata={"help": "The name of the dataset to use (via the datasets library)."}
+        default='sst2', metadata={"help": "The name of the dataset to use (via the datasets library)."}
     )
     checkpoint: Optional[str] = field(
         default=None, metadata={"help": "Path to checkpoint."}
@@ -52,8 +53,8 @@ class PromptTrainingArguments(TrainingArguments):
     def __post_init__(self):
         super().__post_init__()
 
-        if self.dataset is not None:
-            self.dataset = self.dataset.lower()
+        self.dataset = self.dataset.lower()
+        self.output_dir = os.path.join(self.output_dir, self.dataset)
 
 
 class RemainArgHfArgumentParser(HfArgumentParser):

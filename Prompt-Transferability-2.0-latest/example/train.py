@@ -45,7 +45,7 @@ def main():
         json_file=os.path.abspath(sys.argv[1])
         args, _ = parser.parse_json_file(json_file, return_remaining_args=True) #args = arg_string, return_remaining_strings=True) #parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
-        args, _ = parser.parse_args_into_dataclasses()
+        args = parser.parse_args_into_dataclasses()[0]
 
     set_seed(args.seed)
 
@@ -78,9 +78,15 @@ def main():
         compute_metrics=compute_metrics,
     )
 
-    trainer.train_prompt(args.backbone, args.dataset)
-    trainer.eval_prompt(args.backbone, args.dataset)
-    trainer.cross_task_eval(args.backbone, args.dataset)
+    train_results = trainer.train_prompt(args.backbone, args.dataset)
+    print(train_results)
+
+    eval_results = trainer.eval_prompt(args.backbone, args.dataset)
+    print(eval_results)
+    
+    cross_task_results = trainer.cross_task_eval(args.backbone, 'rotten_tomatoes')
+    print(cross_task_results)
+    
     trainer.cross_model_train(args.backbone, 'roberta-large', args.dataset)
     trainer.cross_task_eval(args.backbone, 'roberta-large', args.dataset)
 

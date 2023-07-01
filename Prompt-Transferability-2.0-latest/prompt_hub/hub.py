@@ -152,11 +152,6 @@ class PromptHub(Trainer):
 
     def _prepare_input(self, data):
         kwargs = dict(device=self.args.device)
-        if self.deepspeed and data.dtype != torch.int64:
-            # NLP models inputs are int64 and those get adjusted to the right dtype of the
-            # embedding. Other models such as wav2vec2's inputs are already float and thus
-            # may need special handling to match the dtypes of the model
-            kwargs.update(dict(dtype=self.args.hf_deepspeed_config.dtype()))
         return data.to(**kwargs)
     
     def _prepare_inputs(self, inputs):
@@ -303,11 +298,15 @@ class PromptHub(Trainer):
         self.model._keys_to_ignore_on_save = _keys_to_ignore_on_save
 
         # Load source prompt or specific prompt
-        if prompt_emb is None:
-            prompt_emb = os.path.join(self.out_dir_root, 'prompt_emb/checkpoint-711776/pytorch_model.bin')
+        # if prompt_emb is None:
+        #     prompt_emb = os.path.join(self.out_dir_root, 'prompt_emb/checkpoint-711776/pytorch_model.bin')
         
-        prompt_emb = torch.load(prompt_emb, map_location='cpu')['prompt_model.template.soft_embeds'].to(self.args.device)
-        self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
+        if isinstance(prompt_emb, str):
+            prompt_emb = torch.load(prompt_emb, map_location='cpu')['prompt_model.template.soft_embeds'].to(self.args.device)
+            self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
+        elif isinstance(prompt_emb, torch.Tensor):
+            self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
+
         self._move_model_to_device(self.model, self.args.device)
 
         trainable_parameter_names = []

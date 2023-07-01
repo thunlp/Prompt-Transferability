@@ -78,6 +78,20 @@ cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotte
 activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_neuron(args.backbone, args.dataset)
 ```
 
+Or, run the following command to start to run a quick example (from `Prompt-Transferability-2.0-latest/example/train.sh`)
+```bash
+python example/train.py \
+        --output_dir outputs \
+        --dataset sst2 \
+        --learning_rate 1e-2 \
+        --num_train_epochs 3 \
+        --save_total_limit 1 \
+        --evaluation_strategy epoch \
+        --save_strategy epoch \
+        --load_best_model_at_end true \
+        --metric_for_best_model combined_score
+
+```
 
 
 ## Detailed Usage
@@ -125,7 +139,7 @@ eval_results = trainer.eval_prompt()
 ![prompt_transferability](github_profile/cross_task.gif)
 Prompt can directly transfer among tasks. Here, we provide an example to transfer the prompt trained from `SST2` dataset to `Rotten Tomatoes` dataset.
 
-```
+```python
 cross_task_eval_results = trainer.cross_task_eval('roberta-base', 'sst2', 'rotten_tomatoes')
 ```
 
@@ -170,7 +184,7 @@ cos_sim = trainer.neuron_similarity(backbone='roberta-base', task1='sst2', task2
 #### Step 3: Masked Neurons
 To further demonstrate the importance of task-specific neurons, we mask them and find the model performance on the corresponding task will degrade. Visualization of activated neurons is also supported.
 
-```
+```python
 eval_metric, mask = trainer.mask_activated_neuron(args.backbone, args.dataset, ratio=0.2)
 trainer.plot_neuron()
 ```
