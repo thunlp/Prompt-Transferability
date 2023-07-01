@@ -68,7 +68,7 @@ python example/train.py \
 ```
 
 
-The above code shows an example of prompt training (based on `Roberta-base`), evaluation, activated neuron analysis on `SST2` dataset.
+The above code `train.py` shows an example of prompt training (based on `Roberta-base`), evaluation, activated neuron analysis on `SST2` dataset.
 
 ```python
 from prompt_hub.hub import PromptHub
