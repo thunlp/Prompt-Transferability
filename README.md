@@ -19,7 +19,7 @@ Prompt tuning (PT) is a promising parameter-efficient method to utilize extremel
 
 ## Reproduce results in the paper
 
-- [Prompt-Transferability-1.0](./Prompt-Transferability-1.0/) provide the original codes and details to reproduce the results in the paper.
+- [Prompt-Transferability-1.0](./Prompt-Transferability-1.0/) provides the original codes and details to reproduce the results in the paper.
 - [Prompt-Transferability-2.0-latest](https://github.com/thunlp/Prompt-Transferability/tree/main) refactors the Prompt-Transferability-1.0 and provides more user-friendly codes for users. In this `README.md`, we mainly demostrate the usage of the `Prompt-Transferability-2.0-latest`.  
 
 
@@ -88,7 +88,6 @@ python example/train.py \
         --save_strategy epoch \
         --load_best_model_at_end true \
         --metric_for_best_model combined_score
-
 ```
 
 
