@@ -32,8 +32,11 @@ We recommend to create a new Anaconda environment to manage the required package
 conda create -n prompt_transfer python=3.8.0
 conda activate prompt_transfer
 pip install -r requirements.txt
+pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
 ```
-If the system shows `ERROR: Invalid requirement: 'torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0' (from line 10 of requirements.txt)`. Please manually run `pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html`.
+If the system shows error about the torch, please find the proper version that can matches your CPUs or GPUs.
+
+<!--`ERROR: Invalid requirement: 'torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0' (from line 10 of requirements.txt)`. Please manually run `pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html`.-->
 
 
 User can also directly create the environment via `Prompt-Transferability-2.0-latest/environment.yml`.
