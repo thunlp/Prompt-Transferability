@@ -1,7 +1,9 @@
 import os
 import copy
+import glob
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 from transformers import Trainer
 from transformers.trainer_pt_utils import nested_detach
@@ -401,13 +403,33 @@ class PromptHub(Trainer):
         outputs = outputs.view(num_layers, -1)
 
         # Active neuron before ReLU
-        torch.save(outputs, f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_before_relu.pt')
+        torch.save(outputs, os.path.join(self.args.out_dir_root, self.dataset, 'activated_neuron_before_relu.pt'))
 
         # Active neuron after ReLU
         neuron_after_relu = (outputs > 0).int()
-        torch.save(neuron_after_relu, f'outputs/{self.args.backbone}/{self.args.dataset}_{self.args.seed}/activated_neuron_after_relu.pt')
+        torch.save(neuron_after_relu, os.path.join(self.args.out_dir_root, self.dataset, 'activated_neuron_after_relu.pt'))
 
         return outputs, neuron_after_relu
+
+    def neuron_similarity(self, backbone=None, task1=None, task2=None):
+        if task1 is None:
+            task1 = self.args.source_dataset
+        if task2 is None:
+            task2 = self.args.target_dataset
+
+        path1 = os.path.join(self.args.out_dir_root, self.args.source_dataset, 'activated_neuron_before_relu.pt')
+        path2 = os.path.join(self.args.out_dir_root, self.args.target_dataset, 'activated_neuron_before_relu.pt')
+        if os.path.exists(path1) == 0:
+            raise ValueError(f"No neuron for {task1}.")
+        if os.path.exists(path2) == 0:
+            raise ValueError(f"No neuron for {task2}.")
+
+        neuron1 = torch.load(path1)
+        neuron2 = torch.load(path2)
+
+        sim = F.cosine_similarity(neuron1, neuron2)
+
+        return sim
 
     def mask_activated_neuron(self, model=None, task=None, layers=None, ratio=0.2):
         

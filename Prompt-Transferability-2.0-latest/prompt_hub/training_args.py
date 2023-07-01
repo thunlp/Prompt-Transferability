@@ -29,6 +29,12 @@ class PromptTrainingArguments(TrainingArguments):
     dataset: Optional[str] = field(
         default='sst2', metadata={"help": "The name of the dataset to use (via the datasets library)."}
     )
+    source_dataset: Optional[str] = field(
+        default='sst2', metadata={"help": "The name of the source dataset to use (via the datasets library)."}
+    )
+    target_dataset: Optional[str] = field(
+        default='rotten_tomatoes', metadata={"help": "The name of the target dataset to use (via the datasets library)."}
+    )
     checkpoint: Optional[str] = field(
         default=None, metadata={"help": "Path to checkpoint."}
     )
@@ -54,6 +60,7 @@ class PromptTrainingArguments(TrainingArguments):
         super().__post_init__()
 
         self.dataset = self.dataset.lower()
+        self.source_dataset = self.dataset
         self.output_dir = os.path.join(self.output_dir, self.dataset)
 
 
