@@ -210,7 +210,10 @@ class PromptHub(Trainer):
         self.args.output_dir = os.path.join(self.out_dir_root, 'prompt_emb')
         os.makedirs(self.args.output_dir, exist_ok=True)
 
-        if model is not None:
+        if model is None:
+            model = self.model
+        
+        else:
             if isinstance(model, str):
                 if model != self.args.backbone:
                     processor = data_processor_list[task]
