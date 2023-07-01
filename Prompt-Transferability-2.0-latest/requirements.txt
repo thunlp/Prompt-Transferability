@@ -1,8 +1,9 @@
 torch
-transformers
+transformers==4.28.1
 accelerate
 datasets
 openprompt
 scikit-learn
 matplotlib
 seaborn
+

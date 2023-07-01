@@ -25,27 +25,25 @@ Prompt tuning (PT) is a promising parameter-efficient method to utilize extremel
 
 
 ## Setups
-We recommend using conda to manage the required packages. Create a new environment for Prompt Transferability.
-* python==3.8
+- python==3.8.0
+
+We recommend to create a new Anaconda environment to manage the required packages. 
 ```bash
-conda create -n prompt_transfer python=3.8
-```
-Activate the environment and install required packages. User can refer to `Prompt-Transferability-2.0-latest/environment.yml` for package versions and directly create the environment via `Prompt-Transferability-2.0-latest/environment.yml`.
-```bash
+conda create -n prompt_transfer python=3.8.0
 conda activate prompt_transfer
 pip install -r requirements.txt
+```
+
+User can also directly create the environment via `Prompt-Transferability-2.0-latest/environment.yml`.
+```bash
+conda env create -f environment.yml
 ```
 
 
 
 ## Usage
 
-- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!!  the colab code is different from the `quick example` ??
-- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!! example script not exists??
-- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!! where is the train.sh????
-- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!! what is example/train.py???? this is incomplete code.
-
-You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. Or, you can run the bash file to run a quick example
+You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/train.py) also demonstrate the usages. Or, you can run the bash file to run a quick example
 ```bash
 cd Prompt-Transferability-2.0-latest
 bash example/train.sh
