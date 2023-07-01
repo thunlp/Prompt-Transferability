@@ -46,6 +46,14 @@ conda env create -f environment.yml
 
 
 
+## Dataset
+Excute `Prompt-Transferability-2.0-latest/download_data.sh` to download datasets.
+```bash
+cd Prompt-Transferability-2.0-latest
+bash download_data.sh
+```
+
+
 ## Usage
 
 You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/train.py) also demonstrate the usages. Or, you can run the bash file to run a quick example.
@@ -96,12 +104,6 @@ activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_ne
 ```
 
 
-## Dataset
-Excute `Prompt-Transferability-2.0-latest/download_data.sh` to download datasets.
-```bash
-cd Prompt-Transferability-2.0-latest
-bash download_data.sh
-```
 
 ## Detailed Usage
 
