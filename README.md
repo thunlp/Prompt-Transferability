@@ -104,7 +104,7 @@ bash download_data.sh
 ### Prompt Tuning
 ![prompt_transferability](github_profile/prompt_tuning.png)
 
-Users can use the well-trained prompts in `Prompt-Transferability-2.0-latest/task_prompt_emb` or re-train the prompts by your own.
+Users can use the well-trained prompts in `Prompt-Transferability-2.0-latest/task_prompt_emb` or re-train the prompts by your own as the following instruction.
 
 
 #### Step 1: initialization of arguments and trainer
