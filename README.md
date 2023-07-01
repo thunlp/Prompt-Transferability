@@ -40,10 +40,10 @@ pip install -r requirements.txt
 
 ## Usage
 
-- !!!!!!! the colab code is different from the `quick example` ??
-- !!!!!!! example script not exists??
-- !!!!!!! where is the train.sh????
-- !!!!!!! what is example/train.py???? this is incomplete code.
+- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!!  the colab code is different from the `quick example` ??
+- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!! example script not exists??
+- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!! where is the train.sh????
+- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)!!!!!!! what is example/train.py???? this is incomplete code.
 
 You can easily use PromptHub for various perposes, including prompt training, evaluation, cross-task transfer, cross-model transfer, and activated neuron. The [Colab notebook](https://colab.research.google.com/drive/1xUe9rLc2K9EbFAX9iDO1x9j9ZRKoUeO-?usp=sharing) and the [example script](./Prompt-Transferability-2.0-latest/example/test.py) also demonstrate the usages. Or, you can run the bash file to run a quick example
 ```bash
