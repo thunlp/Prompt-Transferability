@@ -87,7 +87,7 @@ activated_neuron_before_relu, activated_neuron_after_relu = trainer.activated_ne
 ![prompt_transferability](github_profile/prompt_tuning.png)
 
 #### Step 1: initialization of arguments and trainer
-We first need to define a set of arguments or configurations, including what backbone model you want to use, which dataset to train on, how many soft prompt tokens do you want to use, etc. Then we instantiate a `Prompt-Transferability-2.0-latest/PromptHub` object passing in the arguments we just created.
+We first need to define a set of arguments or configurations, including `backbone` (backbone model), `dataset`, `prompt_len` (the length of soft prompt), etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
 
 ```python
 from prompt_hub.training_args import PromptTrainingArguments
@@ -104,19 +104,21 @@ trainer = PromptHub(args=args)
 For a complete list of arguments, please refer to `Prompt-Transferability-2.0-latest/prompt_hub/training_args.py` and HuggingFace `transformers.training_arguments` for more details. 
 
 #### Step 2: prompt training
-Then we can start training a soft prompt. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. We support `Bert`, `Roberta`, `GPT`, and `T5 v1.1`.
+Then we start training a soft prompt. We support `Bert`, `Roberta`, `GPT`, `T5 v1.1`, etc. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. 
 
 ```python
 trainer.train_prompt() 
-# trainer.train_prompt('roberta-large', 'sst2') # Optional arguments to overwrite default parameters
+# trainer.train_prompt('roberta-large', 'sst2') 
+# Optional arguments to overwrite default parameters
 ```
 
 #### Step 3: prompt evaluation
-With the trained prompt, we can evaluate its performance. You can overwrite the default configs as above.
+With the trained prompt, we excute the following code to evaluate its performance. (You can overwrite the default configs as above.)
 
 ```python
 eval_results = trainer.eval_prompt()
-# eval_results = trainer.eval_prompt('roberta-base', 'sst2') # Optional arguments to overwrite default parameters
+# eval_results = trainer.eval_prompt('roberta-base', 'sst2') 
+# Optional arguments to overwrite default parameters
 ```
 
 
