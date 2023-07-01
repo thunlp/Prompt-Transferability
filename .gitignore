@@ -10,6 +10,7 @@ result_mlm*
 proj_prompt_roberta_to_t5xxl*
 
 g.sh
+.gitignore
 
 /__pycache__
 
