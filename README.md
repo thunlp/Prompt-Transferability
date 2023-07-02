@@ -62,11 +62,15 @@ bash example/train.sh
 ```
 The script of `train.sh` is:
 ```bash
+DATASET=sst2
+LEARNINGRATE=1e-2
+EPOCH=3
+
 python example/train.py \
         --output_dir outputs \
-        --dataset sst2 \
-        --learning_rate 1e-2 \
-        --num_train_epochs 3 \
+        --dataset $DATASET \
+        --learning_rate $LEARNINGRATE \
+        --num_train_epochs EPOCH \
         --save_total_limit 1 \
         --evaluation_strategy epoch \
         --save_strategy epoch \
@@ -80,6 +84,14 @@ The above code `train.py` shows an example that includes prompt training, evalua
 ```python
 from prompt_hub.hub import PromptHub
 from prompt_hub.training_args import PromptTrainingArguments
+
+OUTPUT=outputs
+DATASET_1=sst2
+DATASET_2=rotten_tomatoes
+MODEL=roberta-base
+PRMOPTLEN=100
+LEARNINGRATE=1e-2
+
 
 # Training config
 args = PromptTrainingArguments(
@@ -124,12 +136,20 @@ We first need to define a set of arguments or configurations, including `backbon
 ```python
 from prompt_hub.training_args import PromptTrainingArguments
 
+# Training config
+OUTPUT=outputs
+DATASET_1=sst2
+DATASET_2=rotten_tomatoes
+MODEL=roberta-base
+PRMOPTLEN=100
+LEARNINGRATE=1e-2
+
 args = PromptTrainingArguments(
-  output_dir='outputs',
-  backbone='roberta-base',
-  dataset='sst2',
-  prompt_len=100,
-  learning_rate=1e-2
+  output_dir= OUTPUT, 
+  dataset= DATASET_1, 
+  backbone= MODEL, 
+  prompt_len= PRMOPTLEN,
+  learning_rate= LEARNINGRATE
 )
 trainer = PromptHub(args=args)
 ```
@@ -137,7 +157,7 @@ trainer = PromptHub(args=args)
 For a complete list of arguments, please refer to `Prompt-Transferability-2.0-latest/prompt_hub/training_args.py` and HuggingFace `transformers.training_arguments` for more details. 
 
 #### Step 2: prompt training
-Then we start training a soft prompt. (_Optional_)You can pass in parameters to overwrite the default configurations in the arguments you passed in. 
+Then we start training a soft prompt. (_Optional_) You can pass the parameters to overwrite the default configurations in the arguments you passed in. 
 
 ```python
 # Optional arguments to overwrite default parameters
