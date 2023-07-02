@@ -64,13 +64,16 @@ def main():
 
     metric = load_metric("prompt_hub/glue_metrics.py", args.dataset)
 
+
     def compute_metrics(p: EvalPrediction):
         preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
         preds = np.squeeze(preds) if is_regression else np.argmax(preds, axis=1)
         result = metric.compute(predictions=preds, references=p.label_ids)
         result["combined_score"] = np.mean(list(result.values())).item()
-        
+
         return result
+
+
 
     # Train
     trainer = PromptHub(
@@ -78,15 +81,17 @@ def main():
         compute_metrics=compute_metrics,
     )
 
+
+
     train_results = trainer.train_prompt(args.backbone, args.dataset)
     print(train_results)
 
     eval_results = trainer.eval_prompt(args.backbone, args.dataset)
     print(eval_results)
-    
+
     cross_task_results = trainer.cross_task_eval(args.backbone, 'rotten_tomatoes')
     print(cross_task_results)
-    
+
     trainer.cross_model_train(args.backbone, 'roberta-large', args.dataset)
     trainer.cross_task_eval(args.backbone, 'roberta-large', args.dataset)
 

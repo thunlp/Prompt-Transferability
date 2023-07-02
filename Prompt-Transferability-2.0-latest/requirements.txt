@@ -1,5 +1,6 @@
 #torch
 transformers==4.28.1
+numpy==1.23.3
 accelerate
 datasets
 openprompt

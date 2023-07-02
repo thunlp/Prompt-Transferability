@@ -27,7 +27,10 @@ class PromptHub(Trainer):
 
         # Model
         template_text = '{"soft": None, "duplicate": ' + str(args.prompt_len) + ', "same": True} {"mask"} {"placeholder": "text_a"} {"placeholder": "text_b"}'
+
         model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(args.backbone, processor, args)
+
+
         self.set_active_state_dict(model)   # Only save soft prompts
 
         # Initialize transformers.trainer
@@ -36,7 +39,7 @@ class PromptHub(Trainer):
         kwargs['train_dataset'] = processor.train_dataset
         kwargs['eval_dataset'] = processor.eval_dataset
         super().__init__(**kwargs)
-    
+
         self.config = model_config
         self.plm = plm
         self.template_text = template_text
@@ -89,13 +92,13 @@ class PromptHub(Trainer):
         else:
             template_text = '{"soft": None, "duplicate": ' + str(args.prompt_len) + ', "same": True} {"mask"} {"placeholder": "text_a"} {"placeholder": "text_b"}'
             template = SoftTemplate(model=plm, text=template_text, tokenizer=tokenizer, num_tokens=args.prompt_len) # initialize_from_vocab=args.init_from_vocab
-        
+
         # Load verbalizer
         if hasattr(self, 'verbalizer') and self.verbalizer is not None:
             verbalizer = self.verbalizer
         else:
             verbalizer = ManualVerbalizer(tokenizer, classes=processor.labels, label_words=processor.label_words)
-        
+
         if hasattr(self, 'model') and self.model is not None:
             model = self.model
         else:
@@ -114,7 +117,7 @@ class PromptHub(Trainer):
 
         return model, template, verbalizer, plm, tokenizer, model_config, tokenizer_wrapper_class, model_type
 
-    def compute_loss(self, model, inputs, return_outputs=False):        
+    def compute_loss(self, model, inputs, return_outputs=False):
         outputs = model(inputs)
         # Save past state if it exists
         # TODO: this needs to be fixed and made cleaner later.
@@ -155,22 +158,22 @@ class PromptHub(Trainer):
     def _prepare_input(self, data):
         kwargs = dict(device=self.args.device)
         return data.to(**kwargs)
-    
+
     def _prepare_inputs(self, inputs):
         inputs = self._prepare_input(inputs)
         return inputs
-        
+
     def get_train_dataloader(self) -> DataLoader:
         if self.train_dataset is None:
             raise ValueError("Trainer: training requires a train_dataset.")
-        
+
         train_dataloader = PromptDataLoader(
-            dataset=self.train_dataset, 
-            template=self.template, 
+            dataset=self.train_dataset,
+            template=self.template,
             tokenizer=self.tokenizer,
-            tokenizer_wrapper_class=self.tokenizer_wrapper_class, 
+            tokenizer_wrapper_class=self.tokenizer_wrapper_class,
             batch_size=self._train_batch_size,
-            max_seq_length=self.args.max_source_length, 
+            max_seq_length=self.args.max_source_length,
             decoder_max_length=1,
             shuffle=True)
 
@@ -179,18 +182,18 @@ class PromptHub(Trainer):
     def get_eval_dataloader(self, eval_dataset: Optional[Dataset] = None) -> DataLoader:
         if eval_dataset is None and self.eval_dataset is None:
             raise ValueError("Trainer: evaluation requires an eval_dataset.")
-        
+
         eval_dataset = eval_dataset if eval_dataset is not None else self.eval_dataset
 
         validation_dataloader = PromptDataLoader(
-            dataset=eval_dataset, 
-            template=self.template, 
+            dataset=eval_dataset,
+            template=self.template,
             tokenizer=self.tokenizer,
-            tokenizer_wrapper_class=self.tokenizer_wrapper_class, 
+            tokenizer_wrapper_class=self.tokenizer_wrapper_class,
             batch_size=self.args.per_device_eval_batch_size,
-            max_seq_length=self.args.max_source_length, 
+            max_seq_length=self.args.max_source_length,
             decoder_max_length=1,
-            shuffle=False) 
+            shuffle=False)
 
         return validation_dataloader
 
@@ -214,7 +217,7 @@ class PromptHub(Trainer):
 
         if model is None:
             model = self.model
-        
+
         else:
             if isinstance(model, str):
                 if model != self.args.backbone:
@@ -225,7 +228,7 @@ class PromptHub(Trainer):
 
             elif isinstance(model, torch.nn.Module):
                 pass
-        
+
         self._move_model_to_device(model, self.args.device)
 
         if task != self.args.dataset:
@@ -233,7 +236,7 @@ class PromptHub(Trainer):
             self.train_dataset = processor.train_dataset
 
         return super().train(**kwargs)
-        
+
     def eval_prompt(self, model=None, eval_dataset=None, prompt_emb=None):
         r"""Evaluate a prompt"""
 
@@ -291,7 +294,7 @@ class PromptHub(Trainer):
         processor = data_processor_list[task]()
         _, _, verbalizer, plm, tokenizer, target_model_config, tokenizer_wrapper_class, model_type = self.get_model(target_model, processor, self.args)
         template = CrossModelProjector(
-            args=self.args, source_config=self.config, target_config=target_model_config, 
+            args=self.args, source_config=self.config, target_config=target_model_config,
             num_layers=self.args.num_proj_layers, flatten=self.args.flatten_proj,
             model=plm, text=self.template_text, tokenizer=tokenizer, num_tokens=self.args.prompt_len)
         self.model = PromptForClassification(plm=plm, template=template, verbalizer=verbalizer, freeze_plm=True)
@@ -305,7 +308,7 @@ class PromptHub(Trainer):
         # Load source prompt or specific prompt
         # if prompt_emb is None:
         #     prompt_emb = os.path.join(self.out_dir_root, 'prompt_emb/checkpoint-711776/pytorch_model.bin')
-        
+
         if isinstance(prompt_emb, str):
             prompt_emb = torch.load(prompt_emb, map_location='cpu')['prompt_model.template.soft_embeds'].to(self.args.device)
             self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
@@ -327,9 +330,9 @@ class PromptHub(Trainer):
             self.train_dataset = processor.train_dataset
             self.eval_dataset = processor.eval_dataset
 
-        self.args.learning_rate = 0.1    
+        self.args.learning_rate = 0.1
         train_result = super().train(**kwargs)
-        
+
         return train_result
 
     def cross_model_eval(self, source_model=None, target_model=None, task=None, prompt_emb=None):
@@ -355,19 +358,19 @@ class PromptHub(Trainer):
         model, _, _, _, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(model, processor, self.args)
         self._move_model_to_device(model, self.args.device)
         num_layers = model_config.num_hidden_layers
-        
+
         if prompt_emb is not None:
             self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
 
         from openprompt.data_utils.utils import InputExample
         data = [InputExample(guid=0, text_a='<s>')]
         loader = PromptDataLoader(
-            dataset=data, 
-            template=self.template, 
+            dataset=data,
+            template=self.template,
             tokenizer=self.tokenizer,
-            tokenizer_wrapper_class=self.tokenizer_wrapper_class, 
+            tokenizer_wrapper_class=self.tokenizer_wrapper_class,
             batch_size=1,
-            max_seq_length=self.args.max_source_length, 
+            max_seq_length=self.args.max_source_length,
             decoder_max_length=1,
             shuffle=False)
 
@@ -399,7 +402,7 @@ class PromptHub(Trainer):
         if layers is not None:
             outputs = outputs[torch.tensor(layers)]
             num_layers = len(layers)
-        
+
         outputs = outputs.view(num_layers, -1)
 
         # Active neuron before ReLU
@@ -432,7 +435,7 @@ class PromptHub(Trainer):
         return sim
 
     def mask_activated_neuron(self, model=None, task=None, layers=None, ratio=0.2):
-        
+
         processor = data_processor_list[task]()
 
         model, _, _, _, tokenizer, model_config, tokenizer_wrapper_class, model_type = self.get_model(model, processor, self.args)
@@ -470,7 +473,7 @@ class PromptHub(Trainer):
         eval_results = self.eval_prompt(model=model, eval_dataset=task)
 
         return eval_results, mask
-        
+
     def plot_neuron(self, model=None, task=None, **kwargs):
         import matplotlib.pyplot as plt
         import seaborn as sns
@@ -486,7 +489,7 @@ class PromptHub(Trainer):
         Args:
             module (:obj:`nn.Module`): The module modified. The modification is in-place.
         """
-        
+
         def _caller(_org_func, includes,  *args, **kwargs):
             state_dict = _org_func(*args, **kwargs)
             keys = list(state_dict.keys())
