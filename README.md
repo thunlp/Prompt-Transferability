@@ -131,7 +131,7 @@ Users can use the well-trained prompts in `Prompt-Transferability-2.0-latest/tas
 
 
 #### Step 1: initialization of arguments and trainer
-We first need to define a set of arguments or configurations, including `backbone` (backbone model), `dataset`, `prompt_len` (the length of soft prompt), etc. Then we instantiate a `PromptHub` object passing in the arguments we just created.
+We first need to define a set of arguments or configurations, including `backbone` (backbone model), `dataset`, `prompt_len` (the length of soft prompt), etc. Then we instantiate a `PromptHub` object and provide the parameters.
 
 ```python
 from prompt_hub.training_args import PromptTrainingArguments
