@@ -365,6 +365,7 @@ class PromptHub(Trainer):
         from openprompt.data_utils.utils import InputExample
         import random
         data = [random.sample(processor.train_dataset, 1)]
+        data = [InputExample(guid=0, text_a='<s>')]
         loader = PromptDataLoader(
             dataset=data,
             template=self.template,
