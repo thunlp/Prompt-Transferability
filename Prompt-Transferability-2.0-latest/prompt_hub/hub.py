@@ -363,7 +363,8 @@ class PromptHub(Trainer):
             self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
 
         from openprompt.data_utils.utils import InputExample
-        data = [InputExample(guid=0, text_a='<s>')]
+        import random
+        data = [random.sample(processor.train_dataset, 1)]
         loader = PromptDataLoader(
             dataset=data,
             template=self.template,
