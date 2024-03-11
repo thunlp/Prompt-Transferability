@@ -22,7 +22,7 @@ class PromptHub(Trainer):
     def __init__(self, prompt_emb=None, **kwargs):
         args = kwargs['args']
         self.out_dir_root = args.output_dir
-        self.original_root = args.original_root
+
         processor = data_processor_list[args.dataset]()
 
         # Model
@@ -363,8 +363,7 @@ class PromptHub(Trainer):
             self.model.prompt_model.template.soft_embeds = nn.Parameter(prompt_emb, requires_grad=False)
 
         from openprompt.data_utils.utils import InputExample
-        import random
-        data = [random.sample(processor.train_dataset, 1)]
+        data = [InputExample(guid=0, text_a='<s>')]
         loader = PromptDataLoader(
             dataset=data,
             template=self.template,
@@ -407,11 +406,11 @@ class PromptHub(Trainer):
         outputs = outputs.view(num_layers, -1)
 
         # Active neuron before ReLU
-        torch.save(outputs, os.path.join(self.original_root, task, 'activated_neuron_before_relu.pt'))
+        torch.save(outputs, os.path.join(self.args.out_dir_root, self.dataset, 'activated_neuron_before_relu.pt'))
 
         # Active neuron after ReLU
         neuron_after_relu = (outputs > 0).int()
-        torch.save(neuron_after_relu, os.path.join(self.original_root, task, 'activated_neuron_after_relu.pt'))
+        torch.save(neuron_after_relu, os.path.join(self.args.out_dir_root, self.dataset, 'activated_neuron_after_relu.pt'))
 
         return outputs, neuron_after_relu
 
@@ -421,8 +420,8 @@ class PromptHub(Trainer):
         if task2 is None:
             task2 = self.args.target_dataset
 
-        path1 = os.path.join(self.original_root, task1, 'activated_neuron_before_relu.pt')
-        path2 = os.path.join(self.original_root, task2, 'activated_neuron_before_relu.pt')
+        path1 = os.path.join(self.args.out_dir_root, self.args.source_dataset, 'activated_neuron_before_relu.pt')
+        path2 = os.path.join(self.args.out_dir_root, self.args.target_dataset, 'activated_neuron_before_relu.pt')
         if os.path.exists(path1) == 0:
             raise ValueError(f"No neuron for {task1}.")
         if os.path.exists(path2) == 0:
