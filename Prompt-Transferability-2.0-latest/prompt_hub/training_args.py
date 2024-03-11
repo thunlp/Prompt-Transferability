@@ -14,9 +14,6 @@ class PromptTrainingArguments(TrainingArguments):
     out_dir_root: str = field(
         default='outputs', metadata={"help": "Path to save checkpoints and results"}
     )
-    original_root: str = field(
-        default='outputs', metadata={"help": "Path to save checkpoints and results"}
-    )
     backbone: str = field(
         default='roberta-base', metadata={"help": "Path to pretrained model or model identifier from huggingface.co/models"}
     )
